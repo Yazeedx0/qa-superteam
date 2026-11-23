@@ -24,3 +24,12 @@ record schemas (`schemas/`), policy keys and exit codes.
   eval harness with baseline-vs-plugin conditions.
 - CI: schemas, plugin contracts, unit tests (3.11-3.13), real-tool integration tests, fixture oracles,
   sample reports; optional live behavioral evals.
+- SessionStart pointer hook (about 120 tokens), added after live evals showed skipped skills and a
+  secret echoed on request.
+- Live behavioral eval report: `evals/reports/2026-11-23-live-sonnet.md`.
+
+### Changed after independent review
+- Every `qast verify` verdict requires independence. CONFIRMED needs the verifier's own `--actor`
+  executions; conflicting verdicts degrade to INCONCLUSIVE.
+- Run lifecycle: `qast run resume`, run states, and no evidence written into inactive runs.
+- The guard hook protects config and policies and catches shell writes.

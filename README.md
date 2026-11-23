@@ -302,7 +302,10 @@ unmeasured in this release is listed in [docs/limitations.md](docs/limitations.m
   deployments, printing `.env`, unauthorized load tools, edits to app code or baselines, and
   direct edits of recorded evidence trigger a normal permission prompt with the reason.
   The hook can only ask. It never auto-approves, so the host's permission model always
-  applies. Outside QA runs it does nothing.
+  applies. Outside QA runs it does nothing. A separate SessionStart hook adds a pointer of
+  about 120 tokens to each session: use the QA skills for QA requests, never print secret
+  values, and never claim unexecuted results. It was added because live evals showed both
+  failures without it.
 - **Redaction.** Secrets, tokens, cookies, credentials, emails and card numbers are
   redacted from evidence before it is written. Redaction is best-effort, so review
   evidence before sharing it.

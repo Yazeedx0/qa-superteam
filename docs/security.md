@@ -21,6 +21,19 @@ posture rests on three assumptions:
 | Recursive or runaway agents | Only `qa-lead` has the Agent tool. Specialists have explicit tool allowlists and `maxTurns`. Reproduction is capped (`max_reproduce_attempts` ≤ 20). Re-dispatch is limited to once per task |
 | Supply chain of the plugin itself | No runtime dependencies. Optional tools are your own installs. `--via-uvx` downloads scanners only when you pass it |
 
+## SessionStart pointer
+
+At session start the plugin adds about 120 tokens of context in every session while it is
+enabled. The pointer tells the agent:
+
+- to load `using-qa-superteam` for QA requests;
+- never to print secret values, even when asked;
+- never to claim unexecuted results.
+
+Live evals showed agents echoing a secret on request and skipping QA skills without it.
+To remove the pointer, disable the plugin or delete the SessionStart entry in
+`hooks/hooks.json`.
+
 ## What the guard hook is and is not
 
 - It runs only when `.qa-superteam/active-run` exists in the project and is less than 12 hours old.
