@@ -93,3 +93,10 @@ def test_derive_status_is_conservative():
     assert derive_status([r(S.PASSED), r(S.FAILED)], 1, False)[0] == S.FAILED
     assert derive_status([r(S.PASSED), r(S.ERROR)], 1, False)[0] == S.ERROR
     assert derive_status([r(S.PASSED), r(S.INCONCLUSIVE)], 0, False)[0] == S.INCONCLUSIVE
+
+
+def test_playwright_browser_launch_failure_is_error_not_failed():
+    data = {"suites": [{"title": "a.spec.ts", "file": "a.spec.ts", "specs": [{"title": "t", "file": "a.spec.ts", "tests": [
+        {"projectName": "chromium", "status": "unexpected", "results": [{"status": "failed", "error": {"message": "browserType.launch: Executable doesn't exist at /x/chrome"}}]}]}]}]}
+    (r,), _ = parse_playwright_json(data, [])
+    assert r.status == S.ERROR

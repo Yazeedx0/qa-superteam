@@ -252,3 +252,29 @@ def test_untriaged_failures_require_review(default):
 def test_scanner_candidates_are_not_untriaged_failures(default):
     scan = ex("e2", ["security"], ("bandit:B105:app.py:3", S.FAILED), adapter="bandit")
     assert "R-UNTRIAGED-FAILURES" not in triggered(evaluate(default, GateInputs(executions=[GREEN, scan], findings=[])))
+
+
+def test_verifier_alternate_oracle_runs_count_as_triaged(default):
+    alt = ex("e9", ["ai-eval"], ("tests/qa/test_ai.py::test_refund_cents", S.FAILED))
+    v = m.VerificationResult(id="V1", finding_id="F1", verdict=m.Verdict.CONFIRMED, method="alternate-oracle", verifier="v",
+                             rationale="r", created_at="t", execution_ids=["e9"], test_identifiers=["tests/qa/test_ai.py::test_refund_cents"])
+    dec = evaluate(default, GateInputs(executions=[GREEN, alt], findings=[], verifications=[v]))
+    assert "R-UNTRIAGED-FAILURES" not in triggered(dec)
+
+
+def test_intermittent_reproduction_of_critical_test_requires_review(default):
+    crit = ex("e2", ["critical-journeys"], ("e2e::checkout", S.FAILED))
+    r1 = ex("e3", [], ("e2e::checkout", S.FAILED), repro="e2e::checkout")
+    r2 = ex("e4", [], ("e2e::checkout", S.PASSED), repro="e2e::checkout")
+    f = finding("F1", "low", "functional", FS.INCONCLUSIVE)
+    f.finding.test_identifiers = ["e2e::checkout"]
+    dec = evaluate(default, GateInputs(executions=[GREEN, crit, r1, r2], findings=[f]))
+    assert "R-FLAKY-CRITICAL" in triggered(dec)
+
+
+def test_info_test_defect_finding_triages_without_blocking(default):
+    red = ex("e2", ["exploratory"], ("tests/test_x.py::test_flaky", S.FAILED))
+    f = finding("F1", "info", "other", FS.REPRODUCED)
+    f.finding.test_identifiers = ["tests/test_x.py::test_flaky"]
+    dec = evaluate(default, GateInputs(executions=[GREEN, red], findings=[f]))
+    assert dec.decision == D.PASS, triggered(dec)

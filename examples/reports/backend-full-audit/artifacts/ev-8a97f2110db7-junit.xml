@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="12" time="0.365" timestamp="2026-11-23T16:47:09.141218+03:00" hostname="Yazeed"><testcase classname="tests.qa.test_qa_integrity" name="test_email_uniqueness_is_case_insensitive" time="0.029"><failure message="AssertionError: 'Alice@Example.com' registered as a second account although 'alice@example.com' already exists (emails must be unique case-insensitively); got 201 {&quot;user_id&quot;:3}&#10;assert 201 == 409&#10; +  where 201 = &lt;Response [201 Created]&gt;.status_code">client = &lt;starlette.testclient.TestClient object at 0x7469b8d5fec0&gt;
+
+    def test_email_uniqueness_is_case_insensitive(client):
+        assert _register(client, "alice@example.com").status_code == 201
+    
+        r = _register(client, "Alice@Example.com")
+    
+&gt;       assert r.status_code == 409, (
+            "'Alice@Example.com' registered as a second account although 'alice@example.com' "
+            f"already exists (emails must be unique case-insensitively); got {r.status_code} {r.text}"
+        )
+E       AssertionError: 'Alice@Example.com' registered as a second account although 'alice@example.com' already exists (emails must be unique case-insensitively); got 201 {"user_id":3}
+E       assert 201 == 409
+E        +  where 201 = &lt;Response [201 Created]&gt;.status_code
+
+tests/qa/test_qa_integrity.py:20: AssertionError</failure></testcase><testcase classname="tests.qa.test_qa_integrity" name="test_login_email_is_case_insensitive" time="0.026"><failure message="AssertionError: login with a different letter case of a registered email was rejected; got 401 {&quot;detail&quot;:&quot;Invalid email or password&quot;}&#10;assert 401 == 200&#10; +  where 401 = &lt;Response [401 Unauthorized]&gt;.status_code">client = &lt;starlette.testclient.TestClient object at 0x7469b8d8ef90&gt;
+
+    def test_login_email_is_case_insensitive(client):
+        assert _register(client, "Carol@Example.com").status_code == 201
+    
+        r = client.post("/auth/login", json={"email": "carol@example.com", "password": [REDACTED:secret-assignment]})
+    
+&gt;       assert r.status_code == 200, (
+            "login with a different letter case of a registered email was rejected; "
+            f"got {r.status_code} {r.text}"
+        )
+E       AssertionError: login with a different letter case of a registered email was rejected; got 401 {"detail":"Invalid email or password"}
+E       assert 401 == 200
+E        +  where 401 = &lt;Response [401 Unauthorized]&gt;.status_code
+
+tests/qa/test_qa_integrity.py:31: AssertionError</failure></testcase><testcase classname="tests.qa.test_qa_integrity" name="test_exact_duplicate_email_conflict" time="0.020" /><testcase classname="tests.qa.test_qa_integrity" name="test_password_minimum_length" time="0.020" /><testcase classname="tests.qa.test_qa_integrity" name="test_wrong_password_and_unknown_email_look_the_same" time="0.020" /><testcase classname="tests.qa.test_qa_integrity" name="test_deposit_limits[1000000-200]" time="0.031" /><testcase classname="tests.qa.test_qa_integrity" name="test_deposit_limits[1000001-422]" time="0.023" /><testcase classname="tests.qa.test_qa_integrity" name="test_deposit_limits[0-422]" time="0.024" /><testcase classname="tests.qa.test_qa_integrity" name="test_deposit_limits[-1-422]" time="0.022" /><testcase classname="tests.qa.test_qa_integrity" name="test_memo_max_length[140-201]" time="0.031" /><testcase classname="tests.qa.test_qa_integrity" name="test_memo_max_length[141-422]" time="0.034" /><testcase classname="tests.qa.test_qa_integrity" name="test_idempotency_key_reuse_with_different_body_conflicts" time="0.053" /></testsuite></testsuites>

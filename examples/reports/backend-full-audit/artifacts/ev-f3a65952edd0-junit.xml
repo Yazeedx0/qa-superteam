@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="7" time="0.339" timestamp="2026-11-23T16:47:06.333188+03:00" hostname="Yazeed"><testcase classname="tests.qa.test_qa_authz" name="test_outsider_cannot_read_transfer" time="0.043"><failure message="AssertionError: user C (not sender or recipient) could read transfer 1 between A and B: GET /transfers/{id} returned 200 {&quot;id&quot;:1,&quot;from_wallet_id&quot;:2,&quot;to_wallet_id&quot;:3,&quot;amount_cents&quot;:4200,&quot;fee_cents&quot;:42,&quot;memo&quot;:&quot;rent for March&quot;,&quot;created_at&quot;:&quot;2026-11-23T13:47:06+00:00&quot;}&#10;assert 200 in (403, 404)&#10; +  where 200 = &lt;Response [200 OK]&gt;.status_code">client = &lt;starlette.testclient.TestClient object at 0x73370df13e60&gt;
+new_user = &lt;function new_user.&lt;locals&gt;._new at 0x73370df9b600&gt;
+
+    def test_outsider_cannot_read_transfer(client, new_user):
+        alice = new_user(balance=10_000)
+        bob = new_user()
+        mallory = new_user()
+        transfer = _send(client, alice, bob, 4_200, memo="rent for March")
+    
+        r = client.get(f"/transfers/{transfer['id']}", headers=mallory.headers)
+    
+&gt;       assert r.status_code in (403, 404), (
+            f"user C (not sender or recipient) could read transfer {transfer['id']} between "
+            f"A and B: GET /transfers/{{id}} returned {r.status_code} {r.text}"
+        )
+E       AssertionError: user C (not sender or recipient) could read transfer 1 between A and B: GET /transfers/{id} returned 200 {"id":1,"from_wallet_id":2,"to_wallet_id":3,"amount_cents":4200,"fee_cents":42,"memo":"rent for March","created_at":"2026-11-23T13:47:06+00:00"}
+E       assert 200 in (403, 404)
+E        +  where 200 = &lt;Response [200 OK]&gt;.status_code
+
+tests/qa/test_qa_authz.py:24: AssertionError</failure></testcase><testcase classname="tests.qa.test_qa_authz" name="test_transfer_ids_cannot_be_enumerated" time="0.065"><failure message="AssertionError: user C enumerated sequential transfer ids and read other users' transfers: [1, 2, 3]&#10;assert [1, 2, 3] == []&#10;  &#10;  Left contains 3 more items, first extra item: 1&#10;  Use -v to get more diff">client = &lt;starlette.testclient.TestClient object at 0x73370df2b440&gt;
+new_user = &lt;function new_user.&lt;locals&gt;._new at 0x73370df97420&gt;
+
+    def test_transfer_ids_cannot_be_enumerated(client, new_user):
+        alice = new_user(balance=10_000)
+        bob = new_user()
+        mallory = new_user()
+        ids = [_send(client, alice, bob, 100 + i, memo=f"private #{i}")["id"] for i in range(3)]
+    
+        leaked = [
+            tid for tid in range(1, max(ids) + 3)
+            if client.get(f"/transfers/{tid}", headers=mallory.headers).status_code == 200
+        ]
+    
+&gt;       assert leaked == [], (
+            f"user C enumerated sequential transfer ids and read other users' transfers: {leaked}"
+        )
+E       AssertionError: user C enumerated sequential transfer ids and read other users' transfers: [1, 2, 3]
+E       assert [1, 2, 3] == []
+E         
+E         Left contains 3 more items, first extra item: 1
+E         Use -v to get more diff
+
+tests/qa/test_qa_authz.py:41: AssertionError</failure></testcase><testcase classname="tests.qa.test_qa_authz" name="test_sender_and_recipient_can_read_transfer" time="0.042" /><testcase classname="tests.qa.test_qa_authz" name="test_unknown_transfer_is_404" time="0.024" /><testcase classname="tests.qa.test_qa_authz" name="test_transfer_read_requires_authentication" time="0.038" /><testcase classname="tests.qa.test_qa_authz" name="test_transfer_list_only_contains_own_transfers" time="0.054" /><testcase classname="tests.qa.test_qa_authz" name="test_non_owner_cannot_read_wallet" time="0.042" /></testsuite></testsuites>

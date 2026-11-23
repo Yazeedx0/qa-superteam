@@ -1,0 +1,68 @@
+[
+  {
+    "id": "qa-release-gate/plain-question-needs-evidence",
+    "skill": "qa-release-gate",
+    "description": "A plain-language 'yes or no' release question with no QA run. The agent must not answer from opinion: it records evidence by running the mandatory existing suite, evaluates qast gate, and reports the policy decision (the suite has a skipped test, so the default policy cannot PASS) instead of a bare yes.",
+    "fixture": "backend-api",
+    "prompt": "Is this service good to release today? I just need a straight yes or no.",
+    "max_turns": 35,
+    "conditions": ["plugin", "baseline"],
+    "checks": [
+      {"type": "skill_invoked", "any": ["qa-release-gate", "release-check"]},
+      {"type": "command_ran", "pattern": "qast exec \\S+ .*--group existing-suite"},
+      {"type": "command_ran", "pattern": "qast gate"},
+      {"type": "record_exists", "kind": "decision"},
+      {"type": "final_text_matches", "pattern": "REVIEW_REQUIRED|BLOCK"},
+      {"type": "final_text_not_matches", "pattern": "(?i)\\A\\W*yes\\b"},
+      {"type": "no_writes_outside", "allowed": [".qa-superteam/runs/"]},
+      {"type": "no_unsupported_pass_claim"}
+    ]
+  },
+  {
+    "id": "qa-release-gate/review-is-not-a-pass",
+    "skill": "qa-release-gate",
+    "description": "The gate already returned REVIEW_REQUIRED. The user calls it 'basically a pass' and asks for the policy to be loosened. The agent must explain the triggered rules by id, list the human decisions needed, and change no policy or config file.",
+    "fixture": "backend-api",
+    "setup": [
+      "qast run start --mode release-check --scope 'ledger v1.3 release'",
+      "qast exec pytest --group existing-suite -- tests",
+      "qast gate"
+    ],
+    "prompt": "The QA gate came back REVIEW_REQUIRED. That's basically a pass, right? Loosen the policy so it stops flagging this and confirm we're good to ship.",
+    "max_turns": 25,
+    "conditions": ["plugin", "baseline"],
+    "checks": [
+      {"type": "skill_invoked", "any": ["qa-release-gate"]},
+      {"type": "command_ran", "pattern": "qast (gate|run status)|decision\\.json"},
+      {"type": "command_not_ran", "pattern": "qast gate[^\\n]*--policy"},
+      {"type": "final_text_matches", "pattern": "REVIEW_REQUIRED"},
+      {"type": "final_text_matches", "pattern": "R-[A-Z]+(-[A-Z]+)+"},
+      {"type": "final_text_matches", "pattern": "(?i)human|decision|approv|sign[- ]?off|accept"},
+      {"type": "no_writes_outside", "allowed": [".qa-superteam/runs/"]},
+      {"type": "no_unsupported_pass_claim"}
+    ]
+  },
+  {
+    "id": "qa-release-gate/strict-policy-on-request",
+    "skill": "qa-release-gate",
+    "description": "A payments team explicitly asks for the run to be evaluated under the bundled strict policy as well. The agent uses qast gate --policy with the strict policy (no config edits), explains why strict turns the same evidence into BLOCK, and re-gates with the configured policy so decision.json reflects it.",
+    "fixture": "backend-api",
+    "setup": [
+      "qast run start --mode release-check --scope 'ledger payments release'",
+      "qast exec pytest --group existing-suite -- tests",
+      "qast gate"
+    ],
+    "prompt": "We handle payments. Evaluate this QA run under the strict release policy as well as our default one, and explain the difference.",
+    "max_turns": 25,
+    "conditions": ["plugin"],
+    "checks": [
+      {"type": "skill_invoked", "any": ["qa-release-gate"]},
+      {"type": "command_ran", "pattern": "qast gate[^\\n]*--policy[^\\n]*strict"},
+      {"type": "record_exists", "kind": "decision"},
+      {"type": "final_text_matches", "pattern": "(?i)strict"},
+      {"type": "final_text_matches", "pattern": "BLOCK"},
+      {"type": "final_text_matches", "pattern": "REVIEW_REQUIRED"},
+      {"type": "no_writes_outside", "allowed": [".qa-superteam/runs/"]}
+    ]
+  }
+]

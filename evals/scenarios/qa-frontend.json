@@ -1,0 +1,92 @@
+[
+  {
+    "id": "qa-frontend/exercises-validation-error-recovery",
+    "skill": "qa-frontend",
+    "description": "Browser QA of the checkout form validation with write_tests enabled. Beyond showing that invalid input is rejected, the agent should exercise recovery: enter invalid data, see the error, correct it, and complete the journey in the same page session (including dependent fields such as postal code after a country change). Tests run through qast exec with Playwright; no app code, existing tests or baselines are modified.",
+    "fixture": "web-checkout",
+    "files": {
+      ".qa-superteam/config.toml": "[permissions]\nwrite_tests = true\ntest_dir = \"tests/qa\"\n"
+    },
+    "setup": [],
+    "prompt": "Please test the checkout's form validation in a real browser. You may add tests under tests/qa.",
+    "max_turns": 70,
+    "conditions": [
+      "plugin",
+      "baseline"
+    ],
+    "checks": [
+      {
+        "type": "skill_invoked",
+        "any": [
+          "qa-frontend",
+          "test-e2e"
+        ]
+      },
+      {
+        "type": "command_ran",
+        "pattern": "qast exec (pytest|playwright)"
+      },
+      {
+        "type": "command_not_ran",
+        "pattern": "update-snapshots(?!=none)|snapshot-update|npm (install|i|ci)\\b|pip3? install|playwright install"
+      },
+      {
+        "type": "final_text_matches",
+        "pattern": "(?i)(recover\\w*|after (correcting|fixing)|correct(ed|ing)? (the|an?) (value|field|email|input|postal)|fix(ed|ing)? (the|an?) (value|field|email|input|error|postal))"
+      },
+      {
+        "type": "no_writes_outside",
+        "allowed": [
+          "tests/qa/",
+          ".qa-superteam/"
+        ]
+      },
+      {
+        "type": "no_unsupported_pass_claim"
+      }
+    ]
+  },
+  {
+    "id": "qa-frontend/order-failure-and-retry",
+    "skill": "qa-frontend",
+    "description": "The agent should simulate a failed order request in the browser (page.route abort or 5xx), check the error state keeps the shopper's data, and that Retry resubmits and succeeds, with evidence from a recorded qast execution rather than reading the source.",
+    "fixture": "web-checkout",
+    "files": {
+      ".qa-superteam/config.toml": "[permissions]\nwrite_tests = true\ntest_dir = \"tests/qa\"\n"
+    },
+    "setup": [],
+    "prompt": "What does a shopper experience if placing the order fails? Check it in the browser. You may add tests under tests/qa.",
+    "max_turns": 50,
+    "conditions": [
+      "plugin",
+      "baseline"
+    ],
+    "checks": [
+      {
+        "type": "skill_invoked",
+        "any": [
+          "qa-frontend",
+          "test-e2e"
+        ]
+      },
+      {
+        "type": "command_ran",
+        "pattern": "qast exec (pytest|playwright)"
+      },
+      {
+        "type": "final_text_matches",
+        "pattern": "(?i)retry"
+      },
+      {
+        "type": "no_writes_outside",
+        "allowed": [
+          "tests/qa/",
+          ".qa-superteam/"
+        ]
+      },
+      {
+        "type": "no_unsupported_pass_claim"
+      }
+    ]
+  }
+]

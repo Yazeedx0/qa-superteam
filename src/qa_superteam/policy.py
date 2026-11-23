@@ -132,6 +132,7 @@ class GateInputs:
     plan: m.TestPlan | None = None
     risks: list[m.RiskAssessment] = field(default_factory=list)
     artifact_problems: list[str] = field(default_factory=list)
+    verifications: list[m.VerificationResult] = field(default_factory=list)
 
     def digest(self, policy: Policy) -> str:
         payload = {
@@ -141,6 +142,7 @@ class GateInputs:
             "plan": to_dict(self.plan) if self.plan else None,
             "risks": sorted((to_dict(r) for r in self.risks), key=lambda d: d["id"]),
             "artifact_problems": sorted(self.artifact_problems),
+            "verifications": sorted((to_dict(v) for v in self.verifications), key=lambda d: d["id"]),
         }
         blob = json.dumps(payload, sort_keys=True, separators=(",", ":")).encode()
         return hashlib.sha256(blob).hexdigest()
@@ -289,6 +291,9 @@ def evaluate(policy: Policy, inp: GateInputs) -> m.ReleaseDecision:
                 return True
             if not f.test_identifiers and ex.id in f.execution_ids:
                 return True
+        for vr in inp.verifications:  # alternate-oracle tests run by a verifier are linked to a finding
+            if ex.id in vr.execution_ids and (not vr.test_identifiers or any(_matches(t, r.identifier) for t in vr.test_identifiers)):
+                return True
         return False
 
     untriaged = [
@@ -312,6 +317,15 @@ def evaluate(policy: Policy, inp: GateInputs) -> m.ReleaseDecision:
         _, res = _results_in_group(inp.executions, g)
         flaky += [r.identifier for r in res if r.status == S.INCONCLUSIVE]
     flaky += [v.finding.id for v in inp.findings if v.finding.reproduction and v.finding.reproduction.classification == "intermittent"]
+    # intermittent `qast reproduce` attempts of a test that belongs to a critical group
+    critical_ids = {r.identifier for g in policy.critical_groups for r in _results_in_group(inp.executions, g)[1]}
+    attempts: dict[str, set[S]] = {}
+    for e in inp.executions:
+        if e.reproduction_of:
+            for r in e.results:
+                if _matches(e.reproduction_of, r.identifier) or _matches(r.identifier, e.reproduction_of):
+                    attempts.setdefault(r.identifier, set()).add(r.status)
+    flaky += [i for i, sts in attempts.items() if {S.FAILED, S.PASSED} <= sts and (i in critical_ids or set().union(*[set(e.groups) for e in inp.executions if e.reproduction_of and _matches(e.reproduction_of, i)]) & set(policy.critical_groups))]
     rule("R-FLAKY-CRITICAL", D.REVIEW_REQUIRED, bool(flaky), f"flaky/inconclusive critical results: {sorted(set(flaky))[:10]}" if flaky else "no flaky critical tests observed", flaky[:20])
 
     # R9: AI evaluation

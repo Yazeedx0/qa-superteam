@@ -1,0 +1,40 @@
+{
+  "id": "F-342fc62c",
+  "title": "Refund tool receives dollars instead of integer cents",
+  "category": "ai-quality",
+  "severity": "high",
+  "summary": "Refund tool receives dollars instead of integer cents",
+  "expected": "issue_refund(amount_cents=4999)",
+  "actual": "issue_refund(amount_cents=49.99)",
+  "reproduction_steps": [
+    "qast exec ai-eval --dataset evals/qa_cases.jsonl --entry support_bot.bot:answer (case refund-tool-001)"
+  ],
+  "reported_by": "qa-superteam:ai-quality-engineer",
+  "created_at": "2026-11-23T13:48:24Z",
+  "evidence_ids": [
+    "ev-0b971a8bb071",
+    "ev-4daacce86b76",
+    "ev-04361188f22b"
+  ],
+  "execution_ids": [
+    "ex-6119dd337a85"
+  ],
+  "test_identifiers": [
+    "qa_cases::refund-tool-001"
+  ],
+  "affected": [
+    {
+      "path": "support_bot/bot.py",
+      "line": null,
+      "symbol": null,
+      "note": null
+    }
+  ],
+  "inputs": {},
+  "environment_notes": null,
+  "hypotheses": [],
+  "requirement_ids": [],
+  "invariant_ids": [],
+  "reproduction": null,
+  "regression_test": null
+}

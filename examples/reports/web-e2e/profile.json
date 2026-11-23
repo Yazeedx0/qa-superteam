@@ -1,0 +1,279 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-11-23T13:47:24Z",
+  "project_name": "web-checkout",
+  "git": {
+    "is_repo": true,
+    "head": "bd743a5ff3d619c24adee30c03f70cb31ccfa189",
+    "branch": "main",
+    "dirty": false
+  },
+  "languages": [
+    {
+      "name": "Python",
+      "files": 5,
+      "basis": "observed"
+    },
+    {
+      "name": "JavaScript",
+      "files": 2,
+      "basis": "observed"
+    },
+    {
+      "name": "HTML",
+      "files": 1,
+      "basis": "observed"
+    },
+    {
+      "name": "CSS",
+      "files": 1,
+      "basis": "observed"
+    }
+  ],
+  "components": [
+    {
+      "name": "docs",
+      "path": "docs",
+      "kind": "docs",
+      "files": 1
+    },
+    {
+      "name": "public",
+      "path": "public",
+      "kind": "source",
+      "files": 4
+    },
+    {
+      "name": "tests",
+      "path": "tests",
+      "kind": "tests",
+      "files": 4
+    }
+  ],
+  "test_suites": [
+    {
+      "framework": "pytest",
+      "paths": [
+        "tests"
+      ],
+      "test_files": 3,
+      "suggested_command": [
+        "qast",
+        "exec",
+        "pytest",
+        "--group",
+        "existing-suite",
+        "--",
+        "tests"
+      ],
+      "basis": "observed",
+      "confidence": "high"
+    }
+  ],
+  "facts": [
+    {
+      "kind": "documentation",
+      "name": "Doc: README.md",
+      "basis": "observed",
+      "confidence": "high",
+      "detail": null,
+      "evidence": [
+        {
+          "path": "README.md",
+          "line": null,
+          "symbol": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "kind": "documentation",
+      "name": "Doc: docs/USER_JOURNEYS.md",
+      "basis": "observed",
+      "confidence": "high",
+      "detail": null,
+      "evidence": [
+        {
+          "path": "docs/USER_JOURNEYS.md",
+          "line": null,
+          "symbol": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "kind": "framework",
+      "name": "Browser storage persistence",
+      "basis": "inferred",
+      "confidence": "medium",
+      "detail": "matched source pattern",
+      "evidence": [
+        {
+          "path": "public/app.js",
+          "line": 63,
+          "symbol": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "kind": "framework",
+      "name": "RTL layout support",
+      "basis": "inferred",
+      "confidence": "medium",
+      "detail": "matched source pattern",
+      "evidence": [
+        {
+          "path": "public/app.js",
+          "line": 153,
+          "symbol": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "kind": "integration",
+      "name": "Browser HTTP calls",
+      "basis": "inferred",
+      "confidence": "medium",
+      "detail": "matched source pattern",
+      "evidence": [
+        {
+          "path": "public/app.js",
+          "line": 284,
+          "symbol": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "kind": "integration",
+      "name": "Retry / resilience logic",
+      "basis": "inferred",
+      "confidence": "medium",
+      "detail": "matched source pattern",
+      "evidence": [
+        {
+          "path": "public/app.js",
+          "line": 37,
+          "symbol": null,
+          "note": null
+        },
+        {
+          "path": "public/i18n.js",
+          "line": 29,
+          "symbol": null,
+          "note": null
+        },
+        {
+          "path": "public/index.html",
+          "line": 94,
+          "symbol": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "kind": "runtime",
+      "name": "Node.js",
+      "basis": "observed",
+      "confidence": "high",
+      "detail": "package.json present",
+      "evidence": [
+        {
+          "path": "package.json",
+          "line": null,
+          "symbol": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "kind": "runtime",
+      "name": "Python",
+      "basis": "observed",
+      "confidence": "high",
+      "detail": "Python dependency manifest",
+      "evidence": [
+        {
+          "path": "pyproject.toml",
+          "line": null,
+          "symbol": null,
+          "note": null
+        },
+        {
+          "path": "requirements.txt",
+          "line": null,
+          "symbol": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "kind": "test-framework",
+      "name": "Playwright (Python)",
+      "basis": "observed",
+      "confidence": "high",
+      "detail": "declared dependency 'playwright'",
+      "evidence": [
+        {
+          "path": "requirements.txt",
+          "line": null,
+          "symbol": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "kind": "test-framework",
+      "name": "axe-core",
+      "basis": "observed",
+      "confidence": "high",
+      "detail": "declared dependency 'axe-core'",
+      "evidence": [
+        {
+          "path": "package.json",
+          "line": null,
+          "symbol": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "kind": "test-framework",
+      "name": "npm script 'test'",
+      "basis": "observed",
+      "confidence": "high",
+      "detail": "python3 -m pytest -q",
+      "evidence": [
+        {
+          "path": "package.json",
+          "line": null,
+          "symbol": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "kind": "test-framework",
+      "name": "pytest",
+      "basis": "observed",
+      "confidence": "high",
+      "detail": "declared dependency 'pytest'",
+      "evidence": [
+        {
+          "path": "requirements.txt",
+          "line": null,
+          "symbol": null,
+          "note": null
+        }
+      ]
+    }
+  ],
+  "unknowns": [
+    "No CI configuration detected.",
+    "No authentication mechanism detected; confirm whether the system is meant to be public."
+  ],
+  "files_scanned": 16,
+  "truncated": false
+}

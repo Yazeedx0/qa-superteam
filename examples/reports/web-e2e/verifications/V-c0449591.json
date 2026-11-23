@@ -1,0 +1,46 @@
+{
+  "id": "V-c0449591",
+  "finding_id": "F-52b23502",
+  "verdict": "CONFIRMED",
+  "method": "independent-rerun",
+  "verifier": "qa-superteam:independent-verification-engineer",
+  "rationale": "Independent rerun of tests/qa/test_qa_journeys.py::test_recover_from_postal_code_error_and_complete_checkout: consistent failure; screenshots attached.",
+  "created_at": "2026-11-23T13:47:58Z",
+  "evidence_ids": [],
+  "execution_ids": [
+    "ex-fe2578c4c7fb"
+  ],
+  "test_identifiers": [],
+  "checks": [
+    {
+      "check": "evidence integrity",
+      "passed": true,
+      "detail": "all referenced evidence exists with matching sha256"
+    },
+    {
+      "check": "independent verifier",
+      "passed": true,
+      "detail": "reporter=qa-superteam:frontend-qa-engineer verifier=qa-superteam:independent-verification-engineer"
+    },
+    {
+      "check": "execution-based method",
+      "passed": true,
+      "detail": "method=independent-rerun; code inspection or manual review alone cannot confirm a defect"
+    },
+    {
+      "check": "verifier ran own execution",
+      "passed": true,
+      "detail": "verifier executions: ['ex-fe2578c4c7fb']"
+    },
+    {
+      "check": "failing evidence",
+      "passed": true,
+      "detail": "1 FAILED result(s) in the verifier's own executions"
+    },
+    {
+      "check": "reproduction stable",
+      "passed": true,
+      "detail": "3/3 attempts failed (consistent)"
+    }
+  ]
+}

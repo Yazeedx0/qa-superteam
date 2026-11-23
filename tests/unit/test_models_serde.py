@@ -90,3 +90,10 @@ def test_committed_schemas_match_models():
     root = Path(__file__).resolve().parents[2]
     out = subprocess.run([sys.executable, str(root / "scripts" / "gen_schemas.py"), "--check"], capture_output=True, text=True)
     assert out.returncode == 0, out.stdout
+
+
+def test_risk_level_must_match_score_band():
+    base = {"id": "R", "area": "a", "description": "d", "probability": 4, "impact": 5, "score": 20}
+    assert from_dict(m.RiskAssessment, {**base, "level": "critical"}).level == m.Severity.CRITICAL
+    with pytest.raises(SchemaError, match="level must be 'critical'"):
+        from_dict(m.RiskAssessment, {**base, "level": "medium"})

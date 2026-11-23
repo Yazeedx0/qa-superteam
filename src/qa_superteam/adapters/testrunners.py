@@ -261,6 +261,8 @@ def parse_playwright_json(data: dict, groups: list[str], project_root: Path | No
                     msg = err.get("message") or err.get("stack")
                 if st == S.INCONCLUSIVE and t.get("status") == "flaky":
                     msg = f"flaky: failed then passed on retry ({len(runs)} attempts)"
+                if st == S.FAILED and msg and any(k in msg for k in ("Executable doesn't exist", "browserType.launch", "Failed to launch")):
+                    st = S.ERROR  # the browser could not start: an environment problem, not product behaviour
                 for r in runs:
                     for a in r.get("attachments", []) or []:
                         if a.get("path"):

@@ -1,0 +1,13 @@
+{
+  "id": "ev-8512a628cfd2",
+  "kind": "report",
+  "path": "artifacts/ev-8512a628cfd2-pytest-report.jsonl",
+  "sha256": "8512a628cfd273f0072f7c3f565cbdeee78444af7dd716182c6a20b80674847e",
+  "size_bytes": 2382,
+  "media_type": "application/octet-stream",
+  "created_at": "2026-11-23T13:48:05Z",
+  "redacted": true,
+  "redactions": 0,
+  "execution_id": "ex-b64f6017bdad",
+  "description": "per-test outcomes (qast reporter)"
+}

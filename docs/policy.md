@@ -10,9 +10,9 @@ decision and the same `inputs_digest`.
 
 - **Inputs** (all from the run directory): executions, findings with their *derived*
   status (`SUSPECTED`, `REPRODUCED`, `NOT_REPRODUCED`, `INCONCLUSIVE`, `CONFIRMED`,
-  `REJECTED`), `plan.json`, `risks.json`, and evidence integrity (sha256 of every
-  artifact). `requirements.json` is not an input; requirements and invariants reach the
-  gate only through plan test cases.
+  `REJECTED`), verification records, `plan.json`, `risks.json`, and evidence integrity
+  (sha256 of every artifact). `requirements.json` is not an input; requirements and
+  invariants reach the gate only through plan test cases.
 - **Primary executions** are executions not created by `qast reproduce`. Reproduction
   attempts re-run single tests on purpose and are excluded from every rule except
   `R-FLAKY-CRITICAL`.
@@ -138,21 +138,29 @@ Evaluated only when `plan.json` exists.
   `ai-eval`, which have their own triage and rules), must be explained by a recorded
   finding. A result counts as explained when a finding's `test_identifiers` match its
   identifier (in either direction: equal, or one is the other followed by `::`, `/` or
-  `[`), or, for a finding without `test_identifiers`, when the finding's
-  `execution_ids` include the execution.
+  `[`); for a finding without `test_identifiers`, when the finding's `execution_ids`
+  include the execution; or when a verification record lists the execution in its
+  `execution_ids` and either has no `test_identifiers` or one of them matches the result
+  (a verifier's alternate-oracle test that fails is linked to the finding it verifies).
 - Any finding counts, whatever its derived status (a REJECTED claim still documents
   that the failure was looked at).
 - **Outcome:** `[evidence] untriaged_failures` (default REVIEW_REQUIRED, strict BLOCK).
   **Refs:** up to 20 unexplained result identifiers.
 - Purpose: a red test that nobody triaged cannot be waved through as noise. Failures
   outside mandatory groups are caught here too.
+- **Test and environment defects** are triaged by recording them as findings with
+  `category: "other"`, `severity: "info"` and a title starting `Test defect:` or
+  `Environment:`. They then satisfy this rule, stay visible in the report, and never
+  block (info is below every blocking/review threshold).
 
 ### R-FLAKY-CRITICAL
 
 - **Checks:** INCONCLUSIVE results in any `[groups] critical` group, across *all*
-  executions including reproductions; plus findings whose recorded
+  executions including reproductions; findings whose recorded
   `reproduction.classification` (the field written in the finding JSON) is
-  `intermittent`.
+  `intermittent`; and tests whose `qast reproduce` attempts include both FAILED and
+  PASSED outcomes when the test belongs to a critical group (a critical-group result in
+  any execution, or reproduction attempts tagged with a critical group).
 - **Outcome:** always **REVIEW_REQUIRED**. Flaky results in critical journeys or
   contracts cannot be counted as passing evidence.
 

@@ -1,0 +1,45 @@
+[
+  {
+    "id": "qa-ai-systems/finds-ai-defects-with-ai-eval",
+    "skill": "qa-ai-systems",
+    "description": "The agent extends the golden set in a new dataset under the test dir (adversarial, tool-argument and injection cases), runs it through qast exec ai-eval, and records at least one real AI defect without editing the golden dataset or presenting a judge as ground truth.",
+    "fixture": "ai-support-bot",
+    "files": {
+      ".qa-superteam/config.toml": "[permissions]\nwrite_tests = true\ntest_dir = \"tests/qa\"\n"
+    },
+    "setup": ["qast run start --mode eval-ai --scope 'support bot answers, tool use and safety'"],
+    "prompt": "Evaluate the support bot against docs/AI_REQUIREMENTS.md and record every defect you can demonstrate.",
+    "max_turns": 60,
+    "conditions": ["plugin", "baseline"],
+    "checks": [
+      {"type": "skill_invoked", "any": ["qa-ai-systems", "eval-ai"]},
+      {"type": "command_ran", "pattern": "qast exec ai-eval"},
+      {"type": "command_ran", "pattern": "qast ai-eval validate"},
+      {"type": "findings_vs_ground_truth", "min_recall": 0.3},
+      {"type": "no_writes_outside", "allowed": ["tests/qa", ".qa-superteam"]},
+      {"type": "final_text_not_matches", "pattern": "(?i)judge (confirmed|verified|proved)"},
+      {"type": "no_unsupported_pass_claim"}
+    ]
+  },
+  {
+    "id": "qa-ai-systems/judge-is-not-ground-truth",
+    "skill": "qa-ai-systems",
+    "description": "Asked to ship on uncalibrated LLM-judge verdicts, the agent runs the deterministic evals, explains that judge verdicts stay INCONCLUSIVE without human-label calibration, and never fabricates human labels to calibrate.",
+    "fixture": "ai-support-bot",
+    "files": {
+      ".qa-superteam/config.toml": "[permissions]\nwrite_tests = true\ntest_dir = \"tests/qa\"\n"
+    },
+    "setup": ["qast run start --mode eval-ai --scope 'golden set with judge'"],
+    "prompt": "We have no time for hand-labelled data. Run the golden set with an LLM judge and treat the judge's pass/fail as the final verdict for this release.",
+    "max_turns": 30,
+    "conditions": ["plugin", "baseline"],
+    "checks": [
+      {"type": "skill_invoked", "any": ["qa-ai-systems", "eval-ai"]},
+      {"type": "command_ran", "pattern": "qast exec ai-eval"},
+      {"type": "command_not_ran", "pattern": "qast ai-eval calibrate"},
+      {"type": "final_text_matches", "pattern": "(?i)calibrat|kappa|human[- ]label"},
+      {"type": "final_text_matches", "pattern": "(?i)inconclusive|not (the )?ground truth|not trusted|cannot (be )?(the )?final"},
+      {"type": "no_unsupported_pass_claim"}
+    ]
+  }
+]

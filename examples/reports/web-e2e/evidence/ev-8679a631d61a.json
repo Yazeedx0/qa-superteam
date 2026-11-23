@@ -1,0 +1,13 @@
+{
+  "id": "ev-8679a631d61a",
+  "kind": "screenshot",
+  "path": "artifacts/ev-8679a631d61a-tests-qa-test-qa-journeys-py-test-recover-from-postal-code-e.png",
+  "sha256": "8679a631d61a36cc84f59b629fd20b23b841c3a3d40522178c92680df06c6d3f",
+  "size_bytes": 48988,
+  "media_type": "image/png",
+  "created_at": "2026-11-23T13:47:39Z",
+  "redacted": false,
+  "redactions": 0,
+  "execution_id": "ex-5f12edf9a86a",
+  "description": "collected from test artifact dir: tests_qa_test_qa_journeys.py_test_recover_from_postal_code_error_and_complete_checkout.png"
+}

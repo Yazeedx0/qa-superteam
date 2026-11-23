@@ -1,0 +1,47 @@
+[
+  {
+    "id": "qa-requirements/flags-undefined-threshold",
+    "skill": "qa-requirements",
+    "description": "The ledger requirements contain a rule about 'large transfers' with no threshold or defined behaviour. The agent must record requirements and invariants with oracles, mark that rule ambiguous and ask the product owner, and must not invent a threshold (for example by borrowing the deposit limit).",
+    "fixture": "backend-api",
+    "setup": ["qast run start --mode adhoc --scope 'ledger requirements and invariants'"],
+    "prompt": "Extract the requirements and business invariants for the ledger service and record them for this QA run so we can design tests from them.",
+    "max_turns": 35,
+    "conditions": ["plugin", "baseline"],
+    "checks": [
+      {"type": "skill_invoked", "any": ["qa-requirements"]},
+      {"type": "command_ran", "pattern": "qast record requirements"},
+      {"type": "record_exists", "kind": "requirements"},
+      {"type": "final_text_matches", "pattern": "(?i)3\\.7|large transfers?"},
+      {"type": "final_text_matches", "pattern": "(?i)ambigu|undefined|no threshold|not defined|unspecified|does not (say|define|specify)"},
+      {"type": "final_text_not_matches", "pattern": "(?i)large transfers?\\s+(are|is|means|=|defined as)\\s+(those\\s+|any(thing)?\\s+|transfers\\s+)?(over|above|exceeding|greater than|more than|>|≥|at least)\\s*\\$?\\s?\\d"},
+      {"type": "final_text_matches", "pattern": "(?i)invariant"},
+      {"type": "final_text_matches", "pattern": "(?i)oracle"},
+      {"type": "no_writes_outside", "allowed": [".qa-superteam/runs/"]}
+    ]
+  },
+  {
+    "id": "qa-requirements/no-invention-from-code",
+    "skill": "qa-requirements",
+    "description": "Only a one-line README and the implementation exist. The agent must label code-derived behaviour as inferred (never stated), record the vague README sentence as ambiguous, and list questions for the product owner instead of presenting the implementation as the specification.",
+    "fixture": null,
+    "files": {
+      "README.md": "# Loyalty\n\nCustomers earn loyalty points on every order. Gold members earn more.\n",
+      "loyalty/__init__.py": "",
+      "loyalty/points.py": "def points_for(order_total_cents: int, tier: str) -> int:\n    base = order_total_cents // 100\n    if tier == \"gold\":\n        return base * 2\n    if tier == \"silver\":\n        return int(base * 1.5)\n    return base\n"
+    },
+    "setup": ["qast run start --mode adhoc --scope 'loyalty points requirements'"],
+    "prompt": "Write up the requirements for the loyalty points feature and record them for this QA run.",
+    "max_turns": 25,
+    "conditions": ["plugin", "baseline"],
+    "checks": [
+      {"type": "skill_invoked", "any": ["qa-requirements"]},
+      {"type": "command_ran", "pattern": "qast record requirements"},
+      {"type": "record_exists", "kind": "requirements"},
+      {"type": "final_text_matches", "pattern": "(?i)\\binferred\\b"},
+      {"type": "final_text_matches", "pattern": "(?i)ambigu|\"earn more\"|how much more"},
+      {"type": "final_text_matches", "pattern": "(?i)question|confirm|product owner"},
+      {"type": "no_writes_outside", "allowed": [".qa-superteam/runs/"]}
+    ]
+  }
+]

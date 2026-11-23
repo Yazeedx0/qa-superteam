@@ -1,0 +1,105 @@
+[
+  {
+    "id": "qa-contracts/classifies-breaking-openapi-change",
+    "skill": "qa-contracts",
+    "description": "An uncommitted edit to api/openapi.json adds a required request field (traveller_count), replaces the integer price_cents response field with a string price, narrows the accepted status filter enum, tightens note maxLength, and changes POST /bookings success from 201 to 200, plus safe additions (created_at). The agent should compare HEAD (committed) with the working tree from real files, record the diff as a qast execution in group contract, classify changes by direction as breaking/potentially breaking/safe, and not edit the spec.",
+    "fixture": null,
+    "files": {
+      "api/openapi.json": "{\n  \"openapi\": \"3.1.0\",\n  \"info\": {\n    \"title\": \"Bookings API\",\n    \"version\": \"1.4.0\"\n  },\n  \"paths\": {\n    \"/bookings\": {\n      \"get\": {\n        \"operationId\": \"listBookings\",\n        \"parameters\": [\n          {\n            \"name\": \"status\",\n            \"in\": \"query\",\n            \"required\": false,\n            \"schema\": {\n              \"type\": \"string\",\n              \"enum\": [\n                \"pending\",\n                \"confirmed\",\n                \"cancelled\",\n                \"completed\"\n              ]\n            }\n          }\n        ],\n        \"responses\": {\n          \"200\": {\n            \"description\": \"Bookings\",\n            \"content\": {\n              \"application/json\": {\n                \"schema\": {\n                  \"type\": \"array\",\n                  \"items\": {\n                    \"$ref\": \"#/components/schemas/Booking\"\n                  }\n                }\n              }\n            }\n          }\n        }\n      },\n      \"post\": {\n        \"operationId\": \"createBooking\",\n        \"requestBody\": {\n          \"required\": true,\n          \"content\": {\n            \"application/json\": {\n              \"schema\": {\n                \"$ref\": \"#/components/schemas/BookingCreate\"\n              }\n            }\n          }\n        },\n        \"responses\": {\n          \"201\": {\n            \"description\": \"Created\",\n            \"content\": {\n              \"application/json\": {\n                \"schema\": {\n                  \"$ref\": \"#/components/schemas/Booking\"\n                }\n              }\n            }\n          },\n          \"422\": {\n            \"description\": \"Validation error\"\n          }\n        }\n      }\n    },\n    \"/bookings/{booking_id}\": {\n      \"get\": {\n        \"operationId\": \"getBooking\",\n        \"parameters\": [\n          {\n            \"name\": \"booking_id\",\n            \"in\": \"path\",\n            \"required\": true,\n            \"schema\": {\n              \"type\": \"string\"\n            }\n          }\n        ],\n        \"responses\": {\n          \"200\": {\n            \"description\": \"Booking\",\n            \"content\": {\n              \"application/json\": {\n                \"schema\": {\n                  \"$ref\": \"#/components/schemas/Booking\"\n                }\n              }\n            }\n          },\n          \"404\": {\n            \"description\": \"Not found\"\n          }\n        }\n      }\n    }\n  },\n  \"components\": {\n    \"schemas\": {\n      \"BookingCreate\": {\n        \"type\": \"object\",\n        \"required\": [\n          \"room_id\",\n          \"check_in\",\n          \"nights\"\n        ],\n        \"properties\": {\n          \"room_id\": {\n            \"type\": \"string\"\n          },\n          \"check_in\": {\n            \"type\": \"string\",\n            \"format\": \"date\"\n          },\n          \"nights\": {\n            \"type\": \"integer\",\n            \"minimum\": 1\n          },\n          \"note\": {\n            \"type\": \"string\",\n            \"maxLength\": 500\n          }\n        }\n      },\n      \"Booking\": {\n        \"type\": \"object\",\n        \"required\": [\n          \"id\",\n          \"room_id\",\n          \"check_in\",\n          \"nights\",\n          \"status\",\n          \"price_cents\"\n        ],\n        \"properties\": {\n          \"id\": {\n            \"type\": \"string\"\n          },\n          \"room_id\": {\n            \"type\": \"string\"\n          },\n          \"check_in\": {\n            \"type\": \"string\",\n            \"format\": \"date\"\n          },\n          \"nights\": {\n            \"type\": \"integer\"\n          },\n          \"status\": {\n            \"type\": \"string\",\n            \"enum\": [\n              \"pending\",\n              \"confirmed\",\n              \"cancelled\",\n              \"completed\"\n            ]\n          },\n          \"price_cents\": {\n            \"type\": \"integer\"\n          },\n          \"note\": {\n            \"type\": \"string\"\n          }\n        }\n      }\n    }\n  }\n}\n"
+    },
+    "setup": [
+      "git add -A && git -c user.name=qa-eval -c user.email=qa-eval@example.com commit -q --allow-empty -m 'Bookings API 1.4.0'",
+      "python3 -c \"import json; p = 'api/openapi.json'; s = json.load(open(p)); c = s['components']['schemas']; c['BookingCreate']['required'].append('traveller_count'); c['BookingCreate']['properties']['traveller_count'] = {'type': 'integer', 'minimum': 1}; c['BookingCreate']['properties']['note']['maxLength'] = 200; c['Booking']['properties'].pop('price_cents'); c['Booking']['required'].remove('price_cents'); c['Booking']['properties']['price'] = {'type': 'string', 'description': 'decimal amount, e.g. 120.50'}; c['Booking']['required'].append('price'); c['Booking']['properties']['created_at'] = {'type': 'string', 'format': 'date-time'}; s['paths']['/bookings']['get']['parameters'][0]['schema']['enum'] = ['pending', 'confirmed']; post = s['paths']['/bookings']['post']['responses']; post['200'] = post.pop('201'); s['info']['version'] = '1.5.0'; json.dump(s, open(p, 'w'), indent=2)\""
+    ],
+    "prompt": "We changed api/openapi.json (not committed yet). Is this change safe for existing API consumers?",
+    "max_turns": 35,
+    "conditions": [
+      "plugin",
+      "baseline"
+    ],
+    "checks": [
+      {
+        "type": "skill_invoked",
+        "any": [
+          "qa-contracts",
+          "review-pr"
+        ]
+      },
+      {
+        "type": "command_ran",
+        "pattern": "git (show|diff)"
+      },
+      {
+        "type": "command_ran",
+        "pattern": "qast exec \\S+.*--group contract|qast exec \\S+ --group contract"
+      },
+      {
+        "type": "final_text_matches",
+        "pattern": "(?i)breaking"
+      },
+      {
+        "type": "final_text_matches",
+        "pattern": "traveller_count"
+      },
+      {
+        "type": "final_text_matches",
+        "pattern": "price_cents"
+      },
+      {
+        "type": "final_text_matches",
+        "pattern": "(?i)201"
+      },
+      {
+        "type": "no_writes_outside",
+        "allowed": [
+          ".qa-superteam/"
+        ]
+      },
+      {
+        "type": "no_unsupported_pass_claim"
+      }
+    ]
+  },
+  {
+    "id": "qa-contracts/conformance-tests-tagged-contract",
+    "skill": "qa-contracts",
+    "description": "The ledger API (FastAPI) publishes a generated OpenAPI document. Asked whether the implementation matches it, the agent should run conformance tests in-process against a disposable database (schemathesis if installed, else pytest validating responses against the documented schemas, including error responses and undocumented status codes) tagged with the contract policy group, without modifying application code.",
+    "fixture": "backend-api",
+    "files": {
+      ".qa-superteam/config.toml": "[permissions]\nwrite_tests = true\ntest_dir = \"tests/qa\"\n"
+    },
+    "setup": [],
+    "prompt": "Check that the ledger API actually matches its OpenAPI document. You may add tests under tests/qa.",
+    "max_turns": 50,
+    "conditions": [
+      "plugin",
+      "baseline"
+    ],
+    "checks": [
+      {
+        "type": "skill_invoked",
+        "any": [
+          "qa-contracts"
+        ]
+      },
+      {
+        "type": "command_ran",
+        "pattern": "qast exec pytest.*--group contract"
+      },
+      {
+        "type": "command_not_ran",
+        "pattern": "pip3? install|uvx\\s"
+      },
+      {
+        "type": "no_writes_outside",
+        "allowed": [
+          "tests/qa/",
+          ".qa-superteam/"
+        ]
+      },
+      {
+        "type": "no_unsupported_pass_claim"
+      }
+    ]
+  }
+]

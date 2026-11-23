@@ -107,8 +107,9 @@ def test_ai_eval_calibrate(qast, project):
     h = project / "h.jsonl"
     j.write_text("\n".join(json.dumps({"id": str(i), "label": lab}) for i, lab in enumerate(["pass", "fail", "pass", "fail"])))
     h.write_text("\n".join(json.dumps({"id": str(i), "label": lab}) for i, lab in enumerate(["pass", "fail", "pass", "pass"])))
-    code, out = qast("ai-eval", "calibrate", "--judgments", str(j), "--labels", str(h), "--out", str(project / "cal.json"))
-    assert code == 0 and json.loads((project / "cal.json").read_text())["n"] == 4
+    code, out = qast("ai-eval", "calibrate", "--judgments", str(j), "--labels", str(h), "--judge-model", "m1", "--out", str(project / "cal.json"))
+    cal = json.loads((project / "cal.json").read_text())
+    assert code == 0 and cal["n"] == 4 and cal["judge_model"] == "m1" and "will NOT make the judge trusted" in out
 
 
 def test_cli_launcher_runs_isolated():
@@ -132,3 +133,15 @@ def test_command_adapter_missing_python_module_is_blocked(qast, project):
     qast("run", "start", "--mode", "adhoc", "--scope", "x")
     _, out = qast("exec", "command", "--label", "coverage", "--", sys.executable, "-m", "definitely_missing_module_xyz")
     assert "BLOCKED" in out and "not installed" in out
+
+
+def test_coverage_json_artifact_becomes_measured_metric(store):
+    import json as _json
+
+    from qa_superteam import models as m
+    from qa_superteam.report import measured_metrics
+
+    cov = {"meta": {"version": "7.6.1", "branch_coverage": True}, "totals": {"percent_covered": 88.57142857142857, "num_statements": 35}}
+    a = store.add_artifact("coverage.json", _json.dumps(cov).encode(), m.ArtifactKind.COVERAGE)
+    (metric,) = measured_metrics(store, [a])
+    assert metric.value == 88.57 and metric.metric == "statement+branch coverage" and metric.artifact_id == a.id

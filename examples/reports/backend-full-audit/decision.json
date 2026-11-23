@@ -1,0 +1,93 @@
+{
+  "decision": "BLOCK",
+  "policy": {
+    "name": "default",
+    "version": "1.0.0",
+    "sha256": "f6b8fcb3544b447247ce51e461b7e4cdf77ee79b7182fd94a6255c675a21652c",
+    "path": "default.toml"
+  },
+  "rules": [
+    {
+      "rule_id": "R-EVIDENCE-EXISTS",
+      "outcome": "PASS",
+      "triggered": false,
+      "reason": "4 execution(s) recorded",
+      "refs": []
+    },
+    {
+      "rule_id": "R-EVIDENCE-INTEGRITY",
+      "outcome": "PASS",
+      "triggered": false,
+      "reason": "all evidence hashes verified",
+      "refs": []
+    },
+    {
+      "rule_id": "R-CONFIRMED-BLOCKING",
+      "outcome": "BLOCK",
+      "triggered": true,
+      "reason": "F-6d0ec146 [critical security] Any logged-in user can read another user's transfer; F-f16b5fbd [critical data-integrity] Fee is not included in the funds check, so balances go negative",
+      "refs": [
+        "F-6d0ec146",
+        "F-f16b5fbd"
+      ]
+    },
+    {
+      "rule_id": "R-CONFIRMED-REVIEW",
+      "outcome": "PASS",
+      "triggered": false,
+      "reason": "no confirmed finding at review severity",
+      "refs": []
+    },
+    {
+      "rule_id": "R-UNVERIFIED-HIGH-IMPACT",
+      "outcome": "PASS",
+      "triggered": false,
+      "reason": "no unverified high-impact findings",
+      "refs": []
+    },
+    {
+      "rule_id": "R-MANDATORY-GROUP:existing-suite",
+      "outcome": "REVIEW_REQUIRED",
+      "triggered": true,
+      "reason": "1 skipped/not-run test(s) in mandatory group 'existing-suite' (allowed: 0); skipped tests are not counted as passed",
+      "refs": [
+        "tests/test_transfers.py::test_list_transfers_is_paginated"
+      ]
+    },
+    {
+      "rule_id": "R-PLANNED-MANDATORY-CASES",
+      "outcome": "BLOCK",
+      "triggered": true,
+      "reason": "planned mandatory test cases failed: TC-AUTHZ, TC-FEE, TC-EMAIL",
+      "refs": [
+        "TC-AUTHZ",
+        "TC-EMAIL",
+        "TC-FEE"
+      ]
+    },
+    {
+      "rule_id": "R-UNTRIAGED-FAILURES",
+      "outcome": "PASS",
+      "triggered": false,
+      "reason": "every failure is linked to a finding",
+      "refs": []
+    },
+    {
+      "rule_id": "R-FLAKY-CRITICAL",
+      "outcome": "PASS",
+      "triggered": false,
+      "reason": "no flaky critical tests observed",
+      "refs": []
+    },
+    {
+      "rule_id": "R-UNTESTED-HIGH-RISK",
+      "outcome": "PASS",
+      "triggered": false,
+      "reason": "every high-priority planned item has an executed outcome",
+      "refs": []
+    }
+  ],
+  "evaluated_at": "2026-11-23T13:47:17Z",
+  "inputs_digest": "db85832b0c9c321eefd985de0ba8e7b9188c8a3d1a3efe59e787b62ddea13497",
+  "summary": "BLOCK: R-CONFIRMED-BLOCKING, R-MANDATORY-GROUP:existing-suite, R-PLANNED-MANDATORY-CASES"
+}

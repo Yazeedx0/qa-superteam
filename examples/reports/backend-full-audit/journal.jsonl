@@ -1,0 +1,71 @@
+{"ts": "2026-11-23T13:47:03Z", "event": "run.created", "mode": "full-audit", "scope": "Ledger API: full repository audit"}
+{"ts": "2026-11-23T13:47:03Z", "event": "note", "kind": "limitation", "text": "Demonstration run: analysis records (requirements, plan, finding text) and the QA tests were scripted (reference tests stand in for agent-authored tests). All executions, evidence, verifications and the decision are real."}
+{"ts": "2026-11-23T13:47:04Z", "event": "record.saved", "kind": "profile"}
+{"ts": "2026-11-23T13:47:04Z", "event": "phase", "phase": "discovery", "state": "done", "note": null}
+{"ts": "2026-11-23T13:47:04Z", "event": "record.saved", "kind": "requirements"}
+{"ts": "2026-11-23T13:47:04Z", "event": "phase", "phase": "requirements", "state": "done", "note": null}
+{"ts": "2026-11-23T13:47:04Z", "event": "phase", "phase": "impact", "state": "skipped", "note": "full audit, no diff"}
+{"ts": "2026-11-23T13:47:04Z", "event": "record.saved", "kind": "risks"}
+{"ts": "2026-11-23T13:47:04Z", "event": "phase", "phase": "risk", "state": "done", "note": null}
+{"ts": "2026-11-23T13:47:04Z", "event": "record.saved", "kind": "plan"}
+{"ts": "2026-11-23T13:47:04Z", "event": "phase", "phase": "planning", "state": "done", "note": null}
+{"ts": "2026-11-23T13:47:04Z", "event": "phase", "phase": "delegation", "state": "done", "note": "backend-qa-engineer for API tests; independent-verification-engineer for high/critical findings"}
+{"ts": "2026-11-23T13:47:04Z", "event": "exec.start", "execution_id": "ex-eaf08a9b405a", "adapter": "pytest", "argv": ["python3", "-m", "pytest", "tests", "-p", "qa_superteam.pytest_reporter", "-p", "no:cacheprovider", "-q", "-rN", "--junitxml", "<project>/.qa-superteam/runs/20261123-134703-full-audit-2c3b/work/ex-eaf08a9b405a/junit.xml"]}
+{"ts": "2026-11-23T13:47:05Z", "event": "execution.recorded", "id": "ex-eaf08a9b405a"}
+{"ts": "2026-11-23T13:47:05Z", "event": "exec.finish", "execution_id": "ex-eaf08a9b405a", "status": "PASSED", "counts": {"PASSED": 13, "FAILED": 0, "ERROR": 0, "SKIPPED": 1, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
+{"ts": "2026-11-23T13:47:05Z", "event": "exec.start", "execution_id": "ex-2e1a6aa07740", "adapter": "pytest", "argv": ["python3", "-m", "pytest", "tests/qa/test_qa_authz.py", "-p", "qa_superteam.pytest_reporter", "-p", "no:cacheprovider", "-q", "-rN", "--junitxml", "<project>/.qa-superteam/runs/20261123-134703-full-audit-2c3b/work/ex-2e1a6aa07740/junit.xml"]}
+{"ts": "2026-11-23T13:47:06Z", "event": "execution.recorded", "id": "ex-2e1a6aa07740"}
+{"ts": "2026-11-23T13:47:06Z", "event": "exec.finish", "execution_id": "ex-2e1a6aa07740", "status": "FAILED", "counts": {"PASSED": 5, "FAILED": 2, "ERROR": 0, "SKIPPED": 0, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
+{"ts": "2026-11-23T13:47:06Z", "event": "exec.start", "execution_id": "ex-93e439bc5901", "adapter": "pytest", "argv": ["python3", "-m", "pytest", "tests/qa/test_qa_invariants.py", "-p", "qa_superteam.pytest_reporter", "-p", "no:cacheprovider", "-q", "-rN", "--junitxml", "<project>/.qa-superteam/runs/20261123-134703-full-audit-2c3b/work/ex-93e439bc5901/junit.xml"]}
+{"ts": "2026-11-23T13:47:08Z", "event": "execution.recorded", "id": "ex-93e439bc5901"}
+{"ts": "2026-11-23T13:47:08Z", "event": "exec.finish", "execution_id": "ex-93e439bc5901", "status": "FAILED", "counts": {"PASSED": 21, "FAILED": 2, "ERROR": 0, "SKIPPED": 0, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
+{"ts": "2026-11-23T13:47:08Z", "event": "exec.start", "execution_id": "ex-0055f27d269f", "adapter": "pytest", "argv": ["python3", "-m", "pytest", "tests/qa/test_qa_integrity.py", "-p", "qa_superteam.pytest_reporter", "-p", "no:cacheprovider", "-q", "-rN", "--junitxml", "<project>/.qa-superteam/runs/20261123-134703-full-audit-2c3b/work/ex-0055f27d269f/junit.xml"]}
+{"ts": "2026-11-23T13:47:09Z", "event": "execution.recorded", "id": "ex-0055f27d269f"}
+{"ts": "2026-11-23T13:47:09Z", "event": "exec.finish", "execution_id": "ex-0055f27d269f", "status": "FAILED", "counts": {"PASSED": 10, "FAILED": 2, "ERROR": 0, "SKIPPED": 0, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
+{"ts": "2026-11-23T13:47:09Z", "event": "phase", "phase": "execution", "state": "done", "note": null}
+{"ts": "2026-11-23T13:47:09Z", "event": "finding.recorded", "id": "F-6d0ec146"}
+{"ts": "2026-11-23T13:47:09Z", "event": "exec.start", "execution_id": "ex-d15ad38b5d71", "adapter": "pytest", "argv": ["python3", "-m", "pytest", "tests/qa/test_qa_authz.py::test_outsider_cannot_read_transfer", "-p", "qa_superteam.pytest_reporter", "-p", "no:cacheprovider", "-q", "-rN", "--junitxml", "<project>/.qa-superteam/runs/20261123-134703-full-audit-2c3b/work/ex-d15ad38b5d71/junit.xml"]}
+{"ts": "2026-11-23T13:47:10Z", "event": "execution.recorded", "id": "ex-d15ad38b5d71"}
+{"ts": "2026-11-23T13:47:10Z", "event": "exec.finish", "execution_id": "ex-d15ad38b5d71", "status": "FAILED", "counts": {"PASSED": 0, "FAILED": 1, "ERROR": 0, "SKIPPED": 0, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
+{"ts": "2026-11-23T13:47:10Z", "event": "exec.start", "execution_id": "ex-041d290a85a9", "adapter": "pytest", "argv": ["python3", "-m", "pytest", "tests/qa/test_qa_authz.py::test_outsider_cannot_read_transfer", "-p", "qa_superteam.pytest_reporter", "-p", "no:cacheprovider", "-q", "-rN", "--junitxml", "<project>/.qa-superteam/runs/20261123-134703-full-audit-2c3b/work/ex-041d290a85a9/junit.xml"]}
+{"ts": "2026-11-23T13:47:11Z", "event": "execution.recorded", "id": "ex-041d290a85a9"}
+{"ts": "2026-11-23T13:47:11Z", "event": "exec.finish", "execution_id": "ex-041d290a85a9", "status": "FAILED", "counts": {"PASSED": 0, "FAILED": 1, "ERROR": 0, "SKIPPED": 0, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
+{"ts": "2026-11-23T13:47:11Z", "event": "exec.start", "execution_id": "ex-165999aca805", "adapter": "pytest", "argv": ["python3", "-m", "pytest", "tests/qa/test_qa_authz.py::test_outsider_cannot_read_transfer", "-p", "qa_superteam.pytest_reporter", "-p", "no:cacheprovider", "-q", "-rN", "--junitxml", "<project>/.qa-superteam/runs/20261123-134703-full-audit-2c3b/work/ex-165999aca805/junit.xml"]}
+{"ts": "2026-11-23T13:47:12Z", "event": "execution.recorded", "id": "ex-165999aca805"}
+{"ts": "2026-11-23T13:47:12Z", "event": "exec.finish", "execution_id": "ex-165999aca805", "status": "FAILED", "counts": {"PASSED": 0, "FAILED": 1, "ERROR": 0, "SKIPPED": 0, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
+{"ts": "2026-11-23T13:47:12Z", "event": "reproduce", "test": "tests/qa/test_qa_authz.py::test_outsider_cannot_read_transfer", "attempts": 3, "failures": 3, "classification": "consistent"}
+{"ts": "2026-11-23T13:47:12Z", "event": "phase", "phase": "investigation", "state": "started", "note": null}
+{"ts": "2026-11-23T13:47:12Z", "event": "verification.recorded", "id": "V-ec594034"}
+{"ts": "2026-11-23T13:47:12Z", "event": "finding.recorded", "id": "F-f16b5fbd"}
+{"ts": "2026-11-23T13:47:12Z", "event": "exec.start", "execution_id": "ex-533d28beb94f", "adapter": "pytest", "argv": ["python3", "-m", "pytest", "tests/qa/test_qa_invariants.py::test_transfer_of_entire_balance_rejected_when_fee_not_covered", "-p", "qa_superteam.pytest_reporter", "-p", "no:cacheprovider", "-q", "-rN", "--junitxml", "<project>/.qa-superteam/runs/20261123-134703-full-audit-2c3b/work/ex-533d28beb94f/junit.xml"]}
+{"ts": "2026-11-23T13:47:13Z", "event": "execution.recorded", "id": "ex-533d28beb94f"}
+{"ts": "2026-11-23T13:47:13Z", "event": "exec.finish", "execution_id": "ex-533d28beb94f", "status": "FAILED", "counts": {"PASSED": 0, "FAILED": 1, "ERROR": 0, "SKIPPED": 0, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
+{"ts": "2026-11-23T13:47:13Z", "event": "exec.start", "execution_id": "ex-0e66e9fe0f01", "adapter": "pytest", "argv": ["python3", "-m", "pytest", "tests/qa/test_qa_invariants.py::test_transfer_of_entire_balance_rejected_when_fee_not_covered", "-p", "qa_superteam.pytest_reporter", "-p", "no:cacheprovider", "-q", "-rN", "--junitxml", "<project>/.qa-superteam/runs/20261123-134703-full-audit-2c3b/work/ex-0e66e9fe0f01/junit.xml"]}
+{"ts": "2026-11-23T13:47:14Z", "event": "execution.recorded", "id": "ex-0e66e9fe0f01"}
+{"ts": "2026-11-23T13:47:14Z", "event": "exec.finish", "execution_id": "ex-0e66e9fe0f01", "status": "FAILED", "counts": {"PASSED": 0, "FAILED": 1, "ERROR": 0, "SKIPPED": 0, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
+{"ts": "2026-11-23T13:47:14Z", "event": "exec.start", "execution_id": "ex-baf1c30e7361", "adapter": "pytest", "argv": ["python3", "-m", "pytest", "tests/qa/test_qa_invariants.py::test_transfer_of_entire_balance_rejected_when_fee_not_covered", "-p", "qa_superteam.pytest_reporter", "-p", "no:cacheprovider", "-q", "-rN", "--junitxml", "<project>/.qa-superteam/runs/20261123-134703-full-audit-2c3b/work/ex-baf1c30e7361/junit.xml"]}
+{"ts": "2026-11-23T13:47:14Z", "event": "execution.recorded", "id": "ex-baf1c30e7361"}
+{"ts": "2026-11-23T13:47:14Z", "event": "exec.finish", "execution_id": "ex-baf1c30e7361", "status": "FAILED", "counts": {"PASSED": 0, "FAILED": 1, "ERROR": 0, "SKIPPED": 0, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
+{"ts": "2026-11-23T13:47:14Z", "event": "reproduce", "test": "tests/qa/test_qa_invariants.py::test_transfer_of_entire_balance_rejected_when_fee_not_covered", "attempts": 3, "failures": 3, "classification": "consistent"}
+{"ts": "2026-11-23T13:47:15Z", "event": "phase", "phase": "investigation", "state": "started", "note": null}
+{"ts": "2026-11-23T13:47:15Z", "event": "verification.recorded", "id": "V-9c2f4f7a"}
+{"ts": "2026-11-23T13:47:15Z", "event": "finding.recorded", "id": "F-ff42473e"}
+{"ts": "2026-11-23T13:47:15Z", "event": "exec.start", "execution_id": "ex-370759a5aee1", "adapter": "pytest", "argv": ["python3", "-m", "pytest", "tests/qa/test_qa_integrity.py::test_email_uniqueness_is_case_insensitive", "-p", "qa_superteam.pytest_reporter", "-p", "no:cacheprovider", "-q", "-rN", "--junitxml", "<project>/.qa-superteam/runs/20261123-134703-full-audit-2c3b/work/ex-370759a5aee1/junit.xml"]}
+{"ts": "2026-11-23T13:47:15Z", "event": "execution.recorded", "id": "ex-370759a5aee1"}
+{"ts": "2026-11-23T13:47:15Z", "event": "exec.finish", "execution_id": "ex-370759a5aee1", "status": "FAILED", "counts": {"PASSED": 0, "FAILED": 1, "ERROR": 0, "SKIPPED": 0, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
+{"ts": "2026-11-23T13:47:16Z", "event": "exec.start", "execution_id": "ex-0912143f1f05", "adapter": "pytest", "argv": ["python3", "-m", "pytest", "tests/qa/test_qa_integrity.py::test_email_uniqueness_is_case_insensitive", "-p", "qa_superteam.pytest_reporter", "-p", "no:cacheprovider", "-q", "-rN", "--junitxml", "<project>/.qa-superteam/runs/20261123-134703-full-audit-2c3b/work/ex-0912143f1f05/junit.xml"]}
+{"ts": "2026-11-23T13:47:16Z", "event": "execution.recorded", "id": "ex-0912143f1f05"}
+{"ts": "2026-11-23T13:47:16Z", "event": "exec.finish", "execution_id": "ex-0912143f1f05", "status": "FAILED", "counts": {"PASSED": 0, "FAILED": 1, "ERROR": 0, "SKIPPED": 0, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
+{"ts": "2026-11-23T13:47:16Z", "event": "exec.start", "execution_id": "ex-e1f619080271", "adapter": "pytest", "argv": ["python3", "-m", "pytest", "tests/qa/test_qa_integrity.py::test_email_uniqueness_is_case_insensitive", "-p", "qa_superteam.pytest_reporter", "-p", "no:cacheprovider", "-q", "-rN", "--junitxml", "<project>/.qa-superteam/runs/20261123-134703-full-audit-2c3b/work/ex-e1f619080271/junit.xml"]}
+{"ts": "2026-11-23T13:47:17Z", "event": "execution.recorded", "id": "ex-e1f619080271"}
+{"ts": "2026-11-23T13:47:17Z", "event": "exec.finish", "execution_id": "ex-e1f619080271", "status": "FAILED", "counts": {"PASSED": 0, "FAILED": 1, "ERROR": 0, "SKIPPED": 0, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
+{"ts": "2026-11-23T13:47:17Z", "event": "reproduce", "test": "tests/qa/test_qa_integrity.py::test_email_uniqueness_is_case_insensitive", "attempts": 3, "failures": 3, "classification": "consistent"}
+{"ts": "2026-11-23T13:47:17Z", "event": "phase", "phase": "investigation", "state": "started", "note": null}
+{"ts": "2026-11-23T13:47:17Z", "event": "phase", "phase": "investigation", "state": "done", "note": null}
+{"ts": "2026-11-23T13:47:17Z", "event": "phase", "phase": "verification", "state": "done", "note": null}
+{"ts": "2026-11-23T13:47:17Z", "event": "phase", "phase": "release", "state": "done", "note": null}
+{"ts": "2026-11-23T13:47:17Z", "event": "phase", "phase": "reporting", "state": "done", "note": null}
+{"ts": "2026-11-23T13:47:17Z", "event": "phase", "phase": "regression", "state": "skipped", "note": "write_tests=false in the demo config: regression tests proposed in report (tests/qa/*)"}
+{"ts": "2026-11-23T13:47:17Z", "event": "record.saved", "kind": "decision"}
+{"ts": "2026-11-23T13:47:18Z", "event": "report.written", "markdown": "report.md", "json": "report.json"}
+{"ts": "2026-11-23T13:47:18Z", "event": "run.finished"}

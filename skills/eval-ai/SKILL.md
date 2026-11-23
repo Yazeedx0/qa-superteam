@@ -65,7 +65,7 @@ env without code edits.
 
 Run judge-graded checks only if `qast doctor` shows judge credentials, the user agrees to send outputs
 to the judge provider, **and** human labels exist for the judged cases. Calibrate with
-`qast ai-eval calibrate --judgments <j.jsonl> --labels <human.jsonl> --out <run dir>/drafts/calibration.json`,
+`qast ai-eval calibrate --judgments <j.jsonl> --labels <human.jsonl> --judge-model <id> --out <run dir>/drafts/calibration.json`,
 then pass `--judge-model <model> --calibration <that file>`. Kappa below threshold or no labels means
 judge-only properties are NOT_RUN or INCONCLUSIVE. Never substitute your own reading of answers for a check.
 

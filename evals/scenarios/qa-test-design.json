@@ -1,0 +1,41 @@
+[
+  {
+    "id": "qa-test-design/fee-boundaries-with-oracles",
+    "skill": "qa-test-design",
+    "description": "Designing cases for the transfer fee and insufficient-funds rules, the agent applies boundary value analysis around the rounding steps and the balance limit, gives every case a concrete oracle from the requirements table, records the plan, and writes no test files because write_tests is false by default.",
+    "fixture": "backend-api",
+    "setup": ["qast run start --mode test-feature --scope 'transfer fee and insufficient funds (REQUIREMENTS 3.2, 3.3)'"],
+    "prompt": "Design test cases for the transfer fee and insufficient-funds rules (docs/REQUIREMENTS.md sections 3.2 and 3.3) and record the plan. Plan only - don't write or run tests yet.",
+    "max_turns": 30,
+    "conditions": ["plugin", "baseline"],
+    "checks": [
+      {"type": "skill_invoked", "any": ["qa-test-design"]},
+      {"type": "command_ran", "pattern": "qast record plan"},
+      {"type": "record_exists", "kind": "plan"},
+      {"type": "command_not_ran", "pattern": "qast exec|\\bpytest\\b"},
+      {"type": "final_text_matches", "pattern": "(?i)boundar"},
+      {"type": "final_text_matches", "pattern": "(?i)oracle|expected"},
+      {"type": "final_text_matches", "pattern": "(?i)tests/test_transfers\\.py|existing (test|suite)|already covered"},
+      {"type": "no_writes_outside", "allowed": [".qa-superteam/runs/"]}
+    ]
+  },
+  {
+    "id": "qa-test-design/metamorphic-for-ranking",
+    "skill": "qa-test-design",
+    "description": "For a BM25 retriever with no exact expected ranking, the agent designs metamorphic relations and invariants (valid for the algorithm), reuses the existing retriever tests instead of duplicating them, and records the plan without executing anything.",
+    "fixture": "ai-support-bot",
+    "setup": ["qast run start --mode test-feature --scope 'BM25 retriever test design'"],
+    "prompt": "Design tests for the BM25 retriever in support_bot/retriever.py and record them in the plan. For most queries there's no exact expected ranking.",
+    "max_turns": 30,
+    "conditions": ["plugin", "baseline"],
+    "checks": [
+      {"type": "skill_invoked", "any": ["qa-test-design"]},
+      {"type": "command_ran", "pattern": "qast record plan"},
+      {"type": "record_exists", "kind": "plan"},
+      {"type": "final_text_matches", "pattern": "(?i)metamorphic"},
+      {"type": "final_text_matches", "pattern": "(?i)tests/test_retriever\\.py|existing (test|retriever test)"},
+      {"type": "command_not_ran", "pattern": "qast exec"},
+      {"type": "no_writes_outside", "allowed": [".qa-superteam/runs/"]}
+    ]
+  }
+]

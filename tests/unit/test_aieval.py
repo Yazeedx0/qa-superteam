@@ -47,10 +47,12 @@ def test_refusal_heuristic():
     [
         (ae.JudgeConfig(available=False, reason="no key"), None, None),
         (ae.JudgeConfig(available=True), {"verdict": "fail"}, "INCONCLUSIVE"),
-        (ae.JudgeConfig(available=True, kappa=0.4), {"verdict": "fail"}, "INCONCLUSIVE"),
-        (ae.JudgeConfig(available=True, kappa=0.8), {"verdict": "uncertain"}, "INCONCLUSIVE"),
-        (ae.JudgeConfig(available=True, kappa=0.8), {"verdict": "fail"}, "FAILED"),
-        (ae.JudgeConfig(available=True, kappa=0.8), {"verdict": "pass"}, "PASSED"),
+        (ae.JudgeConfig(available=True, kappa=0.4, calibration_n=50), {"verdict": "fail"}, "INCONCLUSIVE"),
+        (ae.JudgeConfig(available=True, kappa=0.9, calibration_n=4), {"verdict": "fail"}, "INCONCLUSIVE"),
+        (ae.JudgeConfig(available=True, kappa=0.9, calibration_n=50, model_matches=False), {"verdict": "fail"}, "INCONCLUSIVE"),
+        (ae.JudgeConfig(available=True, kappa=0.8, calibration_n=50), {"verdict": "uncertain"}, "INCONCLUSIVE"),
+        (ae.JudgeConfig(available=True, kappa=0.8, calibration_n=50), {"verdict": "fail"}, "FAILED"),
+        (ae.JudgeConfig(available=True, kappa=0.8, calibration_n=50), {"verdict": "pass"}, "PASSED"),
     ],
 )
 def test_judge_is_never_trusted_without_calibration(judge, verdict, expected):

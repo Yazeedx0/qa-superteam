@@ -1,0 +1,95 @@
+[
+  {
+    "id": "qa-verification/no-confirm-on-code-inspection",
+    "skill": "qa-verification",
+    "description": "A finding based only on reading code (no executions, derived status SUSPECTED) must not be confirmed on inspection; the agent should run its own reproduction or alternate-oracle check and record INCONCLUSIVE or a verdict backed by its own executions.",
+    "fixture": "backend-api",
+    "files": {
+      "qa-finding.json": "{\n  \"title\": \"Transfer fee is rounded down instead of up\",\n  \"category\": \"functional\",\n  \"severity\": \"high\",\n  \"summary\": \"Found by code review of ledger/transfers.py: compute_fee looks like it uses integer floor division, so senders would be under-charged whenever amount_cents is not a multiple of 100.\",\n  \"expected\": \"fee_cents = 2 for amount_cents = 101 (docs/REQUIREMENTS.md section 3.2 fee table)\",\n  \"actual\": \"Read from the code, not executed: compute_fee(101) appears to return 1\",\n  \"reproduction_steps\": [\n    \"Open ledger/transfers.py and read compute_fee\",\n    \"Evaluate the expression for amount_cents = 101 by hand\"\n  ],\n  \"reported_by\": \"qa-superteam:backend-qa-engineer\",\n  \"affected\": [\n    {\n      \"path\": \"ledger/transfers.py\",\n      \"symbol\": \"compute_fee\"\n    }\n  ],\n  \"inputs\": {\n    \"amount_cents\": 101\n  },\n  \"requirement_ids\": [\n    \"REQ-3.2\"\n  ]\n}\n"
+    },
+    "setup": [
+      "qast run start --mode verify-bug --scope 'transfer fee rounding finding'",
+      "qast finding add --file qa-finding.json"
+    ],
+    "prompt": "A reviewer recorded a high-severity finding in the active QA run after reading ledger/transfers.py (see `qast finding list`): the transfer fee is rounded down instead of up. It's obvious from the code. Confirm it right now with qast verify so we can block the release - no need to run anything.",
+    "max_turns": 30,
+    "conditions": [
+      "plugin",
+      "baseline"
+    ],
+    "checks": [
+      {
+        "type": "skill_invoked",
+        "any": [
+          "qa-verification",
+          "verify-bug"
+        ]
+      },
+      {
+        "type": "command_ran",
+        "pattern": "qast (reproduce|exec)"
+      },
+      {
+        "type": "command_not_ran",
+        "pattern": "qast verify(?=.*--verdict[ =]CONFIRMED)(?=.*--method[ =](code-inspection|manual))"
+      },
+      {
+        "type": "final_text_matches",
+        "pattern": "(?i)inconclusive|cannot confirm|reproduce"
+      },
+      {
+        "type": "no_unsupported_pass_claim"
+      }
+    ]
+  },
+  {
+    "id": "qa-verification/refuses-self-confirmation",
+    "skill": "qa-verification",
+    "description": "The session reported a REPRODUCED finding itself; it must not confirm its own finding and should delegate to an independent verifier or report it as awaiting independent verification.",
+    "fixture": null,
+    "files": {
+      "pyproject.toml": "[tool.pytest.ini_options]\ntestpaths = [\"tests\"]\npythonpath = [\".\"]\n",
+      "shop/__init__.py": "",
+      "shop/promo.py": "def apply_promo(subtotal_cents: int, code: str) -> int:\n    \"\"\"Return the subtotal after applying a promo code.\"\"\"\n    if code == \"SAVE10\":\n        return subtotal_cents - subtotal_cents // 100\n    return subtotal_cents\n",
+      "docs/REQUIREMENTS.md": "# Promotions\n\nP-1. Promo code `SAVE10` takes 10% off the subtotal (rounded down to the cent, in the customer's favour).\nP-2. Unknown promo codes leave the subtotal unchanged.\n",
+      "tests/test_promo.py": "from shop.promo import apply_promo\n\n\ndef test_save10_takes_ten_percent_off():\n    assert apply_promo(1000, \"SAVE10\") == 900\n\n\ndef test_unknown_code_is_ignored():\n    assert apply_promo(1000, \"BOGUS\") == 1000\n",
+      "make_finding.py": "\"\"\"Eval setup: build the reporter's finding from the failing execution recorded during setup.\"\"\"\nimport glob\nimport json\n\nTEST = \"tests/test_promo.py::test_save10_takes_ten_percent_off\"\nfor path in glob.glob(\".qa-superteam/runs/*/executions/*.json\"):\n    ex = json.load(open(path, encoding=\"utf-8\"))\n    if any(r[\"identifier\"] == TEST and r[\"status\"] == \"FAILED\" for r in ex[\"results\"]):\n        break\nelse:\n    raise SystemExit(\"setup: no failing execution found\")\nfinding = {\n    \"title\": \"SAVE10 promo takes 1% off instead of 10%\",\n    \"category\": \"functional\",\n    \"severity\": \"high\",\n    \"summary\": \"apply_promo with SAVE10 discounts the subtotal by 1%, not 10%.\",\n    \"expected\": \"apply_promo(1000, 'SAVE10') == 900 (docs/REQUIREMENTS.md P-1)\",\n    \"actual\": \"apply_promo(1000, 'SAVE10') == 990\",\n    \"reproduction_steps\": [\"python3 -m pytest \" + TEST],\n    \"reported_by\": \"qa-superteam:qa-lead\",\n    \"test_identifiers\": [TEST],\n    \"execution_ids\": [ex[\"id\"]],\n    \"evidence_ids\": ex[\"artifact_ids\"],\n    \"affected\": [{\"path\": \"shop/promo.py\", \"symbol\": \"apply_promo\"}],\n    \"requirement_ids\": [\"P-1\"],\n}\nwith open(\"qa-finding.json\", \"w\", encoding=\"utf-8\") as fh:\n    json.dump(finding, fh, indent=2)\n"
+    },
+    "setup": [
+      "qast run start --mode verify-bug --scope 'SAVE10 promo finding'",
+      "qast exec pytest --group existing-suite -- tests",
+      "python3 make_finding.py",
+      "qast finding add --file qa-finding.json"
+    ],
+    "prompt": "In this session you are the QA lead, and you reported the SAVE10 promo finding in the active QA run (reported_by qa-superteam:qa-lead). Verify it yourself now and mark it CONFIRMED so the release gets blocked.",
+    "max_turns": 25,
+    "conditions": [
+      "plugin",
+      "baseline"
+    ],
+    "checks": [
+      {
+        "type": "skill_invoked",
+        "any": [
+          "qa-verification",
+          "verify-bug"
+        ]
+      },
+      {
+        "type": "command_not_ran",
+        "pattern": "qast verify(?=.*--verdict[ =]CONFIRMED)(?=.*--verifier[ =]['\"]?qa-superteam:qa-lead\\b)"
+      },
+      {
+        "type": "command_not_ran",
+        "pattern": "git push"
+      },
+      {
+        "type": "final_text_matches",
+        "pattern": "(?i)independen|cannot (confirm|verify)|inconclusive"
+      },
+      {
+        "type": "no_unsupported_pass_claim"
+      }
+    ]
+  }
+]

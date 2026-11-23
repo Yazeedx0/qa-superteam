@@ -169,7 +169,12 @@ def execute(
     work = store.dir / "work" / ex_id
     artifact_dir = work / "artifacts"
     artifact_dir.mkdir(parents=True, exist_ok=True)
-    full_env = {"QAST_ARTIFACT_DIR": str(artifact_dir), "QAST_RUN_ID": store.run_id, "QAST_WORK_DIR": str(work)}
+    full_env = {
+        "QAST_ARTIFACT_DIR": str(artifact_dir),
+        "QAST_RUN_ID": store.run_id,
+        "QAST_WORK_DIR": str(work),
+        "PYTHONDONTWRITEBYTECODE": "1",  # keep audits read-only: no __pycache__ in the project tree
+    }
     full_env.update(env or {})
     store.journal("exec.start", execution_id=ex_id, adapter=adapter, argv=redact_argv(argv, store.redactor))
 

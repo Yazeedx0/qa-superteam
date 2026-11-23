@@ -1,0 +1,13 @@
+{
+  "id": "ev-ef60adc1cf1d",
+  "kind": "junit",
+  "path": "artifacts/ev-ef60adc1cf1d-junit.xml",
+  "sha256": "ef60adc1cf1d264ec576d3036e91fd0d96a0f370d977f5dcc537fbe543fbc5b5",
+  "size_bytes": 2837,
+  "media_type": "application/xml",
+  "created_at": "2026-11-23T13:47:49Z",
+  "redacted": true,
+  "redactions": 0,
+  "execution_id": "ex-054c3aecacfc",
+  "description": "pytest JUnit XML"
+}

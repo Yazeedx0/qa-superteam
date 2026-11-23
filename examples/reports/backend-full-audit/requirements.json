@@ -1,0 +1,109 @@
+{
+  "requirements": [
+    {
+      "id": "REQ-BAL",
+      "title": "Balances never go negative (fee included)",
+      "status": "stated",
+      "basis": "observed",
+      "description": null,
+      "acceptance_criteria": [
+        "amount + fee > balance -> rejected, balance unchanged"
+      ],
+      "sources": [
+        {
+          "path": "docs/REQUIREMENTS.md",
+          "line": null,
+          "symbol": null,
+          "note": null
+        }
+      ],
+      "priority": "critical",
+      "open_questions": [],
+      "depends_on": []
+    },
+    {
+      "id": "REQ-VIS",
+      "title": "Users only see transfers they sent or received",
+      "status": "stated",
+      "basis": "observed",
+      "description": null,
+      "acceptance_criteria": [],
+      "sources": [
+        {
+          "path": "docs/REQUIREMENTS.md",
+          "line": null,
+          "symbol": null,
+          "note": null
+        }
+      ],
+      "priority": "critical",
+      "open_questions": [],
+      "depends_on": []
+    },
+    {
+      "id": "REQ-EMAIL",
+      "title": "Emails are unique case-insensitively",
+      "status": "stated",
+      "basis": "observed",
+      "description": null,
+      "acceptance_criteria": [],
+      "sources": [
+        {
+          "path": "docs/REQUIREMENTS.md",
+          "line": null,
+          "symbol": null,
+          "note": null
+        }
+      ],
+      "priority": "high",
+      "open_questions": [],
+      "depends_on": []
+    },
+    {
+      "id": "REQ-LARGE",
+      "title": "Large transfers may require additional review",
+      "status": "ambiguous",
+      "basis": "observed",
+      "description": null,
+      "acceptance_criteria": [],
+      "sources": [
+        {
+          "path": "docs/REQUIREMENTS.md",
+          "line": null,
+          "symbol": null,
+          "note": null
+        }
+      ],
+      "priority": "medium",
+      "open_questions": [
+        "What amount counts as large?",
+        "What does review mean for the API response?"
+      ],
+      "depends_on": []
+    }
+  ],
+  "invariants": [
+    {
+      "id": "INV-1",
+      "statement": "balance_cents >= 0 for every wallet after any committed operation",
+      "criticality": "critical",
+      "oracle": "After each API call, GET /wallets/me returns balance_cents >= 0",
+      "basis": "observed",
+      "components": [],
+      "sources": []
+    },
+    {
+      "id": "INV-2",
+      "statement": "A transfer is readable only by its sender or recipient",
+      "criticality": "critical",
+      "oracle": "GET /transfers/{id} by a third user returns 404",
+      "basis": "observed",
+      "components": [],
+      "sources": []
+    }
+  ],
+  "ambiguities": [
+    "REQ-LARGE has no threshold or defined behaviour; not tested, flagged for product"
+  ],
+  "assumptions": []
+}

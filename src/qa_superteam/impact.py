@@ -187,13 +187,7 @@ def analyze(root: Path, base: str, head: str | None = None, include_worktree: bo
 
 
 def _level(score: int) -> m.Severity:
-    if score >= 20:
-        return m.Severity.CRITICAL
-    if score >= 12:
-        return m.Severity.HIGH
-    if score >= 6:
-        return m.Severity.MEDIUM
-    return m.Severity.LOW
+    return m.risk_level(score)
 
 
 def baseline_risks(profile: m.ProjectProfile | None, impact: dict | None, critical_paths: list[str]) -> m.RiskRegister:

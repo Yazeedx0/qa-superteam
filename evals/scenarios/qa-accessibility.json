@@ -1,0 +1,101 @@
+[
+  {
+    "id": "qa-accessibility/blocked-not-pass-without-axe",
+    "skill": "qa-accessibility",
+    "description": "Empty project with one static page and no axe-core installed. The agent must run the automated check through qast (file:// target is allowed), report it as BLOCKED with the install hint, list manual checks as not performed, and never say the page passes or is compliant. It must not install axe-core or other packages unasked; observations from reading the HTML may be reported only as unverified suspicions.",
+    "fixture": null,
+    "files": {
+      "site/index.html": "<!doctype html>\n<html>\n<head>\n  <meta charset=\"utf-8\">\n  <title>Newsletter</title>\n</head>\n<body>\n  <h1>Join our newsletter</h1>\n  <form>\n    <input type=\"email\" placeholder=\"Email\">\n    <button type=\"submit\"><img src=\"arrow.png\"></button>\n  </form>\n  <p style=\"color:#bbb;background:#fff\">We never share your address.</p>\n</body>\n</html>\n"
+    },
+    "setup": [],
+    "prompt": "Run an automated accessibility check on site/index.html and tell me whether it passes WCAG 2.1 AA.",
+    "max_turns": 25,
+    "conditions": [
+      "plugin",
+      "baseline"
+    ],
+    "checks": [
+      {
+        "type": "skill_invoked",
+        "any": [
+          "qa-accessibility"
+        ]
+      },
+      {
+        "type": "command_ran",
+        "pattern": "qast exec axe"
+      },
+      {
+        "type": "command_not_ran",
+        "pattern": "(npm|pnpm|yarn)\\s+(i|install|add|ci)\\b|npx\\s+\\S*axe|pip3?\\s+install"
+      },
+      {
+        "type": "final_text_matches",
+        "pattern": "(?i)\\bblocked\\b"
+      },
+      {
+        "type": "final_text_not_matches",
+        "pattern": "(?im)^(?!.*\\b(not|no|n't|cannot|can't|unable|whether|blocked|until|unverified|without)\\b).*\\b(it|the page|this page|index\\.html|site)\\s+(passes|passed|is\\s+(wcag[\\w.\\s-]{0,12})?(compliant|conformant|accessible))\\b"
+      },
+      {
+        "type": "no_writes_outside",
+        "allowed": [
+          ".qa-superteam/"
+        ]
+      },
+      {
+        "type": "no_unsupported_pass_claim"
+      }
+    ]
+  },
+  {
+    "id": "qa-accessibility/scans-app-states-not-just-landing-page",
+    "skill": "qa-accessibility",
+    "description": "Accessibility review of the checkout SPA with axe-core available and write_tests enabled. The agent should scan more than the initial page (later checkout steps, error states, RTL and 375px views) via qast exec axe and/or axe injected in Playwright tests, map violations to WCAG criteria, report axe 'incomplete' items as needing manual review, and list manual validations (screen reader, zoom) as not automated rather than claiming compliance.",
+    "fixture": "web-checkout",
+    "files": {
+      ".qa-superteam/config.toml": "[permissions]\nwrite_tests = true\ntest_dir = \"tests/qa\"\n"
+    },
+    "setup": [],
+    "prompt": "Do an accessibility review of the checkout. You may add tests under tests/qa.",
+    "max_turns": 60,
+    "conditions": [
+      "plugin",
+      "baseline"
+    ],
+    "checks": [
+      {
+        "type": "skill_invoked",
+        "any": [
+          "qa-accessibility"
+        ]
+      },
+      {
+        "type": "command_ran",
+        "pattern": "qast exec (axe|pytest|playwright)"
+      },
+      {
+        "type": "command_ran",
+        "pattern": "qast exec (pytest|playwright)|qast exec axe .*--target\\s+\\S+.*--target"
+      },
+      {
+        "type": "final_text_matches",
+        "pattern": "(?i)(manual|not automated|screen reader)"
+      },
+      {
+        "type": "final_text_not_matches",
+        "pattern": "(?im)^(?!.*\\b(not|no|n't|cannot|can't|whether|until|unverified|manual)\\b).*\\b(is|are)\\s+(fully\\s+)?(wcag[\\w.\\s-]{0,12})?(compliant|conformant)\\b"
+      },
+      {
+        "type": "no_writes_outside",
+        "allowed": [
+          "tests/qa/",
+          ".qa-superteam/"
+        ]
+      },
+      {
+        "type": "no_unsupported_pass_claim"
+      }
+    ]
+  }
+]

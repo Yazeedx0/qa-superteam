@@ -1,0 +1,2587 @@
+{
+  "schema_version": "1.0",
+  "run": {
+    "run_id": "20261123-134724-test-e2e-9e6d",
+    "mode": "test-e2e",
+    "created_at": "2026-11-23T13:47:24Z",
+    "scope": "Checkout SPA: critical journeys and accessibility",
+    "base_ref": null,
+    "head_ref": null,
+    "project_name": "web-checkout",
+    "environment": {
+      "platform": "Linux-7.0.0-43-generic-x86_64",
+      "python": "3.12.3",
+      "hostname_hash": "a005a3344252",
+      "tool_versions": {},
+      "ci": false,
+      "git_head": "bd743a5ff3d619c24adee30c03f70cb31ccfa189",
+      "git_dirty": false
+    }
+  },
+  "generated_at": "2026-11-23T13:48:23Z",
+  "decision": {
+    "decision": "BLOCK",
+    "policy": {
+      "name": "default",
+      "version": "1.0.0",
+      "sha256": "f6b8fcb3544b447247ce51e461b7e4cdf77ee79b7182fd94a6255c675a21652c",
+      "path": "default.toml"
+    },
+    "rules": [
+      {
+        "rule_id": "R-EVIDENCE-EXISTS",
+        "outcome": "PASS",
+        "triggered": false,
+        "reason": "4 execution(s) recorded",
+        "refs": []
+      },
+      {
+        "rule_id": "R-EVIDENCE-INTEGRITY",
+        "outcome": "PASS",
+        "triggered": false,
+        "reason": "all evidence hashes verified",
+        "refs": []
+      },
+      {
+        "rule_id": "R-CONFIRMED-BLOCKING",
+        "outcome": "PASS",
+        "triggered": false,
+        "reason": "no confirmed finding at a blocking severity",
+        "refs": []
+      },
+      {
+        "rule_id": "R-CONFIRMED-REVIEW",
+        "outcome": "REVIEW_REQUIRED",
+        "triggered": true,
+        "reason": "F-52b23502 [high] Checkout is blocked after correcting an invalid postal code; F-13c12f92 [high] Promo code input has no accessible name",
+        "refs": [
+          "F-13c12f92",
+          "F-52b23502"
+        ]
+      },
+      {
+        "rule_id": "R-UNVERIFIED-HIGH-IMPACT",
+        "outcome": "PASS",
+        "triggered": false,
+        "reason": "no unverified high-impact findings",
+        "refs": []
+      },
+      {
+        "rule_id": "R-MANDATORY-GROUP:existing-suite",
+        "outcome": "PASS",
+        "triggered": false,
+        "reason": "mandatory group 'existing-suite': 6 passed, 0 skipped (within allowance)",
+        "refs": []
+      },
+      {
+        "rule_id": "R-PLANNED-MANDATORY-CASES",
+        "outcome": "BLOCK",
+        "triggered": true,
+        "reason": "planned mandatory test cases failed: TC-RECOVER, TC-PROMO, TC-RTL",
+        "refs": [
+          "TC-PROMO",
+          "TC-RECOVER",
+          "TC-RTL"
+        ]
+      },
+      {
+        "rule_id": "R-UNTRIAGED-FAILURES",
+        "outcome": "PASS",
+        "triggered": false,
+        "reason": "every failure is linked to a finding",
+        "refs": []
+      },
+      {
+        "rule_id": "R-FLAKY-CRITICAL",
+        "outcome": "PASS",
+        "triggered": false,
+        "reason": "no flaky critical tests observed",
+        "refs": []
+      },
+      {
+        "rule_id": "R-UNTESTED-HIGH-RISK",
+        "outcome": "PASS",
+        "triggered": false,
+        "reason": "every high-priority planned item has an executed outcome",
+        "refs": []
+      }
+    ],
+    "evaluated_at": "2026-11-23T13:48:23Z",
+    "inputs_digest": "04a54e6a727532c6f83d48e6e7f69060c2ca7fe3c04485be1e7408161875f8fa",
+    "summary": "BLOCK: R-CONFIRMED-REVIEW, R-PLANNED-MANDATORY-CASES"
+  },
+  "executions": [
+    {
+      "id": "ex-ffb81dfea4fb",
+      "run_id": "20261123-134724-test-e2e-9e6d",
+      "adapter": "pytest",
+      "status": "PASSED",
+      "started_at": "2026-11-23T13:47:24Z",
+      "finished_at": "2026-11-23T13:47:27Z",
+      "duration_s": 2.671,
+      "command": [
+        "python3",
+        "-m",
+        "pytest",
+        "tests",
+        "-p",
+        "qa_superteam.pytest_reporter",
+        "-p",
+        "no:cacheprovider",
+        "-q",
+        "-rN",
+        "--junitxml",
+        "<project>/.qa-superteam/runs/20261123-134724-test-e2e-9e6d/work/ex-ffb81dfea4fb/junit.xml"
+      ],
+      "cwd": ".",
+      "exit_code": 0,
+      "timed_out": false,
+      "counts": {
+        "PASSED": 6,
+        "FAILED": 0,
+        "ERROR": 0,
+        "SKIPPED": 0,
+        "BLOCKED": 0,
+        "NOT_RUN": 0,
+        "INCONCLUSIVE": 0
+      },
+      "results": [
+        {
+          "id": "tr-c7cfcd77042a",
+          "identifier": "tests/test_happy_path.py::test_cart_lists_items_with_prices",
+          "status": "PASSED",
+          "name": "test_cart_lists_items_with_prices",
+          "duration_s": 0.4393,
+          "message": null,
+          "file": "tests/test_happy_path.py",
+          "line": 12,
+          "groups": [
+            "existing-suite"
+          ],
+          "artifact_ids": []
+        },
+        {
+          "id": "tr-cfb3ddce56e3",
+          "identifier": "tests/test_happy_path.py::test_checkout_with_valid_details_shows_confirmation",
+          "status": "PASSED",
+          "name": "test_checkout_with_valid_details_shows_confirmation",
+          "duration_s": 0.38,
+          "message": null,
+          "file": "tests/test_happy_path.py",
+          "line": 23,
+          "groups": [
+            "existing-suite"
+          ],
+          "artifact_ids": []
+        },
+        {
+          "id": "tr-23c8b49ab878",
+          "identifier": "tests/test_happy_path.py::test_canadian_address_uses_canadian_shipping_rate",
+          "status": "PASSED",
+          "name": "test_canadian_address_uses_canadian_shipping_rate",
+          "duration_s": 0.2277,
+          "message": null,
+          "file": "tests/test_happy_path.py",
+          "line": 46,
+          "groups": [
+            "existing-suite"
+          ],
+          "artifact_ids": []
+        },
+        {
+          "id": "tr-b510de765497",
+          "identifier": "tests/test_navigation.py::test_back_preserves_entered_fields",
+          "status": "PASSED",
+          "name": "test_back_preserves_entered_fields",
+          "duration_s": 0.2421,
+          "message": null,
+          "file": "tests/test_navigation.py",
+          "line": 4,
+          "groups": [
+            "existing-suite"
+          ],
+          "artifact_ids": []
+        },
+        {
+          "id": "tr-a077834b8cf2",
+          "identifier": "tests/test_navigation.py::test_reload_restores_draft_and_step",
+          "status": "PASSED",
+          "name": "test_reload_restores_draft_and_step",
+          "duration_s": 0.279,
+          "message": null,
+          "file": "tests/test_navigation.py",
+          "line": 22,
+          "groups": [
+            "existing-suite"
+          ],
+          "artifact_ids": []
+        },
+        {
+          "id": "tr-5a65ed8cfbe5",
+          "identifier": "tests/test_validation.py::test_invalid_email_shows_inline_error",
+          "status": "PASSED",
+          "name": "test_invalid_email_shows_inline_error",
+          "duration_s": 0.6012,
+          "message": null,
+          "file": "tests/test_validation.py",
+          "line": 4,
+          "groups": [
+            "existing-suite"
+          ],
+          "artifact_ids": []
+        }
+      ],
+      "environment": {
+        "platform": "Linux-7.0.0-43-generic-x86_64",
+        "python": "3.12.3",
+        "hostname_hash": "a005a3344252",
+        "tool_versions": {
+          "pytest": "pytest 9.0.2"
+        },
+        "ci": false,
+        "git_head": "bd743a5ff3d619c24adee30c03f70cb31ccfa189",
+        "git_dirty": false
+      },
+      "groups": [
+        "existing-suite"
+      ],
+      "label": "existing Playwright suite",
+      "status_reason": null,
+      "artifact_ids": [
+        "ev-671f202f7608",
+        "ev-04d77f18f409",
+        "ev-924942cc2ffd"
+      ],
+      "attempt": 1,
+      "reproduction_of": null
+    },
+    {
+      "id": "ex-5f12edf9a86a",
+      "run_id": "20261123-134724-test-e2e-9e6d",
+      "adapter": "pytest",
+      "status": "FAILED",
+      "started_at": "2026-11-23T13:47:27Z",
+      "finished_at": "2026-11-23T13:47:39Z",
+      "duration_s": 12.046,
+      "command": [
+        "python3",
+        "-m",
+        "pytest",
+        "tests/qa/test_qa_journeys.py",
+        "-p",
+        "qa_superteam.pytest_reporter",
+        "-p",
+        "no:cacheprovider",
+        "-q",
+        "-rN",
+        "--junitxml",
+        "<project>/.qa-superteam/runs/20261123-134724-test-e2e-9e6d/work/ex-5f12edf9a86a/junit.xml"
+      ],
+      "cwd": ".",
+      "exit_code": 1,
+      "timed_out": false,
+      "counts": {
+        "PASSED": 5,
+        "FAILED": 2,
+        "ERROR": 0,
+        "SKIPPED": 0,
+        "BLOCKED": 0,
+        "NOT_RUN": 0,
+        "INCONCLUSIVE": 0
+      },
+      "results": [
+        {
+          "id": "tr-92d3f7199575",
+          "identifier": "tests/qa/test_qa_journeys.py::test_recover_from_postal_code_error_and_complete_checkout",
+          "status": "FAILED",
+          "name": "test_recover_from_postal_code_error_and_complete_checkout",
+          "duration_s": 3.5522,
+          "message": "checkout = <conftest.Checkout object at 0x7c25d9866c30>\n\n    def test_recover_from_postal_code_error_and_complete_checkout(checkout):\n        page = checkout.page\n        checkout.open().fill_contact()\n    \n        postal = page.get_by_test_id(\"postal-code\")\n        continue_button = page.get_by_test_id(\"shipping-continue\")\n        postal_error = page.locator(\"#postal-code-error\")\n    \n        postal.fill(\"123\")\n        continue_button.click()\n        expect(postal_error, \"an invalid US ZIP code should show an inline error\").to_contain_text(\"5-digit\")\n        expect(page.locator(\"#shipping-form\"), \"an invalid postal code must not advance the checkout\").to_be_visible()\n    \n        postal.fill(\"94107\")\n        expect(postal_error, \"correcting the postal code should clear the inline error\").to_be_hidden()\n        expect(\n            continue_button,\n            \"after correcting the postal code to a valid value (94107) the Shipping 'Continue' button is still \"\n            \"disabled, so the user cannot finish checkout without reloading the page\",\n>       ).to_be_enabled(timeout=3_000)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       AssertionError: after correcting the postal code to a valid value (94107) the Shipping 'Continue' button is still disabled, so the user cannot finish checkout without reloading the page\nE       Actual value: disabled \nE       Call log:\nE         - Expect \"to_be_enabled\" with timeout 3000ms\nE         - waiting for get_by_test_id(\"shipping-continue\")\nE           7 × locator resolved to <button disabled type=\"submit\" class=\"primary\" data-i18n=\"continue\" id=\"shipping-continue\" data-testid=\"shipping-continue\">Continue</button>\nE             - unexpected value \"disabled\"\n\ntests/qa/test_qa_journeys.py:38: AssertionError",
+          "file": "tests/qa/test_qa_journeys.py",
+          "line": 19,
+          "groups": [
+            "critical-journeys"
+          ],
+          "artifact_ids": [
+            "ev-8679a631d61a"
+          ]
+        },
+        {
+          "id": "tr-c621f22198fa",
+          "identifier": "tests/qa/test_qa_journeys.py::test_promo_apply_then_remove_restores_total",
+          "status": "FAILED",
+          "name": "test_promo_apply_then_remove_restores_total",
+          "duration_s": 5.3359,
+          "message": "checkout = <conftest.Checkout object at 0x7c25d95db050>\n\n    def test_promo_apply_then_remove_restores_total(checkout):\n        page = checkout.page\n        checkout.to_review(country=\"US\", postal=\"94107\")\n    \n        total = page.get_by_test_id(\"total\")\n        expect(page.get_by_test_id(\"subtotal\")).to_have_text(\"$80.00\")\n        expect(page.get_by_test_id(\"shipping-cost\")).to_have_text(\"$5.00\")\n        expect(total, \"total before any promo should be subtotal + shipping\").to_have_text(\"$85.00\")\n    \n        page.get_by_test_id(\"promo-input\").fill(\"SAVE10\")\n        page.get_by_test_id(\"promo-apply\").click()\n        expect(page.get_by_test_id(\"promo-badge\")).to_contain_text(\"SAVE10\")\n        expect(page.get_by_test_id(\"discount\"), \"SAVE10 should take 10% off the $80.00 subtotal\").to_have_text(\"-$8.00\")\n        expect(total, \"total with SAVE10 applied\").to_have_text(\"$77.00\")\n    \n        page.get_by_test_id(\"promo-remove\").click()\n        expect(page.get_by_test_id(\"promo-badge\"), \"the applied-code badge should disappear\").to_be_hidden()\n        expect(page.get_by_test_id(\"promo-input\"), \"the promo field should be cleared\").to_have_value(\"\")\n        expect(page.get_by_test_id(\"discount\"), \"the discount line should disappear\").to_be_hidden()\n        expect(\n            total,\n            \"after removing SAVE10 the total must return to $85.00 (subtotal $80.00 + shipping $5.00) \"\n            \"but it still includes the $8.00 discount\",\n>       ).to_have_text(\"$85.00\")\n          ^^^^^^^^^^^^^^^^^^^^^^\nE       AssertionError: after removing SAVE10 the total must return to $85.00 (subtotal $80.00 + shipping $5.00) but it still includes the $8.00 discount\nE       Expected value: '$85.00'\nE       Actual value: $77.00 \nE       Call log:\nE         - Expect \"to_have_text\" with timeout 5000ms\nE         - waiting for get_by_test_id(\"total\")\nE           9 × locator resolved to <dd id=\"total\" data-testid=\"total\">$77.00</dd>\nE             - unexpected value \"$77.00\"\n\ntests/qa/test_qa_journeys.py:69: AssertionError",
+          "file": "tests/qa/test_qa_journeys.py",
+          "line": 46,
+          "groups": [
+            "critical-journeys"
+          ],
+          "artifact_ids": [
+            "ev-d18f94779aae"
+          ]
+        },
+        {
+          "id": "tr-e8567dae5a5d",
+          "identifier": "tests/qa/test_qa_journeys.py::test_arabic_locale_renders_right_to_left",
+          "status": "PASSED",
+          "name": "test_arabic_locale_renders_right_to_left",
+          "duration_s": 0.2564,
+          "message": null,
+          "file": "tests/qa/test_qa_journeys.py",
+          "line": 72,
+          "groups": [
+            "critical-journeys"
+          ],
+          "artifact_ids": []
+        },
+        {
+          "id": "tr-5ce8c37e97bc",
+          "identifier": "tests/qa/test_qa_journeys.py::test_mobile_375_has_no_horizontal_overflow[en]",
+          "status": "PASSED",
+          "name": "test_mobile_375_has_no_horizontal_overflow[en]",
+          "duration_s": 0.4502,
+          "message": null,
+          "file": "tests/qa/test_qa_journeys.py",
+          "line": 114,
+          "groups": [
+            "critical-journeys"
+          ],
+          "artifact_ids": []
+        },
+        {
+          "id": "tr-e3a020689bd3",
+          "identifier": "tests/qa/test_qa_journeys.py::test_mobile_375_has_no_horizontal_overflow[ar]",
+          "status": "PASSED",
+          "name": "test_mobile_375_has_no_horizontal_overflow[ar]",
+          "duration_s": 0.4635,
+          "message": null,
+          "file": "tests/qa/test_qa_journeys.py",
+          "line": 114,
+          "groups": [
+            "critical-journeys"
+          ],
+          "artifact_ids": []
+        },
+        {
+          "id": "tr-ddeb45380186",
+          "identifier": "tests/qa/test_qa_journeys.py::test_place_order_failure_shows_banner_and_retry_succeeds[network-error]",
+          "status": "PASSED",
+          "name": "test_place_order_failure_shows_banner_and_retry_succeeds[network-error]",
+          "duration_s": 0.5042,
+          "message": null,
+          "file": "tests/qa/test_qa_journeys.py",
+          "line": 141,
+          "groups": [
+            "critical-journeys"
+          ],
+          "artifact_ids": []
+        },
+        {
+          "id": "tr-eed907c44e5f",
+          "identifier": "tests/qa/test_qa_journeys.py::test_place_order_failure_shows_banner_and_retry_succeeds[http-500]",
+          "status": "PASSED",
+          "name": "test_place_order_failure_shows_banner_and_retry_succeeds[http-500]",
+          "duration_s": 0.9045,
+          "message": null,
+          "file": "tests/qa/test_qa_journeys.py",
+          "line": 141,
+          "groups": [
+            "critical-journeys"
+          ],
+          "artifact_ids": []
+        }
+      ],
+      "environment": {
+        "platform": "Linux-7.0.0-43-generic-x86_64",
+        "python": "3.12.3",
+        "hostname_hash": "a005a3344252",
+        "tool_versions": {
+          "pytest": "pytest 9.0.2"
+        },
+        "ci": false,
+        "git_head": "bd743a5ff3d619c24adee30c03f70cb31ccfa189",
+        "git_dirty": true
+      },
+      "groups": [
+        "critical-journeys"
+      ],
+      "label": "journeys",
+      "status_reason": null,
+      "artifact_ids": [
+        "ev-00ba9aaef7a4",
+        "ev-d02254f24b58",
+        "ev-b8a29234f630",
+        "ev-d18f94779aae",
+        "ev-8679a631d61a"
+      ],
+      "attempt": 1,
+      "reproduction_of": null
+    },
+    {
+      "id": "ex-4cff8ce2a7cc",
+      "run_id": "20261123-134724-test-e2e-9e6d",
+      "adapter": "pytest",
+      "status": "FAILED",
+      "started_at": "2026-11-23T13:47:40Z",
+      "finished_at": "2026-11-23T13:47:42Z",
+      "duration_s": 2.52,
+      "command": [
+        "python3",
+        "-m",
+        "pytest",
+        "tests/qa/test_qa_a11y.py",
+        "-p",
+        "qa_superteam.pytest_reporter",
+        "-p",
+        "no:cacheprovider",
+        "-q",
+        "-rN",
+        "--junitxml",
+        "<project>/.qa-superteam/runs/20261123-134724-test-e2e-9e6d/work/ex-4cff8ce2a7cc/junit.xml"
+      ],
+      "cwd": ".",
+      "exit_code": 1,
+      "timed_out": false,
+      "counts": {
+        "PASSED": 3,
+        "FAILED": 1,
+        "ERROR": 0,
+        "SKIPPED": 0,
+        "BLOCKED": 0,
+        "NOT_RUN": 0,
+        "INCONCLUSIVE": 0
+      },
+      "results": [
+        {
+          "id": "tr-ce1e0cf76ccf",
+          "identifier": "tests/qa/test_qa_a11y.py::test_review_step_has_no_serious_axe_violations",
+          "status": "FAILED",
+          "name": "test_review_step_has_no_serious_axe_violations",
+          "duration_s": 0.6915,
+          "message": "checkout = <conftest.Checkout object at 0x7a8b4786a7b0>\naxe_path = PosixPath('<project>/node_modules/axe-core/axe.min.js')\n\n    def test_review_step_has_no_serious_axe_violations(checkout, axe_path: Path):\n        checkout.to_review()\n        expect(checkout.page.get_by_test_id(\"promo-input\")).to_be_visible()\n    \n        violations = blocking(run_axe(checkout.page, axe_path))\n>       assert not violations, (\n            \"axe-core reported serious/critical accessibility violations on the Review step \"\n            \"(promo code, totals, Place order):\\n\" + describe(violations)\n        )\nE       AssertionError: axe-core reported serious/critical accessibility violations on the Review step (promo code, totals, Place order):\nE           - label (critical): Form elements must have labels -> #promo-code\nE       assert not [{'help': 'Form elements must have labels', 'id': 'label', 'impact': 'critical', 'targets': ['#promo-code']}]\n\ntests/qa/test_qa_a11y.py:68: AssertionError",
+          "file": "tests/qa/test_qa_a11y.py",
+          "line": 63,
+          "groups": [
+            "accessibility"
+          ],
+          "artifact_ids": [
+            "ev-2c16b29ef450"
+          ]
+        },
+        {
+          "id": "tr-666ac1eb1ca3",
+          "identifier": "tests/qa/test_qa_a11y.py::test_step_has_no_serious_axe_violations[contact]",
+          "status": "PASSED",
+          "name": "test_step_has_no_serious_axe_violations[contact]",
+          "duration_s": 0.2386,
+          "message": null,
+          "file": "tests/qa/test_qa_a11y.py",
+          "line": 74,
+          "groups": [
+            "accessibility"
+          ],
+          "artifact_ids": []
+        },
+        {
+          "id": "tr-edd1ba63fece",
+          "identifier": "tests/qa/test_qa_a11y.py::test_step_has_no_serious_axe_violations[shipping]",
+          "status": "PASSED",
+          "name": "test_step_has_no_serious_axe_violations[shipping]",
+          "duration_s": 0.2897,
+          "message": null,
+          "file": "tests/qa/test_qa_a11y.py",
+          "line": 74,
+          "groups": [
+            "accessibility"
+          ],
+          "artifact_ids": []
+        },
+        {
+          "id": "tr-dcc3c555a847",
+          "identifier": "tests/qa/test_qa_a11y.py::test_step_has_no_serious_axe_violations[confirmation]",
+          "status": "PASSED",
+          "name": "test_step_has_no_serious_axe_violations[confirmation]",
+          "duration_s": 0.7845,
+          "message": null,
+          "file": "tests/qa/test_qa_a11y.py",
+          "line": 74,
+          "groups": [
+            "accessibility"
+          ],
+          "artifact_ids": []
+        }
+      ],
+      "environment": {
+        "platform": "Linux-7.0.0-43-generic-x86_64",
+        "python": "3.12.3",
+        "hostname_hash": "a005a3344252",
+        "tool_versions": {
+          "pytest": "pytest 9.0.2"
+        },
+        "ci": false,
+        "git_head": "bd743a5ff3d619c24adee30c03f70cb31ccfa189",
+        "git_dirty": true
+      },
+      "groups": [
+        "accessibility"
+      ],
+      "label": "axe on app states",
+      "status_reason": null,
+      "artifact_ids": [
+        "ev-80ff8843e4bf",
+        "ev-4065c731b7fe",
+        "ev-a9655cc7cb80",
+        "ev-2c16b29ef450"
+      ],
+      "attempt": 1,
+      "reproduction_of": null
+    },
+    {
+      "id": "ex-6a396bb34741",
+      "run_id": "20261123-134724-test-e2e-9e6d",
+      "adapter": "axe",
+      "status": "PASSED",
+      "started_at": "2026-11-23T13:47:42Z",
+      "finished_at": "2026-11-23T13:47:44Z",
+      "duration_s": 1.468,
+      "command": [
+        "python3",
+        "-m",
+        "qa_superteam.runners.axe_scan",
+        "--url=http://127.0.0.1:36765/",
+        "--axe=<project>/node_modules/axe-core/axe.min.js",
+        "--out=<project>/.qa-superteam/runs/20261123-134724-test-e2e-9e6d/work/ex-6a396bb34741/axe-result.json",
+        "--shots=<project>/.qa-superteam/runs/20261123-134724-test-e2e-9e6d/work/ex-6a396bb34741/artifacts",
+        "--viewport=375x812"
+      ],
+      "cwd": ".",
+      "exit_code": 0,
+      "timed_out": false,
+      "counts": {
+        "PASSED": 24,
+        "FAILED": 0,
+        "ERROR": 0,
+        "SKIPPED": 0,
+        "BLOCKED": 0,
+        "NOT_RUN": 0,
+        "INCONCLUSIVE": 0
+      },
+      "results": [
+        {
+          "id": "tr-55f5137b7e66",
+          "identifier": "http://127.0.0.1:36765/::aria-allowed-attr",
+          "status": "PASSED",
+          "name": "aria-allowed-attr",
+          "duration_s": null,
+          "message": null,
+          "file": null,
+          "line": null,
+          "groups": [
+            "accessibility"
+          ],
+          "artifact_ids": [
+            "ev-0966a69f29d0"
+          ]
+        },
+        {
+          "id": "tr-b59c7855d82e",
+          "identifier": "http://127.0.0.1:36765/::aria-conditional-attr",
+          "status": "PASSED",
+          "name": "aria-conditional-attr",
+          "duration_s": null,
+          "message": null,
+          "file": null,
+          "line": null,
+          "groups": [
+            "accessibility"
+          ],
+          "artifact_ids": [
+            "ev-0966a69f29d0"
+          ]
+        },
+        {
+          "id": "tr-95365acbc262",
+          "identifier": "http://127.0.0.1:36765/::aria-hidden-body",
+          "status": "PASSED",
+          "name": "aria-hidden-body",
+          "duration_s": null,
+          "message": null,
+          "file": null,
+          "line": null,
+          "groups": [
+            "accessibility"
+          ],
+          "artifact_ids": [
+            "ev-0966a69f29d0"
+          ]
+        },
+        {
+          "id": "tr-ee379151c487",
+          "identifier": "http://127.0.0.1:36765/::aria-prohibited-attr",
+          "status": "PASSED",
+          "name": "aria-prohibited-attr",
+          "duration_s": null,
+          "message": null,
+          "file": null,
+          "line": null,
+          "groups": [
+            "accessibility"
+          ],
+          "artifact_ids": [
+            "ev-0966a69f29d0"
+          ]
+        },
+        {
+          "id": "tr-97218a367493",
+          "identifier": "http://127.0.0.1:36765/::aria-valid-attr-value",
+          "status": "PASSED",
+          "name": "aria-valid-attr-value",
+          "duration_s": null,
+          "message": null,
+          "file": null,
+          "line": null,
+          "groups": [
+            "accessibility"
+          ],
+          "artifact_ids": [
+            "ev-0966a69f29d0"
+          ]
+        },
+        {
+          "id": "tr-5426b0d07164",
+          "identifier": "http://127.0.0.1:36765/::aria-valid-attr",
+          "status": "PASSED",
+          "name": "aria-valid-attr",
+          "duration_s": null,
+          "message": null,
+          "file": null,
+          "line": null,
+          "groups": [
+            "accessibility"
+          ],
+          "artifact_ids": [
+            "ev-0966a69f29d0"
+          ]
+        },
+        {
+          "id": "tr-2589ccb55056",
+          "identifier": "http://127.0.0.1:36765/::autocomplete-valid",
+          "status": "PASSED",
+          "name": "autocomplete-valid",
+          "duration_s": null,
+          "message": null,
+          "file": null,
+          "line": null,
+          "groups": [
+            "accessibility"
+          ],
+          "artifact_ids": [
+            "ev-0966a69f29d0"
+          ]
+        },
+        {
+          "id": "tr-8f623080782d",
+          "identifier": "http://127.0.0.1:36765/::button-name",
+          "status": "PASSED",
+          "name": "button-name",
+          "duration_s": null,
+          "message": null,
+          "file": null,
+          "line": null,
+          "groups": [
+            "accessibility"
+          ],
+          "artifact_ids": [
+            "ev-0966a69f29d0"
+          ]
+        },
+        {
+          "id": "tr-eeb85bca5f02",
+          "identifier": "http://127.0.0.1:36765/::bypass",
+          "status": "PASSED",
+          "name": "bypass",
+          "duration_s": null,
+          "message": null,
+          "file": null,
+          "line": null,
+          "groups": [
+            "accessibility"
+          ],
+          "artifact_ids": [
+            "ev-0966a69f29d0"
+          ]
+        },
+        {
+          "id": "tr-a0bcf26e6014",
+          "identifier": "http://127.0.0.1:36765/::color-contrast",
+          "status": "PASSED",
+          "name": "color-contrast",
+          "duration_s": null,
+          "message": null,
+          "file": null,
+          "line": null,
+          "groups": [
+            "accessibility"
+          ],
+          "artifact_ids": [
+            "ev-0966a69f29d0"
+          ]
+        },
+        {
+          "id": "tr-66510e822e98",
+          "identifier": "http://127.0.0.1:36765/::definition-list",
+          "status": "PASSED",
+          "name": "definition-list",
+          "duration_s": null,
+          "message": null,
+          "file": null,
+          "line": null,
+          "groups": [
+            "accessibility"
+          ],
+          "artifact_ids": [
+            "ev-0966a69f29d0"
+          ]
+        },
+        {
+          "id": "tr-58d3401d701a",
+          "identifier": "http://127.0.0.1:36765/::dlitem",
+          "status": "PASSED",
+          "name": "dlitem",
+          "duration_s": null,
+          "message": null,
+          "file": null,
+          "line": null,
+          "groups": [
+            "accessibility"
+          ],
+          "artifact_ids": [
+            "ev-0966a69f29d0"
+          ]
+        },
+        {
+          "id": "tr-ce83a8bf3e8c",
+          "identifier": "http://127.0.0.1:36765/::document-title",
+          "status": "PASSED",
+          "name": "document-title",
+          "duration_s": null,
+          "message": null,
+          "file": null,
+          "line": null,
+          "groups": [
+            "accessibility"
+          ],
+          "artifact_ids": [
+            "ev-0966a69f29d0"
+          ]
+        },
+        {
+          "id": "tr-482a5ef7979d",
+          "identifier": "http://127.0.0.1:36765/::duplicate-id-aria",
+          "status": "PASSED",
+          "name": "duplicate-id-aria",
+          "duration_s": null,
+          "message": null,
+          "file": null,
+          "line": null,
+          "groups": [
+            "accessibility"
+          ],
+          "artifact_ids": [
+            "ev-0966a69f29d0"
+          ]
+        },
+        {
+          "id": "tr-2438c8772817",
+          "identifier": "http://127.0.0.1:36765/::form-field-multiple-labels",
+          "status": "PASSED",
+          "name": "form-field-multiple-labels",
+          "duration_s": null,
+          "message": null,
+          "file": null,
+          "line": null,
+          "groups": [
+            "accessibility"
+          ],
+          "artifact_ids": [
+            "ev-0966a69f29d0"
+          ]
+        },
+        {
+          "id": "tr-7468128048ea",
+          "identifier": "http://127.0.0.1:36765/::html-has-lang",
+          "status": "PASSED",
+          "name": "html-has-lang",
+          "duration_s": null,
+          "message": null,
+          "file": null,
+          "line": null,
+          "groups": [
+            "accessibility"
+          ],
+          "artifact_ids": [
+            "ev-0966a69f29d0"
+          ]
+        },
+        {
+          "id": "tr-f77cca3e16b6",
+          "identifier": "http://127.0.0.1:36765/::html-lang-valid",
+          "status": "PASSED",
+          "name": "html-lang-valid",
+          "duration_s": null,
+          "message": null,
+          "file": null,
+          "line": null,
+          "groups": [
+            "accessibility"
+          ],
+          "artifact_ids": [
+            "ev-0966a69f29d0"
+          ]
+        },
+        {
+          "id": "tr-7fde77089ffd",
+          "identifier": "http://127.0.0.1:36765/::label",
+          "status": "PASSED",
+          "name": "label",
+          "duration_s": null,
+          "message": null,
+          "file": null,
+          "line": null,
+          "groups": [
+            "accessibility"
+          ],
+          "artifact_ids": [
+            "ev-0966a69f29d0"
+          ]
+        },
+        {
+          "id": "tr-150c97bd2870",
+          "identifier": "http://127.0.0.1:36765/::link-name",
+          "status": "PASSED",
+          "name": "link-name",
+          "duration_s": null,
+          "message": null,
+          "file": null,
+          "line": null,
+          "groups": [
+            "accessibility"
+          ],
+          "artifact_ids": [
+            "ev-0966a69f29d0"
+          ]
+        },
+        {
+          "id": "tr-01f3e09f6adf",
+          "identifier": "http://127.0.0.1:36765/::list",
+          "status": "PASSED",
+          "name": "list",
+          "duration_s": null,
+          "message": null,
+          "file": null,
+          "line": null,
+          "groups": [
+            "accessibility"
+          ],
+          "artifact_ids": [
+            "ev-0966a69f29d0"
+          ]
+        },
+        {
+          "id": "tr-9dda113b2abc",
+          "identifier": "http://127.0.0.1:36765/::listitem",
+          "status": "PASSED",
+          "name": "listitem",
+          "duration_s": null,
+          "message": null,
+          "file": null,
+          "line": null,
+          "groups": [
+            "accessibility"
+          ],
+          "artifact_ids": [
+            "ev-0966a69f29d0"
+          ]
+        },
+        {
+          "id": "tr-ab0946662887",
+          "identifier": "http://127.0.0.1:36765/::meta-viewport",
+          "status": "PASSED",
+          "name": "meta-viewport",
+          "duration_s": null,
+          "message": null,
+          "file": null,
+          "line": null,
+          "groups": [
+            "accessibility"
+          ],
+          "artifact_ids": [
+            "ev-0966a69f29d0"
+          ]
+        },
+        {
+          "id": "tr-68bb1c3b0a7c",
+          "identifier": "http://127.0.0.1:36765/::nested-interactive",
+          "status": "PASSED",
+          "name": "nested-interactive",
+          "duration_s": null,
+          "message": null,
+          "file": null,
+          "line": null,
+          "groups": [
+            "accessibility"
+          ],
+          "artifact_ids": [
+            "ev-0966a69f29d0"
+          ]
+        },
+        {
+          "id": "tr-cc7b2b5439ea",
+          "identifier": "http://127.0.0.1:36765/::valid-lang",
+          "status": "PASSED",
+          "name": "valid-lang",
+          "duration_s": null,
+          "message": null,
+          "file": null,
+          "line": null,
+          "groups": [
+            "accessibility"
+          ],
+          "artifact_ids": [
+            "ev-0966a69f29d0"
+          ]
+        }
+      ],
+      "environment": {
+        "platform": "Linux-7.0.0-43-generic-x86_64",
+        "python": "3.12.3",
+        "hostname_hash": "a005a3344252",
+        "tool_versions": {},
+        "ci": false,
+        "git_head": "bd743a5ff3d619c24adee30c03f70cb31ccfa189",
+        "git_dirty": true
+      },
+      "groups": [
+        "accessibility"
+      ],
+      "label": "axe landing page (375px)",
+      "status_reason": null,
+      "artifact_ids": [
+        "ev-6e9e064d811c",
+        "ev-76127979b563",
+        "ev-0966a69f29d0"
+      ],
+      "attempt": 1,
+      "reproduction_of": null
+    },
+    {
+      "id": "ex-054c3aecacfc",
+      "run_id": "20261123-134724-test-e2e-9e6d",
+      "adapter": "pytest",
+      "status": "FAILED",
+      "started_at": "2026-11-23T13:47:44Z",
+      "finished_at": "2026-11-23T13:47:49Z",
+      "duration_s": 4.428,
+      "command": [
+        "python3",
+        "-m",
+        "pytest",
+        "tests/qa/test_qa_journeys.py::test_recover_from_postal_code_error_and_complete_checkout",
+        "-p",
+        "qa_superteam.pytest_reporter",
+        "-p",
+        "no:cacheprovider",
+        "-q",
+        "-rN",
+        "--junitxml",
+        "<project>/.qa-superteam/runs/20261123-134724-test-e2e-9e6d/work/ex-054c3aecacfc/junit.xml"
+      ],
+      "cwd": ".",
+      "exit_code": 1,
+      "timed_out": false,
+      "counts": {
+        "PASSED": 0,
+        "FAILED": 1,
+        "ERROR": 0,
+        "SKIPPED": 0,
+        "BLOCKED": 0,
+        "NOT_RUN": 0,
+        "INCONCLUSIVE": 0
+      },
+      "results": [
+        {
+          "id": "tr-92d3f7199575",
+          "identifier": "tests/qa/test_qa_journeys.py::test_recover_from_postal_code_error_and_complete_checkout",
+          "status": "FAILED",
+          "name": "test_recover_from_postal_code_error_and_complete_checkout",
+          "duration_s": 3.9085,
+          "message": "checkout = <conftest.Checkout object at 0x773e9d033b60>\n\n    def test_recover_from_postal_code_error_and_complete_checkout(checkout):\n        page = checkout.page\n        checkout.open().fill_contact()\n    \n        postal = page.get_by_test_id(\"postal-code\")\n        continue_button = page.get_by_test_id(\"shipping-continue\")\n        postal_error = page.locator(\"#postal-code-error\")\n    \n        postal.fill(\"123\")\n        continue_button.click()\n        expect(postal_error, \"an invalid US ZIP code should show an inline error\").to_contain_text(\"5-digit\")\n        expect(page.locator(\"#shipping-form\"), \"an invalid postal code must not advance the checkout\").to_be_visible()\n    \n        postal.fill(\"94107\")\n        expect(postal_error, \"correcting the postal code should clear the inline error\").to_be_hidden()\n        expect(\n            continue_button,\n            \"after correcting the postal code to a valid value (94107) the Shipping 'Continue' button is still \"\n            \"disabled, so the user cannot finish checkout without reloading the page\",\n>       ).to_be_enabled(timeout=3_000)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       AssertionError: after correcting the postal code to a valid value (94107) the Shipping 'Continue' button is still disabled, so the user cannot finish checkout without reloading the page\nE       Actual value: disabled \nE       Call log:\nE         - Expect \"to_be_enabled\" with timeout 3000ms\nE         - waiting for get_by_test_id(\"shipping-continue\")\nE           7 × locator resolved to <button disabled type=\"submit\" class=\"primary\" data-i18n=\"continue\" id=\"shipping-continue\" data-testid=\"shipping-continue\">Continue</button>\nE             - unexpected value \"disabled\"\n\ntests/qa/test_qa_journeys.py:38: AssertionError",
+          "file": "tests/qa/test_qa_journeys.py",
+          "line": 19,
+          "groups": [],
+          "artifact_ids": [
+            "ev-8679a631d61a"
+          ]
+        }
+      ],
+      "environment": {
+        "platform": "Linux-7.0.0-43-generic-x86_64",
+        "python": "3.12.3",
+        "hostname_hash": "a005a3344252",
+        "tool_versions": {
+          "pytest": "pytest 9.0.2"
+        },
+        "ci": false,
+        "git_head": "bd743a5ff3d619c24adee30c03f70cb31ccfa189",
+        "git_dirty": true
+      },
+      "groups": [],
+      "label": "reproduce tests/qa/test_qa_journeys.py::test_recover_from_postal_code_error_and_complete_checkout #1",
+      "status_reason": null,
+      "artifact_ids": [
+        "ev-73f96087608a",
+        "ev-107ba709aadb",
+        "ev-ef60adc1cf1d",
+        "ev-8679a631d61a"
+      ],
+      "attempt": 1,
+      "reproduction_of": "tests/qa/test_qa_journeys.py::test_recover_from_postal_code_error_and_complete_checkout"
+    },
+    {
+      "id": "ex-a25228a7428f",
+      "run_id": "20261123-134724-test-e2e-9e6d",
+      "adapter": "pytest",
+      "status": "FAILED",
+      "started_at": "2026-11-23T13:47:49Z",
+      "finished_at": "2026-11-23T13:47:53Z",
+      "duration_s": 4.377,
+      "command": [
+        "python3",
+        "-m",
+        "pytest",
+        "tests/qa/test_qa_journeys.py::test_recover_from_postal_code_error_and_complete_checkout",
+        "-p",
+        "qa_superteam.pytest_reporter",
+        "-p",
+        "no:cacheprovider",
+        "-q",
+        "-rN",
+        "--junitxml",
+        "<project>/.qa-superteam/runs/20261123-134724-test-e2e-9e6d/work/ex-a25228a7428f/junit.xml"
+      ],
+      "cwd": ".",
+      "exit_code": 1,
+      "timed_out": false,
+      "counts": {
+        "PASSED": 0,
+        "FAILED": 1,
+        "ERROR": 0,
+        "SKIPPED": 0,
+        "BLOCKED": 0,
+        "NOT_RUN": 0,
+        "INCONCLUSIVE": 0
+      },
+      "results": [
+        {
+          "id": "tr-92d3f7199575",
+          "identifier": "tests/qa/test_qa_journeys.py::test_recover_from_postal_code_error_and_complete_checkout",
+          "status": "FAILED",
+          "name": "test_recover_from_postal_code_error_and_complete_checkout",
+          "duration_s": 3.8796,
+          "message": "checkout = <conftest.Checkout object at 0x74a5ed65a570>\n\n    def test_recover_from_postal_code_error_and_complete_checkout(checkout):\n        page = checkout.page\n        checkout.open().fill_contact()\n    \n        postal = page.get_by_test_id(\"postal-code\")\n        continue_button = page.get_by_test_id(\"shipping-continue\")\n        postal_error = page.locator(\"#postal-code-error\")\n    \n        postal.fill(\"123\")\n        continue_button.click()\n        expect(postal_error, \"an invalid US ZIP code should show an inline error\").to_contain_text(\"5-digit\")\n        expect(page.locator(\"#shipping-form\"), \"an invalid postal code must not advance the checkout\").to_be_visible()\n    \n        postal.fill(\"94107\")\n        expect(postal_error, \"correcting the postal code should clear the inline error\").to_be_hidden()\n        expect(\n            continue_button,\n            \"after correcting the postal code to a valid value (94107) the Shipping 'Continue' button is still \"\n            \"disabled, so the user cannot finish checkout without reloading the page\",\n>       ).to_be_enabled(timeout=3_000)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       AssertionError: after correcting the postal code to a valid value (94107) the Shipping 'Continue' button is still disabled, so the user cannot finish checkout without reloading the page\nE       Actual value: disabled \nE       Call log:\nE         - Expect \"to_be_enabled\" with timeout 3000ms\nE         - waiting for get_by_test_id(\"shipping-continue\")\nE           7 × locator resolved to <button disabled type=\"submit\" class=\"primary\" data-i18n=\"continue\" id=\"shipping-continue\" data-testid=\"shipping-continue\">Continue</button>\nE             - unexpected value \"disabled\"\n\ntests/qa/test_qa_journeys.py:38: AssertionError",
+          "file": "tests/qa/test_qa_journeys.py",
+          "line": 19,
+          "groups": [],
+          "artifact_ids": [
+            "ev-8679a631d61a"
+          ]
+        }
+      ],
+      "environment": {
+        "platform": "Linux-7.0.0-43-generic-x86_64",
+        "python": "3.12.3",
+        "hostname_hash": "a005a3344252",
+        "tool_versions": {
+          "pytest": "pytest 9.0.2"
+        },
+        "ci": false,
+        "git_head": "bd743a5ff3d619c24adee30c03f70cb31ccfa189",
+        "git_dirty": true
+      },
+      "groups": [],
+      "label": "reproduce tests/qa/test_qa_journeys.py::test_recover_from_postal_code_error_and_complete_checkout #2",
+      "status_reason": null,
+      "artifact_ids": [
+        "ev-d30983f5dc76",
+        "ev-0eb500a3ae05",
+        "ev-7c1769b14cc2",
+        "ev-8679a631d61a"
+      ],
+      "attempt": 2,
+      "reproduction_of": "tests/qa/test_qa_journeys.py::test_recover_from_postal_code_error_and_complete_checkout"
+    },
+    {
+      "id": "ex-fe2578c4c7fb",
+      "run_id": "20261123-134724-test-e2e-9e6d",
+      "adapter": "pytest",
+      "status": "FAILED",
+      "started_at": "2026-11-23T13:47:53Z",
+      "finished_at": "2026-11-23T13:47:58Z",
+      "duration_s": 4.378,
+      "command": [
+        "python3",
+        "-m",
+        "pytest",
+        "tests/qa/test_qa_journeys.py::test_recover_from_postal_code_error_and_complete_checkout",
+        "-p",
+        "qa_superteam.pytest_reporter",
+        "-p",
+        "no:cacheprovider",
+        "-q",
+        "-rN",
+        "--junitxml",
+        "<project>/.qa-superteam/runs/20261123-134724-test-e2e-9e6d/work/ex-fe2578c4c7fb/junit.xml"
+      ],
+      "cwd": ".",
+      "exit_code": 1,
+      "timed_out": false,
+      "counts": {
+        "PASSED": 0,
+        "FAILED": 1,
+        "ERROR": 0,
+        "SKIPPED": 0,
+        "BLOCKED": 0,
+        "NOT_RUN": 0,
+        "INCONCLUSIVE": 0
+      },
+      "results": [
+        {
+          "id": "tr-92d3f7199575",
+          "identifier": "tests/qa/test_qa_journeys.py::test_recover_from_postal_code_error_and_complete_checkout",
+          "status": "FAILED",
+          "name": "test_recover_from_postal_code_error_and_complete_checkout",
+          "duration_s": 3.8806,
+          "message": "checkout = <conftest.Checkout object at 0x76daccb3bd70>\n\n    def test_recover_from_postal_code_error_and_complete_checkout(checkout):\n        page = checkout.page\n        checkout.open().fill_contact()\n    \n        postal = page.get_by_test_id(\"postal-code\")\n        continue_button = page.get_by_test_id(\"shipping-continue\")\n        postal_error = page.locator(\"#postal-code-error\")\n    \n        postal.fill(\"123\")\n        continue_button.click()\n        expect(postal_error, \"an invalid US ZIP code should show an inline error\").to_contain_text(\"5-digit\")\n        expect(page.locator(\"#shipping-form\"), \"an invalid postal code must not advance the checkout\").to_be_visible()\n    \n        postal.fill(\"94107\")\n        expect(postal_error, \"correcting the postal code should clear the inline error\").to_be_hidden()\n        expect(\n            continue_button,\n            \"after correcting the postal code to a valid value (94107) the Shipping 'Continue' button is still \"\n            \"disabled, so the user cannot finish checkout without reloading the page\",\n>       ).to_be_enabled(timeout=3_000)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       AssertionError: after correcting the postal code to a valid value (94107) the Shipping 'Continue' button is still disabled, so the user cannot finish checkout without reloading the page\nE       Actual value: disabled \nE       Call log:\nE         - Expect \"to_be_enabled\" with timeout 3000ms\nE         - waiting for get_by_test_id(\"shipping-continue\")\nE           7 × locator resolved to <button disabled type=\"submit\" class=\"primary\" data-i18n=\"continue\" id=\"shipping-continue\" data-testid=\"shipping-continue\">Continue</button>\nE             - unexpected value \"disabled\"\n\ntests/qa/test_qa_journeys.py:38: AssertionError",
+          "file": "tests/qa/test_qa_journeys.py",
+          "line": 19,
+          "groups": [],
+          "artifact_ids": [
+            "ev-8679a631d61a"
+          ]
+        }
+      ],
+      "environment": {
+        "platform": "Linux-7.0.0-43-generic-x86_64",
+        "python": "3.12.3",
+        "hostname_hash": "a005a3344252",
+        "tool_versions": {
+          "pytest": "pytest 9.0.2"
+        },
+        "ci": false,
+        "git_head": "bd743a5ff3d619c24adee30c03f70cb31ccfa189",
+        "git_dirty": true
+      },
+      "groups": [],
+      "label": "reproduce tests/qa/test_qa_journeys.py::test_recover_from_postal_code_error_and_complete_checkout #3",
+      "status_reason": null,
+      "artifact_ids": [
+        "ev-5f367d5ca1f7",
+        "ev-3fc6935fd51b",
+        "ev-85ee711c5098",
+        "ev-8679a631d61a"
+      ],
+      "attempt": 3,
+      "reproduction_of": "tests/qa/test_qa_journeys.py::test_recover_from_postal_code_error_and_complete_checkout"
+    },
+    {
+      "id": "ex-b64f6017bdad",
+      "run_id": "20261123-134724-test-e2e-9e6d",
+      "adapter": "pytest",
+      "status": "FAILED",
+      "started_at": "2026-11-23T13:47:58Z",
+      "finished_at": "2026-11-23T13:48:05Z",
+      "duration_s": 6.431,
+      "command": [
+        "python3",
+        "-m",
+        "pytest",
+        "tests/qa/test_qa_journeys.py::test_promo_apply_then_remove_restores_total",
+        "-p",
+        "qa_superteam.pytest_reporter",
+        "-p",
+        "no:cacheprovider",
+        "-q",
+        "-rN",
+        "--junitxml",
+        "<project>/.qa-superteam/runs/20261123-134724-test-e2e-9e6d/work/ex-b64f6017bdad/junit.xml"
+      ],
+      "cwd": ".",
+      "exit_code": 1,
+      "timed_out": false,
+      "counts": {
+        "PASSED": 0,
+        "FAILED": 1,
+        "ERROR": 0,
+        "SKIPPED": 0,
+        "BLOCKED": 0,
+        "NOT_RUN": 0,
+        "INCONCLUSIVE": 0
+      },
+      "results": [
+        {
+          "id": "tr-c621f22198fa",
+          "identifier": "tests/qa/test_qa_journeys.py::test_promo_apply_then_remove_restores_total",
+          "status": "FAILED",
+          "name": "test_promo_apply_then_remove_restores_total",
+          "duration_s": 5.8813,
+          "message": "checkout = <conftest.Checkout object at 0x766aca25e660>\n\n    def test_promo_apply_then_remove_restores_total(checkout):\n        page = checkout.page\n        checkout.to_review(country=\"US\", postal=\"94107\")\n    \n        total = page.get_by_test_id(\"total\")\n        expect(page.get_by_test_id(\"subtotal\")).to_have_text(\"$80.00\")\n        expect(page.get_by_test_id(\"shipping-cost\")).to_have_text(\"$5.00\")\n        expect(total, \"total before any promo should be subtotal + shipping\").to_have_text(\"$85.00\")\n    \n        page.get_by_test_id(\"promo-input\").fill(\"SAVE10\")\n        page.get_by_test_id(\"promo-apply\").click()\n        expect(page.get_by_test_id(\"promo-badge\")).to_contain_text(\"SAVE10\")\n        expect(page.get_by_test_id(\"discount\"), \"SAVE10 should take 10% off the $80.00 subtotal\").to_have_text(\"-$8.00\")\n        expect(total, \"total with SAVE10 applied\").to_have_text(\"$77.00\")\n    \n        page.get_by_test_id(\"promo-remove\").click()\n        expect(page.get_by_test_id(\"promo-badge\"), \"the applied-code badge should disappear\").to_be_hidden()\n        expect(page.get_by_test_id(\"promo-input\"), \"the promo field should be cleared\").to_have_value(\"\")\n        expect(page.get_by_test_id(\"discount\"), \"the discount line should disappear\").to_be_hidden()\n        expect(\n            total,\n            \"after removing SAVE10 the total must return to $85.00 (subtotal $80.00 + shipping $5.00) \"\n            \"but it still includes the $8.00 discount\",\n>       ).to_have_text(\"$85.00\")\n          ^^^^^^^^^^^^^^^^^^^^^^\nE       AssertionError: after removing SAVE10 the total must return to $85.00 (subtotal $80.00 + shipping $5.00) but it still includes the $8.00 discount\nE       Expected value: '$85.00'\nE       Actual value: $77.00 \nE       Call log:\nE         - Expect \"to_have_text\" with timeout 5000ms\nE         - waiting for get_by_test_id(\"total\")\nE           9 × locator resolved to <dd id=\"total\" data-testid=\"total\">$77.00</dd>\nE             - unexpected value \"$77.00\"\n\ntests/qa/test_qa_journeys.py:69: AssertionError",
+          "file": "tests/qa/test_qa_journeys.py",
+          "line": 46,
+          "groups": [],
+          "artifact_ids": [
+            "ev-d18f94779aae"
+          ]
+        }
+      ],
+      "environment": {
+        "platform": "Linux-7.0.0-43-generic-x86_64",
+        "python": "3.12.3",
+        "hostname_hash": "a005a3344252",
+        "tool_versions": {
+          "pytest": "pytest 9.0.2"
+        },
+        "ci": false,
+        "git_head": "bd743a5ff3d619c24adee30c03f70cb31ccfa189",
+        "git_dirty": true
+      },
+      "groups": [],
+      "label": "reproduce tests/qa/test_qa_journeys.py::test_promo_apply_then_remove_restores_total #1",
+      "status_reason": null,
+      "artifact_ids": [
+        "ev-7fae74298a08",
+        "ev-8512a628cfd2",
+        "ev-54be768ddeff",
+        "ev-d18f94779aae"
+      ],
+      "attempt": 1,
+      "reproduction_of": "tests/qa/test_qa_journeys.py::test_promo_apply_then_remove_restores_total"
+    },
+    {
+      "id": "ex-60f210e68357",
+      "run_id": "20261123-134724-test-e2e-9e6d",
+      "adapter": "pytest",
+      "status": "FAILED",
+      "started_at": "2026-11-23T13:48:05Z",
+      "finished_at": "2026-11-23T13:48:11Z",
+      "duration_s": 6.438,
+      "command": [
+        "python3",
+        "-m",
+        "pytest",
+        "tests/qa/test_qa_journeys.py::test_promo_apply_then_remove_restores_total",
+        "-p",
+        "qa_superteam.pytest_reporter",
+        "-p",
+        "no:cacheprovider",
+        "-q",
+        "-rN",
+        "--junitxml",
+        "<project>/.qa-superteam/runs/20261123-134724-test-e2e-9e6d/work/ex-60f210e68357/junit.xml"
+      ],
+      "cwd": ".",
+      "exit_code": 1,
+      "timed_out": false,
+      "counts": {
+        "PASSED": 0,
+        "FAILED": 1,
+        "ERROR": 0,
+        "SKIPPED": 0,
+        "BLOCKED": 0,
+        "NOT_RUN": 0,
+        "INCONCLUSIVE": 0
+      },
+      "results": [
+        {
+          "id": "tr-c621f22198fa",
+          "identifier": "tests/qa/test_qa_journeys.py::test_promo_apply_then_remove_restores_total",
+          "status": "FAILED",
+          "name": "test_promo_apply_then_remove_restores_total",
+          "duration_s": 5.9054,
+          "message": "checkout = <conftest.Checkout object at 0x7870c685a6c0>\n\n    def test_promo_apply_then_remove_restores_total(checkout):\n        page = checkout.page\n        checkout.to_review(country=\"US\", postal=\"94107\")\n    \n        total = page.get_by_test_id(\"total\")\n        expect(page.get_by_test_id(\"subtotal\")).to_have_text(\"$80.00\")\n        expect(page.get_by_test_id(\"shipping-cost\")).to_have_text(\"$5.00\")\n        expect(total, \"total before any promo should be subtotal + shipping\").to_have_text(\"$85.00\")\n    \n        page.get_by_test_id(\"promo-input\").fill(\"SAVE10\")\n        page.get_by_test_id(\"promo-apply\").click()\n        expect(page.get_by_test_id(\"promo-badge\")).to_contain_text(\"SAVE10\")\n        expect(page.get_by_test_id(\"discount\"), \"SAVE10 should take 10% off the $80.00 subtotal\").to_have_text(\"-$8.00\")\n        expect(total, \"total with SAVE10 applied\").to_have_text(\"$77.00\")\n    \n        page.get_by_test_id(\"promo-remove\").click()\n        expect(page.get_by_test_id(\"promo-badge\"), \"the applied-code badge should disappear\").to_be_hidden()\n        expect(page.get_by_test_id(\"promo-input\"), \"the promo field should be cleared\").to_have_value(\"\")\n        expect(page.get_by_test_id(\"discount\"), \"the discount line should disappear\").to_be_hidden()\n        expect(\n            total,\n            \"after removing SAVE10 the total must return to $85.00 (subtotal $80.00 + shipping $5.00) \"\n            \"but it still includes the $8.00 discount\",\n>       ).to_have_text(\"$85.00\")\n          ^^^^^^^^^^^^^^^^^^^^^^\nE       AssertionError: after removing SAVE10 the total must return to $85.00 (subtotal $80.00 + shipping $5.00) but it still includes the $8.00 discount\nE       Expected value: '$85.00'\nE       Actual value: $77.00 \nE       Call log:\nE         - Expect \"to_have_text\" with timeout 5000ms\nE         - waiting for get_by_test_id(\"total\")\nE           9 × locator resolved to <dd id=\"total\" data-testid=\"total\">$77.00</dd>\nE             - unexpected value \"$77.00\"\n\ntests/qa/test_qa_journeys.py:69: AssertionError",
+          "file": "tests/qa/test_qa_journeys.py",
+          "line": 46,
+          "groups": [],
+          "artifact_ids": [
+            "ev-d18f94779aae"
+          ]
+        }
+      ],
+      "environment": {
+        "platform": "Linux-7.0.0-43-generic-x86_64",
+        "python": "3.12.3",
+        "hostname_hash": "a005a3344252",
+        "tool_versions": {
+          "pytest": "pytest 9.0.2"
+        },
+        "ci": false,
+        "git_head": "bd743a5ff3d619c24adee30c03f70cb31ccfa189",
+        "git_dirty": true
+      },
+      "groups": [],
+      "label": "reproduce tests/qa/test_qa_journeys.py::test_promo_apply_then_remove_restores_total #2",
+      "status_reason": null,
+      "artifact_ids": [
+        "ev-ad9de0de881e",
+        "ev-f29ba7dcf39f",
+        "ev-6c5de29ac8b9",
+        "ev-d18f94779aae"
+      ],
+      "attempt": 2,
+      "reproduction_of": "tests/qa/test_qa_journeys.py::test_promo_apply_then_remove_restores_total"
+    },
+    {
+      "id": "ex-a65cb31995b2",
+      "run_id": "20261123-134724-test-e2e-9e6d",
+      "adapter": "pytest",
+      "status": "FAILED",
+      "started_at": "2026-11-23T13:48:11Z",
+      "finished_at": "2026-11-23T13:48:18Z",
+      "duration_s": 6.434,
+      "command": [
+        "python3",
+        "-m",
+        "pytest",
+        "tests/qa/test_qa_journeys.py::test_promo_apply_then_remove_restores_total",
+        "-p",
+        "qa_superteam.pytest_reporter",
+        "-p",
+        "no:cacheprovider",
+        "-q",
+        "-rN",
+        "--junitxml",
+        "<project>/.qa-superteam/runs/20261123-134724-test-e2e-9e6d/work/ex-a65cb31995b2/junit.xml"
+      ],
+      "cwd": ".",
+      "exit_code": 1,
+      "timed_out": false,
+      "counts": {
+        "PASSED": 0,
+        "FAILED": 1,
+        "ERROR": 0,
+        "SKIPPED": 0,
+        "BLOCKED": 0,
+        "NOT_RUN": 0,
+        "INCONCLUSIVE": 0
+      },
+      "results": [
+        {
+          "id": "tr-c621f22198fa",
+          "identifier": "tests/qa/test_qa_journeys.py::test_promo_apply_then_remove_restores_total",
+          "status": "FAILED",
+          "name": "test_promo_apply_then_remove_restores_total",
+          "duration_s": 5.9018,
+          "message": "checkout = <conftest.Checkout object at 0x7e5ee19565d0>\n\n    def test_promo_apply_then_remove_restores_total(checkout):\n        page = checkout.page\n        checkout.to_review(country=\"US\", postal=\"94107\")\n    \n        total = page.get_by_test_id(\"total\")\n        expect(page.get_by_test_id(\"subtotal\")).to_have_text(\"$80.00\")\n        expect(page.get_by_test_id(\"shipping-cost\")).to_have_text(\"$5.00\")\n        expect(total, \"total before any promo should be subtotal + shipping\").to_have_text(\"$85.00\")\n    \n        page.get_by_test_id(\"promo-input\").fill(\"SAVE10\")\n        page.get_by_test_id(\"promo-apply\").click()\n        expect(page.get_by_test_id(\"promo-badge\")).to_contain_text(\"SAVE10\")\n        expect(page.get_by_test_id(\"discount\"), \"SAVE10 should take 10% off the $80.00 subtotal\").to_have_text(\"-$8.00\")\n        expect(total, \"total with SAVE10 applied\").to_have_text(\"$77.00\")\n    \n        page.get_by_test_id(\"promo-remove\").click()\n        expect(page.get_by_test_id(\"promo-badge\"), \"the applied-code badge should disappear\").to_be_hidden()\n        expect(page.get_by_test_id(\"promo-input\"), \"the promo field should be cleared\").to_have_value(\"\")\n        expect(page.get_by_test_id(\"discount\"), \"the discount line should disappear\").to_be_hidden()\n        expect(\n            total,\n            \"after removing SAVE10 the total must return to $85.00 (subtotal $80.00 + shipping $5.00) \"\n            \"but it still includes the $8.00 discount\",\n>       ).to_have_text(\"$85.00\")\n          ^^^^^^^^^^^^^^^^^^^^^^\nE       AssertionError: after removing SAVE10 the total must return to $85.00 (subtotal $80.00 + shipping $5.00) but it still includes the $8.00 discount\nE       Expected value: '$85.00'\nE       Actual value: $77.00 \nE       Call log:\nE         - Expect \"to_have_text\" with timeout 5000ms\nE         - waiting for get_by_test_id(\"total\")\nE           9 × locator resolved to <dd id=\"total\" data-testid=\"total\">$77.00</dd>\nE             - unexpected value \"$77.00\"\n\ntests/qa/test_qa_journeys.py:69: AssertionError",
+          "file": "tests/qa/test_qa_journeys.py",
+          "line": 46,
+          "groups": [],
+          "artifact_ids": [
+            "ev-d18f94779aae"
+          ]
+        }
+      ],
+      "environment": {
+        "platform": "Linux-7.0.0-43-generic-x86_64",
+        "python": "3.12.3",
+        "hostname_hash": "a005a3344252",
+        "tool_versions": {
+          "pytest": "pytest 9.0.2"
+        },
+        "ci": false,
+        "git_head": "bd743a5ff3d619c24adee30c03f70cb31ccfa189",
+        "git_dirty": true
+      },
+      "groups": [],
+      "label": "reproduce tests/qa/test_qa_journeys.py::test_promo_apply_then_remove_restores_total #3",
+      "status_reason": null,
+      "artifact_ids": [
+        "ev-f662b84160a1",
+        "ev-55b056853a90",
+        "ev-7989f26f0095",
+        "ev-d18f94779aae"
+      ],
+      "attempt": 3,
+      "reproduction_of": "tests/qa/test_qa_journeys.py::test_promo_apply_then_remove_restores_total"
+    },
+    {
+      "id": "ex-5cc1a4c96de3",
+      "run_id": "20261123-134724-test-e2e-9e6d",
+      "adapter": "pytest",
+      "status": "FAILED",
+      "started_at": "2026-11-23T13:48:18Z",
+      "finished_at": "2026-11-23T13:48:19Z",
+      "duration_s": 1.367,
+      "command": [
+        "python3",
+        "-m",
+        "pytest",
+        "tests/qa/test_qa_a11y.py::test_review_step_has_no_serious_axe_violations",
+        "-p",
+        "qa_superteam.pytest_reporter",
+        "-p",
+        "no:cacheprovider",
+        "-q",
+        "-rN",
+        "--junitxml",
+        "<project>/.qa-superteam/runs/20261123-134724-test-e2e-9e6d/work/ex-5cc1a4c96de3/junit.xml"
+      ],
+      "cwd": ".",
+      "exit_code": 1,
+      "timed_out": false,
+      "counts": {
+        "PASSED": 0,
+        "FAILED": 1,
+        "ERROR": 0,
+        "SKIPPED": 0,
+        "BLOCKED": 0,
+        "NOT_RUN": 0,
+        "INCONCLUSIVE": 0
+      },
+      "results": [
+        {
+          "id": "tr-ce1e0cf76ccf",
+          "identifier": "tests/qa/test_qa_a11y.py::test_review_step_has_no_serious_axe_violations",
+          "status": "FAILED",
+          "name": "test_review_step_has_no_serious_axe_violations",
+          "duration_s": 0.8732,
+          "message": "checkout = <conftest.Checkout object at 0x73d7651727b0>\naxe_path = PosixPath('<project>/node_modules/axe-core/axe.min.js')\n\n    def test_review_step_has_no_serious_axe_violations(checkout, axe_path: Path):\n        checkout.to_review()\n        expect(checkout.page.get_by_test_id(\"promo-input\")).to_be_visible()\n    \n        violations = blocking(run_axe(checkout.page, axe_path))\n>       assert not violations, (\n            \"axe-core reported serious/critical accessibility violations on the Review step \"\n            \"(promo code, totals, Place order):\\n\" + describe(violations)\n        )\nE       AssertionError: axe-core reported serious/critical accessibility violations on the Review step (promo code, totals, Place order):\nE           - label (critical): Form elements must have labels -> #promo-code\nE       assert not [{'help': 'Form elements must have labels', 'id': 'label', 'impact': 'critical', 'targets': ['#promo-code']}]\n\ntests/qa/test_qa_a11y.py:68: AssertionError",
+          "file": "tests/qa/test_qa_a11y.py",
+          "line": 63,
+          "groups": [],
+          "artifact_ids": [
+            "ev-2c16b29ef450"
+          ]
+        }
+      ],
+      "environment": {
+        "platform": "Linux-7.0.0-43-generic-x86_64",
+        "python": "3.12.3",
+        "hostname_hash": "a005a3344252",
+        "tool_versions": {
+          "pytest": "pytest 9.0.2"
+        },
+        "ci": false,
+        "git_head": "bd743a5ff3d619c24adee30c03f70cb31ccfa189",
+        "git_dirty": true
+      },
+      "groups": [],
+      "label": "reproduce tests/qa/test_qa_a11y.py::test_review_step_has_no_serious_axe_violations #1",
+      "status_reason": null,
+      "artifact_ids": [
+        "ev-b7c83382bd65",
+        "ev-35154dc25841",
+        "ev-e15136746132",
+        "ev-2c16b29ef450"
+      ],
+      "attempt": 1,
+      "reproduction_of": "tests/qa/test_qa_a11y.py::test_review_step_has_no_serious_axe_violations"
+    },
+    {
+      "id": "ex-b9bb5e82f55a",
+      "run_id": "20261123-134724-test-e2e-9e6d",
+      "adapter": "pytest",
+      "status": "FAILED",
+      "started_at": "2026-11-23T13:48:20Z",
+      "finished_at": "2026-11-23T13:48:21Z",
+      "duration_s": 1.368,
+      "command": [
+        "python3",
+        "-m",
+        "pytest",
+        "tests/qa/test_qa_a11y.py::test_review_step_has_no_serious_axe_violations",
+        "-p",
+        "qa_superteam.pytest_reporter",
+        "-p",
+        "no:cacheprovider",
+        "-q",
+        "-rN",
+        "--junitxml",
+        "<project>/.qa-superteam/runs/20261123-134724-test-e2e-9e6d/work/ex-b9bb5e82f55a/junit.xml"
+      ],
+      "cwd": ".",
+      "exit_code": 1,
+      "timed_out": false,
+      "counts": {
+        "PASSED": 0,
+        "FAILED": 1,
+        "ERROR": 0,
+        "SKIPPED": 0,
+        "BLOCKED": 0,
+        "NOT_RUN": 0,
+        "INCONCLUSIVE": 0
+      },
+      "results": [
+        {
+          "id": "tr-ce1e0cf76ccf",
+          "identifier": "tests/qa/test_qa_a11y.py::test_review_step_has_no_serious_axe_violations",
+          "status": "FAILED",
+          "name": "test_review_step_has_no_serious_axe_violations",
+          "duration_s": 0.8717,
+          "message": "checkout = <conftest.Checkout object at 0x726f3087a390>\naxe_path = PosixPath('<project>/node_modules/axe-core/axe.min.js')\n\n    def test_review_step_has_no_serious_axe_violations(checkout, axe_path: Path):\n        checkout.to_review()\n        expect(checkout.page.get_by_test_id(\"promo-input\")).to_be_visible()\n    \n        violations = blocking(run_axe(checkout.page, axe_path))\n>       assert not violations, (\n            \"axe-core reported serious/critical accessibility violations on the Review step \"\n            \"(promo code, totals, Place order):\\n\" + describe(violations)\n        )\nE       AssertionError: axe-core reported serious/critical accessibility violations on the Review step (promo code, totals, Place order):\nE           - label (critical): Form elements must have labels -> #promo-code\nE       assert not [{'help': 'Form elements must have labels', 'id': 'label', 'impact': 'critical', 'targets': ['#promo-code']}]\n\ntests/qa/test_qa_a11y.py:68: AssertionError",
+          "file": "tests/qa/test_qa_a11y.py",
+          "line": 63,
+          "groups": [],
+          "artifact_ids": [
+            "ev-2c16b29ef450"
+          ]
+        }
+      ],
+      "environment": {
+        "platform": "Linux-7.0.0-43-generic-x86_64",
+        "python": "3.12.3",
+        "hostname_hash": "a005a3344252",
+        "tool_versions": {
+          "pytest": "pytest 9.0.2"
+        },
+        "ci": false,
+        "git_head": "bd743a5ff3d619c24adee30c03f70cb31ccfa189",
+        "git_dirty": true
+      },
+      "groups": [],
+      "label": "reproduce tests/qa/test_qa_a11y.py::test_review_step_has_no_serious_axe_violations #2",
+      "status_reason": null,
+      "artifact_ids": [
+        "ev-0b25ae41120e",
+        "ev-33071bd82af4",
+        "ev-668d890c8df4",
+        "ev-2c16b29ef450"
+      ],
+      "attempt": 2,
+      "reproduction_of": "tests/qa/test_qa_a11y.py::test_review_step_has_no_serious_axe_violations"
+    },
+    {
+      "id": "ex-abddc2daba70",
+      "run_id": "20261123-134724-test-e2e-9e6d",
+      "adapter": "pytest",
+      "status": "FAILED",
+      "started_at": "2026-11-23T13:48:21Z",
+      "finished_at": "2026-11-23T13:48:22Z",
+      "duration_s": 1.369,
+      "command": [
+        "python3",
+        "-m",
+        "pytest",
+        "tests/qa/test_qa_a11y.py::test_review_step_has_no_serious_axe_violations",
+        "-p",
+        "qa_superteam.pytest_reporter",
+        "-p",
+        "no:cacheprovider",
+        "-q",
+        "-rN",
+        "--junitxml",
+        "<project>/.qa-superteam/runs/20261123-134724-test-e2e-9e6d/work/ex-abddc2daba70/junit.xml"
+      ],
+      "cwd": ".",
+      "exit_code": 1,
+      "timed_out": false,
+      "counts": {
+        "PASSED": 0,
+        "FAILED": 1,
+        "ERROR": 0,
+        "SKIPPED": 0,
+        "BLOCKED": 0,
+        "NOT_RUN": 0,
+        "INCONCLUSIVE": 0
+      },
+      "results": [
+        {
+          "id": "tr-ce1e0cf76ccf",
+          "identifier": "tests/qa/test_qa_a11y.py::test_review_step_has_no_serious_axe_violations",
+          "status": "FAILED",
+          "name": "test_review_step_has_no_serious_axe_violations",
+          "duration_s": 0.8792,
+          "message": "checkout = <conftest.Checkout object at 0x7179b185a6f0>\naxe_path = PosixPath('<project>/node_modules/axe-core/axe.min.js')\n\n    def test_review_step_has_no_serious_axe_violations(checkout, axe_path: Path):\n        checkout.to_review()\n        expect(checkout.page.get_by_test_id(\"promo-input\")).to_be_visible()\n    \n        violations = blocking(run_axe(checkout.page, axe_path))\n>       assert not violations, (\n            \"axe-core reported serious/critical accessibility violations on the Review step \"\n            \"(promo code, totals, Place order):\\n\" + describe(violations)\n        )\nE       AssertionError: axe-core reported serious/critical accessibility violations on the Review step (promo code, totals, Place order):\nE           - label (critical): Form elements must have labels -> #promo-code\nE       assert not [{'help': 'Form elements must have labels', 'id': 'label', 'impact': 'critical', 'targets': ['#promo-code']}]\n\ntests/qa/test_qa_a11y.py:68: AssertionError",
+          "file": "tests/qa/test_qa_a11y.py",
+          "line": 63,
+          "groups": [],
+          "artifact_ids": [
+            "ev-2c16b29ef450"
+          ]
+        }
+      ],
+      "environment": {
+        "platform": "Linux-7.0.0-43-generic-x86_64",
+        "python": "3.12.3",
+        "hostname_hash": "a005a3344252",
+        "tool_versions": {
+          "pytest": "pytest 9.0.2"
+        },
+        "ci": false,
+        "git_head": "bd743a5ff3d619c24adee30c03f70cb31ccfa189",
+        "git_dirty": true
+      },
+      "groups": [],
+      "label": "reproduce tests/qa/test_qa_a11y.py::test_review_step_has_no_serious_axe_violations #3",
+      "status_reason": null,
+      "artifact_ids": [
+        "ev-57bf35ddf4a1",
+        "ev-b31fb1a3cdbe",
+        "ev-bda98dc10bc1",
+        "ev-2c16b29ef450"
+      ],
+      "attempt": 3,
+      "reproduction_of": "tests/qa/test_qa_a11y.py::test_review_step_has_no_serious_axe_violations"
+    }
+  ],
+  "findings": [
+    {
+      "finding": {
+        "id": "F-52b23502",
+        "title": "Checkout is blocked after correcting an invalid postal code",
+        "category": "functional",
+        "severity": "high",
+        "summary": "Checkout is blocked after correcting an invalid postal code",
+        "expected": "After fixing the postal code, Continue is enabled (USER_JOURNEYS.md: recovering from a validation error)",
+        "actual": "Error clears but Continue stays disabled until reload",
+        "reproduction_steps": [
+          "Fill contact step",
+          "Enter postal code 12 for US",
+          "See error",
+          "Correct to 12345",
+          "Continue stays disabled"
+        ],
+        "reported_by": "qa-superteam:frontend-qa-engineer",
+        "created_at": "2026-11-23T13:47:44Z",
+        "evidence_ids": [
+          "ev-00ba9aaef7a4",
+          "ev-d02254f24b58",
+          "ev-b8a29234f630",
+          "ev-d18f94779aae",
+          "ev-8679a631d61a"
+        ],
+        "execution_ids": [
+          "ex-5f12edf9a86a"
+        ],
+        "test_identifiers": [
+          "tests/qa/test_qa_journeys.py::test_recover_from_postal_code_error_and_complete_checkout"
+        ],
+        "affected": [
+          {
+            "path": "public/app.js",
+            "line": null,
+            "symbol": null,
+            "note": null
+          }
+        ],
+        "inputs": {},
+        "environment_notes": null,
+        "hypotheses": [],
+        "requirement_ids": [],
+        "invariant_ids": [],
+        "reproduction": null,
+        "regression_test": null
+      },
+      "effective_status": "CONFIRMED",
+      "status_basis": "independently verified by qa-superteam:independent-verification-engineer (independent-rerun) in V-c0449591",
+      "evidence_valid": true,
+      "integrity_problems": []
+    },
+    {
+      "finding": {
+        "id": "F-d164efd1",
+        "title": "Removing a promo code keeps the discount in the total",
+        "category": "functional",
+        "severity": "medium",
+        "summary": "Removing a promo code keeps the discount in the total",
+        "expected": "Total returns to undiscounted value after Remove",
+        "actual": "Total still includes the 10% discount",
+        "reproduction_steps": [
+          "Reach review step",
+          "Apply SAVE10",
+          "Click Remove",
+          "Total still discounted"
+        ],
+        "reported_by": "qa-superteam:frontend-qa-engineer",
+        "created_at": "2026-11-23T13:47:58Z",
+        "evidence_ids": [
+          "ev-00ba9aaef7a4",
+          "ev-d02254f24b58",
+          "ev-b8a29234f630",
+          "ev-d18f94779aae",
+          "ev-8679a631d61a"
+        ],
+        "execution_ids": [
+          "ex-5f12edf9a86a"
+        ],
+        "test_identifiers": [
+          "tests/qa/test_qa_journeys.py::test_promo_apply_then_remove_restores_total"
+        ],
+        "affected": [
+          {
+            "path": "public/app.js",
+            "line": null,
+            "symbol": null,
+            "note": null
+          }
+        ],
+        "inputs": {},
+        "environment_notes": null,
+        "hypotheses": [],
+        "requirement_ids": [],
+        "invariant_ids": [],
+        "reproduction": null,
+        "regression_test": null
+      },
+      "effective_status": "REPRODUCED",
+      "status_basis": "reproduction 3/3 failing (consistent); not yet independently verified",
+      "evidence_valid": true,
+      "integrity_problems": []
+    },
+    {
+      "finding": {
+        "id": "F-13c12f92",
+        "title": "Promo code input has no accessible name",
+        "category": "accessibility",
+        "severity": "high",
+        "summary": "Promo code input has no accessible name",
+        "expected": "Every form control has an accessible name (WCAG 1.3.1 / 4.1.2)",
+        "actual": "axe 'label' violation on #promo-code",
+        "reproduction_steps": [
+          "Reach review step",
+          "Run axe-core",
+          "Rule 'label' fails for #promo-code"
+        ],
+        "reported_by": "qa-superteam:frontend-qa-engineer",
+        "created_at": "2026-11-23T13:48:18Z",
+        "evidence_ids": [
+          "ev-80ff8843e4bf",
+          "ev-4065c731b7fe",
+          "ev-a9655cc7cb80",
+          "ev-2c16b29ef450"
+        ],
+        "execution_ids": [
+          "ex-4cff8ce2a7cc"
+        ],
+        "test_identifiers": [
+          "tests/qa/test_qa_a11y.py::test_review_step_has_no_serious_axe_violations"
+        ],
+        "affected": [
+          {
+            "path": "public/app.js",
+            "line": null,
+            "symbol": null,
+            "note": null
+          }
+        ],
+        "inputs": {},
+        "environment_notes": null,
+        "hypotheses": [],
+        "requirement_ids": [],
+        "invariant_ids": [],
+        "reproduction": null,
+        "regression_test": null
+      },
+      "effective_status": "CONFIRMED",
+      "status_basis": "independently verified by qa-superteam:independent-verification-engineer (independent-rerun) in V-3bb946b4",
+      "evidence_valid": true,
+      "integrity_problems": []
+    }
+  ],
+  "verifications": [
+    {
+      "id": "V-c0449591",
+      "finding_id": "F-52b23502",
+      "verdict": "CONFIRMED",
+      "method": "independent-rerun",
+      "verifier": "qa-superteam:independent-verification-engineer",
+      "rationale": "Independent rerun of tests/qa/test_qa_journeys.py::test_recover_from_postal_code_error_and_complete_checkout: consistent failure; screenshots attached.",
+      "created_at": "2026-11-23T13:47:58Z",
+      "evidence_ids": [],
+      "execution_ids": [
+        "ex-fe2578c4c7fb"
+      ],
+      "test_identifiers": [],
+      "checks": [
+        {
+          "check": "evidence integrity",
+          "passed": true,
+          "detail": "all referenced evidence exists with matching sha256"
+        },
+        {
+          "check": "independent verifier",
+          "passed": true,
+          "detail": "reporter=qa-superteam:frontend-qa-engineer verifier=qa-superteam:independent-verification-engineer"
+        },
+        {
+          "check": "execution-based method",
+          "passed": true,
+          "detail": "method=independent-rerun; code inspection or manual review alone cannot confirm a defect"
+        },
+        {
+          "check": "verifier ran own execution",
+          "passed": true,
+          "detail": "verifier executions: ['ex-fe2578c4c7fb']"
+        },
+        {
+          "check": "failing evidence",
+          "passed": true,
+          "detail": "1 FAILED result(s) in the verifier's own executions"
+        },
+        {
+          "check": "reproduction stable",
+          "passed": true,
+          "detail": "3/3 attempts failed (consistent)"
+        }
+      ]
+    },
+    {
+      "id": "V-3bb946b4",
+      "finding_id": "F-13c12f92",
+      "verdict": "CONFIRMED",
+      "method": "independent-rerun",
+      "verifier": "qa-superteam:independent-verification-engineer",
+      "rationale": "Independent rerun of tests/qa/test_qa_a11y.py::test_review_step_has_no_serious_axe_violations: consistent failure; screenshots attached.",
+      "created_at": "2026-11-23T13:48:23Z",
+      "evidence_ids": [],
+      "execution_ids": [
+        "ex-abddc2daba70"
+      ],
+      "test_identifiers": [],
+      "checks": [
+        {
+          "check": "evidence integrity",
+          "passed": true,
+          "detail": "all referenced evidence exists with matching sha256"
+        },
+        {
+          "check": "independent verifier",
+          "passed": true,
+          "detail": "reporter=qa-superteam:frontend-qa-engineer verifier=qa-superteam:independent-verification-engineer"
+        },
+        {
+          "check": "execution-based method",
+          "passed": true,
+          "detail": "method=independent-rerun; code inspection or manual review alone cannot confirm a defect"
+        },
+        {
+          "check": "verifier ran own execution",
+          "passed": true,
+          "detail": "verifier executions: ['ex-abddc2daba70']"
+        },
+        {
+          "check": "failing evidence",
+          "passed": true,
+          "detail": "1 FAILED result(s) in the verifier's own executions"
+        },
+        {
+          "check": "reproduction stable",
+          "passed": true,
+          "detail": "3/3 attempts failed (consistent)"
+        }
+      ]
+    }
+  ],
+  "coverage": {
+    "measured": [],
+    "traceability": [],
+    "untested": [
+      {
+        "area": "screen-reader and 200% zoom checks",
+        "reason": "out of scope: manual validation required; not automatable here",
+        "risk": "info"
+      }
+    ],
+    "status_counts": {
+      "PASSED": 38,
+      "FAILED": 3,
+      "ERROR": 0,
+      "SKIPPED": 0,
+      "BLOCKED": 0,
+      "NOT_RUN": 0,
+      "INCONCLUSIVE": 0
+    },
+    "basis": "Counts derived from recorded executions; percentages only from coverage tools."
+  },
+  "artifacts": [
+    {
+      "id": "ev-00ba9aaef7a4",
+      "kind": "log",
+      "path": "artifacts/ev-00ba9aaef7a4-pytest-output.log",
+      "sha256": "00ba9aaef7a4161a9e8c30e999e2572af6e5288f1e3eb0093efffbf7fabb9cf4",
+      "size_bytes": 5060,
+      "media_type": "application/octet-stream",
+      "created_at": "2026-11-23T13:47:39Z",
+      "redacted": true,
+      "redactions": 0,
+      "execution_id": "ex-5f12edf9a86a",
+      "description": "pytest stdout/stderr"
+    },
+    {
+      "id": "ev-04d77f18f409",
+      "kind": "report",
+      "path": "artifacts/ev-04d77f18f409-pytest-report.jsonl",
+      "sha256": "04d77f18f4090b1c41812bd57a89f33b1ed7f87886ef0b854e2d16d3d768558b",
+      "size_bytes": 1373,
+      "media_type": "application/octet-stream",
+      "created_at": "2026-11-23T13:47:27Z",
+      "redacted": true,
+      "redactions": 0,
+      "execution_id": "ex-ffb81dfea4fb",
+      "description": "per-test outcomes (qast reporter)"
+    },
+    {
+      "id": "ev-0966a69f29d0",
+      "kind": "screenshot",
+      "path": "artifacts/ev-0966a69f29d0-http-127-0-0-1-36765.png",
+      "sha256": "0966a69f29d025c67b31e72063056ee55145c8838182b8dfd8defebf48ce77b1",
+      "size_bytes": 40431,
+      "media_type": "image/png",
+      "created_at": "2026-11-23T13:47:44Z",
+      "redacted": false,
+      "redactions": 0,
+      "execution_id": "ex-6a396bb34741",
+      "description": "collected from test artifact dir: http-127-0-0-1-36765.png"
+    },
+    {
+      "id": "ev-0b25ae41120e",
+      "kind": "log",
+      "path": "artifacts/ev-0b25ae41120e-pytest-output.log",
+      "sha256": "0b25ae41120e40b99a3823ec02dcda229bbc95cffdcf0d96cd75a2084500c061",
+      "size_bytes": 1925,
+      "media_type": "application/octet-stream",
+      "created_at": "2026-11-23T13:48:21Z",
+      "redacted": true,
+      "redactions": 0,
+      "execution_id": "ex-b9bb5e82f55a",
+      "description": "pytest stdout/stderr"
+    },
+    {
+      "id": "ev-0eb500a3ae05",
+      "kind": "report",
+      "path": "artifacts/ev-0eb500a3ae05-pytest-report.jsonl",
+      "sha256": "0eb500a3ae059eb47863a377e93645f0a9c5214f19d87041d52a2cc48907417f",
+      "size_bytes": 2108,
+      "media_type": "application/octet-stream",
+      "created_at": "2026-11-23T13:47:53Z",
+      "redacted": true,
+      "redactions": 0,
+      "execution_id": "ex-a25228a7428f",
+      "description": "per-test outcomes (qast reporter)"
+    },
+    {
+      "id": "ev-107ba709aadb",
+      "kind": "report",
+      "path": "artifacts/ev-107ba709aadb-pytest-report.jsonl",
+      "sha256": "107ba709aadbb2b334a4bf805378eb1752553ff823847276752558a7d44ea1b2",
+      "size_bytes": 2108,
+      "media_type": "application/octet-stream",
+      "created_at": "2026-11-23T13:47:49Z",
+      "redacted": true,
+      "redactions": 0,
+      "execution_id": "ex-054c3aecacfc",
+      "description": "per-test outcomes (qast reporter)"
+    },
+    {
+      "id": "ev-2c16b29ef450",
+      "kind": "screenshot",
+      "path": "artifacts/ev-2c16b29ef450-tests-qa-test-qa-a11y-py-test-review-step-has-no-serious-axe.png",
+      "sha256": "2c16b29ef4504aa55ee129ebec7a105e0047615c789ecbbe63385b1025386fc9",
+      "size_bytes": 56468,
+      "media_type": "image/png",
+      "created_at": "2026-11-23T13:47:42Z",
+      "redacted": false,
+      "redactions": 0,
+      "execution_id": "ex-4cff8ce2a7cc",
+      "description": "collected from test artifact dir: tests_qa_test_qa_a11y.py_test_review_step_has_no_serious_axe_violations.png"
+    },
+    {
+      "id": "ev-33071bd82af4",
+      "kind": "report",
+      "path": "artifacts/ev-33071bd82af4-pytest-report.jsonl",
+      "sha256": "33071bd82af46b8328b085acc0d51686cbfca627d27f121994780cfcf11edc57",
+      "size_bytes": 1278,
+      "media_type": "application/octet-stream",
+      "created_at": "2026-11-23T13:48:21Z",
+      "redacted": true,
+      "redactions": 0,
+      "execution_id": "ex-b9bb5e82f55a",
+      "description": "per-test outcomes (qast reporter)"
+    },
+    {
+      "id": "ev-35154dc25841",
+      "kind": "report",
+      "path": "artifacts/ev-35154dc25841-pytest-report.jsonl",
+      "sha256": "35154dc258412c0c8f4e09017b299c6c31680a4cd8d5d5bb64f21d22e9a73888",
+      "size_bytes": 1278,
+      "media_type": "application/octet-stream",
+      "created_at": "2026-11-23T13:48:19Z",
+      "redacted": true,
+      "redactions": 0,
+      "execution_id": "ex-5cc1a4c96de3",
+      "description": "per-test outcomes (qast reporter)"
+    },
+    {
+      "id": "ev-3fc6935fd51b",
+      "kind": "report",
+      "path": "artifacts/ev-3fc6935fd51b-pytest-report.jsonl",
+      "sha256": "3fc6935fd51b349cf1ab97a57592170150fc26921c0e165a7792e3dcdd93210f",
+      "size_bytes": 2108,
+      "media_type": "application/octet-stream",
+      "created_at": "2026-11-23T13:47:58Z",
+      "redacted": true,
+      "redactions": 0,
+      "execution_id": "ex-fe2578c4c7fb",
+      "description": "per-test outcomes (qast reporter)"
+    },
+    {
+      "id": "ev-4065c731b7fe",
+      "kind": "report",
+      "path": "artifacts/ev-4065c731b7fe-pytest-report.jsonl",
+      "sha256": "4065c731b7fe827214172f4c96ce942ce1e2d125ec3c43397b9fb54476316224",
+      "size_bytes": 2028,
+      "media_type": "application/octet-stream",
+      "created_at": "2026-11-23T13:47:42Z",
+      "redacted": true,
+      "redactions": 0,
+      "execution_id": "ex-4cff8ce2a7cc",
+      "description": "per-test outcomes (qast reporter)"
+    },
+    {
+      "id": "ev-54be768ddeff",
+      "kind": "junit",
+      "path": "artifacts/ev-54be768ddeff-junit.xml",
+      "sha256": "54be768ddeff3655c3aa8657bc1d6313b0fdf9182ec45792711a022282c082ee",
+      "size_bytes": 2938,
+      "media_type": "application/xml",
+      "created_at": "2026-11-23T13:48:05Z",
+      "redacted": true,
+      "redactions": 0,
+      "execution_id": "ex-b64f6017bdad",
+      "description": "pytest JUnit XML"
+    },
+    {
+      "id": "ev-55b056853a90",
+      "kind": "report",
+      "path": "artifacts/ev-55b056853a90-pytest-report.jsonl",
+      "sha256": "55b056853a90ad2e7ad376f2d7d7389493adeb777d753a4e8f82120d931c84e5",
+      "size_bytes": 2382,
+      "media_type": "application/octet-stream",
+      "created_at": "2026-11-23T13:48:18Z",
+      "redacted": true,
+      "redactions": 0,
+      "execution_id": "ex-a65cb31995b2",
+      "description": "per-test outcomes (qast reporter)"
+    },
+    {
+      "id": "ev-57bf35ddf4a1",
+      "kind": "log",
+      "path": "artifacts/ev-57bf35ddf4a1-pytest-output.log",
+      "sha256": "57bf35ddf4a13c0ad764b1c361bb17c722334500e4deb248d310df2a80dd5eb4",
+      "size_bytes": 1925,
+      "media_type": "application/octet-stream",
+      "created_at": "2026-11-23T13:48:22Z",
+      "redacted": true,
+      "redactions": 0,
+      "execution_id": "ex-abddc2daba70",
+      "description": "pytest stdout/stderr"
+    },
+    {
+      "id": "ev-5f367d5ca1f7",
+      "kind": "log",
+      "path": "artifacts/ev-5f367d5ca1f7-pytest-output.log",
+      "sha256": "5f367d5ca1f74ebae832773f45b7cb9ac9dd170597ecf56f992568845161fb0a",
+      "size_bytes": 2707,
+      "media_type": "application/octet-stream",
+      "created_at": "2026-11-23T13:47:58Z",
+      "redacted": true,
+      "redactions": 0,
+      "execution_id": "ex-fe2578c4c7fb",
+      "description": "pytest stdout/stderr"
+    },
+    {
+      "id": "ev-668d890c8df4",
+      "kind": "junit",
+      "path": "artifacts/ev-668d890c8df4-junit.xml",
+      "sha256": "668d890c8df467b24f07a01f5f812f3d60fe3520b955d8e2a2e12703d2b5a04f",
+      "size_bytes": 1752,
+      "media_type": "application/xml",
+      "created_at": "2026-11-23T13:48:21Z",
+      "redacted": true,
+      "redactions": 0,
+      "execution_id": "ex-b9bb5e82f55a",
+      "description": "pytest JUnit XML"
+    },
+    {
+      "id": "ev-671f202f7608",
+      "kind": "log",
+      "path": "artifacts/ev-671f202f7608-pytest-output.log",
+      "sha256": "671f202f7608324c70d32c62f20ad874a5d87773e5831a4daa568d285f89b5ba",
+      "size_bytes": 397,
+      "media_type": "application/octet-stream",
+      "created_at": "2026-11-23T13:47:27Z",
+      "redacted": true,
+      "redactions": 0,
+      "execution_id": "ex-ffb81dfea4fb",
+      "description": "pytest stdout/stderr"
+    },
+    {
+      "id": "ev-6c5de29ac8b9",
+      "kind": "junit",
+      "path": "artifacts/ev-6c5de29ac8b9-junit.xml",
+      "sha256": "6c5de29ac8b9b1a75af38517b6aad876f3a06129f79f7c76fb7020939654a729",
+      "size_bytes": 2938,
+      "media_type": "application/xml",
+      "created_at": "2026-11-23T13:48:11Z",
+      "redacted": true,
+      "redactions": 0,
+      "execution_id": "ex-60f210e68357",
+      "description": "pytest JUnit XML"
+    },
+    {
+      "id": "ev-6e9e064d811c",
+      "kind": "log",
+      "path": "artifacts/ev-6e9e064d811c-axe-output.log",
+      "sha256": "6e9e064d811c61da5c1df22c14ab0ebbcb3fa0a5e793d1c91504cbc1d09e0abf",
+      "size_bytes": 524,
+      "media_type": "application/octet-stream",
+      "created_at": "2026-11-23T13:47:44Z",
+      "redacted": true,
+      "redactions": 0,
+      "execution_id": "ex-6a396bb34741",
+      "description": "axe stdout/stderr"
+    },
+    {
+      "id": "ev-73f96087608a",
+      "kind": "log",
+      "path": "artifacts/ev-73f96087608a-pytest-output.log",
+      "sha256": "73f96087608add30a02bff2f9437d2601dd9e354bfee8aa0eb6b379aed40b2c9",
+      "size_bytes": 2707,
+      "media_type": "application/octet-stream",
+      "created_at": "2026-11-23T13:47:49Z",
+      "redacted": true,
+      "redactions": 0,
+      "execution_id": "ex-054c3aecacfc",
+      "description": "pytest stdout/stderr"
+    },
+    {
+      "id": "ev-76127979b563",
+      "kind": "report",
+      "path": "artifacts/ev-76127979b563-axe-result.json",
+      "sha256": "76127979b563c86bc43daf54543a0031ec7512ea1e6d96e5bb926d78f4f8c9a2",
+      "size_bytes": 869,
+      "media_type": "application/json",
+      "created_at": "2026-11-23T13:47:44Z",
+      "redacted": true,
+      "redactions": 0,
+      "execution_id": "ex-6a396bb34741",
+      "description": "axe-core results"
+    },
+    {
+      "id": "ev-7989f26f0095",
+      "kind": "junit",
+      "path": "artifacts/ev-7989f26f0095-junit.xml",
+      "sha256": "7989f26f009552b035471ca99f740eed71ca3f637d5439756d36a07e591bfbe2",
+      "size_bytes": 2938,
+      "media_type": "application/xml",
+      "created_at": "2026-11-23T13:48:18Z",
+      "redacted": true,
+      "redactions": 0,
+      "execution_id": "ex-a65cb31995b2",
+      "description": "pytest JUnit XML"
+    },
+    {
+      "id": "ev-7c1769b14cc2",
+      "kind": "junit",
+      "path": "artifacts/ev-7c1769b14cc2-junit.xml",
+      "sha256": "7c1769b14cc2b5e5d62e0af327cb17b025cb88c8986d28479dab3cba29928203",
+      "size_bytes": 2837,
+      "media_type": "application/xml",
+      "created_at": "2026-11-23T13:47:53Z",
+      "redacted": true,
+      "redactions": 0,
+      "execution_id": "ex-a25228a7428f",
+      "description": "pytest JUnit XML"
+    },
+    {
+      "id": "ev-7fae74298a08",
+      "kind": "log",
+      "path": "artifacts/ev-7fae74298a08-pytest-output.log",
+      "sha256": "7fae74298a08de49c816c3d387990f8ff11fb3faeac3af20364e150f8454a970",
+      "size_bytes": 2946,
+      "media_type": "application/octet-stream",
+      "created_at": "2026-11-23T13:48:05Z",
+      "redacted": true,
+      "redactions": 0,
+      "execution_id": "ex-b64f6017bdad",
+      "description": "pytest stdout/stderr"
+    },
+    {
+      "id": "ev-80ff8843e4bf",
+      "kind": "log",
+      "path": "artifacts/ev-80ff8843e4bf-pytest-output.log",
+      "sha256": "80ff8843e4bf361945aa2cecc73050ba3dc2dcbe933e4eb54266b9418946fed8",
+      "size_bytes": 1886,
+      "media_type": "application/octet-stream",
+      "created_at": "2026-11-23T13:47:42Z",
+      "redacted": true,
+      "redactions": 0,
+      "execution_id": "ex-4cff8ce2a7cc",
+      "description": "pytest stdout/stderr"
+    },
+    {
+      "id": "ev-8512a628cfd2",
+      "kind": "report",
+      "path": "artifacts/ev-8512a628cfd2-pytest-report.jsonl",
+      "sha256": "8512a628cfd273f0072f7c3f565cbdeee78444af7dd716182c6a20b80674847e",
+      "size_bytes": 2382,
+      "media_type": "application/octet-stream",
+      "created_at": "2026-11-23T13:48:05Z",
+      "redacted": true,
+      "redactions": 0,
+      "execution_id": "ex-b64f6017bdad",
+      "description": "per-test outcomes (qast reporter)"
+    },
+    {
+      "id": "ev-85ee711c5098",
+      "kind": "junit",
+      "path": "artifacts/ev-85ee711c5098-junit.xml",
+      "sha256": "85ee711c5098b76755760c9811eddea59d5db0c662bac7b3f67fe1c8e0b916d8",
+      "size_bytes": 2837,
+      "media_type": "application/xml",
+      "created_at": "2026-11-23T13:47:58Z",
+      "redacted": true,
+      "redactions": 0,
+      "execution_id": "ex-fe2578c4c7fb",
+      "description": "pytest JUnit XML"
+    },
+    {
+      "id": "ev-8679a631d61a",
+      "kind": "screenshot",
+      "path": "artifacts/ev-8679a631d61a-tests-qa-test-qa-journeys-py-test-recover-from-postal-code-e.png",
+      "sha256": "8679a631d61a36cc84f59b629fd20b23b841c3a3d40522178c92680df06c6d3f",
+      "size_bytes": 48988,
+      "media_type": "image/png",
+      "created_at": "2026-11-23T13:47:39Z",
+      "redacted": false,
+      "redactions": 0,
+      "execution_id": "ex-5f12edf9a86a",
+      "description": "collected from test artifact dir: tests_qa_test_qa_journeys.py_test_recover_from_postal_code_error_and_complete_checkout.png"
+    },
+    {
+      "id": "ev-924942cc2ffd",
+      "kind": "junit",
+      "path": "artifacts/ev-924942cc2ffd-junit.xml",
+      "sha256": "924942cc2ffdb26be5b7dad741cfca441d7219cdbecdec05362f6b7a4fa7b5c3",
+      "size_bytes": 883,
+      "media_type": "application/xml",
+      "created_at": "2026-11-23T13:47:27Z",
+      "redacted": true,
+      "redactions": 0,
+      "execution_id": "ex-ffb81dfea4fb",
+      "description": "pytest JUnit XML"
+    },
+    {
+      "id": "ev-a9655cc7cb80",
+      "kind": "junit",
+      "path": "artifacts/ev-a9655cc7cb80-junit.xml",
+      "sha256": "a9655cc7cb8091d5f0ae2f9bf05dd90912f9ea2c9f849a6d16d7e35720737109",
+      "size_bytes": 2103,
+      "media_type": "application/xml",
+      "created_at": "2026-11-23T13:47:42Z",
+      "redacted": true,
+      "redactions": 0,
+      "execution_id": "ex-4cff8ce2a7cc",
+      "description": "pytest JUnit XML"
+    },
+    {
+      "id": "ev-ad9de0de881e",
+      "kind": "log",
+      "path": "artifacts/ev-ad9de0de881e-pytest-output.log",
+      "sha256": "ad9de0de881ee0bb623ff97656034b4cda6aae163a2cdfb51b6e4099de8f9a3f",
+      "size_bytes": 2946,
+      "media_type": "application/octet-stream",
+      "created_at": "2026-11-23T13:48:11Z",
+      "redacted": true,
+      "redactions": 0,
+      "execution_id": "ex-60f210e68357",
+      "description": "pytest stdout/stderr"
+    },
+    {
+      "id": "ev-b31fb1a3cdbe",
+      "kind": "report",
+      "path": "artifacts/ev-b31fb1a3cdbe-pytest-report.jsonl",
+      "sha256": "b31fb1a3cdbef192509b38eaca6b65e8ce13cdef192653e954fb2c74fb6a0e99",
+      "size_bytes": 1278,
+      "media_type": "application/octet-stream",
+      "created_at": "2026-11-23T13:48:22Z",
+      "redacted": true,
+      "redactions": 0,
+      "execution_id": "ex-abddc2daba70",
+      "description": "per-test outcomes (qast reporter)"
+    },
+    {
+      "id": "ev-b7c83382bd65",
+      "kind": "log",
+      "path": "artifacts/ev-b7c83382bd65-pytest-output.log",
+      "sha256": "b7c83382bd65b134c06b6425f79e76fed305e222e7b8faafe01e89f6a1791974",
+      "size_bytes": 1925,
+      "media_type": "application/octet-stream",
+      "created_at": "2026-11-23T13:48:19Z",
+      "redacted": true,
+      "redactions": 0,
+      "execution_id": "ex-5cc1a4c96de3",
+      "description": "pytest stdout/stderr"
+    },
+    {
+      "id": "ev-b8a29234f630",
+      "kind": "junit",
+      "path": "artifacts/ev-b8a29234f630-junit.xml",
+      "sha256": "b8a29234f630dd563b9e3294c458b2a9c0b574686b028672de840f57d00ef385",
+      "size_bytes": 6158,
+      "media_type": "application/xml",
+      "created_at": "2026-11-23T13:47:39Z",
+      "redacted": true,
+      "redactions": 0,
+      "execution_id": "ex-5f12edf9a86a",
+      "description": "pytest JUnit XML"
+    },
+    {
+      "id": "ev-bda98dc10bc1",
+      "kind": "junit",
+      "path": "artifacts/ev-bda98dc10bc1-junit.xml",
+      "sha256": "bda98dc10bc127ab1e96f17cfe1920c73a5731fb5218b23946c525cfbe933c8a",
+      "size_bytes": 1752,
+      "media_type": "application/xml",
+      "created_at": "2026-11-23T13:48:22Z",
+      "redacted": true,
+      "redactions": 0,
+      "execution_id": "ex-abddc2daba70",
+      "description": "pytest JUnit XML"
+    },
+    {
+      "id": "ev-d02254f24b58",
+      "kind": "report",
+      "path": "artifacts/ev-d02254f24b58-pytest-report.jsonl",
+      "sha256": "d02254f24b58169fd406ad2930a42a99c8a4a9392ff16c7ccf253f7498ea9f9f",
+      "size_bytes": 5822,
+      "media_type": "application/octet-stream",
+      "created_at": "2026-11-23T13:47:39Z",
+      "redacted": true,
+      "redactions": 0,
+      "execution_id": "ex-5f12edf9a86a",
+      "description": "per-test outcomes (qast reporter)"
+    },
+    {
+      "id": "ev-d18f94779aae",
+      "kind": "screenshot",
+      "path": "artifacts/ev-d18f94779aae-tests-qa-test-qa-journeys-py-test-promo-apply-then-remove-re.png",
+      "sha256": "d18f94779aae9e8ef5ade02011954a86de93b53b25a0bcadf5f4006898fc4895",
+      "size_bytes": 56893,
+      "media_type": "image/png",
+      "created_at": "2026-11-23T13:47:39Z",
+      "redacted": false,
+      "redactions": 0,
+      "execution_id": "ex-5f12edf9a86a",
+      "description": "collected from test artifact dir: tests_qa_test_qa_journeys.py_test_promo_apply_then_remove_restores_total.png"
+    },
+    {
+      "id": "ev-d30983f5dc76",
+      "kind": "log",
+      "path": "artifacts/ev-d30983f5dc76-pytest-output.log",
+      "sha256": "d30983f5dc7637485ffae3daa6b4da26446d746813d52589b5944f053ec1355f",
+      "size_bytes": 2707,
+      "media_type": "application/octet-stream",
+      "created_at": "2026-11-23T13:47:53Z",
+      "redacted": true,
+      "redactions": 0,
+      "execution_id": "ex-a25228a7428f",
+      "description": "pytest stdout/stderr"
+    },
+    {
+      "id": "ev-e15136746132",
+      "kind": "junit",
+      "path": "artifacts/ev-e15136746132-junit.xml",
+      "sha256": "e151367461320fb3a317ac20947a3b11179c01ff53b51b7723e88ba1305c60df",
+      "size_bytes": 1752,
+      "media_type": "application/xml",
+      "created_at": "2026-11-23T13:48:19Z",
+      "redacted": true,
+      "redactions": 0,
+      "execution_id": "ex-5cc1a4c96de3",
+      "description": "pytest JUnit XML"
+    },
+    {
+      "id": "ev-ef60adc1cf1d",
+      "kind": "junit",
+      "path": "artifacts/ev-ef60adc1cf1d-junit.xml",
+      "sha256": "ef60adc1cf1d264ec576d3036e91fd0d96a0f370d977f5dcc537fbe543fbc5b5",
+      "size_bytes": 2837,
+      "media_type": "application/xml",
+      "created_at": "2026-11-23T13:47:49Z",
+      "redacted": true,
+      "redactions": 0,
+      "execution_id": "ex-054c3aecacfc",
+      "description": "pytest JUnit XML"
+    },
+    {
+      "id": "ev-f29ba7dcf39f",
+      "kind": "report",
+      "path": "artifacts/ev-f29ba7dcf39f-pytest-report.jsonl",
+      "sha256": "f29ba7dcf39f118c7b25087574d1fd9845a06a762695ad89eabd66bfc61acce0",
+      "size_bytes": 2382,
+      "media_type": "application/octet-stream",
+      "created_at": "2026-11-23T13:48:11Z",
+      "redacted": true,
+      "redactions": 0,
+      "execution_id": "ex-60f210e68357",
+      "description": "per-test outcomes (qast reporter)"
+    },
+    {
+      "id": "ev-f662b84160a1",
+      "kind": "log",
+      "path": "artifacts/ev-f662b84160a1-pytest-output.log",
+      "sha256": "f662b84160a1360ee7e02109bb42e55510e9446c9a22051359595d6ea6ca3be6",
+      "size_bytes": 2946,
+      "media_type": "application/octet-stream",
+      "created_at": "2026-11-23T13:48:18Z",
+      "redacted": true,
+      "redactions": 0,
+      "execution_id": "ex-a65cb31995b2",
+      "description": "pytest stdout/stderr"
+    }
+  ],
+  "limitations": [
+    "Demonstration run: analysis records (requirements, plan, finding text) and the QA tests were scripted (reference tests stand in for agent-authored tests). All executions, evidence, verifications and the decision are real.",
+    "Discovery: No CI configuration detected.",
+    "Discovery: No authentication mechanism detected; confirm whether the system is meant to be public.",
+    "Evidence redaction is pattern-based and best-effort; review artifacts before sharing externally."
+  ],
+  "phases": {
+    "discovery": "done",
+    "requirements": "pending",
+    "impact": "pending",
+    "risk": "pending",
+    "planning": "done",
+    "delegation": "pending",
+    "execution": "done",
+    "investigation": "pending",
+    "verification": "done",
+    "release": "pending",
+    "reporting": "pending",
+    "regression": "pending"
+  },
+  "plan": {
+    "id": "TP-20261123-134724-test-e2e-9e6d",
+    "scope": "Checkout SPA critical journeys, persistence, RTL, mobile and accessibility",
+    "strategy_summary": "Journeys from docs/USER_JOURNEYS.md are mandatory (critical-journeys). Existing Playwright suite is the regression baseline. Accessibility via axe-core on each app state plus a page-level adapter scan; manual screen-reader checks are out of scope.",
+    "test_cases": [
+      {
+        "id": "TC-RECOVER",
+        "title": "Recover from a postal-code validation error and complete checkout",
+        "level": "e2e",
+        "technique": "state-transition",
+        "oracle": "Continue becomes enabled after the error is corrected and the order is placed",
+        "origin": "new",
+        "test_ref": "tests/qa/test_qa_journeys.py::test_recover_from_postal_code_error_and_complete_checkout",
+        "groups": [
+          "critical-journeys"
+        ],
+        "priority": "critical",
+        "preconditions": [],
+        "steps": [],
+        "inputs": {},
+        "requirement_ids": [],
+        "invariant_ids": [],
+        "risk_ids": []
+      },
+      {
+        "id": "TC-PROMO",
+        "title": "Promo apply then remove restores the total",
+        "level": "e2e",
+        "technique": "state-transition",
+        "oracle": "Total equals subtotal + shipping after Remove",
+        "origin": "new",
+        "test_ref": "tests/qa/test_qa_journeys.py::test_promo_apply_then_remove_restores_total",
+        "groups": [
+          "regression"
+        ],
+        "priority": "high",
+        "preconditions": [],
+        "steps": [],
+        "inputs": {},
+        "requirement_ids": [],
+        "invariant_ids": [],
+        "risk_ids": []
+      },
+      {
+        "id": "TC-RTL",
+        "title": "Arabic locale renders right-to-left",
+        "level": "e2e",
+        "technique": "equivalence",
+        "oracle": "html[dir=rtl][lang=ar]",
+        "origin": "new",
+        "test_ref": "tests/qa/test_qa_journeys.py",
+        "groups": [
+          "critical-journeys"
+        ],
+        "priority": "medium",
+        "preconditions": [],
+        "steps": [],
+        "inputs": {},
+        "requirement_ids": [],
+        "invariant_ids": [],
+        "risk_ids": []
+      },
+      {
+        "id": "TC-A11Y",
+        "title": "No serious/critical axe violations on the review step",
+        "level": "accessibility",
+        "technique": "smoke",
+        "oracle": "axe-core reports no serious or critical violations",
+        "origin": "new",
+        "test_ref": "tests/qa/test_qa_a11y.py",
+        "groups": [
+          "accessibility"
+        ],
+        "priority": "high",
+        "preconditions": [],
+        "steps": [],
+        "inputs": {},
+        "requirement_ids": [],
+        "invariant_ids": [],
+        "risk_ids": []
+      }
+    ],
+    "out_of_scope": [
+      {
+        "item": "screen-reader and 200% zoom checks",
+        "reason": "manual validation required; not automatable here"
+      }
+    ],
+    "assumptions": [],
+    "entry_criteria": [],
+    "exit_criteria": [],
+    "specialists": [
+      "qa-superteam:frontend-qa-engineer",
+      "qa-superteam:independent-verification-engineer"
+    ]
+  },
+  "risks": [],
+  "requirements": null,
+  "profile_summary": {
+    "project": "web-checkout",
+    "languages": [
+      "Python (5)",
+      "JavaScript (2)",
+      "HTML (1)",
+      "CSS (1)"
+    ],
+    "test_suites": [
+      "pytest: tests (3 files)"
+    ],
+    "facts": 12,
+    "git_head": "bd743a5ff3d619c24adee30c03f70cb31ccfa189"
+  },
+  "integrity_warnings": []
+}

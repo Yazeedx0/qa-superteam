@@ -1,0 +1,7 @@
+$ python3 -m qa_superteam.runners.ai_eval --dataset evals/golden.jsonl --target support_bot.bot:answer --out <project>/.qa-superteam/runs/20261123-134823-eval-ai-4ed8/work/ex-5b467223db35/ai-eval-results.jsonl --samples 1
+[exit_code=0 timed_out=False duration=0.064s]
+--- stdout ---
+{"PASSED": 6}
+
+--- stderr ---
+

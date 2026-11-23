@@ -1,0 +1,13 @@
+{
+  "id": "ev-2c16b29ef450",
+  "kind": "screenshot",
+  "path": "artifacts/ev-2c16b29ef450-tests-qa-test-qa-a11y-py-test-review-step-has-no-serious-axe.png",
+  "sha256": "2c16b29ef4504aa55ee129ebec7a105e0047615c789ecbbe63385b1025386fc9",
+  "size_bytes": 56468,
+  "media_type": "image/png",
+  "created_at": "2026-11-23T13:47:42Z",
+  "redacted": false,
+  "redactions": 0,
+  "execution_id": "ex-4cff8ce2a7cc",
+  "description": "collected from test artifact dir: tests_qa_test_qa_a11y.py_test_review_step_has_no_serious_axe_violations.png"
+}

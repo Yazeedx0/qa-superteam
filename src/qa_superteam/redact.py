@@ -54,7 +54,9 @@ DEFAULT_RULES: tuple[Rule, ...] = (
         group=2,
     ),
     _r("email", r"\b[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}\b"),
-    _r("card-number", r"\b(?:\d[ -]?){13,19}\b"),
+    # Issuer-prefixed PANs only (Visa, Mastercard, Amex, Discover), not part of a longer number or a
+    # decimal: avoids corrupting floats and millisecond timestamps in JSON reports.
+    _r("card-number", r"(?<![\d.])(?:4\d{3}|5[1-5]\d{2}|2[2-7]\d{2}|6011|65\d{2}|3[47]\d{2})(?:[ -]?\d){11,15}(?![\d.]?\d)"),
 )
 
 
@@ -103,7 +105,7 @@ class Redactor:
                 return whole  # synthetic test fixtures are not personal data
         if rule.label == "card-number":
             digits = re.sub(r"\D", "", whole)
-            if not (13 <= len(digits) <= 19 and _luhn_ok(digits)):
+            if not (len(digits) in (15, 16, 19) and _luhn_ok(digits)):
                 return whole
         if "[REDACTED:" in whole:
             return whole

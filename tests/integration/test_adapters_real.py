@@ -68,6 +68,7 @@ def test_pytest_existing_suite_on_backend_fixture(tmp_path, run_in):
     assert ex["counts"]["PASSED"] >= 10 and ex["counts"]["SKIPPED"] == 1
     assert all("::" in r["identifier"] for r in ex["results"])
     assert not (proj / ".pytest_cache").exists(), "audit must not write .pytest_cache into the project"
+    assert not list(proj.rglob("__pycache__")), "audit must not write bytecode caches into the project"
 
 
 def test_pytest_detects_planted_backend_defects(tmp_path, run_in):

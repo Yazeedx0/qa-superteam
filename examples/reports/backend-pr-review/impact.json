@@ -1,0 +1,43 @@
+{
+  "base": "main",
+  "head": "WORKTREE",
+  "head_sha": "916b64eadacc9086a96234fe746f3b9371b05100",
+  "files": [
+    {
+      "path": "ledger/transfers.py",
+      "status": "M",
+      "added": 2,
+      "removed": 2,
+      "kind": "source",
+      "signals": [
+        "money movement / business-critical"
+      ],
+      "impact_hint": 5
+    }
+  ],
+  "components": [
+    {
+      "component": "ledger",
+      "files": 1,
+      "lines_changed": 4,
+      "signals": [
+        "money movement / business-critical"
+      ],
+      "max_impact_hint": 5
+    }
+  ],
+  "selected_tests": [
+    {
+      "test": "tests/test_transfers.py",
+      "reasons": [
+        "name match: ledger/transfers.py"
+      ]
+    }
+  ],
+  "changed_source_without_related_tests": [],
+  "method": "git diff --name-status/--numstat; tests selected by changed-test, name-match and import-reference heuristics",
+  "limitations": [
+    "Dynamic imports, dependency injection and cross-service calls are not traced.",
+    "Selection is a starting point: high-risk changes still warrant the full mandatory suite."
+  ]
+}

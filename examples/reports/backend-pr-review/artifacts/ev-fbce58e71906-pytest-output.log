@@ -1,0 +1,8 @@
+$ python3 -m pytest tests -p qa_superteam.pytest_reporter -p no:cacheprovider -q -rN --junitxml <project>/.qa-superteam/runs/20261123-134718-review-pr-f8e8/work/ex-5b9f57eae147/junit.xml
+[exit_code=0 timed_out=False duration=1.017s]
+--- stdout ---
+.........s....                                                           [100%]
+13 passed, 1 skipped in 0.47s
+
+--- stderr ---
+

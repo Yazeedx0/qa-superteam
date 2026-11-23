@@ -243,6 +243,9 @@ def deterministic_checks(expect: dict[str, Any], output: dict[str, Any], latency
     return checks, usage, estimated
 
 
+MIN_CALIBRATION_N = 30
+
+
 @dataclass
 class JudgeConfig:
     available: bool
@@ -250,10 +253,17 @@ class JudgeConfig:
     kappa: float | None = None
     min_kappa: float = 0.6
     calibration_n: int = 0
+    model_matches: bool = True  # calibration was produced with the same judge model
 
     @property
     def trusted(self) -> bool:
-        return self.available and self.kappa is not None and self.kappa >= self.min_kappa
+        return (
+            self.available
+            and self.model_matches
+            and self.kappa is not None
+            and self.kappa >= self.min_kappa
+            and self.calibration_n >= MIN_CALIBRATION_N
+        )
 
 
 def apply_judge(verdict: dict[str, Any] | None, judge: JudgeConfig) -> tuple[str | None, CheckResult, dict[str, Any]]:
@@ -275,7 +285,14 @@ def apply_judge(verdict: dict[str, Any] | None, judge: JudgeConfig) -> tuple[str
         return "INCONCLUSIVE", CheckResult("judge", None, f"judge returned {v or 'no verdict'}"), info
     if not judge.trusted:
         info["status"] = "INCONCLUSIVE"
-        why = "judge is uncalibrated" if judge.kappa is None else f"judge kappa {judge.kappa:.2f} < {judge.min_kappa}"
+        if judge.kappa is None:
+            why = "judge is uncalibrated"
+        elif not judge.model_matches:
+            why = "calibration was produced with a different judge model"
+        elif judge.calibration_n < MIN_CALIBRATION_N:
+            why = f"calibration has only {judge.calibration_n} labelled cases (< {MIN_CALIBRATION_N})"
+        else:
+            why = f"judge kappa {judge.kappa:.2f} < {judge.min_kappa}"
         return "INCONCLUSIVE", CheckResult("judge", None, f"judge said {v} but {why}; not trusted as a verdict"), info
     info["status"] = "PASSED" if v == "pass" else "FAILED"
     return info["status"], CheckResult("judge", v == "pass", f"calibrated judge (kappa {judge.kappa:.2f}) said {v}"), info

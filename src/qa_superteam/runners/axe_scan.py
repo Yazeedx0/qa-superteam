@@ -43,7 +43,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--shots", required=True)
     ap.add_argument("--viewport", default="1280x800")
     ap.add_argument("--wait-ms", type=int, default=300)
-    ap.add_argument("--tags", default="wcag2a,wcag2aa,wcag21a,wcag21aa")
+    ap.add_argument("--tags", default="wcag2a,wcag2aa,wcag21a,wcag21aa,wcag22aa")
     args = ap.parse_args(argv)
     try:
         from playwright.sync_api import sync_playwright

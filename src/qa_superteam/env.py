@@ -71,7 +71,7 @@ class Capability:
 
 def _py_import(py: str, module: str, root: Path) -> str | None:
     res = run(
-        [py, "-c", f"import importlib.metadata as m, {module}; print(m.version('{module}'))"],
+        [py, "-c", f"import importlib.metadata as m, {module}; print(m.version('{module.replace('_', '-')}'))"],
         root,
         timeout_s=30,
         max_output_bytes=10_000,
@@ -107,6 +107,7 @@ def detect_capabilities(root: Path, python: str = "") -> list[Capability]:
     add("pytest", _py_import(py, "pytest", root), ["qa-unit", "qa-backend", "qa-frontend"], f"{py} -m pip install pytest")
     add("httpx", _py_import(py, "httpx", root), ["qa-backend", "qa-security"], f"{py} -m pip install httpx")
     add("coverage", _py_import(py, "coverage", root), ["qa-unit"], f"{py} -m pip install coverage")
+    add("pytest-cov", _py_import(py, "pytest_cov", root), ["qa-unit"], f"{py} -m pip install pytest-cov")
     add("hypothesis", _py_import(py, "hypothesis", root), ["qa-test-design"], f"{py} -m pip install hypothesis")
     add("testcontainers", _py_import(py, "testcontainers", root), ["qa-backend", "qa-data-integrity"], f"{py} -m pip install testcontainers")
     pw_py = _py_import(py, "playwright", root)

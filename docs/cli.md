@@ -102,7 +102,7 @@ Finding status is derived, never edited: `SUSPECTED → REPRODUCED → CONFIRMED
 | `qast schema [Model] [--template]` | JSON Schema or fill-in example |
 | `qast redact [FILE]` | Redact secrets/PII from text (stdin by default) |
 | `qast ai-eval validate <dataset.jsonl>` | Check an eval dataset |
-| `qast ai-eval calibrate --judgments j.jsonl --labels human.jsonl [--out cal.json]` | Judge vs human agreement and Cohen's kappa |
+| `qast ai-eval calibrate --judgments j.jsonl --labels human.jsonl --judge-model <id> [--rubric-id R] [--out cal.json]` | Judge vs human agreement and Cohen's kappa. A judge is trusted only with kappa ≥ 0.6, ≥ 30 labelled cases and the same `--judge-model` at eval time |
 
 ## Exit codes
 

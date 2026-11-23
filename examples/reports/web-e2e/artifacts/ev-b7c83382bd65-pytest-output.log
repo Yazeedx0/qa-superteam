@@ -1,0 +1,30 @@
+$ python3 -m pytest tests/qa/test_qa_a11y.py::test_review_step_has_no_serious_axe_violations -p qa_superteam.pytest_reporter -p no:cacheprovider -q -rN --junitxml <project>/.qa-superteam/runs/20261123-134724-test-e2e-9e6d/work/ex-5cc1a4c96de3/junit.xml
+[exit_code=1 timed_out=False duration=1.367s]
+--- stdout ---
+F                                                                        [100%]
+=================================== FAILURES ===================================
+________________ test_review_step_has_no_serious_axe_violations ________________
+
+checkout = <conftest.Checkout object at 0x73d7651727b0>
+axe_path = PosixPath('<project>/node_modules/axe-core/axe.min.js')
+
+    def test_review_step_has_no_serious_axe_violations(checkout, axe_path: Path):
+        checkout.to_review()
+        expect(checkout.page.get_by_test_id("promo-input")).to_be_visible()
+    
+        violations = blocking(run_axe(checkout.page, axe_path))
+>       assert not violations, (
+            "axe-core reported serious/critical accessibility violations on the Review step "
+            "(promo code, totals, Place order):\n" + describe(violations)
+        )
+E       AssertionError: axe-core reported serious/critical accessibility violations on the Review step (promo code, totals, Place order):
+E           - label (critical): Form elements must have labels -> #promo-code
+E       assert not [{'help': 'Form elements must have labels', 'id': 'label', 'impact': 'critical', 'targets': ['#promo-code']}]
+
+tests/qa/test_qa_a11y.py:68: AssertionError
+---------------------------------- screenshot ----------------------------------
+<project>/.qa-superteam/runs/20261123-134724-test-e2e-9e6d/work/ex-5cc1a4c96de3/artifacts/tests_qa_test_qa_a11y.py_test_review_step_has_no_serious_axe_violations.png
+1 failed in 0.92s
+
+--- stderr ---
+

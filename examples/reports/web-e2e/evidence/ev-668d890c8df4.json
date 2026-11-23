@@ -1,0 +1,13 @@
+{
+  "id": "ev-668d890c8df4",
+  "kind": "junit",
+  "path": "artifacts/ev-668d890c8df4-junit.xml",
+  "sha256": "b5559d069cc8543d110d7d9a7b3c74552b17ed9ceb3ed4c081e6eddc7e23e2b5",
+  "size_bytes": 1717,
+  "media_type": "application/xml",
+  "created_at": "2026-11-23T13:48:21Z",
+  "redacted": true,
+  "redactions": 0,
+  "execution_id": "ex-b9bb5e82f55a",
+  "description": "pytest JUnit XML"
+}

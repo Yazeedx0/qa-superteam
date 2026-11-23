@@ -1,0 +1,13 @@
+{
+  "id": "ev-daa9c6fe45b0",
+  "kind": "log",
+  "path": "artifacts/ev-daa9c6fe45b0-pytest-output.log",
+  "sha256": "3e1516e64c844ad458c8e6449200d81a07735e09b3e8b06fe94891dcd4462e47",
+  "size_bytes": 2262,
+  "media_type": "application/octet-stream",
+  "created_at": "2026-11-23T13:47:09Z",
+  "redacted": true,
+  "redactions": 1,
+  "execution_id": "ex-0055f27d269f",
+  "description": "pytest stdout/stderr"
+}

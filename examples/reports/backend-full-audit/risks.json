@@ -1,0 +1,36 @@
+{
+  "risks": [
+    {
+      "id": "R-01",
+      "area": "ledger",
+      "description": "Defects in ledger",
+      "probability": 3,
+      "impact": 5,
+      "score": 15,
+      "level": "high",
+      "factors": [
+        {
+          "name": "test presence",
+          "value": 3,
+          "rationale": "project has automated tests",
+          "basis": "observed"
+        },
+        {
+          "name": "criticality",
+          "value": 5,
+          "rationale": "money movement / business-critical",
+          "basis": "inferred"
+        }
+      ],
+      "paths": [
+        "ledger"
+      ],
+      "existing_coverage": null,
+      "related_requirements": [],
+      "assumptions": [
+        "Full-audit baseline without a diff; refine with requirements and invariants."
+      ]
+    }
+  ],
+  "method": "probability x impact, factors documented per risk (docs/risk-model.md)"
+}

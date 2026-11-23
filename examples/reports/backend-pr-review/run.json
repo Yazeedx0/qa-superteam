@@ -1,0 +1,18 @@
+{
+  "run_id": "20261123-134718-review-pr-f8e8",
+  "mode": "review-pr",
+  "created_at": "2026-11-23T13:47:18Z",
+  "scope": "PR: refactor transfer funds check",
+  "base_ref": "main",
+  "head_ref": null,
+  "project_name": "backend-api",
+  "environment": {
+    "platform": "Linux-7.0.0-43-generic-x86_64",
+    "python": "3.12.3",
+    "hostname_hash": "a005a3344252",
+    "tool_versions": {},
+    "ci": false,
+    "git_head": "916b64eadacc9086a96234fe746f3b9371b05100",
+    "git_dirty": false
+  }
+}

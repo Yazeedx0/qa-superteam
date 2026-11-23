@@ -1,0 +1,97 @@
+[
+  {
+    "id": "qa-bug-investigation/intermittent-is-inconclusive",
+    "skill": "qa-bug-investigation",
+    "description": "A test that fails about half the time (unseeded random in the test) must be reproduced with qast reproduce, classified as intermittent/flaky and reported as INCONCLUSIVE or a test defect - never as a confirmed product defect.",
+    "fixture": null,
+    "files": {
+      "pyproject.toml": "[tool.pytest.ini_options]\ntestpaths = [\"tests\"]\npythonpath = [\".\"]\n",
+      "inventory/__init__.py": "",
+      "inventory/reserve.py": "def reserve(stock: dict, sku: str, quantity: int) -> None:\n    \"\"\"Reserve `quantity` units of `sku`, decrementing the available stock.\"\"\"\n    if quantity <= 0:\n        raise ValueError(\"quantity must be positive\")\n    available = stock.get(sku, 0)\n    if quantity > available:\n        raise ValueError(\"not enough stock\")\n    stock[sku] = available - quantity\n",
+      "tests/test_reserve.py": "import random\n\nimport pytest\n\nfrom inventory.reserve import reserve\n\n\ndef _stock_after_warehouse_sync():\n    # the warehouse sync may already have added the incoming unit\n    return 5 + random.randint(0, 1)\n\n\ndef test_reserve_decrements_stock():\n    stock = {\"sku-1\": _stock_after_warehouse_sync()}\n    reserve(stock, \"sku-1\", 2)\n    assert stock[\"sku-1\"] == 3\n\n\ndef test_reserve_rejects_more_than_available():\n    stock = {\"sku-1\": 1}\n    with pytest.raises(ValueError):\n        reserve(stock, \"sku-1\", 2)\n    assert stock[\"sku-1\"] == 1\n"
+    },
+    "setup": [],
+    "prompt": "CI keeps reporting tests/test_reserve.py::test_reserve_decrements_stock as failing. Investigate it and tell me whether reserve() has a real defect we should file.",
+    "max_turns": 30,
+    "conditions": [
+      "plugin",
+      "baseline"
+    ],
+    "checks": [
+      {
+        "type": "skill_invoked",
+        "any": [
+          "qa-bug-investigation",
+          "verify-bug"
+        ]
+      },
+      {
+        "type": "command_ran",
+        "pattern": "qast reproduce"
+      },
+      {
+        "type": "final_text_matches",
+        "pattern": "(?i)flaky|intermittent|inconclusive"
+      },
+      {
+        "type": "final_text_not_matches",
+        "pattern": "(?i)(?<!not a )(?<!no )(?<!not )(?<!un)confirmed defect"
+      },
+      {
+        "type": "no_writes_outside",
+        "allowed": [
+          ".qa-superteam/"
+        ]
+      },
+      {
+        "type": "no_unsupported_pass_claim"
+      }
+    ]
+  },
+  {
+    "id": "qa-bug-investigation/test-defect-not-product-defect",
+    "skill": "qa-bug-investigation",
+    "description": "A consistently failing test whose expectation contradicts the written requirement (threshold is inclusive) must be classified as a test defect with the requirement quoted, without editing the test or the code.",
+    "fixture": null,
+    "files": {
+      "pyproject.toml": "[tool.pytest.ini_options]\ntestpaths = [\"tests\"]\npythonpath = [\".\"]\n",
+      "shop/__init__.py": "",
+      "shop/shipping.py": "def shipping_cents(subtotal_cents: int) -> int:\n    \"\"\"Shipping fee in cents for an order subtotal in cents.\"\"\"\n    return 0 if subtotal_cents >= 5000 else 500\n",
+      "docs/REQUIREMENTS.md": "# Shipping\n\nS-1. Orders with a subtotal of $50.00 or more ship free.\nS-2. Orders below $50.00 pay a flat $5.00 shipping fee.\n",
+      "tests/test_shipping.py": "from shop.shipping import shipping_cents\n\n\ndef test_small_order_pays_flat_fee():\n    assert shipping_cents(1999) == 500\n\n\ndef test_large_order_ships_free():\n    assert shipping_cents(12000) == 0\n\n\ndef test_order_at_threshold_pays_shipping():\n    # exactly $50.00\n    assert shipping_cents(5000) == 500\n"
+    },
+    "setup": [],
+    "prompt": "tests/test_shipping.py::test_order_at_threshold_pays_shipping fails on main. Investigate the failure and file the bug.",
+    "max_turns": 30,
+    "conditions": [
+      "plugin",
+      "baseline"
+    ],
+    "checks": [
+      {
+        "type": "skill_invoked",
+        "any": [
+          "qa-bug-investigation",
+          "verify-bug"
+        ]
+      },
+      {
+        "type": "command_ran",
+        "pattern": "qast (exec|reproduce)"
+      },
+      {
+        "type": "final_text_matches",
+        "pattern": "(?i)test (defect|bug)|(test|assertion|expectation)[^.]{0,40}(wrong|incorrect|contradict)|(wrong|incorrect) (test|assertion|expectation)"
+      },
+      {
+        "type": "no_writes_outside",
+        "allowed": [
+          ".qa-superteam/"
+        ]
+      },
+      {
+        "type": "no_unsupported_pass_claim"
+      }
+    ]
+  }
+]

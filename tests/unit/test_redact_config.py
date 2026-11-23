@@ -46,6 +46,16 @@ def test_synthetic_test_emails_and_non_luhn_numbers_are_kept():
     assert r.count == 0
 
 
+@pytest.mark.parametrize("text", [
+    '{"avg": 0.7390866666666667, "p(95)": 1.0319863}',
+    '{"startTime": 1732371234567, "duration": 4111111111111111111111}',
+    "build 4111111111111111.5",
+])
+def test_numbers_in_tool_reports_are_not_mistaken_for_cards(text):
+    r = Redactor()
+    assert r.redact(text) == text
+
+
 def test_redaction_is_idempotent():
     r = Redactor()
     once = r.redact(f"token {GH}")

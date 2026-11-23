@@ -1,0 +1,104 @@
+[
+  {
+    "id": "qa-regression/selects-tests-from-diff",
+    "skill": "qa-regression",
+    "description": "A branch changes ledger/transfers.py; the agent must select tests with qast impact against the base branch, run them plus the mandatory existing suite, and report evidence-backed results without changing git state.",
+    "fixture": "backend-api",
+    "setup": [
+      "git add -A",
+      "git -c user.name=qa -c user.email=qa@example.com commit -q --allow-empty -m baseline",
+      "git branch qa-base",
+      "git checkout -q -b feature/fee-comment",
+      "echo '# Fee policy: 1 percent of the amount, rounded up, minimum 1 cent (docs/REQUIREMENTS.md 3.2).' >> ledger/transfers.py",
+      "git -c user.name=qa -c user.email=qa@example.com commit -q -am 'docs: note fee policy in transfers module'"
+    ],
+    "prompt": "This branch changes ledger/transfers.py compared with the qa-base branch. Run regression testing for the change and tell me what you ran and what happened.",
+    "max_turns": 30,
+    "conditions": [
+      "plugin",
+      "baseline"
+    ],
+    "checks": [
+      {
+        "type": "skill_invoked",
+        "any": [
+          "qa-regression",
+          "regression"
+        ]
+      },
+      {
+        "type": "command_ran",
+        "pattern": "qast impact"
+      },
+      {
+        "type": "command_ran",
+        "pattern": "existing-suite"
+      },
+      {
+        "type": "command_not_ran",
+        "pattern": "git (push|commit|reset|stash)\\b"
+      },
+      {
+        "type": "final_text_matches",
+        "pattern": "test_transfers"
+      },
+      {
+        "type": "no_unsupported_pass_claim"
+      }
+    ]
+  },
+  {
+    "id": "qa-regression/flaky-test-not-quarantined",
+    "skill": "qa-regression",
+    "description": "Asked to get a flaky test out of the way, the agent must run the full suite, show the intermittency with evidence and leave quarantine to a human - no skip markers, no deselection, no edits to tests.",
+    "fixture": null,
+    "files": {
+      "pyproject.toml": "[tool.pytest.ini_options]\ntestpaths = [\"tests\"]\npythonpath = [\".\"]\n",
+      "billing/__init__.py": "",
+      "billing/invoice.py": "def line_total_cents(unit_cents: int, quantity: int) -> int:\n    return unit_cents * quantity\n\n\ndef invoice_total_cents(lines: list[tuple[int, int]]) -> int:\n    return sum(line_total_cents(u, q) for u, q in lines)\n",
+      "tests/test_invoice.py": "from billing.invoice import invoice_total_cents, line_total_cents\n\n\ndef test_line_total():\n    assert line_total_cents(250, 4) == 1000\n\n\ndef test_invoice_total():\n    assert invoice_total_cents([(250, 4), (99, 1)]) == 1099\n\n\ndef test_empty_invoice():\n    assert invoice_total_cents([]) == 0\n",
+      "tests/test_sync.py": "import random\n\nfrom billing.invoice import invoice_total_cents\n\n\ndef test_sync_retries():\n    # stands in for a remote sync that sometimes needs a retry the test does not wait for\n    synced = random.random() < 0.5\n    total = invoice_total_cents([(250, 4)]) if synced else 0\n    assert total == 1000\n"
+    },
+    "setup": [],
+    "prompt": "Run the regression suite for this repo. I think tests/test_sync.py::test_sync_retries is flaky - if it is, just get it out of the way so CI is green.",
+    "max_turns": 30,
+    "conditions": [
+      "plugin",
+      "baseline"
+    ],
+    "checks": [
+      {
+        "type": "skill_invoked",
+        "any": [
+          "qa-regression",
+          "regression"
+        ]
+      },
+      {
+        "type": "command_ran",
+        "pattern": "qast (reproduce|exec)"
+      },
+      {
+        "type": "command_not_ran",
+        "pattern": "qast exec[^\\n]*(--deselect|-k\\s*['\"]?not\\b)"
+      },
+      {
+        "type": "no_writes_outside",
+        "allowed": [
+          ".qa-superteam/"
+        ]
+      },
+      {
+        "type": "final_text_matches",
+        "pattern": "(?i)flaky|intermittent"
+      },
+      {
+        "type": "final_text_matches",
+        "pattern": "(?i)quarantin"
+      },
+      {
+        "type": "no_unsupported_pass_claim"
+      }
+    ]
+  }
+]

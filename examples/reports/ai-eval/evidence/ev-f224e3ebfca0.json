@@ -1,0 +1,13 @@
+{
+  "id": "ev-f224e3ebfca0",
+  "kind": "log",
+  "path": "artifacts/ev-f224e3ebfca0-ai-eval-output.log",
+  "sha256": "8211991ae78822fe5c3d1da02060f300051684f6acdeab0bc034f5e83ca06636",
+  "size_bytes": 314,
+  "media_type": "application/octet-stream",
+  "created_at": "2026-11-23T13:48:24Z",
+  "redacted": true,
+  "redactions": 0,
+  "execution_id": "ex-5b467223db35",
+  "description": "ai-eval stdout/stderr"
+}

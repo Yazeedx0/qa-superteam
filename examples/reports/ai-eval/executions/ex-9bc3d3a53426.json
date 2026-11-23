@@ -1,0 +1,396 @@
+{
+  "id": "ex-9bc3d3a53426",
+  "run_id": "20261123-134823-eval-ai-4ed8",
+  "adapter": "pytest",
+  "status": "PASSED",
+  "started_at": "2026-11-23T13:48:23Z",
+  "finished_at": "2026-11-23T13:48:24Z",
+  "duration_s": 0.415,
+  "command": [
+    "python3",
+    "-m",
+    "pytest",
+    "tests",
+    "-p",
+    "qa_superteam.pytest_reporter",
+    "-p",
+    "no:cacheprovider",
+    "-q",
+    "-rN",
+    "--junitxml",
+    "<project>/.qa-superteam/runs/20261123-134823-eval-ai-4ed8/work/ex-9bc3d3a53426/junit.xml"
+  ],
+  "cwd": ".",
+  "exit_code": 0,
+  "timed_out": false,
+  "counts": {
+    "PASSED": 24,
+    "FAILED": 0,
+    "ERROR": 0,
+    "SKIPPED": 0,
+    "BLOCKED": 0,
+    "NOT_RUN": 0,
+    "INCONCLUSIVE": 0
+  },
+  "results": [
+    {
+      "id": "tr-f9530b67e4c7",
+      "identifier": "tests/test_bot.py::test_response_shape",
+      "status": "PASSED",
+      "name": "test_response_shape",
+      "duration_s": 0.0003,
+      "message": null,
+      "file": "tests/test_bot.py",
+      "line": 12,
+      "groups": [
+        "existing-suite"
+      ],
+      "artifact_ids": []
+    },
+    {
+      "id": "tr-c36fb80e8762",
+      "identifier": "tests/test_bot.py::test_shipping_question_cites_shipping_policy",
+      "status": "PASSED",
+      "name": "test_shipping_question_cites_shipping_policy",
+      "duration_s": 0.0002,
+      "message": null,
+      "file": "tests/test_bot.py",
+      "line": 20,
+      "groups": [
+        "existing-suite"
+      ],
+      "artifact_ids": []
+    },
+    {
+      "id": "tr-5f54f6b7f7bb",
+      "identifier": "tests/test_bot.py::test_answer_is_deterministic",
+      "status": "PASSED",
+      "name": "test_answer_is_deterministic",
+      "duration_s": 0.0002,
+      "message": null,
+      "file": "tests/test_bot.py",
+      "line": 27,
+      "groups": [
+        "existing-suite"
+      ],
+      "artifact_ids": []
+    },
+    {
+      "id": "tr-c8a377366f2d",
+      "identifier": "tests/test_bot.py::test_out_of_scope_question_gets_fallback_without_citations",
+      "status": "PASSED",
+      "name": "test_out_of_scope_question_gets_fallback_without_citations",
+      "duration_s": 0.0001,
+      "message": null,
+      "file": "tests/test_bot.py",
+      "line": 31,
+      "groups": [
+        "existing-suite"
+      ],
+      "artifact_ids": []
+    },
+    {
+      "id": "tr-44b5386dd7fe",
+      "identifier": "tests/test_bot.py::test_ineligible_refund_is_not_issued",
+      "status": "PASSED",
+      "name": "test_ineligible_refund_is_not_issued",
+      "duration_s": 0.0002,
+      "message": null,
+      "file": "tests/test_bot.py",
+      "line": 38,
+      "groups": [
+        "existing-suite"
+      ],
+      "artifact_ids": []
+    },
+    {
+      "id": "tr-dd8e0dc60d06",
+      "identifier": "tests/test_bot.py::test_undelivered_order_is_not_refunded",
+      "status": "PASSED",
+      "name": "test_undelivered_order_is_not_refunded",
+      "duration_s": 0.0002,
+      "message": null,
+      "file": "tests/test_bot.py",
+      "line": 44,
+      "groups": [
+        "existing-suite"
+      ],
+      "artifact_ids": []
+    },
+    {
+      "id": "tr-364d08164893",
+      "identifier": "tests/test_bot.py::test_unknown_order",
+      "status": "PASSED",
+      "name": "test_unknown_order",
+      "duration_s": 0.0002,
+      "message": null,
+      "file": "tests/test_bot.py",
+      "line": 49,
+      "groups": [
+        "existing-suite"
+      ],
+      "artifact_ids": []
+    },
+    {
+      "id": "tr-0b02b2206040",
+      "identifier": "tests/test_bot.py::test_multi_turn_uses_last_user_message",
+      "status": "PASSED",
+      "name": "test_multi_turn_uses_last_user_message",
+      "duration_s": 0.0002,
+      "message": null,
+      "file": "tests/test_bot.py",
+      "line": 55,
+      "groups": [
+        "existing-suite"
+      ],
+      "artifact_ids": []
+    },
+    {
+      "id": "tr-6b69fa871479",
+      "identifier": "tests/test_bot.py::test_rejects_malformed_requests[None]",
+      "status": "PASSED",
+      "name": "test_rejects_malformed_requests[None]",
+      "duration_s": 0.0002,
+      "message": null,
+      "file": "tests/test_bot.py",
+      "line": 68,
+      "groups": [
+        "existing-suite"
+      ],
+      "artifact_ids": []
+    },
+    {
+      "id": "tr-fbbc3208e1c5",
+      "identifier": "tests/test_bot.py::test_rejects_malformed_requests[bad_request1]",
+      "status": "PASSED",
+      "name": "test_rejects_malformed_requests[bad_request1]",
+      "duration_s": 0.0002,
+      "message": null,
+      "file": "tests/test_bot.py",
+      "line": 68,
+      "groups": [
+        "existing-suite"
+      ],
+      "artifact_ids": []
+    },
+    {
+      "id": "tr-d9336d37c5fa",
+      "identifier": "tests/test_bot.py::test_rejects_malformed_requests[bad_request2]",
+      "status": "PASSED",
+      "name": "test_rejects_malformed_requests[bad_request2]",
+      "duration_s": 0.0002,
+      "message": null,
+      "file": "tests/test_bot.py",
+      "line": 68,
+      "groups": [
+        "existing-suite"
+      ],
+      "artifact_ids": []
+    },
+    {
+      "id": "tr-b36685ecd0c8",
+      "identifier": "tests/test_bot.py::test_rejects_malformed_requests[bad_request3]",
+      "status": "PASSED",
+      "name": "test_rejects_malformed_requests[bad_request3]",
+      "duration_s": 0.0002,
+      "message": null,
+      "file": "tests/test_bot.py",
+      "line": 68,
+      "groups": [
+        "existing-suite"
+      ],
+      "artifact_ids": []
+    },
+    {
+      "id": "tr-bb2580c23387",
+      "identifier": "tests/test_retriever.py::test_corpus_has_policy_documents",
+      "status": "PASSED",
+      "name": "test_corpus_has_policy_documents",
+      "duration_s": 0.0001,
+      "message": null,
+      "file": "tests/test_retriever.py",
+      "line": 4,
+      "groups": [
+        "existing-suite"
+      ],
+      "artifact_ids": []
+    },
+    {
+      "id": "tr-6c8a529d3b20",
+      "identifier": "tests/test_retriever.py::test_tokenize_lowercases_and_drops_stopwords",
+      "status": "PASSED",
+      "name": "test_tokenize_lowercases_and_drops_stopwords",
+      "duration_s": 0.0001,
+      "message": null,
+      "file": "tests/test_retriever.py",
+      "line": 8,
+      "groups": [
+        "existing-suite"
+      ],
+      "artifact_ids": []
+    },
+    {
+      "id": "tr-66fd532994a8",
+      "identifier": "tests/test_retriever.py::test_returns_at_most_k_results",
+      "status": "PASSED",
+      "name": "test_returns_at_most_k_results",
+      "duration_s": 0.0001,
+      "message": null,
+      "file": "tests/test_retriever.py",
+      "line": 12,
+      "groups": [
+        "existing-suite"
+      ],
+      "artifact_ids": []
+    },
+    {
+      "id": "tr-9d889343486e",
+      "identifier": "tests/test_retriever.py::test_results_are_corpus_documents",
+      "status": "PASSED",
+      "name": "test_results_are_corpus_documents",
+      "duration_s": 0.0001,
+      "message": null,
+      "file": "tests/test_retriever.py",
+      "line": 16,
+      "groups": [
+        "existing-suite"
+      ],
+      "artifact_ids": []
+    },
+    {
+      "id": "tr-b41313b11601",
+      "identifier": "tests/test_retriever.py::test_standard_shipping_ranks_shipping_doc_first",
+      "status": "PASSED",
+      "name": "test_standard_shipping_ranks_shipping_doc_first",
+      "duration_s": 0.0001,
+      "message": null,
+      "file": "tests/test_retriever.py",
+      "line": 23,
+      "groups": [
+        "existing-suite"
+      ],
+      "artifact_ids": []
+    },
+    {
+      "id": "tr-3303d2598e54",
+      "identifier": "tests/test_retriever.py::test_scores_are_sorted_descending",
+      "status": "PASSED",
+      "name": "test_scores_are_sorted_descending",
+      "duration_s": 0.0001,
+      "message": null,
+      "file": "tests/test_retriever.py",
+      "line": 27,
+      "groups": [
+        "existing-suite"
+      ],
+      "artifact_ids": []
+    },
+    {
+      "id": "tr-bd0d1732db02",
+      "identifier": "tests/test_retriever.py::test_unrelated_query_returns_nothing",
+      "status": "PASSED",
+      "name": "test_unrelated_query_returns_nothing",
+      "duration_s": 0.0001,
+      "message": null,
+      "file": "tests/test_retriever.py",
+      "line": 32,
+      "groups": [
+        "existing-suite"
+      ],
+      "artifact_ids": []
+    },
+    {
+      "id": "tr-fe1b01841460",
+      "identifier": "tests/test_tools.py::test_lookup_known_order",
+      "status": "PASSED",
+      "name": "test_lookup_known_order",
+      "duration_s": 0.0001,
+      "message": null,
+      "file": "tests/test_tools.py",
+      "line": 4,
+      "groups": [
+        "existing-suite"
+      ],
+      "artifact_ids": []
+    },
+    {
+      "id": "tr-8fed83f36490",
+      "identifier": "tests/test_tools.py::test_lookup_is_case_insensitive",
+      "status": "PASSED",
+      "name": "test_lookup_is_case_insensitive",
+      "duration_s": 0.0001,
+      "message": null,
+      "file": "tests/test_tools.py",
+      "line": 9,
+      "groups": [
+        "existing-suite"
+      ],
+      "artifact_ids": []
+    },
+    {
+      "id": "tr-df8588887ac7",
+      "identifier": "tests/test_tools.py::test_lookup_unknown_order_returns_none",
+      "status": "PASSED",
+      "name": "test_lookup_unknown_order_returns_none",
+      "duration_s": 0.0001,
+      "message": null,
+      "file": "tests/test_tools.py",
+      "line": 13,
+      "groups": [
+        "existing-suite"
+      ],
+      "artifact_ids": []
+    },
+    {
+      "id": "tr-f585f2df1665",
+      "identifier": "tests/test_tools.py::test_lookup_returns_a_copy",
+      "status": "PASSED",
+      "name": "test_lookup_returns_a_copy",
+      "duration_s": 0.0001,
+      "message": null,
+      "file": "tests/test_tools.py",
+      "line": 17,
+      "groups": [
+        "existing-suite"
+      ],
+      "artifact_ids": []
+    },
+    {
+      "id": "tr-b34bba424723",
+      "identifier": "tests/test_tools.py::test_issue_refund_returns_confirmation",
+      "status": "PASSED",
+      "name": "test_issue_refund_returns_confirmation",
+      "duration_s": 0.0001,
+      "message": null,
+      "file": "tests/test_tools.py",
+      "line": 22,
+      "groups": [
+        "existing-suite"
+      ],
+      "artifact_ids": []
+    }
+  ],
+  "environment": {
+    "platform": "Linux-7.0.0-43-generic-x86_64",
+    "python": "3.12.3",
+    "hostname_hash": "a005a3344252",
+    "tool_versions": {
+      "pytest": "pytest 9.0.2"
+    },
+    "ci": false,
+    "git_head": "22e5d49b81fda66f99b258dd4e5ebb27ae2da276",
+    "git_dirty": false
+  },
+  "groups": [
+    "existing-suite"
+  ],
+  "label": "unit tests",
+  "status_reason": null,
+  "artifact_ids": [
+    "ev-13d554abddf8",
+    "ev-02b2e3cb35c0",
+    "ev-bac35436515b"
+  ],
+  "attempt": 1,
+  "reproduction_of": null
+}

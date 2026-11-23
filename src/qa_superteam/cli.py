@@ -400,7 +400,17 @@ def cmd_gate(args) -> int:
     from .policy import EXIT_CODES, GateInputs, evaluate, load_policy
 
     st = _store(args)
-    pol_path = Path(args.policy) if args.policy else st.config.policy_path
+    pol_path = st.config.policy_path
+    if args.policy:
+        from .config import PLUGIN_ROOT
+
+        cand = Path(args.policy)
+        if not cand.is_absolute():
+            for base in (Path.cwd(), st.config.project_root, PLUGIN_ROOT):
+                if (base / cand).exists():
+                    cand = base / cand
+                    break
+        pol_path = cand
     policy = load_policy(pol_path)
     idx = EvidenceIndex.build(st)
     reg = st.load_singleton("risks")
@@ -410,6 +420,7 @@ def cmd_gate(args) -> int:
         plan=st.load_singleton("plan"),
         risks=reg.risks if reg else [],
         artifact_problems=sorted(set(idx.artifact_problems.values())),
+        verifications=st.verifications(),
     )
     dec = evaluate(policy, inp)
     st.save_singleton("decision", dec, supersede=True)
@@ -520,9 +531,13 @@ def cmd_ai_eval(args) -> int:
             return out
 
         res = aieval.calibrate(load(args.judgments), load(args.labels))
+        res["judge_model"] = args.judge_model
+        res["rubric_id"] = args.rubric_id
         Path(args.out).write_text(json.dumps(res, indent=2), encoding="utf-8")
         k = res["kappa"]
         print(f"calibration over {res['n']} case(s): agreement {res['agreement']}, kappa {None if k is None else round(k, 3)} -> {args.out}")
+        if res["n"] < aieval.MIN_CALIBRATION_N:
+            print(f"warning: n < {aieval.MIN_CALIBRATION_N}; this calibration will NOT make the judge trusted")
         return EXIT_OK
     return EXIT_ERR
 
@@ -692,6 +707,8 @@ def build_parser() -> argparse.ArgumentParser:
     x = ai.add_parser("calibrate", help="judge vs human labels -> agreement and Cohen's kappa")
     x.add_argument("--judgments", required=True, help="JSONL {id, label}")
     x.add_argument("--labels", required=True, help="human JSONL {id, label}")
+    x.add_argument("--judge-model", required=True, help="model id the judgments came from (calibration is bound to it)")
+    x.add_argument("--rubric-id", default="", help="identifier/hash of the rubric version the judgments used")
     x.add_argument("--out", default="calibration.json")
     sp.set_defaults(func=cmd_ai_eval)
     return p

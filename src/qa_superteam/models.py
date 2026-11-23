@@ -155,6 +155,17 @@ class FactKind(enum.StrEnum):
     OTHER = "other"
 
 
+def risk_level(score: int) -> "Severity":
+    """Documented risk bands (docs/risk-model.md); shared by qast risk and record validation."""
+    if score >= 20:
+        return Severity.CRITICAL
+    if score >= 12:
+        return Severity.HIGH
+    if score >= 6:
+        return Severity.MEDIUM
+    return Severity.LOW
+
+
 # ------------------------------------------------------------------ shared pieces
 
 
@@ -319,6 +330,9 @@ class RiskAssessment:
             return "probability and impact must be in 1..5"
         if self.score != self.probability * self.impact:
             return "score must equal probability * impact"
+        band = risk_level(self.score)
+        if self.level != band:
+            return f"level must be '{band.value}' for score {self.score} (bands: >=20 critical, 12-19 high, 6-11 medium, <=5 low)"
         return None
 
 

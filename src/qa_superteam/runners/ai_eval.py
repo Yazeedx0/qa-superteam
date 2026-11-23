@@ -105,6 +105,7 @@ def main(argv: list[str] | None = None) -> int:
             cal = json.loads(Path(args.calibration).read_text(encoding="utf-8"))
             judge_cfg.kappa = cal.get("kappa")
             judge_cfg.calibration_n = int(cal.get("n") or 0)
+            judge_cfg.model_matches = cal.get("judge_model") == args.judge_model
 
     samples = max(1, min(args.samples, 10))
     outcomes = [run_case(target, c, samples, judge_cfg, args.judge_model) for c in cases]

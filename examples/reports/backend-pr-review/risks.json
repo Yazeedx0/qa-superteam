@@ -1,0 +1,42 @@
+{
+  "risks": [
+    {
+      "id": "R-01",
+      "area": "ledger",
+      "description": "Regression in ledger from the current change",
+      "probability": 1,
+      "impact": 5,
+      "score": 5,
+      "level": "low",
+      "factors": [
+        {
+          "name": "change size",
+          "value": 1,
+          "rationale": "4 lines changed across 1 file(s)",
+          "basis": "observed"
+        },
+        {
+          "name": "related tests",
+          "value": 1,
+          "rationale": "related tests selected",
+          "basis": "inferred"
+        },
+        {
+          "name": "impact signals",
+          "value": 5,
+          "rationale": "money movement / business-critical",
+          "basis": "inferred"
+        }
+      ],
+      "paths": [
+        "ledger/transfers.py"
+      ],
+      "existing_coverage": "related tests selected",
+      "related_requirements": [],
+      "assumptions": [
+        "Impact signals come from path/name heuristics; confirm business criticality with requirements."
+      ]
+    }
+  ],
+  "method": "probability x impact, factors documented per risk (docs/risk-model.md)"
+}

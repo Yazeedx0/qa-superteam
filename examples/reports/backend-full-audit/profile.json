@@ -1,0 +1,329 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-11-23T13:47:04Z",
+  "project_name": "backend-api",
+  "git": {
+    "is_repo": true,
+    "head": "f6a7396772e3032e9410adc562fce9a31844ffee",
+    "branch": "main",
+    "dirty": false
+  },
+  "languages": [
+    {
+      "name": "Python",
+      "files": 16,
+      "basis": "observed"
+    }
+  ],
+  "components": [
+    {
+      "name": "docs",
+      "path": "docs",
+      "kind": "docs",
+      "files": 1
+    },
+    {
+      "name": "ledger",
+      "path": "ledger",
+      "kind": "source",
+      "files": 12
+    },
+    {
+      "name": "tests",
+      "path": "tests",
+      "kind": "tests",
+      "files": 4
+    }
+  ],
+  "test_suites": [
+    {
+      "framework": "pytest",
+      "paths": [
+        "tests"
+      ],
+      "test_files": 3,
+      "suggested_command": [
+        "qast",
+        "exec",
+        "pytest",
+        "--group",
+        "existing-suite",
+        "--",
+        "tests"
+      ],
+      "basis": "observed",
+      "confidence": "high"
+    }
+  ],
+  "facts": [
+    {
+      "kind": "auth",
+      "name": "Auth-related module (by name)",
+      "basis": "inferred",
+      "confidence": "low",
+      "detail": null,
+      "evidence": [
+        {
+          "path": "ledger/auth.py",
+          "line": null,
+          "symbol": null,
+          "note": null
+        },
+        {
+          "path": "ledger/routers/auth.py",
+          "line": null,
+          "symbol": null,
+          "note": null
+        },
+        {
+          "path": "tests/test_auth.py",
+          "line": null,
+          "symbol": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "kind": "auth",
+      "name": "Bearer/Authorization header handling",
+      "basis": "inferred",
+      "confidence": "medium",
+      "detail": "matched source pattern",
+      "evidence": [
+        {
+          "path": "ledger/auth.py",
+          "line": 109,
+          "symbol": null,
+          "note": null
+        },
+        {
+          "path": "ledger/routers/auth.py",
+          "line": 40,
+          "symbol": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "kind": "data-store",
+      "name": "Explicit transactions",
+      "basis": "inferred",
+      "confidence": "medium",
+      "detail": "matched source pattern",
+      "evidence": [
+        {
+          "path": "ledger/db.py",
+          "line": 65,
+          "symbol": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "kind": "data-store",
+      "name": "SQLite",
+      "basis": "inferred",
+      "confidence": "medium",
+      "detail": "matched source pattern",
+      "evidence": [
+        {
+          "path": "ledger/auth.py",
+          "line": 8,
+          "symbol": null,
+          "note": null
+        },
+        {
+          "path": "ledger/db.py",
+          "line": 5,
+          "symbol": null,
+          "note": null
+        },
+        {
+          "path": "ledger/transfers.py",
+          "line": 7,
+          "symbol": null,
+          "note": null
+        },
+        {
+          "path": "ledger/wallets.py",
+          "line": 5,
+          "symbol": null,
+          "note": null
+        },
+        {
+          "path": "ledger/routers/auth.py",
+          "line": 3,
+          "symbol": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "kind": "documentation",
+      "name": "Doc: README.md",
+      "basis": "observed",
+      "confidence": "high",
+      "detail": null,
+      "evidence": [
+        {
+          "path": "README.md",
+          "line": null,
+          "symbol": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "kind": "documentation",
+      "name": "Doc: docs/REQUIREMENTS.md",
+      "basis": "observed",
+      "confidence": "high",
+      "detail": null,
+      "evidence": [
+        {
+          "path": "docs/REQUIREMENTS.md",
+          "line": null,
+          "symbol": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "kind": "framework",
+      "name": "FastAPI",
+      "basis": "observed",
+      "confidence": "high",
+      "detail": "declared dependency 'fastapi'",
+      "evidence": [
+        {
+          "path": "pyproject.toml",
+          "line": null,
+          "symbol": null,
+          "note": null
+        },
+        {
+          "path": "requirements.txt",
+          "line": null,
+          "symbol": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "kind": "integration",
+      "name": "HTTPX client",
+      "basis": "observed",
+      "confidence": "high",
+      "detail": "declared dependency 'httpx'",
+      "evidence": [
+        {
+          "path": "pyproject.toml",
+          "line": null,
+          "symbol": null,
+          "note": null
+        },
+        {
+          "path": "requirements.txt",
+          "line": null,
+          "symbol": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "kind": "integration",
+      "name": "Idempotency keys",
+      "basis": "inferred",
+      "confidence": "medium",
+      "detail": "matched source pattern",
+      "evidence": [
+        {
+          "path": "ledger/db.py",
+          "line": 48,
+          "symbol": null,
+          "note": null
+        },
+        {
+          "path": "ledger/transfers.py",
+          "line": 72,
+          "symbol": null,
+          "note": null
+        },
+        {
+          "path": "ledger/routers/transfers.py",
+          "line": 25,
+          "symbol": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "kind": "runtime",
+      "name": "Python",
+      "basis": "observed",
+      "confidence": "high",
+      "detail": "Python dependency manifest",
+      "evidence": [
+        {
+          "path": "pyproject.toml",
+          "line": null,
+          "symbol": null,
+          "note": null
+        },
+        {
+          "path": "requirements.txt",
+          "line": null,
+          "symbol": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "kind": "runtime",
+      "name": "Uvicorn ASGI server",
+      "basis": "observed",
+      "confidence": "high",
+      "detail": "declared dependency 'uvicorn'",
+      "evidence": [
+        {
+          "path": "pyproject.toml",
+          "line": null,
+          "symbol": null,
+          "note": null
+        },
+        {
+          "path": "requirements.txt",
+          "line": null,
+          "symbol": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "kind": "test-framework",
+      "name": "pytest",
+      "basis": "observed",
+      "confidence": "high",
+      "detail": "declared dependency 'pytest'",
+      "evidence": [
+        {
+          "path": "pyproject.toml",
+          "line": null,
+          "symbol": null,
+          "note": null
+        },
+        {
+          "path": "requirements.txt",
+          "line": null,
+          "symbol": null,
+          "note": null
+        }
+      ]
+    }
+  ],
+  "unknowns": [
+    "No CI configuration detected."
+  ],
+  "files_scanned": 20,
+  "truncated": false
+}

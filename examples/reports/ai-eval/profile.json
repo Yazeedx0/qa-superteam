@@ -1,0 +1,168 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-11-23T13:48:23Z",
+  "project_name": "ai-support-bot",
+  "git": {
+    "is_repo": true,
+    "head": "22e5d49b81fda66f99b258dd4e5ebb27ae2da276",
+    "branch": "main",
+    "dirty": false
+  },
+  "languages": [
+    {
+      "name": "Python",
+      "files": 7,
+      "basis": "observed"
+    }
+  ],
+  "components": [
+    {
+      "name": "docs",
+      "path": "docs",
+      "kind": "docs",
+      "files": 1
+    },
+    {
+      "name": "evals",
+      "path": "evals",
+      "kind": "source",
+      "files": 1
+    },
+    {
+      "name": "support_bot",
+      "path": "support_bot",
+      "kind": "source",
+      "files": 11
+    },
+    {
+      "name": "tests",
+      "path": "tests",
+      "kind": "tests",
+      "files": 3
+    }
+  ],
+  "test_suites": [
+    {
+      "framework": "pytest",
+      "paths": [
+        "tests"
+      ],
+      "test_files": 3,
+      "suggested_command": [
+        "qast",
+        "exec",
+        "pytest",
+        "--group",
+        "existing-suite",
+        "--",
+        "tests"
+      ],
+      "basis": "observed",
+      "confidence": "high"
+    }
+  ],
+  "facts": [
+    {
+      "kind": "ai-component",
+      "name": "Eval dataset: evals/golden.jsonl",
+      "basis": "observed",
+      "confidence": "high",
+      "detail": null,
+      "evidence": [
+        {
+          "path": "evals/golden.jsonl",
+          "line": null,
+          "symbol": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "kind": "ai-component",
+      "name": "Retrieval / RAG pattern",
+      "basis": "inferred",
+      "confidence": "medium",
+      "detail": "matched source pattern",
+      "evidence": [
+        {
+          "path": "support_bot/bot.py",
+          "line": 14,
+          "symbol": null,
+          "note": null
+        },
+        {
+          "path": "support_bot/retriever.py",
+          "line": 1,
+          "symbol": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "kind": "ai-component",
+      "name": "Tool calling",
+      "basis": "inferred",
+      "confidence": "medium",
+      "detail": "matched source pattern",
+      "evidence": [
+        {
+          "path": "support_bot/bot.py",
+          "line": 53,
+          "symbol": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "kind": "documentation",
+      "name": "Doc: README.md",
+      "basis": "observed",
+      "confidence": "high",
+      "detail": null,
+      "evidence": [
+        {
+          "path": "README.md",
+          "line": null,
+          "symbol": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "kind": "documentation",
+      "name": "Doc: docs/AI_REQUIREMENTS.md",
+      "basis": "observed",
+      "confidence": "high",
+      "detail": null,
+      "evidence": [
+        {
+          "path": "docs/AI_REQUIREMENTS.md",
+          "line": null,
+          "symbol": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "kind": "runtime",
+      "name": "Python",
+      "basis": "observed",
+      "confidence": "high",
+      "detail": "Python dependency manifest",
+      "evidence": [
+        {
+          "path": "pyproject.toml",
+          "line": null,
+          "symbol": null,
+          "note": null
+        }
+      ]
+    }
+  ],
+  "unknowns": [
+    "No CI configuration detected.",
+    "No authentication mechanism detected; confirm whether the system is meant to be public."
+  ],
+  "files_scanned": 18,
+  "truncated": false
+}

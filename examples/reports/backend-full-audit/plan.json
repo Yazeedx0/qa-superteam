@@ -1,0 +1,116 @@
+{
+  "id": "TP-20261123-134703-full-audit-2c3b",
+  "scope": "Ledger API full audit",
+  "strategy_summary": "Risk-based. Existing suite is mandatory. New API tests target the two critical invariants (INV-1, INV-2) and the email uniqueness rule with boundary and negative techniques. REQ-LARGE is ambiguous and out of scope.",
+  "test_cases": [
+    {
+      "id": "TC-EXIST",
+      "title": "Existing suite",
+      "level": "api",
+      "technique": "regression",
+      "oracle": "project's own assertions",
+      "origin": "existing",
+      "test_ref": "tests",
+      "groups": [
+        "existing-suite"
+      ],
+      "priority": "high",
+      "preconditions": [],
+      "steps": [],
+      "inputs": {},
+      "requirement_ids": [],
+      "invariant_ids": [],
+      "risk_ids": [
+        "R-01"
+      ]
+    },
+    {
+      "id": "TC-AUTHZ",
+      "title": "Third party cannot read a transfer",
+      "level": "api",
+      "technique": "negative",
+      "oracle": "404 for non-party",
+      "origin": "new",
+      "test_ref": "tests/qa/test_qa_authz.py",
+      "groups": [
+        "critical-journeys"
+      ],
+      "priority": "critical",
+      "preconditions": [],
+      "steps": [],
+      "inputs": {},
+      "requirement_ids": [
+        "REQ-VIS"
+      ],
+      "invariant_ids": [
+        "INV-2"
+      ],
+      "risk_ids": [
+        "R-01"
+      ]
+    },
+    {
+      "id": "TC-FEE",
+      "title": "Fee cannot overdraw a wallet",
+      "level": "api",
+      "technique": "boundary",
+      "oracle": "422 and unchanged balance when amount+fee > balance",
+      "origin": "new",
+      "test_ref": "tests/qa/test_qa_invariants.py",
+      "groups": [
+        "critical-journeys"
+      ],
+      "priority": "critical",
+      "preconditions": [],
+      "steps": [],
+      "inputs": {},
+      "requirement_ids": [
+        "REQ-BAL"
+      ],
+      "invariant_ids": [
+        "INV-1"
+      ],
+      "risk_ids": [
+        "R-01"
+      ]
+    },
+    {
+      "id": "TC-EMAIL",
+      "title": "Case-insensitive email uniqueness",
+      "level": "api",
+      "technique": "equivalence",
+      "oracle": "409 for differently-cased duplicate",
+      "origin": "new",
+      "test_ref": "tests/qa/test_qa_integrity.py",
+      "groups": [
+        "regression"
+      ],
+      "priority": "high",
+      "preconditions": [],
+      "steps": [],
+      "inputs": {},
+      "requirement_ids": [
+        "REQ-EMAIL"
+      ],
+      "invariant_ids": [],
+      "risk_ids": []
+    }
+  ],
+  "out_of_scope": [
+    {
+      "item": "REQ-LARGE",
+      "reason": "ambiguous requirement; needs product definition"
+    },
+    {
+      "item": "load testing",
+      "reason": "no authorized performance environment"
+    }
+  ],
+  "assumptions": [],
+  "entry_criteria": [],
+  "exit_criteria": [],
+  "specialists": [
+    "qa-superteam:backend-qa-engineer",
+    "qa-superteam:independent-verification-engineer"
+  ]
+}

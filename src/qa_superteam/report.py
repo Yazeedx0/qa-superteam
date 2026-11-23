@@ -32,7 +32,9 @@ def measured_metrics(store: RunStore, arts: list[m.EvidenceArtifact]) -> list[m.
         except (OSError, json.JSONDecodeError):
             continue
         if isinstance(data, dict) and "totals" in data and "percent_covered" in data["totals"]:
-            out.append(m.MeasuredMetric("line coverage", round(float(data["totals"]["percent_covered"]), 2), "%", "coverage.py", a.id))
+            branch = bool((data.get("meta") or {}).get("branch_coverage"))
+            label = "statement+branch coverage" if branch else "statement coverage"
+            out.append(m.MeasuredMetric(label, round(float(data["totals"]["percent_covered"]), 2), "%", "coverage.py", a.id))
         elif isinstance(data, dict) and "total" in data and isinstance(data["total"], dict) and "lines" in data["total"]:
             out.append(m.MeasuredMetric("line coverage", float(data["total"]["lines"]["pct"]), "%", "istanbul json-summary", a.id))
     return out
@@ -128,7 +130,7 @@ def build_report(store: RunStore) -> m.QAReport:
 
         try:
             pol = load_policy(store.config.policy_path)
-            cur = GateInputs(executions=execs, findings=views, plan=plan, risks=risks, artifact_problems=integrity).digest(pol)
+            cur = GateInputs(executions=execs, findings=views, plan=plan, risks=risks, artifact_problems=integrity, verifications=store.verifications()).digest(pol)
             if cur != decision.inputs_digest:
                 integrity.append("decision.json is stale: evidence changed after `qast gate` ran; re-run the gate")
         except Exception as e:  # noqa: BLE001

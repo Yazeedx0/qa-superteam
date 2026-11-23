@@ -34,7 +34,7 @@ ALLOWED_TOOLS = [
     "Read", "Grep", "Glob", "Write", "Edit", "Skill", "Agent", "TodoWrite",
     "Bash(qast:*)", "Bash(python3:*)", "Bash(python:*)", "Bash(pytest:*)", "Bash(npx playwright:*)", "Bash(npm test:*)",
     "Bash(git diff:*)", "Bash(git log:*)", "Bash(git status:*)", "Bash(git show:*)", "Bash(git rev-parse:*)", "Bash(git branch:*)",
-    "Bash(ls:*)", "Bash(cat:*)", "Bash(head:*)", "Bash(tail:*)", "Bash(wc:*)", "Bash(grep:*)", "Bash(find:*)", "Bash(mkdir:*)", "Bash(cp:*)",
+    "Bash(git archive:*)", "Bash(tar:*)", "Bash(ls:*)", "Bash(cat:*)", "Bash(head:*)", "Bash(tail:*)", "Bash(wc:*)", "Bash(grep:*)", "Bash(find:*)", "Bash(mkdir:*)", "Bash(cp:*)",
 ]
 
 
