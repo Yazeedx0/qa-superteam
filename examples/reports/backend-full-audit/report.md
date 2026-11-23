@@ -1,14 +1,14 @@
 # QA Report — backend-api (full-audit)
 
-Run `20261123-134703-full-audit-2c3b` · scope: Ledger API: full repository audit · generated 2026-11-23T13:47:18Z
+Run `20261123-142737-full-audit-e4dc` · scope: Ledger API: full repository audit · generated 2026-11-23T14:27:51Z
 
 ## ⛔ Release decision: **BLOCK**
 
-Policy `default` v1.0.0 (sha256 `f6b8fcb3544b`) · evaluated 2026-11-23T13:47:17Z · inputs digest `db85832b0c9c`
+Policy `default` v1.0.0 (sha256 `f6b8fcb3544b`) · evaluated 2026-11-23T14:27:51Z · inputs digest `8fe9e9538bda`
 
 | Rule | Outcome | Reason |
 |---|---|---|
-| `R-CONFIRMED-BLOCKING` | BLOCK | F-6d0ec146 [critical security] Any logged-in user can read another user's transfer; F-f16b5fbd [critical data-integrity] Fee is not included in the funds check, so balances go negative |
+| `R-CONFIRMED-BLOCKING` | BLOCK | F-9718fe18 [critical security] Any logged-in user can read another user's transfer; F-767d20c2 [critical data-integrity] Fee is not included in the funds check, so balances go negative |
 | `R-MANDATORY-GROUP:existing-suite` | REVIEW_REQUIRED | 1 skipped/not-run test(s) in mandatory group 'existing-suite' (allowed: 0); skipped tests are not counted as passed |
 | `R-PLANNED-MANDATORY-CASES` | BLOCK | planned mandatory test cases failed: TC-AUTHZ, TC-FEE, TC-EMAIL |
 
@@ -34,30 +34,11 @@ Executions: 13 · Findings: 3 (CONFIRMED 2, REPRODUCED 1)
 
 ## Findings
 
-### F-6d0ec146 · Any logged-in user can read another user's transfer
-
-**CONFIRMED** · severity **critical** · security · reported by qa-superteam:backend-qa-engineer
-
-_Status basis:_ independently verified by qa-superteam:independent-verification-engineer (independent-rerun) in V-ec594034
-
-- **Expected:** 404 for a user who neither sent nor received the transfer (REQ-VIS, INV-2)
-- **Actual:** 200 with amount, memo and wallet ids of the other users' transfer
-- **Location:** `ledger/routers/transfers.py (get_transfer)`
-- **Tests:** `tests/qa/test_qa_authz.py::test_outsider_cannot_read_transfer`, `tests/qa/test_qa_authz.py::test_transfer_ids_cannot_be_enumerated`
-- **Reproduction steps:**
-  1. Register users A, B and C
-  2. A deposits and transfers to C
-  3. B requests GET /transfers/{id} of A's transfer
-- **Root-cause hypotheses** (not findings unless marked confirmed):
-  - Logic in get_transfer does not enforce the stated rule — _hypothesis, medium confidence_
-- **Evidence:** [`ev-b04fd5243ee7`](artifacts/ev-b04fd5243ee7-pytest-output.log), [`ev-279cb16836c3`](artifacts/ev-279cb16836c3-pytest-report.jsonl)
-- **Verification V-ec594034:** CONFIRMED by qa-superteam:independent-verification-engineer via independent-rerun — Re-ran tests/qa/test_qa_authz.py::test_outsider_cannot_read_transfer in an independent execution; failure is consistent (3/3).
-
-### F-f16b5fbd · Fee is not included in the funds check, so balances go negative
+### F-767d20c2 · Fee is not included in the funds check, so balances go negative
 
 **CONFIRMED** · severity **critical** · data-integrity · reported by qa-superteam:backend-qa-engineer
 
-_Status basis:_ independently verified by qa-superteam:independent-verification-engineer (independent-rerun) in V-9c2f4f7a
+_Status basis:_ independently verified by qa-superteam:independent-verification-engineer (independent-rerun) in V-371f24d7
 
 - **Expected:** Transfer rejected when amount + fee exceeds the balance (REQ-BAL, INV-1)
 - **Actual:** Transfer of the whole balance succeeds and leaves balance at -fee
@@ -69,10 +50,29 @@ _Status basis:_ independently verified by qa-superteam:independent-verification-
   3. GET /wallets/me shows -10
 - **Root-cause hypotheses** (not findings unless marked confirmed):
   - Logic in create_transfer does not enforce the stated rule — _hypothesis, medium confidence_
-- **Evidence:** [`ev-c87d8c3bd61e`](artifacts/ev-c87d8c3bd61e-pytest-output.log), [`ev-7cf8d6fe09b6`](artifacts/ev-7cf8d6fe09b6-pytest-report.jsonl)
-- **Verification V-9c2f4f7a:** CONFIRMED by qa-superteam:independent-verification-engineer via independent-rerun — Re-ran tests/qa/test_qa_invariants.py::test_transfer_of_entire_balance_rejected_when_fee_not_covered in an independent execution; failure is consistent (3/3).
+- **Evidence:** [`ev-9e6edd21678d`](artifacts/ev-9e6edd21678d-pytest-output.log), [`ev-e8d2b45a1c39`](artifacts/ev-e8d2b45a1c39-pytest-report.jsonl)
+- **Verification V-371f24d7:** CONFIRMED by qa-superteam:independent-verification-engineer via independent-rerun — Re-ran tests/qa/test_qa_invariants.py::test_transfer_of_entire_balance_rejected_when_fee_not_covered in an independent execution; failure is consistent (3/3).
 
-### F-ff42473e · Email uniqueness is case-sensitive, allowing duplicate accounts
+### F-9718fe18 · Any logged-in user can read another user's transfer
+
+**CONFIRMED** · severity **critical** · security · reported by qa-superteam:backend-qa-engineer
+
+_Status basis:_ independently verified by qa-superteam:independent-verification-engineer (independent-rerun) in V-578e93ee
+
+- **Expected:** 404 for a user who neither sent nor received the transfer (REQ-VIS, INV-2)
+- **Actual:** 200 with amount, memo and wallet ids of the other users' transfer
+- **Location:** `ledger/routers/transfers.py (get_transfer)`
+- **Tests:** `tests/qa/test_qa_authz.py::test_outsider_cannot_read_transfer`, `tests/qa/test_qa_authz.py::test_transfer_ids_cannot_be_enumerated`
+- **Reproduction steps:**
+  1. Register users A, B and C
+  2. A deposits and transfers to C
+  3. B requests GET /transfers/{id} of A's transfer
+- **Root-cause hypotheses** (not findings unless marked confirmed):
+  - Logic in get_transfer does not enforce the stated rule — _hypothesis, medium confidence_
+- **Evidence:** [`ev-cc1b297e9192`](artifacts/ev-cc1b297e9192-pytest-output.log), [`ev-d4947d2d6374`](artifacts/ev-d4947d2d6374-pytest-report.jsonl)
+- **Verification V-578e93ee:** CONFIRMED by qa-superteam:independent-verification-engineer via independent-rerun — Re-ran tests/qa/test_qa_authz.py::test_outsider_cannot_read_transfer in an independent execution; failure is consistent (3/3).
+
+### F-bd4021ab · Email uniqueness is case-sensitive, allowing duplicate accounts
 
 **REPRODUCED** · severity **medium** · data-integrity · reported by qa-superteam:backend-qa-engineer
 
@@ -88,34 +88,34 @@ _Status basis:_ reproduction 3/3 failing (consistent); not yet independently ver
   3. Observe 201 for both
 - **Root-cause hypotheses** (not findings unless marked confirmed):
   - Logic in clean_email does not enforce the stated rule — _hypothesis, medium confidence_
-- **Evidence:** [`ev-daa9c6fe45b0`](artifacts/ev-daa9c6fe45b0-pytest-output.log), [`ev-b5a648b919ca`](artifacts/ev-b5a648b919ca-pytest-report.jsonl)
+- **Evidence:** [`ev-7f5c5a118120`](artifacts/ev-7f5c5a118120-pytest-output.log), [`ev-73cb1bf90059`](artifacts/ev-73cb1bf90059-pytest-report.jsonl)
 
 ## Test executions
 
 | Execution | Adapter | Label / groups | Status | P/F/E/S/B/NR/I | Duration | Note |
 |---|---|---|---|---|---|---|
-| `ex-eaf08a9b405a` | pytest | existing suite [existing-suite] | **PASSED** | 13/0/0/1/0/0/0 | 1.0s |  |
-| `ex-2e1a6aa07740` | pytest | authorization [critical-journeys] | **FAILED** | 5/2/0/0/0/0/0 | 0.9s |  |
-| `ex-93e439bc5901` | pytest | invariants [critical-journeys] | **FAILED** | 21/2/0/0/0/0/0 | 1.5s |  |
-| `ex-0055f27d269f` | pytest | data integrity [regression] | **FAILED** | 10/2/0/0/0/0/0 | 1.0s |  |
-| `ex-d15ad38b5d71` | pytest | reproduce tests/qa/test_qa_authz.py::test_outsider_cannot_read_transfer #1 (rep… | **FAILED** | 0/1/0/0/0/0/0 | 0.7s |  |
-| `ex-041d290a85a9` | pytest | reproduce tests/qa/test_qa_authz.py::test_outsider_cannot_read_transfer #2 (rep… | **FAILED** | 0/1/0/0/0/0/0 | 0.7s |  |
-| `ex-165999aca805` | pytest | reproduce tests/qa/test_qa_authz.py::test_outsider_cannot_read_transfer #3 (rep… | **FAILED** | 0/1/0/0/0/0/0 | 0.7s |  |
-| `ex-533d28beb94f` | pytest | reproduce tests/qa/test_qa_invariants.py::test_transfer_of_entire_balance_rejec… | **FAILED** | 0/1/0/0/0/0/0 | 0.7s |  |
-| `ex-0e66e9fe0f01` | pytest | reproduce tests/qa/test_qa_invariants.py::test_transfer_of_entire_balance_rejec… | **FAILED** | 0/1/0/0/0/0/0 | 0.7s |  |
-| `ex-baf1c30e7361` | pytest | reproduce tests/qa/test_qa_invariants.py::test_transfer_of_entire_balance_rejec… | **FAILED** | 0/1/0/0/0/0/0 | 0.7s |  |
-| `ex-370759a5aee1` | pytest | reproduce tests/qa/test_qa_integrity.py::test_email_uniqueness_is_case_insensit… | **FAILED** | 0/1/0/0/0/0/0 | 0.6s |  |
-| `ex-0912143f1f05` | pytest | reproduce tests/qa/test_qa_integrity.py::test_email_uniqueness_is_case_insensit… | **FAILED** | 0/1/0/0/0/0/0 | 0.6s |  |
-| `ex-e1f619080271` | pytest | reproduce tests/qa/test_qa_integrity.py::test_email_uniqueness_is_case_insensit… | **FAILED** | 0/1/0/0/0/0/0 | 0.7s |  |
+| `ex-8d7b7c8ade45` | pytest | existing suite [existing-suite] | **PASSED** | 13/0/0/1/0/0/0 | 1.0s |  |
+| `ex-84360aae24e8` | pytest | authorization [critical-journeys] | **FAILED** | 5/2/0/0/0/0/0 | 0.9s |  |
+| `ex-5d57bd816fd2` | pytest | invariants [critical-journeys] | **FAILED** | 21/2/0/0/0/0/0 | 1.5s |  |
+| `ex-8d7c5c33da8c` | pytest | data integrity [regression] | **FAILED** | 10/2/0/0/0/0/0 | 1.0s |  |
+| `ex-fc9e7cd015ae` | pytest | reproduce tests/qa/test_qa_authz.py::test_outsider_cannot_read_transfer #1 (rep… | **FAILED** | 0/1/0/0/0/0/0 | 0.7s |  |
+| `ex-21fee5762e1e` | pytest | reproduce tests/qa/test_qa_authz.py::test_outsider_cannot_read_transfer #2 (rep… | **FAILED** | 0/1/0/0/0/0/0 | 0.7s |  |
+| `ex-612fee64b92c` | pytest | reproduce tests/qa/test_qa_authz.py::test_outsider_cannot_read_transfer #3 (rep… | **FAILED** | 0/1/0/0/0/0/0 | 0.7s |  |
+| `ex-3cec9eb296c3` | pytest | reproduce tests/qa/test_qa_invariants.py::test_transfer_of_entire_balance_rejec… | **FAILED** | 0/1/0/0/0/0/0 | 0.7s |  |
+| `ex-c611774251a2` | pytest | reproduce tests/qa/test_qa_invariants.py::test_transfer_of_entire_balance_rejec… | **FAILED** | 0/1/0/0/0/0/0 | 0.6s |  |
+| `ex-df07e8798dc1` | pytest | reproduce tests/qa/test_qa_invariants.py::test_transfer_of_entire_balance_rejec… | **FAILED** | 0/1/0/0/0/0/0 | 0.7s |  |
+| `ex-90adcd24f91b` | pytest | reproduce tests/qa/test_qa_integrity.py::test_email_uniqueness_is_case_insensit… | **FAILED** | 0/1/0/0/0/0/0 | 0.6s |  |
+| `ex-7eb1a91bf64f` | pytest | reproduce tests/qa/test_qa_integrity.py::test_email_uniqueness_is_case_insensit… | **FAILED** | 0/1/0/0/0/0/0 | 0.6s |  |
+| `ex-7efbe729910c` | pytest | reproduce tests/qa/test_qa_integrity.py::test_email_uniqueness_is_case_insensit… | **FAILED** | 0/1/0/0/0/0/0 | 0.6s |  |
 
 <details><summary>Failing, errored and inconclusive results (6)</summary>
 
-- **FAILED** `tests/qa/test_qa_authz.py::test_outsider_cannot_read_transfer` (ex-2e1a6aa07740): client = <starlette.testclient.TestClient object at 0x73370df13e60> new_user = <function new_user.<locals>._new at 0x73370df9b600>      def test_outsider_cannot_read_transfer(client, new_user):         alice = new_user(balance=10_000)         bob = new_user()         mallory = new_user()         transfer = _send(client, alice, bob, 4_200, memo="rent for March")              r = client.get(f"/tran…
-- **FAILED** `tests/qa/test_qa_authz.py::test_transfer_ids_cannot_be_enumerated` (ex-2e1a6aa07740): client = <starlette.testclient.TestClient object at 0x73370df2b440> new_user = <function new_user.<locals>._new at 0x73370df97420>      def test_transfer_ids_cannot_be_enumerated(client, new_user):         alice = new_user(balance=10_000)         bob = new_user()         mallory = new_user()         ids = [_send(client, alice, bob, 100 + i, memo=f"private #{i}")["id"] for i in range(3)]          …
-- **FAILED** `tests/qa/test_qa_invariants.py::test_transfer_of_entire_balance_rejected_when_fee_not_covered` (ex-93e439bc5901): client = <starlette.testclient.TestClient object at 0x7773f9f71ca0> new_user = <function new_user.<locals>._new at 0x7773fa0480e0> balance_of = <function balance_of.<locals>.<lambda> at 0x7773fa048180>      def test_transfer_of_entire_balance_rejected_when_fee_not_covered(client, new_user, balance_of):         alice = new_user(balance=1_000)         bob = new_user()              r = _transfer(cli…
-- **FAILED** `tests/qa/test_qa_invariants.py::test_balance_never_negative_when_fee_exceeds_remaining_funds` (ex-93e439bc5901): client = <starlette.testclient.TestClient object at 0x7773f9fd85f0> new_user = <function new_user.<locals>._new at 0x7773fa04bd80> balance_of = <function balance_of.<locals>.<lambda> at 0x7773fa04bec0>      def test_balance_never_negative_when_fee_exceeds_remaining_funds(client, new_user, balance_of):         alice = new_user(balance=1_000)         bob = new_user()              _transfer(client, …
-- **FAILED** `tests/qa/test_qa_integrity.py::test_email_uniqueness_is_case_insensitive` (ex-0055f27d269f): client = <starlette.testclient.TestClient object at 0x7469b8d5fec0>      def test_email_uniqueness_is_case_insensitive(client):         assert _register(client, "alice@example.com").status_code == 201              r = _register(client, "Alice@Example.com")      >       assert r.status_code == 409, (             "'Alice@Example.com' registered as a second account although 'alice@example.com' "    …
-- **FAILED** `tests/qa/test_qa_integrity.py::test_login_email_is_case_insensitive` (ex-0055f27d269f): client = <starlette.testclient.TestClient object at 0x7469b8d8ef90>      def test_login_email_is_case_insensitive(client):         assert _register(client, "Carol@Example.com").status_code == 201              r = client.post("/auth/login", json={"email": "carol@example.com", "password": [REDACTED:secret-assignment]})      >       assert r.status_code == 200, (             "login with a different …
+- **FAILED** `tests/qa/test_qa_authz.py::test_outsider_cannot_read_transfer` (ex-84360aae24e8): client = <starlette.testclient.TestClient object at 0x735dfa7b7fe0> new_user = <function new_user.<locals>._new at 0x735dfa843600>      def test_outsider_cannot_read_transfer(client, new_user):         alice = new_user(balance=10_000)         bob = new_user()         mallory = new_user()         transfer = _send(client, alice, bob, 4_200, memo="rent for March")              r = client.get(f"/tran…
+- **FAILED** `tests/qa/test_qa_authz.py::test_transfer_ids_cannot_be_enumerated` (ex-84360aae24e8): client = <starlette.testclient.TestClient object at 0x735dfa7d34d0> new_user = <function new_user.<locals>._new at 0x735dfa83f600>      def test_transfer_ids_cannot_be_enumerated(client, new_user):         alice = new_user(balance=10_000)         bob = new_user()         mallory = new_user()         ids = [_send(client, alice, bob, 100 + i, memo=f"private #{i}")["id"] for i in range(3)]          …
+- **FAILED** `tests/qa/test_qa_invariants.py::test_transfer_of_entire_balance_rejected_when_fee_not_covered` (ex-5d57bd816fd2): client = <starlette.testclient.TestClient object at 0x7cda678e5d00> new_user = <function new_user.<locals>._new at 0x7cda678b00e0> balance_of = <function balance_of.<locals>.<lambda> at 0x7cda678b0180>      def test_transfer_of_entire_balance_rejected_when_fee_not_covered(client, new_user, balance_of):         alice = new_user(balance=1_000)         bob = new_user()              r = _transfer(cli…
+- **FAILED** `tests/qa/test_qa_invariants.py::test_balance_never_negative_when_fee_exceeds_remaining_funds` (ex-5d57bd816fd2): client = <starlette.testclient.TestClient object at 0x7cda67874500> new_user = <function new_user.<locals>._new at 0x7cda678b3d80> balance_of = <function balance_of.<locals>.<lambda> at 0x7cda678b3ec0>      def test_balance_never_negative_when_fee_exceeds_remaining_funds(client, new_user, balance_of):         alice = new_user(balance=1_000)         bob = new_user()              _transfer(client, …
+- **FAILED** `tests/qa/test_qa_integrity.py::test_email_uniqueness_is_case_insensitive` (ex-8d7c5c33da8c): client = <starlette.testclient.TestClient object at 0x7c953856be60>      def test_email_uniqueness_is_case_insensitive(client):         assert _register(client, "alice@example.com").status_code == 201              r = _register(client, "Alice@Example.com")      >       assert r.status_code == 409, (             "'Alice@Example.com' registered as a second account although 'alice@example.com' "    …
+- **FAILED** `tests/qa/test_qa_integrity.py::test_login_email_is_case_insensitive` (ex-8d7c5c33da8c): client = <starlette.testclient.TestClient object at 0x7c953851ae40>      def test_login_email_is_case_insensitive(client):         assert _register(client, "Carol@Example.com").status_code == 201              r = client.post("/auth/login", json={"email": "carol@example.com", "password": [REDACTED:secret-assignment]})      >       assert r.status_code == 200, (             "login with a different …
 
 </details>
 
@@ -171,51 +171,51 @@ discovery: done, requirements: done, impact: skipped, risk: done, planning: done
 
 - Project: backend-api · languages: Python (16)
 - Test suites: pytest: tests (3 files)
-- Platform: Linux-7.0.0-43-generic-x86_64 · Python 3.12.3 · CI: False · git HEAD `f6a7396772e3` dirty=False
+- Platform: Linux-7.0.0-43-generic-x86_64 · Python 3.12.3 · CI: False · git HEAD `75e11d474461` dirty=False
 - Tools: pytest `pytest 9.0.2`
 
 ## Evidence index
 
 | Artifact | Kind | Path | sha256 | Redactions |
 |---|---|---|---|---|
-| `ev-0c659393b00b` | report | [ev-0c659393b00b-pytest-report.jsonl](artifacts/ev-0c659393b00b-pytest-report.jsonl) | `0c659393b00b0501` | 0 |
-| `ev-0f83615ca9d8` | log | [ev-0f83615ca9d8-pytest-output.log](artifacts/ev-0f83615ca9d8-pytest-output.log) | `0f83615ca9d89dcd` | 0 |
-| `ev-279cb16836c3` | report | [ev-279cb16836c3-pytest-report.jsonl](artifacts/ev-279cb16836c3-pytest-report.jsonl) | `279cb16836c3be22` | 0 |
-| `ev-446ec233ed55` | log | [ev-446ec233ed55-pytest-output.log](artifacts/ev-446ec233ed55-pytest-output.log) | `446ec233ed55abd4` | 0 |
-| `ev-4884a421dbd0` | junit | [ev-4884a421dbd0-junit.xml](artifacts/ev-4884a421dbd0-junit.xml) | `4884a421dbd0cd0f` | 0 |
-| `ev-48ab8686b136` | junit | [ev-48ab8686b136-junit.xml](artifacts/ev-48ab8686b136-junit.xml) | `48ab8686b136f346` | 0 |
-| `ev-5227d8eee8f9` | junit | [ev-5227d8eee8f9-junit.xml](artifacts/ev-5227d8eee8f9-junit.xml) | `5227d8eee8f988ed` | 0 |
-| `ev-57e1a8aed4f4` | log | [ev-57e1a8aed4f4-pytest-output.log](artifacts/ev-57e1a8aed4f4-pytest-output.log) | `57e1a8aed4f46aad` | 0 |
-| `ev-59e53a5b984b` | report | [ev-59e53a5b984b-pytest-report.jsonl](artifacts/ev-59e53a5b984b-pytest-report.jsonl) | `59e53a5b984b2f8f` | 0 |
-| `ev-5f4d3a77dac7` | log | [ev-5f4d3a77dac7-pytest-output.log](artifacts/ev-5f4d3a77dac7-pytest-output.log) | `5f4d3a77dac7009e` | 0 |
-| `ev-600bed64fb7e` | junit | [ev-600bed64fb7e-junit.xml](artifacts/ev-600bed64fb7e-junit.xml) | `600bed64fb7e8181` | 0 |
-| `ev-6784b8bdd8d7` | log | [ev-6784b8bdd8d7-pytest-output.log](artifacts/ev-6784b8bdd8d7-pytest-output.log) | `6784b8bdd8d79730` | 0 |
-| `ev-685f6f194127` | report | [ev-685f6f194127-pytest-report.jsonl](artifacts/ev-685f6f194127-pytest-report.jsonl) | `685f6f1941278e49` | 0 |
-| `ev-70e9fd8cfc1f` | report | [ev-70e9fd8cfc1f-pytest-report.jsonl](artifacts/ev-70e9fd8cfc1f-pytest-report.jsonl) | `70e9fd8cfc1ff005` | 0 |
-| `ev-759945d8796f` | junit | [ev-759945d8796f-junit.xml](artifacts/ev-759945d8796f-junit.xml) | `759945d8796fbbb3` | 0 |
-| `ev-7a5d376b6efd` | report | [ev-7a5d376b6efd-pytest-report.jsonl](artifacts/ev-7a5d376b6efd-pytest-report.jsonl) | `7a5d376b6efd559a` | 0 |
-| `ev-7c984425306c` | junit | [ev-7c984425306c-junit.xml](artifacts/ev-7c984425306c-junit.xml) | `7c984425306c30d3` | 0 |
-| `ev-7cf8d6fe09b6` | report | [ev-7cf8d6fe09b6-pytest-report.jsonl](artifacts/ev-7cf8d6fe09b6-pytest-report.jsonl) | `7cf8d6fe09b67fec` | 0 |
-| `ev-85e0a2ac2897` | log | [ev-85e0a2ac2897-pytest-output.log](artifacts/ev-85e0a2ac2897-pytest-output.log) | `85e0a2ac2897fe87` | 0 |
-| `ev-8a97f2110db7` | junit | [ev-8a97f2110db7-junit.xml](artifacts/ev-8a97f2110db7-junit.xml) | `8a97f2110db7653c` | 1 |
-| `ev-8ad819f80dde` | log | [ev-8ad819f80dde-pytest-output.log](artifacts/ev-8ad819f80dde-pytest-output.log) | `8ad819f80dde9ff4` | 0 |
-| `ev-9bb81d1d238b` | report | [ev-9bb81d1d238b-pytest-report.jsonl](artifacts/ev-9bb81d1d238b-pytest-report.jsonl) | `9bb81d1d238be174` | 0 |
-| `ev-a59c8b071071` | report | [ev-a59c8b071071-pytest-report.jsonl](artifacts/ev-a59c8b071071-pytest-report.jsonl) | `a59c8b0710714826` | 0 |
-| `ev-aa69dfeb8cac` | log | [ev-aa69dfeb8cac-pytest-output.log](artifacts/ev-aa69dfeb8cac-pytest-output.log) | `aa69dfeb8cac2ec2` | 0 |
-| `ev-ad7a313463b3` | junit | [ev-ad7a313463b3-junit.xml](artifacts/ev-ad7a313463b3-junit.xml) | `ad7a313463b31393` | 0 |
-| `ev-affe56eb8bc5` | report | [ev-affe56eb8bc5-pytest-report.jsonl](artifacts/ev-affe56eb8bc5-pytest-report.jsonl) | `affe56eb8bc560f0` | 0 |
-| `ev-b04fd5243ee7` | log | [ev-b04fd5243ee7-pytest-output.log](artifacts/ev-b04fd5243ee7-pytest-output.log) | `b04fd5243ee7e733` | 0 |
-| `ev-b19fd7033ce1` | report | [ev-b19fd7033ce1-pytest-report.jsonl](artifacts/ev-b19fd7033ce1-pytest-report.jsonl) | `b19fd7033ce156bc` | 0 |
-| `ev-b5a648b919ca` | report | [ev-b5a648b919ca-pytest-report.jsonl](artifacts/ev-b5a648b919ca-pytest-report.jsonl) | `b5a648b919ca7bf4` | 0 |
-| `ev-b912419d7250` | junit | [ev-b912419d7250-junit.xml](artifacts/ev-b912419d7250-junit.xml) | `b912419d7250486d` | 0 |
-| `ev-c069c3fc42ec` | log | [ev-c069c3fc42ec-pytest-output.log](artifacts/ev-c069c3fc42ec-pytest-output.log) | `c069c3fc42ec2d01` | 0 |
-| `ev-c076fdd3dbcc` | junit | [ev-c076fdd3dbcc-junit.xml](artifacts/ev-c076fdd3dbcc-junit.xml) | `c076fdd3dbccff94` | 0 |
-| `ev-c87d8c3bd61e` | log | [ev-c87d8c3bd61e-pytest-output.log](artifacts/ev-c87d8c3bd61e-pytest-output.log) | `c87d8c3bd61ed961` | 0 |
-| `ev-cdb0f409fe88` | log | [ev-cdb0f409fe88-pytest-output.log](artifacts/ev-cdb0f409fe88-pytest-output.log) | `cdb0f409fe88a235` | 0 |
-| `ev-daa9c6fe45b0` | log | [ev-daa9c6fe45b0-pytest-output.log](artifacts/ev-daa9c6fe45b0-pytest-output.log) | `daa9c6fe45b001af` | 1 |
-| `ev-e9fe3a5704da` | report | [ev-e9fe3a5704da-pytest-report.jsonl](artifacts/ev-e9fe3a5704da-pytest-report.jsonl) | `e9fe3a5704dacd8e` | 0 |
-| `ev-ebb4926b5337` | junit | [ev-ebb4926b5337-junit.xml](artifacts/ev-ebb4926b5337-junit.xml) | `ebb4926b5337f65d` | 0 |
-| `ev-f3a65952edd0` | junit | [ev-f3a65952edd0-junit.xml](artifacts/ev-f3a65952edd0-junit.xml) | `f3a65952edd08019` | 0 |
-| `ev-fafd40f30e53` | junit | [ev-fafd40f30e53-junit.xml](artifacts/ev-fafd40f30e53-junit.xml) | `fafd40f30e538c80` | 0 |
+| `ev-0f4bff781f66` | junit | [ev-0f4bff781f66-junit.xml](artifacts/ev-0f4bff781f66-junit.xml) | `0f4bff781f660140` | 0 |
+| `ev-0f5d29891409` | junit | [ev-0f5d29891409-junit.xml](artifacts/ev-0f5d29891409-junit.xml) | `0f5d298914097f87` | 0 |
+| `ev-173a9f8518ad` | report | [ev-173a9f8518ad-pytest-report.jsonl](artifacts/ev-173a9f8518ad-pytest-report.jsonl) | `173a9f8518ad8776` | 0 |
+| `ev-1a523e7b172d` | report | [ev-1a523e7b172d-pytest-report.jsonl](artifacts/ev-1a523e7b172d-pytest-report.jsonl) | `1a523e7b172dd1c0` | 0 |
+| `ev-1b325a4c03e9` | junit | [ev-1b325a4c03e9-junit.xml](artifacts/ev-1b325a4c03e9-junit.xml) | `1b325a4c03e93fed` | 0 |
+| `ev-2082d67f5909` | log | [ev-2082d67f5909-pytest-output.log](artifacts/ev-2082d67f5909-pytest-output.log) | `2082d67f59093cb6` | 0 |
+| `ev-2de188ab1f85` | report | [ev-2de188ab1f85-pytest-report.jsonl](artifacts/ev-2de188ab1f85-pytest-report.jsonl) | `2de188ab1f8571bd` | 0 |
+| `ev-3b3ee856460b` | report | [ev-3b3ee856460b-pytest-report.jsonl](artifacts/ev-3b3ee856460b-pytest-report.jsonl) | `3b3ee856460b4a28` | 0 |
+| `ev-3db4db618794` | log | [ev-3db4db618794-pytest-output.log](artifacts/ev-3db4db618794-pytest-output.log) | `3db4db6187940cfd` | 0 |
+| `ev-416dbab46908` | report | [ev-416dbab46908-pytest-report.jsonl](artifacts/ev-416dbab46908-pytest-report.jsonl) | `416dbab4690839d5` | 0 |
+| `ev-45f9d2d06a02` | log | [ev-45f9d2d06a02-pytest-output.log](artifacts/ev-45f9d2d06a02-pytest-output.log) | `45f9d2d06a023ca9` | 0 |
+| `ev-481f06d2cc42` | junit | [ev-481f06d2cc42-junit.xml](artifacts/ev-481f06d2cc42-junit.xml) | `481f06d2cc425ec4` | 0 |
+| `ev-495ffc1b98bc` | report | [ev-495ffc1b98bc-pytest-report.jsonl](artifacts/ev-495ffc1b98bc-pytest-report.jsonl) | `495ffc1b98bccc04` | 0 |
+| `ev-52901e72fd33` | report | [ev-52901e72fd33-pytest-report.jsonl](artifacts/ev-52901e72fd33-pytest-report.jsonl) | `52901e72fd330ac1` | 0 |
+| `ev-581fa4cd615d` | log | [ev-581fa4cd615d-pytest-output.log](artifacts/ev-581fa4cd615d-pytest-output.log) | `581fa4cd615df05c` | 0 |
+| `ev-5d7786e9e1aa` | report | [ev-5d7786e9e1aa-pytest-report.jsonl](artifacts/ev-5d7786e9e1aa-pytest-report.jsonl) | `5d7786e9e1aab8b8` | 0 |
+| `ev-64c19d35a4cb` | log | [ev-64c19d35a4cb-pytest-output.log](artifacts/ev-64c19d35a4cb-pytest-output.log) | `64c19d35a4cb1b21` | 0 |
+| `ev-6550c1a75486` | log | [ev-6550c1a75486-pytest-output.log](artifacts/ev-6550c1a75486-pytest-output.log) | `6550c1a754865f92` | 0 |
+| `ev-6c59778fd642` | junit | [ev-6c59778fd642-junit.xml](artifacts/ev-6c59778fd642-junit.xml) | `6c59778fd642f7d8` | 0 |
+| `ev-73cb1bf90059` | report | [ev-73cb1bf90059-pytest-report.jsonl](artifacts/ev-73cb1bf90059-pytest-report.jsonl) | `73cb1bf90059d78a` | 0 |
+| `ev-758411f8d40d` | log | [ev-758411f8d40d-pytest-output.log](artifacts/ev-758411f8d40d-pytest-output.log) | `758411f8d40d6b79` | 0 |
+| `ev-7e30366b034b` | junit | [ev-7e30366b034b-junit.xml](artifacts/ev-7e30366b034b-junit.xml) | `7e30366b034b08b3` | 0 |
+| `ev-7f5c5a118120` | log | [ev-7f5c5a118120-pytest-output.log](artifacts/ev-7f5c5a118120-pytest-output.log) | `7f5c5a118120f572` | 1 |
+| `ev-8d32c6d8a717` | log | [ev-8d32c6d8a717-pytest-output.log](artifacts/ev-8d32c6d8a717-pytest-output.log) | `8d32c6d8a7171500` | 0 |
+| `ev-915f1d7c270c` | junit | [ev-915f1d7c270c-junit.xml](artifacts/ev-915f1d7c270c-junit.xml) | `915f1d7c270cecb3` | 0 |
+| `ev-9d699b74efb2` | log | [ev-9d699b74efb2-pytest-output.log](artifacts/ev-9d699b74efb2-pytest-output.log) | `9d699b74efb24efd` | 0 |
+| `ev-9e6edd21678d` | log | [ev-9e6edd21678d-pytest-output.log](artifacts/ev-9e6edd21678d-pytest-output.log) | `9e6edd21678dc318` | 0 |
+| `ev-a10acc36f031` | report | [ev-a10acc36f031-pytest-report.jsonl](artifacts/ev-a10acc36f031-pytest-report.jsonl) | `a10acc36f0316526` | 0 |
+| `ev-a1f383d87553` | log | [ev-a1f383d87553-pytest-output.log](artifacts/ev-a1f383d87553-pytest-output.log) | `a1f383d875531903` | 0 |
+| `ev-c04975fa8fdf` | junit | [ev-c04975fa8fdf-junit.xml](artifacts/ev-c04975fa8fdf-junit.xml) | `c04975fa8fdf03d0` | 0 |
+| `ev-c410382a4001` | junit | [ev-c410382a4001-junit.xml](artifacts/ev-c410382a4001-junit.xml) | `c410382a400189db` | 1 |
+| `ev-cc1b297e9192` | log | [ev-cc1b297e9192-pytest-output.log](artifacts/ev-cc1b297e9192-pytest-output.log) | `cc1b297e919249e9` | 0 |
+| `ev-d4947d2d6374` | report | [ev-d4947d2d6374-pytest-report.jsonl](artifacts/ev-d4947d2d6374-pytest-report.jsonl) | `d4947d2d6374f4cc` | 0 |
+| `ev-d7adb1cd5623` | junit | [ev-d7adb1cd5623-junit.xml](artifacts/ev-d7adb1cd5623-junit.xml) | `d7adb1cd5623999f` | 0 |
+| `ev-e1ebe62c9a9f` | junit | [ev-e1ebe62c9a9f-junit.xml](artifacts/ev-e1ebe62c9a9f-junit.xml) | `e1ebe62c9a9f9772` | 0 |
+| `ev-e5b5c0eb5c99` | junit | [ev-e5b5c0eb5c99-junit.xml](artifacts/ev-e5b5c0eb5c99-junit.xml) | `e5b5c0eb5c99cfb8` | 0 |
+| `ev-e8d2b45a1c39` | report | [ev-e8d2b45a1c39-pytest-report.jsonl](artifacts/ev-e8d2b45a1c39-pytest-report.jsonl) | `e8d2b45a1c398b54` | 0 |
+| `ev-fc32cdd4a317` | junit | [ev-fc32cdd4a317-junit.xml](artifacts/ev-fc32cdd4a317-junit.xml) | `fc32cdd4a3177ed3` | 0 |
+| `ev-fed7ca5ea1e5` | report | [ev-fed7ca5ea1e5-pytest-report.jsonl](artifacts/ev-fed7ca5ea1e5-pytest-report.jsonl) | `fed7ca5ea1e5fda3` | 0 |
 
 _Generated by QA Superteam from recorded evidence. Statuses are normalized tool results; finding statuses are derived from reproduction and verification records; the decision is computed by the deterministic policy engine._

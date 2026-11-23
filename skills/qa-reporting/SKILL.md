@@ -1,6 +1,6 @@
 ---
 name: qa-reporting
-description: Use when communicating QA results - turning `qast report` output (report.md / report.json) into audience-specific summaries for developers, QA leads and release managers, with traceability from requirements, invariants and risks to test outcomes, explicit limitations, and no claim beyond recorded evidence. Use for the final summary of every QA Superteam workflow and whenever someone asks what QA found, whether something is tested, or for a summary of a run. Bans unsupported phrasing such as "should work", "all tests pass" without counts, and invented coverage or confidence percentages.
+description: Use when summarizing QA results for developers, QA leads or release managers - builds audience-specific summaries from qast report with traceability, explicit limitations and no claims beyond the recorded evidence.
 ---
 
 # QA reporting
@@ -64,7 +64,7 @@ labelled as such.
 | Do not write | Write instead |
 |---|---|
 | "should work", "looks good", "seems fine" | "<n> executed tests passed in <execution id>; not tested: <...>" |
-| "all tests pass" | exact counts from the report: "13 passed, 1 skipped (<id>), 0 failed" |
+| "all tests pass" | exact counts from the report: "41 passed, 2 skipped (<ids>), 0 failed" |
 | "fully / thoroughly / comprehensively tested" | what was executed and what was not |
 | any coverage % the report does not show; "about 80% covered" | "coverage was not measured in this run", or the measured value with tool and evidence id |
 | "confidence: 90%", "quality score 8/10", "risk reduced by 40%" | the decision, the rule ids and the counts |

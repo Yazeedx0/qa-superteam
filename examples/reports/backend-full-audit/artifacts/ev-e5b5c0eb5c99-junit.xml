@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.089" timestamp="2026-11-23T17:27:50.290207+03:00" hostname="Yazeed"><testcase classname="tests.qa.test_qa_integrity" name="test_email_uniqueness_is_case_insensitive" time="0.063"><failure message="AssertionError: 'Alice@Example.com' registered as a second account although 'alice@example.com' already exists (emails must be unique case-insensitively); got 201 {&quot;user_id&quot;:3}&#10;assert 201 == 409&#10; +  where 201 = &lt;Response [201 Created]&gt;.status_code">client = &lt;starlette.testclient.TestClient object at 0x7157ac47bce0&gt;
+
+    def test_email_uniqueness_is_case_insensitive(client):
+        assert _register(client, "alice@example.com").status_code == 201
+    
+        r = _register(client, "Alice@Example.com")
+    
+&gt;       assert r.status_code == 409, (
+            "'Alice@Example.com' registered as a second account although 'alice@example.com' "
+            f"already exists (emails must be unique case-insensitively); got {r.status_code} {r.text}"
+        )
+E       AssertionError: 'Alice@Example.com' registered as a second account although 'alice@example.com' already exists (emails must be unique case-insensitively); got 201 {"user_id":3}
+E       assert 201 == 409
+E        +  where 201 = &lt;Response [201 Created]&gt;.status_code
+
+tests/qa/test_qa_integrity.py:20: AssertionError</failure></testcase></testsuite></testsuites>

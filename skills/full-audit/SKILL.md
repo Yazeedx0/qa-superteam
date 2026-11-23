@@ -15,6 +15,10 @@ defaults). Orchestration rules and the handoff format:
 
 Focus requested by the user (may be empty): $ARGUMENTS
 
+Drafts (JSON for `qast record` / `qast finding add`) go in `<run dir>/drafts/`; throwaway probes
+in `<run dir>/probes/` (`<run dir>` = `qast run status --json` → `dir`). Your reporter name is
+`qa-superteam:qa-lead`; pass `--actor qa-superteam:qa-lead` to your `qast exec` / `qast reproduce`.
+
 ## Phase A — Discovery
 
 1. `qast run status` — if an audit run is active, **resume** from the first phase not `done`.
@@ -49,14 +53,15 @@ Apply `qa-strategy` and `qa-test-design`:
 - Design new cases only for high risks and invariants the existing suite does not cover; every case needs an `oracle`. Mark `origin: "new"` if you will write it (only with `write_tests = true`), otherwise `"proposed"`.
 - Put essential journeys in group `critical-journeys`, contract checks in `contract`.
 - List what is out of scope and why.
+Decide delegation (Phase F) before recording: the plan's `specialists` lists who will execute.
 Record with `qast record plan --file <file>`. For more than ~30 cases or several
-subsystems, delegate planning to `qa-superteam:test-architect`.
+subsystems, delegate planning to `qa-superteam:test-architect` and give it the specialist list;
+never supersede a plan another agent recorded.
 
 ## Phase F — Delegation
 
 Choose the smallest set of specialists for the top risks (table in orchestration.md).
-Small repos: do it yourself. Record choices in `plan.specialists` and note
-`qast run phase delegation done --note "<who and why>"`.
+Small repos: do it yourself. Note `qast run phase delegation done --note "<who and why>"`.
 
 ## Phase G — Execution
 
@@ -68,8 +73,14 @@ Small repos: do it yourself. Record choices in `plan.specialists` and note
 
 For every FAILED or ERROR result, classify: product defect vs test defect vs environment.
 Apply `qa-bug-investigation`: exact steps, expected vs actual, inputs, logs. Record real
-product defects with `qast finding add` (reference the execution and evidence ids).
-`qast reproduce --test <id> --times 3` for each candidate. Intermittent ⇒ INCONCLUSIVE, not a defect claim.
+product defects with `qast finding add` (reference the execution and evidence ids); record test
+and environment defects as `severity: "info"`, `category: "other"` findings (`Test defect: …`).
+Suspected defects found by *reading* (an invariant the code seems to violate, a missing check)
+need executed proof: write a self-contained probe in `<run dir>/probes/` (allowed even when
+`write_tests = false`), run it with `qast exec pytest --actor qa-superteam:qa-lead -- <probe path>`,
+and use the identifier exactly as `qast exec` prints it. A suspicion that cannot be executed stays
+SUSPECTED and is reported as unverified. Then `qast reproduce --test <id> --times 3` for each candidate.
+Intermittent ⇒ INCONCLUSIVE, not a defect claim.
 Cap: investigate at most the 10 highest-severity failures in depth; list the rest.
 
 ## Phase I — Independent verification
@@ -77,6 +88,14 @@ Cap: investigate at most the 10 highest-severity failures in depth; list the res
 Every finding with severity high or critical goes to
 `qa-superteam:independent-verification-engineer` (never the reporter). The verifier runs
 its own executions and records `qast verify`. You may not confirm a finding you reported.
+
+## Phase L — Regression preservation (before the gate)
+
+For each CONFIRMED defect: if `write_tests = true`, keep (or add) a focused regression test
+in `permissions.test_dir` that fails now and will pass when fixed, and set it as the
+finding's `regression_test` in the summary. Otherwise propose it so it lands in the report:
+`qast run note --kind decision "Regression test for <F-id>: <file path> — <oracle>"` (keep the probe
+from Phase H as its starting point).
 
 ## Phase J — Release evaluation
 
@@ -87,14 +106,7 @@ report; explain the triggered rules.
 
 `qast report` then summarize for the user using `qa-reporting`: decision and why, confirmed
 defects (with evidence paths), unverified findings, what was BLOCKED/not run, top risks
-not covered, recommended next actions. Link `report.md`.
-
-## Phase L — Regression preservation
-
-For each CONFIRMED defect: if `write_tests = true`, keep (or add) a focused regression test
-in `permissions.test_dir` that fails now and will pass when fixed, and set it as the
-finding's `regression_test` in the summary. Otherwise propose the test (file path, code,
-oracle) in the report. Then `qast run finish`.
+not covered, recommended next actions. Link `report.md`. Then `qast run finish`.
 
 ## Stop when
 

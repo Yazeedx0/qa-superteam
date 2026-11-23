@@ -1,6 +1,6 @@
 ---
 name: qa-contracts
-description: Use when an API or message contract may have changed or must be verified - OpenAPI/Swagger, JSON Schema, GraphQL SDL, protobuf/gRPC or event schemas - to classify breaking versus non-breaking changes between git refs (removed fields, type changes, new required request fields, enum narrowing, status code changes), assess consumer impact, and test that the implementation conforms to its published contract (schemathesis if installed, or pytest validating responses against the schema). Executions are tagged with the contract policy group.
+description: Use when an API or service contract may have changed - diffs OpenAPI/JSON Schema/GraphQL/protobuf specs between refs, classifies breaking changes by consumer impact, and runs contract tests.
 ---
 
 # QA contracts

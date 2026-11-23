@@ -1,0 +1,49 @@
+{
+  "id": "F-bd4021ab",
+  "title": "Email uniqueness is case-sensitive, allowing duplicate accounts",
+  "category": "data-integrity",
+  "severity": "medium",
+  "summary": "Email uniqueness is case-sensitive, allowing duplicate accounts",
+  "expected": "Registering Alice@example.com after alice@example.com returns 409 (REQ-EMAIL)",
+  "actual": "Both registrations succeed and create separate accounts",
+  "reproduction_steps": [
+    "Register alice@example.com",
+    "Register Alice@example.com",
+    "Observe 201 for both"
+  ],
+  "reported_by": "qa-superteam:backend-qa-engineer",
+  "created_at": "2026-11-23T14:27:48Z",
+  "evidence_ids": [
+    "ev-7f5c5a118120",
+    "ev-73cb1bf90059"
+  ],
+  "execution_ids": [
+    "ex-8d7c5c33da8c"
+  ],
+  "test_identifiers": [
+    "tests/qa/test_qa_integrity.py::test_email_uniqueness_is_case_insensitive",
+    "tests/qa/test_qa_integrity.py::test_login_email_is_case_insensitive"
+  ],
+  "affected": [
+    {
+      "path": "ledger/models.py",
+      "line": null,
+      "symbol": "clean_email",
+      "note": null
+    }
+  ],
+  "inputs": {},
+  "environment_notes": null,
+  "hypotheses": [
+    {
+      "statement": "Logic in clean_email does not enforce the stated rule",
+      "confidence": "medium",
+      "confirmed": false,
+      "evidence_ids": []
+    }
+  ],
+  "requirement_ids": [],
+  "invariant_ids": [],
+  "reproduction": null,
+  "regression_test": null
+}

@@ -1,0 +1,46 @@
+{
+  "id": "F-808e865e",
+  "title": "Checkout is blocked after correcting an invalid postal code",
+  "category": "functional",
+  "severity": "high",
+  "summary": "Checkout is blocked after correcting an invalid postal code",
+  "expected": "After fixing the postal code, Continue is enabled (USER_JOURNEYS.md: recovering from a validation error)",
+  "actual": "Error clears but Continue stays disabled until reload",
+  "reproduction_steps": [
+    "Fill contact step",
+    "Enter postal code 12 for US",
+    "See error",
+    "Correct to 12345",
+    "Continue stays disabled"
+  ],
+  "reported_by": "qa-superteam:frontend-qa-engineer",
+  "created_at": "2026-11-23T14:28:18Z",
+  "evidence_ids": [
+    "ev-34afeef02eea",
+    "ev-4ded86b1d3e4",
+    "ev-47fbc48c1187",
+    "ev-d18f94779aae",
+    "ev-8679a631d61a"
+  ],
+  "execution_ids": [
+    "ex-75b5494fe2e1"
+  ],
+  "test_identifiers": [
+    "tests/qa/test_qa_journeys.py::test_recover_from_postal_code_error_and_complete_checkout"
+  ],
+  "affected": [
+    {
+      "path": "public/app.js",
+      "line": null,
+      "symbol": null,
+      "note": null
+    }
+  ],
+  "inputs": {},
+  "environment_notes": null,
+  "hypotheses": [],
+  "requirement_ids": [],
+  "invariant_ids": [],
+  "reproduction": null,
+  "regression_test": null
+}

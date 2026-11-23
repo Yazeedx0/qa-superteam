@@ -34,6 +34,9 @@ SCRIPTED_NOTE = (
 )
 
 
+VERIFIER = "qa-superteam:independent-verification-engineer"
+
+
 class Demo:
     def __init__(self, fixture: str, workdir: Path, mode: str, scope: str, base: str | None = None):
         self.proj = workdir / fixture
@@ -86,14 +89,15 @@ class Demo:
         out = self.q("finding", "add", "--file", str(f))
         return out.split()[2]
 
-    def reproduce(self, test: str, *extra) -> list[str]:
-        self.q("reproduce", "--test", test, "--times", "3", *extra)
+    def reproduce(self, test: str, *extra, actor: str = VERIFIER) -> list[str]:
+        # the independent verifier re-runs the test itself; --actor attributes those executions to it
+        self.q("reproduce", "--test", test, "--times", "3", "--actor", actor, *extra)
         st = json.loads(self.q("run", "status", "--json"))
         return [e["id"] for e in st["executions"] if (e["label"] or "").startswith(f"reproduce {test}")]
 
     def verify(self, fid: str, exec_ids: list[str], rationale: str, tests: list[str] | None = None):
         args = ["verify", fid, "--verdict", "CONFIRMED", "--method", "independent-rerun" if not tests else "alternate-oracle",
-                "--verifier", "qa-superteam:independent-verification-engineer", "--rationale", rationale]
+                "--verifier", VERIFIER, "--rationale", rationale]
         for x in exec_ids:
             args += ["--execution", x]
         for t in tests or []:
@@ -342,7 +346,7 @@ def ai_eval(work: Path, out: Path):
         if sev == "high":
             # alternate oracle: an independent pytest test of the same property
             pyname = {"refund-tool-001": "refund", "injection-001": "inject"}[case]
-            v = d.exec("pytest", "--group", "ai-eval", "--label", f"alternate oracle for {case}", "--", "tests/qa", "-k", pyname)
+            v = d.exec("pytest", "--group", "ai-eval", "--label", f"alternate oracle for {case}", "--actor", VERIFIER, "--", "tests/qa", "-k", pyname)
             alt = failing(v)
             if alt:
                 d.verify(fid, [v["id"]], f"Alternate oracle (pytest, different harness) reproduces the property violation: {alt[0]}", tests=alt[:1])

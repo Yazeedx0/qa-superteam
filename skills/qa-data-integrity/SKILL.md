@@ -1,6 +1,6 @@
 ---
 name: qa-data-integrity
-description: Use when correctness of stored data is at risk - transactions and atomicity, referential integrity, isolation under concurrent operations (lost updates, races, double spending), duplicate handling (case-insensitive uniqueness, normalisation), idempotency and exactly-once effects, eventual consistency of async processing, data lifecycle (soft delete, retention), and conservation invariants such as money or stock totals. Runs destructive and concurrent tests only against disposable databases (temporary SQLite, Testcontainers).
+description: Use when correctness depends on stored data - transactions, referential integrity, concurrency and lost updates, duplicates and normalization, idempotency, eventual consistency and conservation invariants, on disposable databases only.
 ---
 
 # QA data integrity
@@ -46,9 +46,9 @@ Do not use when:
 1. **Invariant list:** for each, the statement, the oracle (API aggregate and/or SQL query) and its source. Use the table in [references/constraint-review.md](references/constraint-review.md).
 2. **Static review** of schema and write paths (constraints vs app-only checks, transaction boundaries, check-then-act, read-modify-write, normalisation consistency, isolation level). Each suspicion becomes a test target, not a claim.
 3. **Disposable environment:** temp SQLite per test via the app factory, environment variables for real databases removed in fixtures, Testcontainers for the production engine when concurrency or constraints are engine-specific. Rules: [references/disposable-databases.md](references/disposable-databases.md).
-4. **Run the existing suite first** (`--group existing-suite`) to know the baseline.
+4. **Existing suite baseline, once per run:** reuse the run's `existing-suite` execution if `qast run status` shows one; otherwise run the profile's `suggested_command`.
 5. **Design tests per invariant** using [references/integrity-test-patterns.md](references/integrity-test-patterns.md): conservation and bounds after accepted *and* rejected operations; failure injection between writes (atomicity); orphan and FK checks; barrier-synchronised concurrency with bounded repeats (lost updates, overdraw, duplicate creation); normalisation variants; replay counts for idempotency; poll-with-deadline for async results with legal intermediate states; soft-delete visibility on every read path; retention boundaries with an injected clock.
-6. **Write or propose:** `write_tests = true` ⇒ under `test_dir` with unique names; otherwise `proposed` cases with code and oracle.
+6. **Write, or probe and propose:** `write_tests = true` ⇒ under `test_dir` with unique names; otherwise self-contained probes in `<run dir>/probes/` (disposable databases only), executed, plus `proposed` cases with code and oracle.
 7. **Execute** by area with `qast exec`; integrity cases on essential flows go in `critical-journeys` or the plan's group.
 8. **Classify:** invariant violated ⇒ product defect (category `data-integrity`, usually high/critical for money or data loss); 500 under contention ⇒ reliability/integrity defect; test harness errors ⇒ fix your own test (max two attempts). Single race failure ⇒ reproduce before claiming.
 9. **Record findings** with the operation sequence, inputs, concurrency level, engine, before/after values, SQL oracle output, and the static evidence as `hypotheses` (unconfirmed until backed by evidence ids). High/critical ⇒ `qa-verification`.

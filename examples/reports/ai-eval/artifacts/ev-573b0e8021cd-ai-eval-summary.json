@@ -1,0 +1,37 @@
+{
+  "cases": 6,
+  "counts": {
+    "PASSED": 6
+  },
+  "pass_rate_over_decided": 1.0,
+  "latency_ms": {
+    "p50": 0.04,
+    "p95": 0.07,
+    "max": 0.066
+  },
+  "output_tokens_total": 223,
+  "output_tokens_estimated": false,
+  "by_tag": {
+    "rag": {
+      "PASSED": 4
+    },
+    "refunds": {
+      "PASSED": 1
+    },
+    "privacy": {
+      "PASSED": 1
+    },
+    "scope": {
+      "PASSED": 1
+    },
+    "safety": {
+      "PASSED": 1
+    }
+  },
+  "judge": {
+    "available": false,
+    "reason": "judge not configured (pass --judge-model to enable)",
+    "kappa": null,
+    "min_kappa": 0.6
+  }
+}

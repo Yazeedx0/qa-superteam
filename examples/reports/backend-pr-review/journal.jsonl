@@ -1,32 +1,32 @@
-{"ts": "2026-11-23T13:47:18Z", "event": "run.created", "mode": "review-pr", "scope": "PR: refactor transfer funds check"}
-{"ts": "2026-11-23T13:47:18Z", "event": "note", "kind": "limitation", "text": "Demonstration run: analysis records (requirements, plan, finding text) and the QA tests were scripted (reference tests stand in for agent-authored tests). All executions, evidence, verifications and the decision are real."}
-{"ts": "2026-11-23T13:47:18Z", "event": "record.saved", "kind": "profile"}
-{"ts": "2026-11-23T13:47:18Z", "event": "phase", "phase": "discovery", "state": "done", "note": null}
-{"ts": "2026-11-23T13:47:18Z", "event": "record.saved", "kind": "impact"}
-{"ts": "2026-11-23T13:47:18Z", "event": "phase", "phase": "impact", "state": "done", "note": null}
-{"ts": "2026-11-23T13:47:18Z", "event": "record.saved", "kind": "risks"}
-{"ts": "2026-11-23T13:47:18Z", "event": "phase", "phase": "risk", "state": "done", "note": null}
-{"ts": "2026-11-23T13:47:18Z", "event": "phase", "phase": "requirements", "state": "done", "note": "REQUIREMENTS.md: fee is paid by sender; balances never negative"}
-{"ts": "2026-11-23T13:47:18Z", "event": "exec.start", "execution_id": "ex-5b9f57eae147", "adapter": "pytest", "argv": ["python3", "-m", "pytest", "tests", "-p", "qa_superteam.pytest_reporter", "-p", "no:cacheprovider", "-q", "-rN", "--junitxml", "<project>/.qa-superteam/runs/20261123-134718-review-pr-f8e8/work/ex-5b9f57eae147/junit.xml"]}
-{"ts": "2026-11-23T13:47:19Z", "event": "execution.recorded", "id": "ex-5b9f57eae147"}
-{"ts": "2026-11-23T13:47:19Z", "event": "exec.finish", "execution_id": "ex-5b9f57eae147", "status": "PASSED", "counts": {"PASSED": 13, "FAILED": 0, "ERROR": 0, "SKIPPED": 1, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
-{"ts": "2026-11-23T13:47:20Z", "event": "exec.start", "execution_id": "ex-5d6d21b7ed4d", "adapter": "pytest", "argv": ["python3", "-m", "pytest", "tests/qa/test_qa_invariants.py", "-p", "qa_superteam.pytest_reporter", "-p", "no:cacheprovider", "-q", "-rN", "--junitxml", "<project>/.qa-superteam/runs/20261123-134718-review-pr-f8e8/work/ex-5d6d21b7ed4d/junit.xml"]}
-{"ts": "2026-11-23T13:47:21Z", "event": "execution.recorded", "id": "ex-5d6d21b7ed4d"}
-{"ts": "2026-11-23T13:47:21Z", "event": "exec.finish", "execution_id": "ex-5d6d21b7ed4d", "status": "FAILED", "counts": {"PASSED": 21, "FAILED": 2, "ERROR": 0, "SKIPPED": 0, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
-{"ts": "2026-11-23T13:47:21Z", "event": "phase", "phase": "execution", "state": "done", "note": null}
-{"ts": "2026-11-23T13:47:21Z", "event": "finding.recorded", "id": "F-0aff696c"}
-{"ts": "2026-11-23T13:47:21Z", "event": "exec.start", "execution_id": "ex-c29a777984e6", "adapter": "pytest", "argv": ["python3", "-m", "pytest", "tests/qa/test_qa_invariants.py::test_transfer_of_entire_balance_rejected_when_fee_not_covered", "-p", "qa_superteam.pytest_reporter", "-p", "no:cacheprovider", "-q", "-rN", "--junitxml", "<project>/.qa-superteam/runs/20261123-134718-review-pr-f8e8/work/ex-c29a777984e6/junit.xml"]}
-{"ts": "2026-11-23T13:47:22Z", "event": "execution.recorded", "id": "ex-c29a777984e6"}
-{"ts": "2026-11-23T13:47:22Z", "event": "exec.finish", "execution_id": "ex-c29a777984e6", "status": "FAILED", "counts": {"PASSED": 0, "FAILED": 1, "ERROR": 0, "SKIPPED": 0, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
-{"ts": "2026-11-23T13:47:22Z", "event": "exec.start", "execution_id": "ex-fecbd6d285d3", "adapter": "pytest", "argv": ["python3", "-m", "pytest", "tests/qa/test_qa_invariants.py::test_transfer_of_entire_balance_rejected_when_fee_not_covered", "-p", "qa_superteam.pytest_reporter", "-p", "no:cacheprovider", "-q", "-rN", "--junitxml", "<project>/.qa-superteam/runs/20261123-134718-review-pr-f8e8/work/ex-fecbd6d285d3/junit.xml"]}
-{"ts": "2026-11-23T13:47:23Z", "event": "execution.recorded", "id": "ex-fecbd6d285d3"}
-{"ts": "2026-11-23T13:47:23Z", "event": "exec.finish", "execution_id": "ex-fecbd6d285d3", "status": "FAILED", "counts": {"PASSED": 0, "FAILED": 1, "ERROR": 0, "SKIPPED": 0, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
-{"ts": "2026-11-23T13:47:23Z", "event": "exec.start", "execution_id": "ex-a718a972a316", "adapter": "pytest", "argv": ["python3", "-m", "pytest", "tests/qa/test_qa_invariants.py::test_transfer_of_entire_balance_rejected_when_fee_not_covered", "-p", "qa_superteam.pytest_reporter", "-p", "no:cacheprovider", "-q", "-rN", "--junitxml", "<project>/.qa-superteam/runs/20261123-134718-review-pr-f8e8/work/ex-a718a972a316/junit.xml"]}
-{"ts": "2026-11-23T13:47:24Z", "event": "execution.recorded", "id": "ex-a718a972a316"}
-{"ts": "2026-11-23T13:47:24Z", "event": "exec.finish", "execution_id": "ex-a718a972a316", "status": "FAILED", "counts": {"PASSED": 0, "FAILED": 1, "ERROR": 0, "SKIPPED": 0, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
-{"ts": "2026-11-23T13:47:24Z", "event": "reproduce", "test": "tests/qa/test_qa_invariants.py::test_transfer_of_entire_balance_rejected_when_fee_not_covered", "attempts": 3, "failures": 3, "classification": "consistent"}
-{"ts": "2026-11-23T13:47:24Z", "event": "verification.recorded", "id": "V-e20b32e4"}
-{"ts": "2026-11-23T13:47:24Z", "event": "phase", "phase": "verification", "state": "done", "note": null}
-{"ts": "2026-11-23T13:47:24Z", "event": "record.saved", "kind": "decision"}
-{"ts": "2026-11-23T13:47:24Z", "event": "report.written", "markdown": "report.md", "json": "report.json"}
-{"ts": "2026-11-23T13:47:24Z", "event": "run.finished"}
+{"ts": "2026-11-23T14:27:51Z", "event": "run.created", "mode": "review-pr", "scope": "PR: refactor transfer funds check", "config_sha256": "defaults"}
+{"ts": "2026-11-23T14:27:52Z", "event": "note", "kind": "limitation", "text": "Demonstration run: analysis records (requirements, plan, finding text) and the QA tests were scripted (reference tests stand in for agent-authored tests). All executions, evidence, verifications and the decision are real."}
+{"ts": "2026-11-23T14:27:52Z", "event": "record.saved", "kind": "profile"}
+{"ts": "2026-11-23T14:27:52Z", "event": "phase", "phase": "discovery", "state": "done", "note": null}
+{"ts": "2026-11-23T14:27:52Z", "event": "record.saved", "kind": "impact"}
+{"ts": "2026-11-23T14:27:52Z", "event": "phase", "phase": "impact", "state": "done", "note": null}
+{"ts": "2026-11-23T14:27:52Z", "event": "record.saved", "kind": "risks"}
+{"ts": "2026-11-23T14:27:52Z", "event": "phase", "phase": "risk", "state": "done", "note": null}
+{"ts": "2026-11-23T14:27:52Z", "event": "phase", "phase": "requirements", "state": "done", "note": "REQUIREMENTS.md: fee is paid by sender; balances never negative"}
+{"ts": "2026-11-23T14:27:52Z", "event": "exec.start", "execution_id": "ex-82ebc9264c73", "adapter": "pytest", "argv": ["python3", "-m", "pytest", "tests", "-p", "qa_superteam.pytest_reporter", "-p", "no:cacheprovider", "-q", "-rN", "--junitxml", "<project>/.qa-superteam/runs/20261123-142751-review-pr-0389/work/ex-82ebc9264c73/junit.xml"]}
+{"ts": "2026-11-23T14:27:53Z", "event": "execution.recorded", "id": "ex-82ebc9264c73"}
+{"ts": "2026-11-23T14:27:53Z", "event": "exec.finish", "execution_id": "ex-82ebc9264c73", "status": "PASSED", "counts": {"PASSED": 13, "FAILED": 0, "ERROR": 0, "SKIPPED": 1, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
+{"ts": "2026-11-23T14:27:53Z", "event": "exec.start", "execution_id": "ex-e27d18d18c61", "adapter": "pytest", "argv": ["python3", "-m", "pytest", "tests/qa/test_qa_invariants.py", "-p", "qa_superteam.pytest_reporter", "-p", "no:cacheprovider", "-q", "-rN", "--junitxml", "<project>/.qa-superteam/runs/20261123-142751-review-pr-0389/work/ex-e27d18d18c61/junit.xml"]}
+{"ts": "2026-11-23T14:27:55Z", "event": "execution.recorded", "id": "ex-e27d18d18c61"}
+{"ts": "2026-11-23T14:27:55Z", "event": "exec.finish", "execution_id": "ex-e27d18d18c61", "status": "FAILED", "counts": {"PASSED": 21, "FAILED": 2, "ERROR": 0, "SKIPPED": 0, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
+{"ts": "2026-11-23T14:27:55Z", "event": "phase", "phase": "execution", "state": "done", "note": null}
+{"ts": "2026-11-23T14:27:55Z", "event": "finding.recorded", "id": "F-0a2853f7"}
+{"ts": "2026-11-23T14:27:55Z", "event": "exec.start", "execution_id": "ex-cd1cf77f6cb9", "adapter": "pytest", "argv": ["python3", "-m", "pytest", "tests/qa/test_qa_invariants.py::test_transfer_of_entire_balance_rejected_when_fee_not_covered", "-p", "qa_superteam.pytest_reporter", "-p", "no:cacheprovider", "-q", "-rN", "--junitxml", "<project>/.qa-superteam/runs/20261123-142751-review-pr-0389/work/ex-cd1cf77f6cb9/junit.xml"]}
+{"ts": "2026-11-23T14:27:56Z", "event": "execution.recorded", "id": "ex-cd1cf77f6cb9"}
+{"ts": "2026-11-23T14:27:56Z", "event": "exec.finish", "execution_id": "ex-cd1cf77f6cb9", "status": "FAILED", "counts": {"PASSED": 0, "FAILED": 1, "ERROR": 0, "SKIPPED": 0, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
+{"ts": "2026-11-23T14:27:56Z", "event": "exec.start", "execution_id": "ex-6df3253f07b6", "adapter": "pytest", "argv": ["python3", "-m", "pytest", "tests/qa/test_qa_invariants.py::test_transfer_of_entire_balance_rejected_when_fee_not_covered", "-p", "qa_superteam.pytest_reporter", "-p", "no:cacheprovider", "-q", "-rN", "--junitxml", "<project>/.qa-superteam/runs/20261123-142751-review-pr-0389/work/ex-6df3253f07b6/junit.xml"]}
+{"ts": "2026-11-23T14:27:56Z", "event": "execution.recorded", "id": "ex-6df3253f07b6"}
+{"ts": "2026-11-23T14:27:56Z", "event": "exec.finish", "execution_id": "ex-6df3253f07b6", "status": "FAILED", "counts": {"PASSED": 0, "FAILED": 1, "ERROR": 0, "SKIPPED": 0, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
+{"ts": "2026-11-23T14:27:57Z", "event": "exec.start", "execution_id": "ex-0d62955fc37a", "adapter": "pytest", "argv": ["python3", "-m", "pytest", "tests/qa/test_qa_invariants.py::test_transfer_of_entire_balance_rejected_when_fee_not_covered", "-p", "qa_superteam.pytest_reporter", "-p", "no:cacheprovider", "-q", "-rN", "--junitxml", "<project>/.qa-superteam/runs/20261123-142751-review-pr-0389/work/ex-0d62955fc37a/junit.xml"]}
+{"ts": "2026-11-23T14:27:57Z", "event": "execution.recorded", "id": "ex-0d62955fc37a"}
+{"ts": "2026-11-23T14:27:57Z", "event": "exec.finish", "execution_id": "ex-0d62955fc37a", "status": "FAILED", "counts": {"PASSED": 0, "FAILED": 1, "ERROR": 0, "SKIPPED": 0, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
+{"ts": "2026-11-23T14:27:57Z", "event": "reproduce", "test": "tests/qa/test_qa_invariants.py::test_transfer_of_entire_balance_rejected_when_fee_not_covered", "attempts": 3, "failures": 3, "classification": "consistent"}
+{"ts": "2026-11-23T14:27:57Z", "event": "verification.recorded", "id": "V-b82465cc"}
+{"ts": "2026-11-23T14:27:57Z", "event": "phase", "phase": "verification", "state": "done", "note": null}
+{"ts": "2026-11-23T14:27:57Z", "event": "record.saved", "kind": "decision"}
+{"ts": "2026-11-23T14:27:57Z", "event": "report.written", "markdown": "report.md", "json": "report.json"}
+{"ts": "2026-11-23T14:27:58Z", "event": "run.finished"}

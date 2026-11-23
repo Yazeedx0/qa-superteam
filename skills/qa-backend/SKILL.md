@@ -1,6 +1,6 @@
 ---
 name: qa-backend
-description: Use when an API or backend service must be tested for correct behaviour - authentication, object- and function-level authorization, input validation, error contracts, database transactions, idempotency, concurrency, async jobs, caching or third-party integrations. Python/FastAPI is first-class (TestClient/httpx, dependency overrides, temporary SQLite, Testcontainers when Docker is available); other stacks use their own in-process harness. Tests a running deployment only when its URL is in permissions.authorized_targets.
+description: Use when testing APIs or services - authentication, authorization (BOLA/IDOR), validation, error contracts, transactions, idempotency, async jobs and integrations, in-process by default and against live URLs only when authorized.
 ---
 
 # QA backend / API testing
@@ -43,12 +43,12 @@ Do not use when:
 
 ## Method
 
-1. **Run the existing suite first:** `qast exec pytest --group existing-suite -- <paths>` (use the profile's `suggested_command`). Its failures are investigated before you add anything.
+1. **Existing suite first, once per run:** if `qast run status` shows no `existing-suite` execution yet, run the profile's `suggested_command` (it excludes `permissions.test_dir`); when delegated, the lead has already run it — reuse its results. Its failures are investigated before you add anything.
 2. **Inventory** routes, identity resolution, stores, transactions, jobs, caches, integrations, and map each endpoint to the requirements/invariants it must uphold. Read the requirements before the handlers, so the handlers do not become your oracle.
 3. **Rank endpoints by risk** (money, authorization, personal data, irreversible writes first) and walk [references/endpoint-checklist.md](references/endpoint-checklist.md) for each, turning gaps into cases with oracles.
 4. **Build the harness** from the project's fixtures, adding only what is missing: fresh app + temp DB per test, two real users created through the API, fakes for integrations via dependency overrides, a `raise_server_exceptions=False` client for error paths. Patterns: [references/fastapi-httpx-patterns.md](references/fastapi-httpx-patterns.md).
 5. **Design cases with named techniques:** two-actor authorization matrix (path/query/body ids, every method, list endpoints, mass assignment), authentication matrix, boundary values and type confusion, error-contract checks, idempotent replay (sequential, conflicting, cross-user, concurrent), barrier-synchronised concurrency with invariant checks, failure injection after the first write. Each rejection oracle includes "state unchanged".
-6. **Write or propose.** `write_tests = true`: files under `test_dir` with unique names (`test_qa_<area>.py`). Otherwise record cases as `proposed` (code + oracle) and stop at analysis.
+6. **Write, or probe and propose.** `write_tests = true`: files under `test_dir` with unique names (`test_qa_<area>.py`). Otherwise write self-contained probes in `<run dir>/probes/` (they never touch the project tree), execute them, and record the durable versions as `proposed` cases (code + oracle).
 7. **Execute per area** so evidence stays readable: `qast exec pytest --group <plan group> --label qa-backend-<area> -- tests/qa/test_qa_<area>.py`. Business-critical journeys use `critical-journeys`; API-schema checks belong to `qa-contracts` (`contract`).
 8. **Classify every non-PASS:** FAILED against a stated requirement ⇒ product defect candidate; ERROR ⇒ harness problem (fix your own test, max two attempts); assertion on an inferred rule ⇒ ambiguity. Distinguish "endpoint returns 500" (product) from "fixture crashed" (test).
 9. **Record defects:** one finding per root behaviour, with the failing test id, execution id and evidence ids, exact request/response in `reproduction_steps`. `qast reproduce --test <id> --times 3`; intermittent ⇒ INCONCLUSIVE. High/critical ⇒ independent verification (`qa-verification`).

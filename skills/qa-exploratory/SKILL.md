@@ -1,6 +1,6 @@
 ---
 name: qa-exploratory
-description: Use when behaviour is unclear, undocumented, new, or high-risk with weak tests and needs hypothesis-driven exploratory testing - chartered, time-boxed sessions (SFDPOT, CRUD, boundaries, interruptions, concurrency, unusual users, data-type attacks) against an API, UI or AI system, where every interesting observation becomes a recorded qast exec execution, an evidence-backed finding, or a stated limitation. Used by the explore workflow and the exploratory-qa-engineer specialist. Not for designing scripted suites, root-causing a known failure, verifying someone else's finding, or probing targets outside the authorized list.
+description: Use when behaviour is unclear or a high-risk area has weak tests - time-boxed, charter-driven exploratory sessions whose observations become executed tests, findings or recorded limitations.
 ---
 
 # Exploratory testing

@@ -1,6 +1,6 @@
 ---
 name: qa-verification
-description: Use when a recorded finding (especially high or critical) needs an independent verdict before a release decision, or someone asks whether a reported bug is real - re-running it in the verifier's own execution with qast reproduce or qast exec, or checking the same property with an alternate oracle, comparing expected vs actual against the requirement source, rejecting unsupported claims (no execution, scanner-only, code reading only, misread requirement, test bug), classifying inconclusive results (flaky, environment-dependent, blocked), and recording CONFIRMED, REJECTED or INCONCLUSIVE with qast verify, whose evidence gates are never worked around. Used by the independent-verification-engineer specialist and Phase I of workflows. Never for a finding the same agent or session reported.
+description: Use when a recorded finding needs independent confirmation or rejection - re-executes it in your own attributed runs or an alternate oracle and records the verdict with qast verify; never for findings you reported.
 ---
 
 # Independent verification

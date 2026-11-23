@@ -1,0 +1,49 @@
+{
+  "id": "F-9718fe18",
+  "title": "Any logged-in user can read another user's transfer",
+  "category": "security",
+  "severity": "critical",
+  "summary": "Any logged-in user can read another user's transfer",
+  "expected": "404 for a user who neither sent nor received the transfer (REQ-VIS, INV-2)",
+  "actual": "200 with amount, memo and wallet ids of the other users' transfer",
+  "reproduction_steps": [
+    "Register users A, B and C",
+    "A deposits and transfers to C",
+    "B requests GET /transfers/{id} of A's transfer"
+  ],
+  "reported_by": "qa-superteam:backend-qa-engineer",
+  "created_at": "2026-11-23T14:27:43Z",
+  "evidence_ids": [
+    "ev-cc1b297e9192",
+    "ev-d4947d2d6374"
+  ],
+  "execution_ids": [
+    "ex-84360aae24e8"
+  ],
+  "test_identifiers": [
+    "tests/qa/test_qa_authz.py::test_outsider_cannot_read_transfer",
+    "tests/qa/test_qa_authz.py::test_transfer_ids_cannot_be_enumerated"
+  ],
+  "affected": [
+    {
+      "path": "ledger/routers/transfers.py",
+      "line": null,
+      "symbol": "get_transfer",
+      "note": null
+    }
+  ],
+  "inputs": {},
+  "environment_notes": null,
+  "hypotheses": [
+    {
+      "statement": "Logic in get_transfer does not enforce the stated rule",
+      "confidence": "medium",
+      "confirmed": false,
+      "evidence_ids": []
+    }
+  ],
+  "requirement_ids": [],
+  "invariant_ids": [],
+  "reproduction": null,
+  "regression_test": null
+}

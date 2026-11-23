@@ -45,7 +45,7 @@ with basis `assumed`.
    and the value is ≥ 3; −1 if users affected ≤ 2 and exposure < 5. Clamp to 1..5.
 3. **score** = probability × impact (`qast record risks` refuses anything else).
 4. **level** by score: ≥ 20 `critical`, 12–19 `high`, 6–11 `medium`, ≤ 5 `low` — the
-   same bands `qast risk` uses. `qast` does not check the band; you must.
+   same bands `qast risk` uses. `qast record risks` rejects a `level` that does not match the band.
 
 A deviation from these rules is allowed only with a written reason in the risk's
 `assumptions` (for example a regulatory requirement that makes an otherwise medium

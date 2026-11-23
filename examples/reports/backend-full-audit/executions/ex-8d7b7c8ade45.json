@@ -1,0 +1,257 @@
+{
+  "id": "ex-8d7b7c8ade45",
+  "run_id": "20261123-142737-full-audit-e4dc",
+  "adapter": "pytest",
+  "status": "PASSED",
+  "started_at": "2026-11-23T14:27:38Z",
+  "finished_at": "2026-11-23T14:27:39Z",
+  "duration_s": 0.967,
+  "command": [
+    "python3",
+    "-m",
+    "pytest",
+    "tests",
+    "-p",
+    "qa_superteam.pytest_reporter",
+    "-p",
+    "no:cacheprovider",
+    "-q",
+    "-rN",
+    "--junitxml",
+    "<project>/.qa-superteam/runs/20261123-142737-full-audit-e4dc/work/ex-8d7b7c8ade45/junit.xml"
+  ],
+  "cwd": ".",
+  "exit_code": 0,
+  "timed_out": false,
+  "counts": {
+    "PASSED": 13,
+    "FAILED": 0,
+    "ERROR": 0,
+    "SKIPPED": 1,
+    "BLOCKED": 0,
+    "NOT_RUN": 0,
+    "INCONCLUSIVE": 0
+  },
+  "results": [
+    {
+      "id": "tr-6f619c09aa8b",
+      "identifier": "tests/test_auth.py::test_register_creates_user_with_empty_wallet",
+      "status": "PASSED",
+      "name": "test_register_creates_user_with_empty_wallet",
+      "duration_s": 0.028,
+      "message": null,
+      "file": "tests/test_auth.py",
+      "line": 4,
+      "groups": [
+        "existing-suite"
+      ],
+      "artifact_ids": []
+    },
+    {
+      "id": "tr-faf28fdff266",
+      "identifier": "tests/test_auth.py::test_register_duplicate_email_conflict",
+      "status": "PASSED",
+      "name": "test_register_duplicate_email_conflict",
+      "duration_s": 0.0185,
+      "message": null,
+      "file": "tests/test_auth.py",
+      "line": 17,
+      "groups": [
+        "existing-suite"
+      ],
+      "artifact_ids": []
+    },
+    {
+      "id": "tr-3f8ecf32f490",
+      "identifier": "tests/test_auth.py::test_login_wrong_password_is_rejected",
+      "status": "PASSED",
+      "name": "test_login_wrong_password_is_rejected",
+      "duration_s": 0.0222,
+      "message": null,
+      "file": "tests/test_auth.py",
+      "line": 23,
+      "groups": [
+        "existing-suite"
+      ],
+      "artifact_ids": []
+    },
+    {
+      "id": "tr-960279be50f9",
+      "identifier": "tests/test_auth.py::test_endpoints_require_token",
+      "status": "PASSED",
+      "name": "test_endpoints_require_token",
+      "duration_s": 0.0168,
+      "message": null,
+      "file": "tests/test_auth.py",
+      "line": 29,
+      "groups": [
+        "existing-suite"
+      ],
+      "artifact_ids": []
+    },
+    {
+      "id": "tr-bf5e63b890f5",
+      "identifier": "tests/test_transfers.py::test_transfer_moves_money_and_charges_fee",
+      "status": "PASSED",
+      "name": "test_transfer_moves_money_and_charges_fee",
+      "duration_s": 0.0323,
+      "message": null,
+      "file": "tests/test_transfers.py",
+      "line": 8,
+      "groups": [
+        "existing-suite"
+      ],
+      "artifact_ids": []
+    },
+    {
+      "id": "tr-cabcc0564120",
+      "identifier": "tests/test_transfers.py::test_transfer_with_insufficient_funds_is_rejected",
+      "status": "PASSED",
+      "name": "test_transfer_with_insufficient_funds_is_rejected",
+      "duration_s": 0.0275,
+      "message": null,
+      "file": "tests/test_transfers.py",
+      "line": 29,
+      "groups": [
+        "existing-suite"
+      ],
+      "artifact_ids": []
+    },
+    {
+      "id": "tr-61f98392830a",
+      "identifier": "tests/test_transfers.py::test_list_transfers_shows_sent_and_received",
+      "status": "PASSED",
+      "name": "test_list_transfers_shows_sent_and_received",
+      "duration_s": 0.0436,
+      "message": null,
+      "file": "tests/test_transfers.py",
+      "line": 39,
+      "groups": [
+        "existing-suite"
+      ],
+      "artifact_ids": []
+    },
+    {
+      "id": "tr-ae5f73ded299",
+      "identifier": "tests/test_transfers.py::test_get_transfer_by_id",
+      "status": "PASSED",
+      "name": "test_get_transfer_by_id",
+      "duration_s": 0.0377,
+      "message": null,
+      "file": "tests/test_transfers.py",
+      "line": 53,
+      "groups": [
+        "existing-suite"
+      ],
+      "artifact_ids": []
+    },
+    {
+      "id": "tr-ef9992e552af",
+      "identifier": "tests/test_transfers.py::test_idempotent_retry_does_not_charge_twice",
+      "status": "PASSED",
+      "name": "test_idempotent_retry_does_not_charge_twice",
+      "duration_s": 0.0445,
+      "message": null,
+      "file": "tests/test_transfers.py",
+      "line": 65,
+      "groups": [
+        "existing-suite"
+      ],
+      "artifact_ids": []
+    },
+    {
+      "id": "tr-6e3464c8b541",
+      "identifier": "tests/test_transfers.py::test_list_transfers_is_paginated",
+      "status": "SKIPPED",
+      "name": "test_list_transfers_is_paginated",
+      "duration_s": 0.0001,
+      "message": "Skipped: pagination not implemented yet",
+      "file": "tests/test_transfers.py",
+      "line": 80,
+      "groups": [
+        "existing-suite"
+      ],
+      "artifact_ids": []
+    },
+    {
+      "id": "tr-072879e5c2e6",
+      "identifier": "tests/test_wallets.py::test_deposit_increases_balance",
+      "status": "PASSED",
+      "name": "test_deposit_increases_balance",
+      "duration_s": 0.0284,
+      "message": null,
+      "file": "tests/test_wallets.py",
+      "line": 1,
+      "groups": [
+        "existing-suite"
+      ],
+      "artifact_ids": []
+    },
+    {
+      "id": "tr-d0077f4aa9f7",
+      "identifier": "tests/test_wallets.py::test_deposit_must_be_positive",
+      "status": "PASSED",
+      "name": "test_deposit_must_be_positive",
+      "duration_s": 0.0398,
+      "message": null,
+      "file": "tests/test_wallets.py",
+      "line": 11,
+      "groups": [
+        "existing-suite"
+      ],
+      "artifact_ids": []
+    },
+    {
+      "id": "tr-d664bd1d8459",
+      "identifier": "tests/test_wallets.py::test_owner_can_read_wallet_by_id",
+      "status": "PASSED",
+      "name": "test_owner_can_read_wallet_by_id",
+      "duration_s": 0.0229,
+      "message": null,
+      "file": "tests/test_wallets.py",
+      "line": 17,
+      "groups": [
+        "existing-suite"
+      ],
+      "artifact_ids": []
+    },
+    {
+      "id": "tr-3694f4cd544c",
+      "identifier": "tests/test_wallets.py::test_cannot_read_someone_elses_wallet",
+      "status": "PASSED",
+      "name": "test_cannot_read_someone_elses_wallet",
+      "duration_s": 0.0352,
+      "message": null,
+      "file": "tests/test_wallets.py",
+      "line": 24,
+      "groups": [
+        "existing-suite"
+      ],
+      "artifact_ids": []
+    }
+  ],
+  "environment": {
+    "platform": "Linux-7.0.0-43-generic-x86_64",
+    "python": "3.12.3",
+    "hostname_hash": "a005a3344252",
+    "tool_versions": {
+      "pytest": "pytest 9.0.2"
+    },
+    "ci": false,
+    "git_head": "75e11d4744613e03e5aca08829c58d319faf9820",
+    "git_dirty": false
+  },
+  "groups": [
+    "existing-suite"
+  ],
+  "label": "existing suite",
+  "status_reason": null,
+  "artifact_ids": [
+    "ev-a1f383d87553",
+    "ev-2de188ab1f85",
+    "ev-d7adb1cd5623"
+  ],
+  "attempt": 1,
+  "reproduction_of": null,
+  "actor": null
+}

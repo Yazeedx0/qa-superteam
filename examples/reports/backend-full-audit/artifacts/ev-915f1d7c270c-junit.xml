@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="23" time="0.913" timestamp="2026-11-23T17:27:41.313062+03:00" hostname="Yazeed"><testcase classname="tests.qa.test_qa_invariants" name="test_transfer_of_entire_balance_rejected_when_fee_not_covered" time="0.042"><failure message="AssertionError: transfer of the entire balance must be rejected because amount + fee (1010) exceeds the balance (1000); got status 201 and sender balance -10&#10;assert (201 == 422)&#10; +  where 201 = &lt;Response [201 Created]&gt;.status_code">client = &lt;starlette.testclient.TestClient object at 0x7cda678e5d00&gt;
+new_user = &lt;function new_user.&lt;locals&gt;._new at 0x7cda678b00e0&gt;
+balance_of = &lt;function balance_of.&lt;locals&gt;.&lt;lambda&gt; at 0x7cda678b0180&gt;
+
+    def test_transfer_of_entire_balance_rejected_when_fee_not_covered(client, new_user, balance_of):
+        alice = new_user(balance=1_000)
+        bob = new_user()
+    
+        r = _transfer(client, alice, bob.wallet_id, 1_000)  # fee 10 -&gt; needs 1010
+    
+        after = balance_of(alice)
+&gt;       assert r.status_code == 422 and after == 1_000, (
+            "transfer of the entire balance must be rejected because amount + fee (1010) exceeds "
+            f"the balance (1000); got status {r.status_code} and sender balance {after}"
+        )
+E       AssertionError: transfer of the entire balance must be rejected because amount + fee (1010) exceeds the balance (1000); got status 201 and sender balance -10
+E       assert (201 == 422)
+E        +  where 201 = &lt;Response [201 Created]&gt;.status_code
+
+tests/qa/test_qa_invariants.py:25: AssertionError</failure></testcase><testcase classname="tests.qa.test_qa_invariants" name="test_balance_never_negative_when_fee_exceeds_remaining_funds" time="0.036"><failure message="AssertionError: sender balance went negative (-5) after paying amount + fee&#10;assert -5 &gt;= 0">client = &lt;starlette.testclient.TestClient object at 0x7cda67874500&gt;
+new_user = &lt;function new_user.&lt;locals&gt;._new at 0x7cda678b3d80&gt;
+balance_of = &lt;function balance_of.&lt;locals&gt;.&lt;lambda&gt; at 0x7cda678b3ec0&gt;
+
+    def test_balance_never_negative_when_fee_exceeds_remaining_funds(client, new_user, balance_of):
+        alice = new_user(balance=1_000)
+        bob = new_user()
+    
+        _transfer(client, alice, bob.wallet_id, 995)  # fee 10 -&gt; needs 1005
+    
+        after = balance_of(alice)
+&gt;       assert after &gt;= 0, f"sender balance went negative ({after}) after paying amount + fee"
+E       AssertionError: sender balance went negative (-5) after paying amount + fee
+E       assert -5 &gt;= 0
+
+tests/qa/test_qa_invariants.py:38: AssertionError</failure></testcase><testcase classname="tests.qa.test_qa_invariants" name="test_transfer_of_balance_minus_fee_succeeds" time="0.046" /><testcase classname="tests.qa.test_qa_invariants" name="test_amount_above_balance_rejected" time="0.037" /><testcase classname="tests.qa.test_qa_invariants" name="test_fee_is_one_percent_rounded_up_min_one_cent[1-1]" time="0.035" /><testcase classname="tests.qa.test_qa_invariants" name="test_fee_is_one_percent_rounded_up_min_one_cent[99-1]" time="0.027" /><testcase classname="tests.qa.test_qa_invariants" name="test_fee_is_one_percent_rounded_up_min_one_cent[100-1]" time="0.031" /><testcase classname="tests.qa.test_qa_invariants" name="test_fee_is_one_percent_rounded_up_min_one_cent[101-2]" time="0.035" /><testcase classname="tests.qa.test_qa_invariants" name="test_fee_is_one_percent_rounded_up_min_one_cent[199-2]" time="0.050" /><testcase classname="tests.qa.test_qa_invariants" name="test_fee_is_one_percent_rounded_up_min_one_cent[200-2]" time="0.044" /><testcase classname="tests.qa.test_qa_invariants" name="test_fee_is_one_percent_rounded_up_min_one_cent[201-3]" time="0.037" /><testcase classname="tests.qa.test_qa_invariants" name="test_fee_is_one_percent_rounded_up_min_one_cent[12345-124]" time="0.036" /><testcase classname="tests.qa.test_qa_invariants" name="test_money_is_conserved_across_transfers" time="0.062" /><testcase classname="tests.qa.test_qa_invariants" name="test_self_transfer_rejected" time="0.029" /><testcase classname="tests.qa.test_qa_invariants" name="test_transfer_to_unknown_wallet_is_404" time="0.030" /><testcase classname="tests.qa.test_qa_invariants" name="test_invalid_transfer_amounts_rejected[0]" time="0.036" /><testcase classname="tests.qa.test_qa_invariants" name="test_invalid_transfer_amounts_rejected[-5]" time="0.036" /><testcase classname="tests.qa.test_qa_invariants" name="test_invalid_transfer_amounts_rejected[10.5]" time="0.037" /><testcase classname="tests.qa.test_qa_invariants" name="test_invalid_transfer_amounts_rejected[100]" time="0.035" /><testcase classname="tests.qa.test_qa_invariants" name="test_invalid_transfer_amounts_rejected[True]" time="0.033" /><testcase classname="tests.qa.test_qa_invariants" name="test_invalid_transfer_amounts_rejected[None]" time="0.028" /><testcase classname="tests.qa.test_qa_invariants" name="test_idempotent_retry_moves_money_once" time="0.044" /><testcase classname="tests.qa.test_qa_invariants" name="test_idempotency_key_is_scoped_per_user" time="0.048" /></testsuite></testsuites>

@@ -1,0 +1,74 @@
+{
+  "id": "ex-331bce68cca7",
+  "run_id": "20261123-142758-test-e2e-0d83",
+  "adapter": "pytest",
+  "status": "FAILED",
+  "started_at": "2026-11-23T14:28:27Z",
+  "finished_at": "2026-11-23T14:28:31Z",
+  "duration_s": 4.378,
+  "command": [
+    "python3",
+    "-m",
+    "pytest",
+    "tests/qa/test_qa_journeys.py::test_recover_from_postal_code_error_and_complete_checkout",
+    "-p",
+    "qa_superteam.pytest_reporter",
+    "-p",
+    "no:cacheprovider",
+    "-q",
+    "-rN",
+    "--junitxml",
+    "<project>/.qa-superteam/runs/20261123-142758-test-e2e-0d83/work/ex-331bce68cca7/junit.xml"
+  ],
+  "cwd": ".",
+  "exit_code": 1,
+  "timed_out": false,
+  "counts": {
+    "PASSED": 0,
+    "FAILED": 1,
+    "ERROR": 0,
+    "SKIPPED": 0,
+    "BLOCKED": 0,
+    "NOT_RUN": 0,
+    "INCONCLUSIVE": 0
+  },
+  "results": [
+    {
+      "id": "tr-92d3f7199575",
+      "identifier": "tests/qa/test_qa_journeys.py::test_recover_from_postal_code_error_and_complete_checkout",
+      "status": "FAILED",
+      "name": "test_recover_from_postal_code_error_and_complete_checkout",
+      "duration_s": 3.876,
+      "message": "checkout = <conftest.Checkout object at 0x7e5af0462720>\n\n    def test_recover_from_postal_code_error_and_complete_checkout(checkout):\n        page = checkout.page\n        checkout.open().fill_contact()\n    \n        postal = page.get_by_test_id(\"postal-code\")\n        continue_button = page.get_by_test_id(\"shipping-continue\")\n        postal_error = page.locator(\"#postal-code-error\")\n    \n        postal.fill(\"123\")\n        continue_button.click()\n        expect(postal_error, \"an invalid US ZIP code should show an inline error\").to_contain_text(\"5-digit\")\n        expect(page.locator(\"#shipping-form\"), \"an invalid postal code must not advance the checkout\").to_be_visible()\n    \n        postal.fill(\"94107\")\n        expect(postal_error, \"correcting the postal code should clear the inline error\").to_be_hidden()\n        expect(\n            continue_button,\n            \"after correcting the postal code to a valid value (94107) the Shipping 'Continue' button is still \"\n            \"disabled, so the user cannot finish checkout without reloading the page\",\n>       ).to_be_enabled(timeout=3_000)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       AssertionError: after correcting the postal code to a valid value (94107) the Shipping 'Continue' button is still disabled, so the user cannot finish checkout without reloading the page\nE       Actual value: disabled \nE       Call log:\nE         - Expect \"to_be_enabled\" with timeout 3000ms\nE         - waiting for get_by_test_id(\"shipping-continue\")\nE           7 × locator resolved to <button disabled type=\"submit\" class=\"primary\" data-i18n=\"continue\" id=\"shipping-continue\" data-testid=\"shipping-continue\">Continue</button>\nE             - unexpected value \"disabled\"\n\ntests/qa/test_qa_journeys.py:38: AssertionError",
+      "file": "tests/qa/test_qa_journeys.py",
+      "line": 19,
+      "groups": [],
+      "artifact_ids": [
+        "ev-8679a631d61a"
+      ]
+    }
+  ],
+  "environment": {
+    "platform": "Linux-7.0.0-43-generic-x86_64",
+    "python": "3.12.3",
+    "hostname_hash": "a005a3344252",
+    "tool_versions": {
+      "pytest": "pytest 9.0.2"
+    },
+    "ci": false,
+    "git_head": "4fb3dc41f2ffdcd77ec07d4d5da64d77359fc0eb",
+    "git_dirty": true
+  },
+  "groups": [],
+  "label": "reproduce tests/qa/test_qa_journeys.py::test_recover_from_postal_code_error_and_complete_checkout #3",
+  "status_reason": null,
+  "artifact_ids": [
+    "ev-72fa857f5db9",
+    "ev-cac0a1fe0186",
+    "ev-7db945a62325",
+    "ev-8679a631d61a"
+  ],
+  "attempt": 3,
+  "reproduction_of": "tests/qa/test_qa_journeys.py::test_recover_from_postal_code_error_and_complete_checkout",
+  "actor": "qa-superteam:independent-verification-engineer"
+}

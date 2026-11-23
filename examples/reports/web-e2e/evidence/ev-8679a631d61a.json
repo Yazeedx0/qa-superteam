@@ -5,9 +5,9 @@
   "sha256": "8679a631d61a36cc84f59b629fd20b23b841c3a3d40522178c92680df06c6d3f",
   "size_bytes": 48988,
   "media_type": "image/png",
-  "created_at": "2026-11-23T13:47:39Z",
+  "created_at": "2026-11-23T14:28:13Z",
   "redacted": false,
   "redactions": 0,
-  "execution_id": "ex-5f12edf9a86a",
+  "execution_id": "ex-75b5494fe2e1",
   "description": "collected from test artifact dir: tests_qa_test_qa_journeys.py_test_recover_from_postal_code_error_and_complete_checkout.png"
 }

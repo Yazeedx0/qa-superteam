@@ -8,5 +8,5 @@ dist/
 .venv/
 node_modules/
 .qa-superteam/
-evals/results/
+evals/results/*
 !evals/results/README.md

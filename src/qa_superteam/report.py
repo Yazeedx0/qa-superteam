@@ -109,9 +109,12 @@ def build_report(store: RunStore) -> m.QAReport:
     arts = sorted(idx.artifacts.values(), key=lambda a: a.path)
     coverage = coverage_assessment(store, execs, plan, reqs, risks, impact, arts)
     limitations = []
+    notes: list[str] = []
     for ev in store.journal_events():
         if ev.get("event") == "note" and ev.get("kind") == "limitation":
             limitations.append(ev.get("text", ""))
+        elif ev.get("event") == "note":
+            notes.append(f"[{ev.get('kind')}] {ev.get('text', '')}")
     for e in execs:
         if e.status in (S.BLOCKED, S.NOT_RUN):
             limitations.append(f"{e.adapter} execution {e.id} {e.status.value}: {e.status_reason}")
@@ -135,6 +138,7 @@ def build_report(store: RunStore) -> m.QAReport:
                 integrity.append("decision.json is stale: evidence changed after `qast gate` ran; re-run the gate")
         except Exception as e:  # noqa: BLE001
             integrity.append(f"could not re-check decision digest: {e}")
+    integrity += store.config_changes()
     profile_summary = {}
     if profile:
         profile_summary = {
@@ -161,6 +165,7 @@ def build_report(store: RunStore) -> m.QAReport:
         requirements=reqs,
         profile_summary=profile_summary,
         integrity_warnings=integrity,
+        notes=notes,
     )
 
 
@@ -334,6 +339,12 @@ def render_markdown(rep: m.QAReport) -> str:
     L.append("")
     L.append(", ".join(f"{k}: {v}" for k, v in rep.phases.items()))
     L.append("")
+    if rep.notes:
+        L.append("## Notes and decisions")
+        L.append("")
+        for n in rep.notes:
+            L.append(f"- {n}")
+        L.append("")
     L.append("## Limitations & what was not verified")
     L.append("")
     for lim in dict.fromkeys(rep.limitations):

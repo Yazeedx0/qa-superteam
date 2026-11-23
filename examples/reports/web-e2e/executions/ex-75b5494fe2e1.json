@@ -1,0 +1,165 @@
+{
+  "id": "ex-75b5494fe2e1",
+  "run_id": "20261123-142758-test-e2e-0d83",
+  "adapter": "pytest",
+  "status": "FAILED",
+  "started_at": "2026-11-23T14:28:01Z",
+  "finished_at": "2026-11-23T14:28:13Z",
+  "duration_s": 11.992,
+  "command": [
+    "python3",
+    "-m",
+    "pytest",
+    "tests/qa/test_qa_journeys.py",
+    "-p",
+    "qa_superteam.pytest_reporter",
+    "-p",
+    "no:cacheprovider",
+    "-q",
+    "-rN",
+    "--junitxml",
+    "<project>/.qa-superteam/runs/20261123-142758-test-e2e-0d83/work/ex-75b5494fe2e1/junit.xml"
+  ],
+  "cwd": ".",
+  "exit_code": 1,
+  "timed_out": false,
+  "counts": {
+    "PASSED": 5,
+    "FAILED": 2,
+    "ERROR": 0,
+    "SKIPPED": 0,
+    "BLOCKED": 0,
+    "NOT_RUN": 0,
+    "INCONCLUSIVE": 0
+  },
+  "results": [
+    {
+      "id": "tr-92d3f7199575",
+      "identifier": "tests/qa/test_qa_journeys.py::test_recover_from_postal_code_error_and_complete_checkout",
+      "status": "FAILED",
+      "name": "test_recover_from_postal_code_error_and_complete_checkout",
+      "duration_s": 3.5465,
+      "message": "checkout = <conftest.Checkout object at 0x7a45a095ac90>\n\n    def test_recover_from_postal_code_error_and_complete_checkout(checkout):\n        page = checkout.page\n        checkout.open().fill_contact()\n    \n        postal = page.get_by_test_id(\"postal-code\")\n        continue_button = page.get_by_test_id(\"shipping-continue\")\n        postal_error = page.locator(\"#postal-code-error\")\n    \n        postal.fill(\"123\")\n        continue_button.click()\n        expect(postal_error, \"an invalid US ZIP code should show an inline error\").to_contain_text(\"5-digit\")\n        expect(page.locator(\"#shipping-form\"), \"an invalid postal code must not advance the checkout\").to_be_visible()\n    \n        postal.fill(\"94107\")\n        expect(postal_error, \"correcting the postal code should clear the inline error\").to_be_hidden()\n        expect(\n            continue_button,\n            \"after correcting the postal code to a valid value (94107) the Shipping 'Continue' button is still \"\n            \"disabled, so the user cannot finish checkout without reloading the page\",\n>       ).to_be_enabled(timeout=3_000)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nE       AssertionError: after correcting the postal code to a valid value (94107) the Shipping 'Continue' button is still disabled, so the user cannot finish checkout without reloading the page\nE       Actual value: disabled \nE       Call log:\nE         - Expect \"to_be_enabled\" with timeout 3000ms\nE         - waiting for get_by_test_id(\"shipping-continue\")\nE           7 × locator resolved to <button disabled type=\"submit\" class=\"primary\" data-i18n=\"continue\" id=\"shipping-continue\" data-testid=\"shipping-continue\">Continue</button>\nE             - unexpected value \"disabled\"\n\ntests/qa/test_qa_journeys.py:38: AssertionError",
+      "file": "tests/qa/test_qa_journeys.py",
+      "line": 19,
+      "groups": [
+        "critical-journeys"
+      ],
+      "artifact_ids": [
+        "ev-8679a631d61a"
+      ]
+    },
+    {
+      "id": "tr-c621f22198fa",
+      "identifier": "tests/qa/test_qa_journeys.py::test_promo_apply_then_remove_restores_total",
+      "status": "FAILED",
+      "name": "test_promo_apply_then_remove_restores_total",
+      "duration_s": 5.3066,
+      "message": "checkout = <conftest.Checkout object at 0x7a459fece480>\n\n    def test_promo_apply_then_remove_restores_total(checkout):\n        page = checkout.page\n        checkout.to_review(country=\"US\", postal=\"94107\")\n    \n        total = page.get_by_test_id(\"total\")\n        expect(page.get_by_test_id(\"subtotal\")).to_have_text(\"$80.00\")\n        expect(page.get_by_test_id(\"shipping-cost\")).to_have_text(\"$5.00\")\n        expect(total, \"total before any promo should be subtotal + shipping\").to_have_text(\"$85.00\")\n    \n        page.get_by_test_id(\"promo-input\").fill(\"SAVE10\")\n        page.get_by_test_id(\"promo-apply\").click()\n        expect(page.get_by_test_id(\"promo-badge\")).to_contain_text(\"SAVE10\")\n        expect(page.get_by_test_id(\"discount\"), \"SAVE10 should take 10% off the $80.00 subtotal\").to_have_text(\"-$8.00\")\n        expect(total, \"total with SAVE10 applied\").to_have_text(\"$77.00\")\n    \n        page.get_by_test_id(\"promo-remove\").click()\n        expect(page.get_by_test_id(\"promo-badge\"), \"the applied-code badge should disappear\").to_be_hidden()\n        expect(page.get_by_test_id(\"promo-input\"), \"the promo field should be cleared\").to_have_value(\"\")\n        expect(page.get_by_test_id(\"discount\"), \"the discount line should disappear\").to_be_hidden()\n        expect(\n            total,\n            \"after removing SAVE10 the total must return to $85.00 (subtotal $80.00 + shipping $5.00) \"\n            \"but it still includes the $8.00 discount\",\n>       ).to_have_text(\"$85.00\")\n          ^^^^^^^^^^^^^^^^^^^^^^\nE       AssertionError: after removing SAVE10 the total must return to $85.00 (subtotal $80.00 + shipping $5.00) but it still includes the $8.00 discount\nE       Expected value: '$85.00'\nE       Actual value: $77.00 \nE       Call log:\nE         - Expect \"to_have_text\" with timeout 5000ms\nE         - waiting for get_by_test_id(\"total\")\nE           9 × locator resolved to <dd id=\"total\" data-testid=\"total\">$77.00</dd>\nE             - unexpected value \"$77.00\"\n\ntests/qa/test_qa_journeys.py:69: AssertionError",
+      "file": "tests/qa/test_qa_journeys.py",
+      "line": 46,
+      "groups": [
+        "critical-journeys"
+      ],
+      "artifact_ids": [
+        "ev-d18f94779aae"
+      ]
+    },
+    {
+      "id": "tr-e8567dae5a5d",
+      "identifier": "tests/qa/test_qa_journeys.py::test_arabic_locale_renders_right_to_left",
+      "status": "PASSED",
+      "name": "test_arabic_locale_renders_right_to_left",
+      "duration_s": 0.2652,
+      "message": null,
+      "file": "tests/qa/test_qa_journeys.py",
+      "line": 72,
+      "groups": [
+        "critical-journeys"
+      ],
+      "artifact_ids": []
+    },
+    {
+      "id": "tr-5ce8c37e97bc",
+      "identifier": "tests/qa/test_qa_journeys.py::test_mobile_375_has_no_horizontal_overflow[en]",
+      "status": "PASSED",
+      "name": "test_mobile_375_has_no_horizontal_overflow[en]",
+      "duration_s": 0.4624,
+      "message": null,
+      "file": "tests/qa/test_qa_journeys.py",
+      "line": 114,
+      "groups": [
+        "critical-journeys"
+      ],
+      "artifact_ids": []
+    },
+    {
+      "id": "tr-e3a020689bd3",
+      "identifier": "tests/qa/test_qa_journeys.py::test_mobile_375_has_no_horizontal_overflow[ar]",
+      "status": "PASSED",
+      "name": "test_mobile_375_has_no_horizontal_overflow[ar]",
+      "duration_s": 0.464,
+      "message": null,
+      "file": "tests/qa/test_qa_journeys.py",
+      "line": 114,
+      "groups": [
+        "critical-journeys"
+      ],
+      "artifact_ids": []
+    },
+    {
+      "id": "tr-ddeb45380186",
+      "identifier": "tests/qa/test_qa_journeys.py::test_place_order_failure_shows_banner_and_retry_succeeds[network-error]",
+      "status": "PASSED",
+      "name": "test_place_order_failure_shows_banner_and_retry_succeeds[network-error]",
+      "duration_s": 0.465,
+      "message": null,
+      "file": "tests/qa/test_qa_journeys.py",
+      "line": 141,
+      "groups": [
+        "critical-journeys"
+      ],
+      "artifact_ids": []
+    },
+    {
+      "id": "tr-eed907c44e5f",
+      "identifier": "tests/qa/test_qa_journeys.py::test_place_order_failure_shows_banner_and_retry_succeeds[http-500]",
+      "status": "PASSED",
+      "name": "test_place_order_failure_shows_banner_and_retry_succeeds[http-500]",
+      "duration_s": 0.9194,
+      "message": null,
+      "file": "tests/qa/test_qa_journeys.py",
+      "line": 141,
+      "groups": [
+        "critical-journeys"
+      ],
+      "artifact_ids": []
+    }
+  ],
+  "environment": {
+    "platform": "Linux-7.0.0-43-generic-x86_64",
+    "python": "3.12.3",
+    "hostname_hash": "a005a3344252",
+    "tool_versions": {
+      "pytest": "pytest 9.0.2"
+    },
+    "ci": false,
+    "git_head": "4fb3dc41f2ffdcd77ec07d4d5da64d77359fc0eb",
+    "git_dirty": true
+  },
+  "groups": [
+    "critical-journeys"
+  ],
+  "label": "journeys",
+  "status_reason": null,
+  "artifact_ids": [
+    "ev-34afeef02eea",
+    "ev-4ded86b1d3e4",
+    "ev-47fbc48c1187",
+    "ev-d18f94779aae",
+    "ev-8679a631d61a"
+  ],
+  "attempt": 1,
+  "reproduction_of": null,
+  "actor": null
+}

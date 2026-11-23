@@ -23,7 +23,7 @@ Arguments (may be empty): $ARGUMENTS
 
 ## Phase B — Find existing evidence
 
-1. `qast run list`. For recent runs, run `qast run status --run <id> --json`. A run is **usable** if its executions (`executions/*.json` → `environment.git_head`) were recorded at the release commit. Evidence from another commit is stale: never count it.
+1. `qast run list`. For recent runs, run `qast run status --run <id> --json`. A run is **usable** if its executions (`executions/*.json` → `environment.git_head`) were recorded at the release commit with `environment.git_dirty == false`. Evidence from another commit or a dirty tree is stale: never count it.
 2. **Known issues**: CONFIRMED findings, and unverified high/critical ones, from any earlier run (`qast finding list --run <id> --json`). Note their `test_identifiers`.
 3. Choose where evidence lives, since the gate evaluates one run:
    - **Usable run exists** (the user named it, or it is the newest at this commit) → work in it. Pass `--run <id>` to every command below and do not start a new run.

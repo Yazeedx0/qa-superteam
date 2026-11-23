@@ -1,0 +1,28 @@
+$ python3 -m pytest tests/qa -k refund -p qa_superteam.pytest_reporter -p no:cacheprovider -q -rN --junitxml <project>/.qa-superteam/runs/20261123-142856-eval-ai-2468/work/ex-72f749c44f93/junit.xml
+[exit_code=1 timed_out=False duration=0.465s]
+--- stdout ---
+F..                                                                      [100%]
+=================================== FAILURES ===================================
+___________________ test_refund_tool_call_uses_integer_cents ___________________
+
+    def test_refund_tool_call_uses_integer_cents():
+        response = answer("i want a refund for order A1001")
+        assert _tool_names(response) == ["lookup_order", "issue_refund"], (
+            f"eligible order A1001 should be looked up and refunded; tool_calls={response['tool_calls']}"
+        )
+        args = response["tool_calls"][1]["args"]
+        assert args.get("order_id") == "A1001", f"issue_refund called for the wrong order: {args}"
+        amount = args.get("amount_cents")
+>       assert isinstance(amount, int) and not isinstance(amount, bool) and amount == 4999, (
+            "issue_refund(amount_cents=...) must be the order total in integer cents (4999 for $49.99); "
+            f"got {amount!r} ({type(amount).__name__}) - the tool would refund the wrong amount"
+        )
+E       AssertionError: issue_refund(amount_cents=...) must be the order total in integer cents (4999 for $49.99); got 49.99 (float) - the tool would refund the wrong amount
+E       assert (False)
+E        +  where False = isinstance(49.99, int)
+
+tests/qa/test_qa_ai.py:33: AssertionError
+1 failed, 2 passed, 5 deselected in 0.03s
+
+--- stderr ---
+

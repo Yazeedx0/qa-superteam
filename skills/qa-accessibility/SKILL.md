@@ -1,6 +1,6 @@
 ---
 name: qa-accessibility
-description: Use when a web UI must be checked for accessibility - automated axe-core scans of pages and of interactive app states (later steps of a single-page app, error states, dialogs, RTL and 375px views), keyboard operation and focus order, accessible names and labels, colour contrast, language and direction attributes, and an explicit list of manual validations (screen reader, 200% zoom, motion) reported as not automated. Reports BLOCKED, never a pass, when axe-core or a browser is unavailable.
+description: Use when checking accessibility - axe-core scans of pages and app states, keyboard and focus checks, labels, contrast and RTL/lang attributes, with an explicit list of what still needs manual validation.
 ---
 
 # QA accessibility

@@ -1,6 +1,6 @@
 ---
 name: qa-release-gate
-description: Use when a release, merge or go/no-go decision is requested from QA evidence - checking that the required evidence exists, running `qast gate` with the configured policy, reading every rule outcome, explaining PASS / REVIEW_REQUIRED / BLOCK in plain language, and listing the human decisions a REVIEW_REQUIRED leaves open. Also use when someone asks what a gate rule means or how to configure policies/default.toml or strict.toml. The decision comes from the deterministic policy engine, never from opinion, and is never overridden or argued away.
+description: Use when a release decision is needed - checks the required evidence exists, runs the deterministic qast gate, explains PASS, REVIEW_REQUIRED or BLOCK from the triggered rules, and never overrides policy with opinion.
 ---
 
 # QA release gate
@@ -51,7 +51,7 @@ Never substitute your own verdict.
    - `qast validate` reports no problems.
 
    Close a gap first when scope, budget and permissions allow, using the owning skill. Otherwise gate anyway: missing evidence is an input the policy handles, and it never becomes a pass.
-2. **Policy.** Use the configured policy. Pass `--policy` only when the user asks (bundled strict policy: `qast gate --policy ${CLAUDE_PLUGIN_ROOT}/policies/strict.toml`; the path is resolved from the current directory). Each gate run replaces `decision.json`, so after a comparison run the configured policy again last, unless the user chose the other policy for this release. Never switch policy to obtain a better outcome. Name policy, version and sha in every answer.
+2. **Policy.** Use the configured policy. Pass `--policy` only when the user asks (bundled strict policy: `qast gate --policy policies/strict.toml`; a relative path is tried against the current directory, then the project root, then the plugin). Each gate run replaces `decision.json`, so after a comparison run the configured policy again last, unless the user chose the other policy for this release. Never switch policy to obtain a better outcome. Name policy, version and sha in every answer.
 3. **Run** `qast gate --json` (CI: `qast gate --exit-code`; 0 PASS, 10 REVIEW_REQUIRED, 20 BLOCK).
 4. **Read every triggered rule** (`"triggered": true`): its reason, its refs (finding ids, test ids), and what would change it. Semantics: `${CLAUDE_PLUGIN_ROOT}/docs/policy.md`. Per-rule resolutions: [references/rule-playbook.md](references/rule-playbook.md).
 5. **Explain the decision.** It is the most severe triggered outcome (BLOCK > REVIEW_REQUIRED > PASS); PASS also requires positive evidence (`R-POSITIVE-EVIDENCE`). Quote each rule id and translate it into one plain sentence.

@@ -25,9 +25,9 @@
       "rule_id": "R-CONFIRMED-BLOCKING",
       "outcome": "BLOCK",
       "triggered": true,
-      "reason": "F-0aff696c [critical data-integrity] PR lets the fee overdraw a wallet (regression)",
+      "reason": "F-0a2853f7 [critical data-integrity] PR lets the fee overdraw a wallet (regression)",
       "refs": [
-        "F-0aff696c"
+        "F-0a2853f7"
       ]
     },
     {
@@ -75,7 +75,7 @@
       "refs": []
     }
   ],
-  "evaluated_at": "2026-11-23T13:47:24Z",
-  "inputs_digest": "cb490e2c44f69a6b7f960513c095c31518c25f90b22b52b5cfac114c9db47b4a",
+  "evaluated_at": "2026-11-23T14:27:57Z",
+  "inputs_digest": "7525940bbd91c5a36cb4f172cf4f99b0ecabcfcfffec14065006105a052725cb",
   "summary": "BLOCK: R-CONFIRMED-BLOCKING, R-MANDATORY-GROUP:existing-suite"
 }

@@ -1,0 +1,39 @@
+{
+  "pages": [
+    {
+      "url": "http://127.0.0.1:45691/",
+      "violations": [],
+      "incomplete": [],
+      "passes": [
+        "aria-allowed-attr",
+        "aria-conditional-attr",
+        "aria-hidden-body",
+        "aria-prohibited-attr",
+        "aria-valid-attr-value",
+        "aria-valid-attr",
+        "autocomplete-valid",
+        "button-name",
+        "bypass",
+        "color-contrast",
+        "definition-list",
+        "dlitem",
+        "document-title",
+        "duplicate-id-aria",
+        "form-field-multiple-labels",
+        "html-has-lang",
+        "html-lang-valid",
+        "label",
+        "link-name",
+        "list",
+        "listitem",
+        "meta-viewport",
+        "nested-interactive",
+        "target-size",
+        "valid-lang"
+      ],
+      "axe_version": "4.14.1",
+      "screenshot": "http-127-0-0-1-45691.png"
+    }
+  ],
+  "viewport": "375x812"
+}

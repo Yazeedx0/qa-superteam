@@ -1,0 +1,45 @@
+$ python3 -m pytest tests/qa/test_qa_journeys.py::test_recover_from_postal_code_error_and_complete_checkout -p qa_superteam.pytest_reporter -p no:cacheprovider -q -rN --junitxml <project>/.qa-superteam/runs/20261123-142758-test-e2e-0d83/work/ex-5436e6d13420/junit.xml
+[exit_code=1 timed_out=False duration=4.428s]
+--- stdout ---
+F                                                                        [100%]
+=================================== FAILURES ===================================
+__________ test_recover_from_postal_code_error_and_complete_checkout ___________
+
+checkout = <conftest.Checkout object at 0x77bc0ec66600>
+
+    def test_recover_from_postal_code_error_and_complete_checkout(checkout):
+        page = checkout.page
+        checkout.open().fill_contact()
+    
+        postal = page.get_by_test_id("postal-code")
+        continue_button = page.get_by_test_id("shipping-continue")
+        postal_error = page.locator("#postal-code-error")
+    
+        postal.fill("123")
+        continue_button.click()
+        expect(postal_error, "an invalid US ZIP code should show an inline error").to_contain_text("5-digit")
+        expect(page.locator("#shipping-form"), "an invalid postal code must not advance the checkout").to_be_visible()
+    
+        postal.fill("94107")
+        expect(postal_error, "correcting the postal code should clear the inline error").to_be_hidden()
+        expect(
+            continue_button,
+            "after correcting the postal code to a valid value (94107) the Shipping 'Continue' button is still "
+            "disabled, so the user cannot finish checkout without reloading the page",
+>       ).to_be_enabled(timeout=3_000)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: after correcting the postal code to a valid value (94107) the Shipping 'Continue' button is still disabled, so the user cannot finish checkout without reloading the page
+E       Actual value: disabled 
+E       Call log:
+E         - Expect "to_be_enabled" with timeout 3000ms
+E         - waiting for get_by_test_id("shipping-continue")
+E           7 × locator resolved to <button disabled type="submit" class="primary" data-i18n="continue" id="shipping-continue" data-testid="shipping-continue">Continue</button>
+E             - unexpected value "disabled"
+
+tests/qa/test_qa_journeys.py:38: AssertionError
+---------------------------------- screenshot ----------------------------------
+<project>/.qa-superteam/runs/20261123-142758-test-e2e-0d83/work/ex-5436e6d13420/artifacts/tests_qa_test_qa_journeys.py_test_recover_from_postal_code_error_and_complete_checkout.png
+1 failed in 3.94s
+
+--- stderr ---
+

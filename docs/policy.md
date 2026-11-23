@@ -37,7 +37,7 @@ decision and the same `inputs_digest`.
 |---|---|
 | nothing configured | the plugin's `policies/default.toml` |
 | `.qa-superteam/config.toml` → `[policy] path = "..."` | a relative path is resolved against the project root first, then against the plugin root, so `"policies/strict.toml"` works without copying the file |
-| `qast gate --policy FILE` | overrides config for this evaluation; the path is resolved relative to the current directory (use `"${CLAUDE_PLUGIN_ROOT}/policies/strict.toml"` for the bundled strict policy) |
+| `qast gate --policy FILE` | overrides config for this evaluation; a relative path is tried against the current directory, then the project root, then the plugin root (so `--policy policies/strict.toml` finds the bundled strict policy) |
 
 Bundled policies:
 

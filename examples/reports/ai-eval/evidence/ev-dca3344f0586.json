@@ -1,0 +1,13 @@
+{
+  "id": "ev-dca3344f0586",
+  "kind": "report",
+  "path": "artifacts/ev-dca3344f0586-ai-eval-results.jsonl",
+  "sha256": "dca3344f0586c81744c5214685db7a0fcafdef71ff49df9ab85196971aea78fc",
+  "size_bytes": 4453,
+  "media_type": "application/octet-stream",
+  "created_at": "2026-11-23T14:28:57Z",
+  "redacted": true,
+  "redactions": 2,
+  "execution_id": "ex-7dc2acbfdb7d",
+  "description": "per-case AI eval outcomes with check details"
+}

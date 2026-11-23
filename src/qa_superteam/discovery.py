@@ -131,7 +131,7 @@ def _py_deps(text: str, filename: str) -> list[str]:
     return names
 
 
-def discover(root: Path, max_files: int = 20_000, project_name: str = "") -> m.ProjectProfile:
+def discover(root: Path, max_files: int = 20_000, project_name: str = "", qa_test_dir: str = "tests/qa") -> m.ProjectProfile:
     root = root.resolve()
     facts: dict[tuple[str, str], m.Fact] = {}
     langs: Counter[str] = Counter()
@@ -254,7 +254,10 @@ def discover(root: Path, max_files: int = 20_000, project_name: str = "") -> m.P
     suites = []
     if test_files["pytest"]:
         dirs = sorted({tf.split("/")[0] for tf in test_files["pytest"]})
-        suites.append(m.TestSuiteInfo(framework="pytest", paths=dirs, test_files=len(test_files["pytest"]), suggested_command=["qast", "exec", "pytest", "--group", "existing-suite", "--", *dirs], basis=B.OBSERVED, confidence=C.HIGH))
+        qa_dir = qa_test_dir.rstrip("/")
+        ignore = [f"--ignore={qa_dir}"] if any(qa_dir == d or qa_dir.startswith(d + "/") for d in dirs) else []
+        suites.append(m.TestSuiteInfo(framework="pytest", paths=dirs, test_files=len([t for t in test_files["pytest"] if not t.startswith(qa_dir + "/")]),
+                                      suggested_command=["qast", "exec", "pytest", "--group", "existing-suite", "--", *dirs, *ignore], basis=B.OBSERVED, confidence=C.HIGH))
     if test_files["jest/vitest"]:
         fw = "vitest" if any(f.name == "Vitest" for f in facts.values()) else "jest"
         suites.append(m.TestSuiteInfo(framework=fw, paths=sorted({t.rsplit("/", 1)[0] for t in test_files["jest/vitest"]})[:10], test_files=len(test_files["jest/vitest"]), suggested_command=["qast", "exec", fw, "--group", "existing-suite"], basis=B.OBSERVED, confidence=C.MEDIUM))

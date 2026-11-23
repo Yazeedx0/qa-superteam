@@ -155,7 +155,7 @@ class FactKind(enum.StrEnum):
     OTHER = "other"
 
 
-def risk_level(score: int) -> "Severity":
+def risk_level(score: int) -> Severity:
     """Documented risk bands (docs/risk-model.md); shared by qast risk and record validation."""
     if score >= 20:
         return Severity.CRITICAL
@@ -449,6 +449,7 @@ class TestExecution:
     artifact_ids: list[str] = field(default_factory=list)
     attempt: int = 1
     reproduction_of: str | None = field(default=None, doc="Test identifier this execution re-ran for reproduction")
+    actor: str | None = field(default=None, doc="Agent or person that ran it (qast exec --actor); verification requires the verifier's own executions")
 
 
 @dataclass
@@ -650,6 +651,7 @@ class QAReport:
     requirements: RequirementSet | None = None
     profile_summary: dict[str, Any] = field(default_factory=dict)
     integrity_warnings: list[str] = field(default_factory=list)
+    notes: list[str] = field(default_factory=list, doc="Decision and assumption notes recorded with qast run note")
 
 
 # Models exported as standalone schemas (name -> class)

@@ -1,6 +1,6 @@
 ---
 name: qa-performance
-description: Use when latency, throughput, concurrency, resource use or database efficiency must be measured or checked against thresholds - SLO or latency requirements, performance-sensitive changes (queries, loops, caching, serialization), suspected N+1 queries or missing indexes, k6 load or smoke tests, micro-benchmarks, or a release check that includes the performance group. Runs k6 only through qast against authorized non-production targets, treats smoke runs as functional checks rather than capacity evidence, and declines load against production or unauthorized URLs.
+description: Use when latency, throughput, concurrency or capacity matter - k6 against authorized targets with SLO thresholds, query-count and N+1 checks; smoke runs are never presented as capacity, load runs need explicit authorization.
 ---
 
 # Performance QA

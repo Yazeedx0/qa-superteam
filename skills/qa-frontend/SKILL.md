@@ -1,6 +1,6 @@
 ---
 name: qa-frontend
-description: Use when a web UI must be tested in a real browser with Playwright - end-to-end user journeys, navigation, forms and validation including recovery after a validation error, responsive layouts at 375px, right-to-left locales, browser state and persistence (localStorage, reload), error states and network failures, and visual regression against existing valid baselines. Covers Playwright for Python (pytest) and Playwright Test (Node). Hands accessibility checks to qa-accessibility.
+description: Use when testing browser journeys with Playwright - end-to-end flows, forms and validation recovery, navigation, persistence, responsive and RTL layouts, error and network-failure states, with screenshots as evidence.
 ---
 
 # QA frontend / browser testing
@@ -43,7 +43,7 @@ Do not use when:
 
 ## Method
 
-1. **Run the existing browser suite first** (`--group existing-suite`, or as the profile suggests). Read its failures before adding tests; classify environment failures separately (see flakiness reference).
+1. **Existing browser suite first, once per run** (`--group existing-suite` via the profile's suggestion; reuse the run's execution if `qast run status` already shows one). Read its failures before adding tests; classify environment failures separately (see flakiness reference).
 2. **List journeys** from requirements/journey docs (else infer from the UI, label `inferred`). Mark the business-essential ones for `critical-journeys`.
 3. **Build the matrix** per journey from [references/journey-matrix.md](references/journey-matrix.md): happy path, per-field validation, **recovery after an error in the same page session**, dependent-field re-validation, navigation, persistence and corrupted state, network failure and retry, double submit, money shown vs sent, 375 px, RTL/locales, console errors. Skip rows only with a reason. Check what the existing suite already covers.
 4. **Harness:** reuse the project's server/page fixtures; add only what is missing under `test_dir` (server on a free port with a readiness deadline, context per test, screenshot + trace on failure into `$QAST_ARTIFACT_DIR`, named after the node id). Python: [references/playwright-python-patterns.md](references/playwright-python-patterns.md); Node: [references/playwright-ts-patterns.md](references/playwright-ts-patterns.md).

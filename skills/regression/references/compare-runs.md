@@ -2,7 +2,9 @@
 
 `qast` has no compare command. This read-only script diffs the per-test results that two runs
 recorded. It reads only `executions/*.json` in the two run directories, skips `qast reproduce`
-re-runs, and keeps the latest status for each test identifier (later executions supersede earlier ones).
+re-runs and throwaway probes (`.qa-superteam/` identifiers), and keeps the latest status for each
+test identifier. A test that both failed and passed within one run is FLAKY there: the gate still
+counts the earlier failure, so the comparison must not hide it.
 
 Run directories are `<output dir>/runs/<run id>`. The output dir is `.qa-superteam` unless
 `[output] dir` in `.qa-superteam/config.toml` says otherwise. `qast run start` prints the current one.
@@ -22,7 +24,13 @@ def results(run_dir):
         if ex.get("reproduction_of"):
             continue
         for r in ex.get("results", []):
-            out[r["identifier"]] = (r["status"], ex["id"])
+            if r["identifier"].startswith(".qa-superteam/"):
+                continue  # probes are not part of the suite
+            prev = out.get(r["identifier"])
+            status = r["status"]
+            if prev and {prev[0], status} == {"PASSED", "FAILED"} or (prev and prev[0] == "INCONCLUSIVE"):
+                status = "INCONCLUSIVE"  # failed and passed in the same run
+            out[r["identifier"]] = (status, ex["id"])
     return out
 
 base, cur = results(base_dir), results(cur_dir)

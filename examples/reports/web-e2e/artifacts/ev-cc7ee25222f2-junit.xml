@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="3.932" timestamp="2026-11-23T17:28:18.755674+03:00" hostname="Yazeed"><testcase classname="tests.qa.test_qa_journeys" name="test_recover_from_postal_code_error_and_complete_checkout" time="3.873"><failure message="AssertionError: after correcting the postal code to a valid value (94107) the Shipping 'Continue' button is still disabled, so the user cannot finish checkout without reloading the page&#10;Actual value: disabled &#10;Call log:&#10;  - Expect &quot;to_be_enabled&quot; with timeout 3000ms&#10;  - waiting for get_by_test_id(&quot;shipping-continue&quot;)&#10;    7 × locator resolved to &lt;button disabled type=&quot;submit&quot; class=&quot;primary&quot; data-i18n=&quot;continue&quot; id=&quot;shipping-continue&quot; data-testid=&quot;shipping-continue&quot;&gt;Continue&lt;/button&gt;&#10;      - unexpected value &quot;disabled&quot;">checkout = &lt;conftest.Checkout object at 0x796cf485a720&gt;
+
+    def test_recover_from_postal_code_error_and_complete_checkout(checkout):
+        page = checkout.page
+        checkout.open().fill_contact()
+    
+        postal = page.get_by_test_id("postal-code")
+        continue_button = page.get_by_test_id("shipping-continue")
+        postal_error = page.locator("#postal-code-error")
+    
+        postal.fill("123")
+        continue_button.click()
+        expect(postal_error, "an invalid US ZIP code should show an inline error").to_contain_text("5-digit")
+        expect(page.locator("#shipping-form"), "an invalid postal code must not advance the checkout").to_be_visible()
+    
+        postal.fill("94107")
+        expect(postal_error, "correcting the postal code should clear the inline error").to_be_hidden()
+        expect(
+            continue_button,
+            "after correcting the postal code to a valid value (94107) the Shipping 'Continue' button is still "
+            "disabled, so the user cannot finish checkout without reloading the page",
+&gt;       ).to_be_enabled(timeout=3_000)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: after correcting the postal code to a valid value (94107) the Shipping 'Continue' button is still disabled, so the user cannot finish checkout without reloading the page
+E       Actual value: disabled 
+E       Call log:
+E         - Expect "to_be_enabled" with timeout 3000ms
+E         - waiting for get_by_test_id("shipping-continue")
+E           7 × locator resolved to &lt;button disabled type="submit" class="primary" data-i18n="continue" id="shipping-continue" data-testid="shipping-continue"&gt;Continue&lt;/button&gt;
+E             - unexpected value "disabled"
+
+tests/qa/test_qa_journeys.py:38: AssertionError</failure></testcase></testsuite></testsuites>

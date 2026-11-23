@@ -97,6 +97,13 @@
       "items": {
         "type": "string"
       }
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Decision and assumption notes recorded with qast run note"
     }
   },
   "additionalProperties": false,
@@ -1278,6 +1285,17 @@
             }
           ],
           "description": "Test identifier this execution re-ran for reproduction"
+        },
+        "actor": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Agent or person that ran it (qast exec --actor); verification requires the verifier's own executions"
         }
       },
       "additionalProperties": false,

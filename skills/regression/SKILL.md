@@ -27,7 +27,7 @@ Arguments (may be empty): $ARGUMENTS
 Use `qa-regression`:
 - **Diff-based**: `qast impact --base <ref> --no-worktree`. Run it before any execution: test runs leave untracked files in the worktree. Take its `selected_tests` and `changed_source_without_related_tests`. The latter are regression blind spots; report them.
 - **History-based**: tests that FAILED, ERRORed or were INCONCLUSIVE in the baseline, and `regression_test`s of findings in earlier runs (`qast finding list --run <id> --json`).
-- **Always**: the full existing suite (`existing-suite`, mandatory). Trim it only if a single run exceeds `budgets.command_timeout_s`; the trimmed part is then reported NOT_RUN.
+- **Always**: the full existing suite (`existing-suite`, mandatory). Never trim it under that group. If a single run exceeds `budgets.command_timeout_s`, split it into several `existing-suite` executions that together cover every path; if that is impossible, record the uncovered part with `qast run note --kind limitation` and expect REVIEW_REQUIRED.
 
 Record the selected tests as plan cases (`origin: "existing"`, `test_ref` set, `groups: ["regression"]`,
 oracle "passes as on baseline <run id>") with `qast record plan --file …`. Under the default policy
@@ -61,7 +61,7 @@ the history, decides. The summary (`qa-reporting`):
 
 ```
 Regression: <head sha7> vs baseline <run id> (<baseline sha7>) — Decision: <gate decision>
-Selected: <n> by diff, <n> by history, full suite: ran | trimmed (<what NOT_RUN>)
+Selected: <n> by diff, <n> by history, full suite: ran | split into <k> executions | partly uncovered (<what>)
 NEW failures:   test — F-id [severity, derived status] — likely cause (hypothesis) — evidence
 Known failures: test — earlier finding/run      Fixed: …      Flaky: …      Newly skipped / not run: …
 Blind spots: changed source without related tests

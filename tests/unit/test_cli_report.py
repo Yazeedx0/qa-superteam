@@ -145,3 +145,32 @@ def test_coverage_json_artifact_becomes_measured_metric(store):
     a = store.add_artifact("coverage.json", _json.dumps(cov).encode(), m.ArtifactKind.COVERAGE)
     (metric,) = measured_metrics(store, [a])
     assert metric.value == 88.57 and metric.metric == "statement+branch coverage" and metric.artifact_id == a.id
+
+
+def test_run_lifecycle_refuses_writes_to_finished_runs(qast, project):
+    code, out = qast("run", "start", "--mode", "adhoc", "--scope", "a")
+    rid = out.split()[2]
+    code, out = qast("run", "start", "--mode", "adhoc", "--scope", "b")
+    assert code == 1 and "still active" in out
+    qast("run", "finish")
+    code, _ = qast("exec", "command", "--", "true")
+    assert code == 1  # no active run: evidence is never written into a finished run
+    _, out = qast("run", "status")
+    assert "finished" in out  # read-only commands still work
+    assert qast("run", "resume", rid)[0] == 0
+    code, out = qast("exec", "command", "--", "true")
+    assert code == 0 and "PASSED" in out
+
+
+def test_identifiers_are_normalized_to_project_relative(qast, project):
+    qast("run", "start", "--mode", "adhoc", "--scope", "x")
+    _, out = qast("reproduce", "--adapter", "command", "--test", f"{project}/probe-x", "--times", "2", "--", "false")
+    assert "reproduction of probe-x: 2/2 attempts failed -> consistent" in out
+
+
+def test_config_change_during_run_is_an_integrity_problem(qast, project):
+    qast("run", "start", "--mode", "adhoc", "--scope", "x")
+    qast("exec", "command", "--", "true")
+    (project / ".qa-superteam" / "config.toml").write_text("[permissions]\nmodify_app_code = true\n")
+    _, out = qast("gate")
+    assert "R-EVIDENCE-INTEGRITY" in out and "config.toml changed" in out

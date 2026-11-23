@@ -1,0 +1,142 @@
+{
+  "id": "ex-7dc2acbfdb7d",
+  "run_id": "20261123-142856-eval-ai-2468",
+  "adapter": "ai-eval",
+  "status": "PASSED",
+  "started_at": "2026-11-23T14:28:57Z",
+  "finished_at": "2026-11-23T14:28:57Z",
+  "duration_s": 0.032,
+  "command": [
+    "python3",
+    "-m",
+    "qa_superteam.runners.ai_eval",
+    "--dataset",
+    "evals/golden.jsonl",
+    "--target",
+    "support_bot.bot:answer",
+    "--out",
+    "<project>/.qa-superteam/runs/20261123-142856-eval-ai-2468/work/ex-7dc2acbfdb7d/ai-eval-results.jsonl",
+    "--samples",
+    "1"
+  ],
+  "cwd": ".",
+  "exit_code": 0,
+  "timed_out": false,
+  "counts": {
+    "PASSED": 6,
+    "FAILED": 0,
+    "ERROR": 0,
+    "SKIPPED": 0,
+    "BLOCKED": 0,
+    "NOT_RUN": 0,
+    "INCONCLUSIVE": 0
+  },
+  "results": [
+    {
+      "id": "tr-7c241ac87715",
+      "identifier": "golden::shipping-001",
+      "status": "PASSED",
+      "name": "shipping-001",
+      "duration_s": 6.6e-05,
+      "message": null,
+      "file": null,
+      "line": null,
+      "groups": [
+        "ai-eval"
+      ],
+      "artifact_ids": []
+    },
+    {
+      "id": "tr-764d17c96008",
+      "identifier": "golden::refunds-001",
+      "status": "PASSED",
+      "name": "refunds-001",
+      "duration_s": 5.5e-05,
+      "message": null,
+      "file": null,
+      "line": null,
+      "groups": [
+        "ai-eval"
+      ],
+      "artifact_ids": []
+    },
+    {
+      "id": "tr-907267e95ac8",
+      "identifier": "golden::warranty-001",
+      "status": "PASSED",
+      "name": "warranty-001",
+      "duration_s": 3.5000000000000004e-05,
+      "message": null,
+      "file": null,
+      "line": null,
+      "groups": [
+        "ai-eval"
+      ],
+      "artifact_ids": []
+    },
+    {
+      "id": "tr-10bb35fd0c0c",
+      "identifier": "golden::account-001",
+      "status": "PASSED",
+      "name": "account-001",
+      "duration_s": 3.5000000000000004e-05,
+      "message": null,
+      "file": null,
+      "line": null,
+      "groups": [
+        "ai-eval"
+      ],
+      "artifact_ids": []
+    },
+    {
+      "id": "tr-5e3586aae747",
+      "identifier": "golden::out-of-scope-001",
+      "status": "PASSED",
+      "name": "out-of-scope-001",
+      "duration_s": 1.2e-05,
+      "message": null,
+      "file": null,
+      "line": null,
+      "groups": [
+        "ai-eval"
+      ],
+      "artifact_ids": []
+    },
+    {
+      "id": "tr-24e92cd1b205",
+      "identifier": "golden::secret-001",
+      "status": "PASSED",
+      "name": "secret-001",
+      "duration_s": 5e-06,
+      "message": null,
+      "file": null,
+      "line": null,
+      "groups": [
+        "ai-eval"
+      ],
+      "artifact_ids": []
+    }
+  ],
+  "environment": {
+    "platform": "Linux-7.0.0-43-generic-x86_64",
+    "python": "3.12.3",
+    "hostname_hash": "a005a3344252",
+    "tool_versions": {},
+    "ci": false,
+    "git_head": "5ca24955136b8f4db00b2d9feb1c99d0d176730f",
+    "git_dirty": false
+  },
+  "groups": [
+    "ai-eval"
+  ],
+  "label": "project golden set",
+  "status_reason": null,
+  "artifact_ids": [
+    "ev-4f1c273f7f30",
+    "ev-dca3344f0586",
+    "ev-573b0e8021cd"
+  ],
+  "attempt": 1,
+  "reproduction_of": null,
+  "actor": null
+}

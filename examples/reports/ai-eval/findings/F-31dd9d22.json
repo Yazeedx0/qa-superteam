@@ -1,0 +1,40 @@
+{
+  "id": "F-31dd9d22",
+  "title": "Trailing punctuation breaks retrieval and citations",
+  "category": "ai-quality",
+  "severity": "medium",
+  "summary": "Trailing punctuation breaks retrieval and citations",
+  "expected": "Cites warranty.md",
+  "actual": "Cites returns.md",
+  "reproduction_steps": [
+    "qast exec ai-eval --dataset evals/qa_cases.jsonl --entry support_bot.bot:answer (case warranty-punct-001)"
+  ],
+  "reported_by": "qa-superteam:ai-quality-engineer",
+  "created_at": "2026-11-23T14:28:59Z",
+  "evidence_ids": [
+    "ev-19c5f23e0029",
+    "ev-532c3936c572",
+    "ev-5862790e0aae"
+  ],
+  "execution_ids": [
+    "ex-895dec729f36"
+  ],
+  "test_identifiers": [
+    "qa_cases::warranty-punct-001"
+  ],
+  "affected": [
+    {
+      "path": "support_bot/retriever.py",
+      "line": null,
+      "symbol": null,
+      "note": null
+    }
+  ],
+  "inputs": {},
+  "environment_notes": null,
+  "hypotheses": [],
+  "requirement_ids": [],
+  "invariant_ids": [],
+  "reproduction": null,
+  "regression_test": null
+}

@@ -1,0 +1,13 @@
+{
+  "id": "ev-573b0e8021cd",
+  "kind": "report",
+  "path": "artifacts/ev-573b0e8021cd-ai-eval-summary.json",
+  "sha256": "573b0e8021cd41052816cd2bfb622a9aabe718ba8920e39a2134c615f962921a",
+  "size_bytes": 596,
+  "media_type": "application/json",
+  "created_at": "2026-11-23T14:28:57Z",
+  "redacted": true,
+  "redactions": 0,
+  "execution_id": "ex-7dc2acbfdb7d",
+  "description": "AI eval aggregate metrics"
+}

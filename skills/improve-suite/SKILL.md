@@ -56,7 +56,7 @@ about 200 tests or several subsystems), delegate the assessment to `qa-superteam
 
 ## Phase F — Measure "after"
 
-Repeat Phase B with `--label after` (suite, and coverage with `coverage-after` if measured).
+Repeat Phase B with `--label after --group suite-after` instead of `existing-suite` (suite, and coverage with `coverage-after` if measured), so a new test that exposes a defect goes through investigation and verification instead of failing the mandatory group before triage.
 Compare only measured numbers: test count, passed/failed/skipped, total and top-10 duration,
 coverage (if both runs measured it), invariants and high risks now covered by a test, flaky tests reproduced.
 

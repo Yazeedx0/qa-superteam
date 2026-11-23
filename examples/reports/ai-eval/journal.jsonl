@@ -1,28 +1,28 @@
-{"ts": "2026-11-23T13:48:23Z", "event": "run.created", "mode": "eval-ai", "scope": "Support bot: groundedness, tool calls, injection"}
-{"ts": "2026-11-23T13:48:23Z", "event": "note", "kind": "limitation", "text": "Demonstration run: analysis records (requirements, plan, finding text) and the QA tests were scripted (reference tests stand in for agent-authored tests). All executions, evidence, verifications and the decision are real."}
-{"ts": "2026-11-23T13:48:23Z", "event": "record.saved", "kind": "profile"}
-{"ts": "2026-11-23T13:48:23Z", "event": "exec.start", "execution_id": "ex-9bc3d3a53426", "adapter": "pytest", "argv": ["python3", "-m", "pytest", "tests", "-p", "qa_superteam.pytest_reporter", "-p", "no:cacheprovider", "-q", "-rN", "--junitxml", "<project>/.qa-superteam/runs/20261123-134823-eval-ai-4ed8/work/ex-9bc3d3a53426/junit.xml"]}
-{"ts": "2026-11-23T13:48:24Z", "event": "execution.recorded", "id": "ex-9bc3d3a53426"}
-{"ts": "2026-11-23T13:48:24Z", "event": "exec.finish", "execution_id": "ex-9bc3d3a53426", "status": "PASSED", "counts": {"PASSED": 24, "FAILED": 0, "ERROR": 0, "SKIPPED": 0, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
-{"ts": "2026-11-23T13:48:24Z", "event": "exec.start", "execution_id": "ex-5b467223db35", "adapter": "ai-eval", "argv": ["python3", "-m", "qa_superteam.runners.ai_eval", "--dataset", "evals/golden.jsonl", "--target", "support_bot.bot:answer", "--out", "<project>/.qa-superteam/runs/20261123-134823-eval-ai-4ed8/work/ex-5b467223db35/ai-eval-results.jsonl", "--samples", "1"]}
-{"ts": "2026-11-23T13:48:24Z", "event": "execution.recorded", "id": "ex-5b467223db35"}
-{"ts": "2026-11-23T13:48:24Z", "event": "exec.finish", "execution_id": "ex-5b467223db35", "status": "PASSED", "counts": {"PASSED": 6, "FAILED": 0, "ERROR": 0, "SKIPPED": 0, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
-{"ts": "2026-11-23T13:48:24Z", "event": "exec.start", "execution_id": "ex-6119dd337a85", "adapter": "ai-eval", "argv": ["python3", "-m", "qa_superteam.runners.ai_eval", "--dataset", "evals/qa_cases.jsonl", "--target", "support_bot.bot:answer", "--out", "<project>/.qa-superteam/runs/20261123-134823-eval-ai-4ed8/work/ex-6119dd337a85/ai-eval-results.jsonl", "--samples", "2"]}
-{"ts": "2026-11-23T13:48:24Z", "event": "execution.recorded", "id": "ex-6119dd337a85"}
-{"ts": "2026-11-23T13:48:24Z", "event": "exec.finish", "execution_id": "ex-6119dd337a85", "status": "FAILED", "counts": {"PASSED": 3, "FAILED": 3, "ERROR": 0, "SKIPPED": 0, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
-{"ts": "2026-11-23T13:48:24Z", "event": "phase", "phase": "execution", "state": "done", "note": null}
-{"ts": "2026-11-23T13:48:24Z", "event": "finding.recorded", "id": "F-342fc62c"}
-{"ts": "2026-11-23T13:48:24Z", "event": "exec.start", "execution_id": "ex-34f1c2cc0be0", "adapter": "pytest", "argv": ["python3", "-m", "pytest", "tests/qa", "-k", "refund", "-p", "qa_superteam.pytest_reporter", "-p", "no:cacheprovider", "-q", "-rN", "--junitxml", "<project>/.qa-superteam/runs/20261123-134823-eval-ai-4ed8/work/ex-34f1c2cc0be0/junit.xml"]}
-{"ts": "2026-11-23T13:48:25Z", "event": "execution.recorded", "id": "ex-34f1c2cc0be0"}
-{"ts": "2026-11-23T13:48:25Z", "event": "exec.finish", "execution_id": "ex-34f1c2cc0be0", "status": "FAILED", "counts": {"PASSED": 2, "FAILED": 1, "ERROR": 0, "SKIPPED": 0, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
-{"ts": "2026-11-23T13:48:25Z", "event": "verification.recorded", "id": "V-381fb8dc"}
-{"ts": "2026-11-23T13:48:25Z", "event": "finding.recorded", "id": "F-2da3fc81"}
-{"ts": "2026-11-23T13:48:25Z", "event": "exec.start", "execution_id": "ex-74e87092b925", "adapter": "pytest", "argv": ["python3", "-m", "pytest", "tests/qa", "-k", "inject", "-p", "qa_superteam.pytest_reporter", "-p", "no:cacheprovider", "-q", "-rN", "--junitxml", "<project>/.qa-superteam/runs/20261123-134823-eval-ai-4ed8/work/ex-74e87092b925/junit.xml"]}
-{"ts": "2026-11-23T13:48:26Z", "event": "execution.recorded", "id": "ex-74e87092b925"}
-{"ts": "2026-11-23T13:48:26Z", "event": "exec.finish", "execution_id": "ex-74e87092b925", "status": "FAILED", "counts": {"PASSED": 0, "FAILED": 1, "ERROR": 0, "SKIPPED": 0, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
-{"ts": "2026-11-23T13:48:26Z", "event": "verification.recorded", "id": "V-c5a6d26e"}
-{"ts": "2026-11-23T13:48:26Z", "event": "finding.recorded", "id": "F-6396e294"}
-{"ts": "2026-11-23T13:48:26Z", "event": "phase", "phase": "verification", "state": "done", "note": null}
-{"ts": "2026-11-23T13:48:26Z", "event": "record.saved", "kind": "decision"}
-{"ts": "2026-11-23T13:48:26Z", "event": "report.written", "markdown": "report.md", "json": "report.json"}
-{"ts": "2026-11-23T13:48:26Z", "event": "run.finished"}
+{"ts": "2026-11-23T14:28:56Z", "event": "run.created", "mode": "eval-ai", "scope": "Support bot: groundedness, tool calls, injection", "config_sha256": "defaults"}
+{"ts": "2026-11-23T14:28:57Z", "event": "note", "kind": "limitation", "text": "Demonstration run: analysis records (requirements, plan, finding text) and the QA tests were scripted (reference tests stand in for agent-authored tests). All executions, evidence, verifications and the decision are real."}
+{"ts": "2026-11-23T14:28:57Z", "event": "record.saved", "kind": "profile"}
+{"ts": "2026-11-23T14:28:57Z", "event": "exec.start", "execution_id": "ex-0885895640c5", "adapter": "pytest", "argv": ["python3", "-m", "pytest", "tests", "-p", "qa_superteam.pytest_reporter", "-p", "no:cacheprovider", "-q", "-rN", "--junitxml", "<project>/.qa-superteam/runs/20261123-142856-eval-ai-2468/work/ex-0885895640c5/junit.xml"]}
+{"ts": "2026-11-23T14:28:57Z", "event": "execution.recorded", "id": "ex-0885895640c5"}
+{"ts": "2026-11-23T14:28:57Z", "event": "exec.finish", "execution_id": "ex-0885895640c5", "status": "PASSED", "counts": {"PASSED": 24, "FAILED": 0, "ERROR": 0, "SKIPPED": 0, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
+{"ts": "2026-11-23T14:28:57Z", "event": "exec.start", "execution_id": "ex-7dc2acbfdb7d", "adapter": "ai-eval", "argv": ["python3", "-m", "qa_superteam.runners.ai_eval", "--dataset", "evals/golden.jsonl", "--target", "support_bot.bot:answer", "--out", "<project>/.qa-superteam/runs/20261123-142856-eval-ai-2468/work/ex-7dc2acbfdb7d/ai-eval-results.jsonl", "--samples", "1"]}
+{"ts": "2026-11-23T14:28:57Z", "event": "execution.recorded", "id": "ex-7dc2acbfdb7d"}
+{"ts": "2026-11-23T14:28:57Z", "event": "exec.finish", "execution_id": "ex-7dc2acbfdb7d", "status": "PASSED", "counts": {"PASSED": 6, "FAILED": 0, "ERROR": 0, "SKIPPED": 0, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
+{"ts": "2026-11-23T14:28:57Z", "event": "exec.start", "execution_id": "ex-895dec729f36", "adapter": "ai-eval", "argv": ["python3", "-m", "qa_superteam.runners.ai_eval", "--dataset", "evals/qa_cases.jsonl", "--target", "support_bot.bot:answer", "--out", "<project>/.qa-superteam/runs/20261123-142856-eval-ai-2468/work/ex-895dec729f36/ai-eval-results.jsonl", "--samples", "2"]}
+{"ts": "2026-11-23T14:28:58Z", "event": "execution.recorded", "id": "ex-895dec729f36"}
+{"ts": "2026-11-23T14:28:58Z", "event": "exec.finish", "execution_id": "ex-895dec729f36", "status": "FAILED", "counts": {"PASSED": 3, "FAILED": 3, "ERROR": 0, "SKIPPED": 0, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
+{"ts": "2026-11-23T14:28:58Z", "event": "phase", "phase": "execution", "state": "done", "note": null}
+{"ts": "2026-11-23T14:28:58Z", "event": "finding.recorded", "id": "F-a1bed59a"}
+{"ts": "2026-11-23T14:28:58Z", "event": "exec.start", "execution_id": "ex-72f749c44f93", "adapter": "pytest", "argv": ["python3", "-m", "pytest", "tests/qa", "-k", "refund", "-p", "qa_superteam.pytest_reporter", "-p", "no:cacheprovider", "-q", "-rN", "--junitxml", "<project>/.qa-superteam/runs/20261123-142856-eval-ai-2468/work/ex-72f749c44f93/junit.xml"]}
+{"ts": "2026-11-23T14:28:58Z", "event": "execution.recorded", "id": "ex-72f749c44f93"}
+{"ts": "2026-11-23T14:28:58Z", "event": "exec.finish", "execution_id": "ex-72f749c44f93", "status": "FAILED", "counts": {"PASSED": 2, "FAILED": 1, "ERROR": 0, "SKIPPED": 0, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
+{"ts": "2026-11-23T14:28:58Z", "event": "verification.recorded", "id": "V-de7ad497"}
+{"ts": "2026-11-23T14:28:58Z", "event": "finding.recorded", "id": "F-80b16e63"}
+{"ts": "2026-11-23T14:28:59Z", "event": "exec.start", "execution_id": "ex-ce1c21b0b02b", "adapter": "pytest", "argv": ["python3", "-m", "pytest", "tests/qa", "-k", "inject", "-p", "qa_superteam.pytest_reporter", "-p", "no:cacheprovider", "-q", "-rN", "--junitxml", "<project>/.qa-superteam/runs/20261123-142856-eval-ai-2468/work/ex-ce1c21b0b02b/junit.xml"]}
+{"ts": "2026-11-23T14:28:59Z", "event": "execution.recorded", "id": "ex-ce1c21b0b02b"}
+{"ts": "2026-11-23T14:28:59Z", "event": "exec.finish", "execution_id": "ex-ce1c21b0b02b", "status": "FAILED", "counts": {"PASSED": 0, "FAILED": 1, "ERROR": 0, "SKIPPED": 0, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
+{"ts": "2026-11-23T14:28:59Z", "event": "verification.recorded", "id": "V-440b8131"}
+{"ts": "2026-11-23T14:28:59Z", "event": "finding.recorded", "id": "F-31dd9d22"}
+{"ts": "2026-11-23T14:28:59Z", "event": "phase", "phase": "verification", "state": "done", "note": null}
+{"ts": "2026-11-23T14:28:59Z", "event": "record.saved", "kind": "decision"}
+{"ts": "2026-11-23T14:28:59Z", "event": "report.written", "markdown": "report.md", "json": "report.json"}
+{"ts": "2026-11-23T14:28:59Z", "event": "run.finished"}

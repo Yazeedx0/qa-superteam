@@ -81,10 +81,35 @@ def _config(project: Path):
         return None
 
 
+SHELL_WRITE_RES = [
+    re.compile(r"\bsed\s+(?:-[a-zA-Z]*i[a-zA-Z]*|--in-place)\S*\s+(?:'[^']*'|\"[^\"]*\"|\S+)\s+(?P<path>[^\s;&|<>]+)"),
+    re.compile(r"\bperl\s+-[a-zA-Z]*p[a-zA-Z]*i\S*\s+(?:-e\s+)?(?:'[^']*'|\"[^\"]*\")\s+(?P<path>[^\s;&|<>]+)"),
+    re.compile(r"\btee\s+(?:-a\s+)?(?P<path>[^\s;&|<>-][^\s;&|<>]*)"),
+    re.compile(r"(?<![0-9&<>])>{1,2}\s*(?P<path>[^\s;&|<>()]+)"),
+    re.compile(r"\b(?:cp|mv|install)\s+(?:-\S+\s+)*\S+\s+(?P<path>[^\s;&|<>]+)\s*(?:$|[;&|])"),
+]
+
+
+def shell_write_targets(cmd: str) -> list[str]:
+    out = []
+    for rx in SHELL_WRITE_RES:
+        for m in rx.finditer(cmd):
+            p = m.group("path").strip("'\"")
+            if p and not p.startswith(("/dev/", "&")) and p not in ("/dev/null",):
+                out.append(p)
+    return out
+
+
 def check_bash(cmd: str, project: Path) -> str | None:
     for rx, why in BASH_RULES:
         if re.search(rx, cmd):
             return why
+    for target in shell_write_targets(cmd):
+        if target.startswith(("/tmp/", "$TMPDIR", "${TMPDIR")) or "$QAST_" in target or "${QAST_" in target:
+            continue
+        why = check_write(target, project, "Bash")
+        if why and not why.startswith("writes outside the project"):
+            return f"shell command writes a file: {why}"
     if LOAD_TOOLS.search(cmd) and "qast" not in cmd.split()[0:1]:
         cfg = _config(project)
         allow = cfg.permissions.authorized_targets if cfg else ["http://127.0.0.1", "http://localhost"]
@@ -108,7 +133,11 @@ def check_write(path_str: str, project: Path, tool: str) -> str | None:
     if rel.startswith(".qa-superteam/"):
         if rel.startswith(".qa-superteam/runs/") and ("/executions/" in rel or "/evidence/" in rel or "/artifacts/" in rel or "/verifications/" in rel or "/findings/" in rel):
             return "edits recorded QA evidence directly; records are write-once and must only be created through qast"
+        if rel in (".qa-superteam/config.toml", ".qa-superteam/active-run"):
+            return f"changes QA permissions/run state ({rel}); only the user should loosen QA permissions"
         return None
+    if rel.endswith(".toml") and ("polic" in rel.lower()):
+        return f"changes a release policy file ({rel}); policies must not be edited to change a decision"
     if BASELINE_RE.search(rel):
         return f"modifies a golden baseline/snapshot ({rel}); baselines must not be changed to make tests pass"
     cfg = _config(project)

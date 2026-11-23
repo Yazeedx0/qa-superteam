@@ -1,6 +1,6 @@
 ---
 name: qa-requirements
-description: Use when expected behaviour must be established before testing - extracting requirements and acceptance criteria from PRDs, tickets, user stories, specs, docs or, as a last resort, code; defining business invariants with executable oracles; and surfacing ambiguities, conflicts, missing edge-case definitions and cross-feature dependencies. Records a RequirementSet with `qast record requirements`. Never invents requirements - every item is stated, inferred, ambiguous or conflicting, with its source, and gaps become questions for the product owner instead of values chosen by the agent.
+description: Use when expected behaviour must be established from PRDs, tickets, stories, docs or code - derives requirements, acceptance criteria and business invariants with executable oracles, and flags ambiguities and conflicts instead of inventing rules.
 ---
 
 # QA requirements & invariants

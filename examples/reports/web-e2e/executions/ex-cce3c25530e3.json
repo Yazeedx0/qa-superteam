@@ -1,0 +1,455 @@
+{
+  "id": "ex-cce3c25530e3",
+  "run_id": "20261123-142758-test-e2e-0d83",
+  "adapter": "axe",
+  "status": "PASSED",
+  "started_at": "2026-11-23T14:28:16Z",
+  "finished_at": "2026-11-23T14:28:17Z",
+  "duration_s": 1.468,
+  "command": [
+    "python3",
+    "-m",
+    "qa_superteam.runners.axe_scan",
+    "--url=http://127.0.0.1:45691/",
+    "--axe=<project>/node_modules/axe-core/axe.min.js",
+    "--out=<project>/.qa-superteam/runs/20261123-142758-test-e2e-0d83/work/ex-cce3c25530e3/axe-result.json",
+    "--shots=<project>/.qa-superteam/runs/20261123-142758-test-e2e-0d83/work/ex-cce3c25530e3/artifacts",
+    "--viewport=375x812"
+  ],
+  "cwd": ".",
+  "exit_code": 0,
+  "timed_out": false,
+  "counts": {
+    "PASSED": 25,
+    "FAILED": 0,
+    "ERROR": 0,
+    "SKIPPED": 0,
+    "BLOCKED": 0,
+    "NOT_RUN": 0,
+    "INCONCLUSIVE": 0
+  },
+  "results": [
+    {
+      "id": "tr-eff8df79d8d9",
+      "identifier": "http://127.0.0.1:45691/::aria-allowed-attr",
+      "status": "PASSED",
+      "name": "aria-allowed-attr",
+      "duration_s": null,
+      "message": null,
+      "file": null,
+      "line": null,
+      "groups": [
+        "accessibility"
+      ],
+      "artifact_ids": [
+        "ev-0966a69f29d0"
+      ]
+    },
+    {
+      "id": "tr-bf16b2dd06bf",
+      "identifier": "http://127.0.0.1:45691/::aria-conditional-attr",
+      "status": "PASSED",
+      "name": "aria-conditional-attr",
+      "duration_s": null,
+      "message": null,
+      "file": null,
+      "line": null,
+      "groups": [
+        "accessibility"
+      ],
+      "artifact_ids": [
+        "ev-0966a69f29d0"
+      ]
+    },
+    {
+      "id": "tr-eba937e8c06d",
+      "identifier": "http://127.0.0.1:45691/::aria-hidden-body",
+      "status": "PASSED",
+      "name": "aria-hidden-body",
+      "duration_s": null,
+      "message": null,
+      "file": null,
+      "line": null,
+      "groups": [
+        "accessibility"
+      ],
+      "artifact_ids": [
+        "ev-0966a69f29d0"
+      ]
+    },
+    {
+      "id": "tr-df0af4f0278f",
+      "identifier": "http://127.0.0.1:45691/::aria-prohibited-attr",
+      "status": "PASSED",
+      "name": "aria-prohibited-attr",
+      "duration_s": null,
+      "message": null,
+      "file": null,
+      "line": null,
+      "groups": [
+        "accessibility"
+      ],
+      "artifact_ids": [
+        "ev-0966a69f29d0"
+      ]
+    },
+    {
+      "id": "tr-fcce777a6547",
+      "identifier": "http://127.0.0.1:45691/::aria-valid-attr-value",
+      "status": "PASSED",
+      "name": "aria-valid-attr-value",
+      "duration_s": null,
+      "message": null,
+      "file": null,
+      "line": null,
+      "groups": [
+        "accessibility"
+      ],
+      "artifact_ids": [
+        "ev-0966a69f29d0"
+      ]
+    },
+    {
+      "id": "tr-44bb9eb394f3",
+      "identifier": "http://127.0.0.1:45691/::aria-valid-attr",
+      "status": "PASSED",
+      "name": "aria-valid-attr",
+      "duration_s": null,
+      "message": null,
+      "file": null,
+      "line": null,
+      "groups": [
+        "accessibility"
+      ],
+      "artifact_ids": [
+        "ev-0966a69f29d0"
+      ]
+    },
+    {
+      "id": "tr-267942b94a83",
+      "identifier": "http://127.0.0.1:45691/::autocomplete-valid",
+      "status": "PASSED",
+      "name": "autocomplete-valid",
+      "duration_s": null,
+      "message": null,
+      "file": null,
+      "line": null,
+      "groups": [
+        "accessibility"
+      ],
+      "artifact_ids": [
+        "ev-0966a69f29d0"
+      ]
+    },
+    {
+      "id": "tr-c78c4b1438cd",
+      "identifier": "http://127.0.0.1:45691/::button-name",
+      "status": "PASSED",
+      "name": "button-name",
+      "duration_s": null,
+      "message": null,
+      "file": null,
+      "line": null,
+      "groups": [
+        "accessibility"
+      ],
+      "artifact_ids": [
+        "ev-0966a69f29d0"
+      ]
+    },
+    {
+      "id": "tr-ab3b8e4a0bdb",
+      "identifier": "http://127.0.0.1:45691/::bypass",
+      "status": "PASSED",
+      "name": "bypass",
+      "duration_s": null,
+      "message": null,
+      "file": null,
+      "line": null,
+      "groups": [
+        "accessibility"
+      ],
+      "artifact_ids": [
+        "ev-0966a69f29d0"
+      ]
+    },
+    {
+      "id": "tr-039c96b073aa",
+      "identifier": "http://127.0.0.1:45691/::color-contrast",
+      "status": "PASSED",
+      "name": "color-contrast",
+      "duration_s": null,
+      "message": null,
+      "file": null,
+      "line": null,
+      "groups": [
+        "accessibility"
+      ],
+      "artifact_ids": [
+        "ev-0966a69f29d0"
+      ]
+    },
+    {
+      "id": "tr-03e2ef666a50",
+      "identifier": "http://127.0.0.1:45691/::definition-list",
+      "status": "PASSED",
+      "name": "definition-list",
+      "duration_s": null,
+      "message": null,
+      "file": null,
+      "line": null,
+      "groups": [
+        "accessibility"
+      ],
+      "artifact_ids": [
+        "ev-0966a69f29d0"
+      ]
+    },
+    {
+      "id": "tr-69d05913e581",
+      "identifier": "http://127.0.0.1:45691/::dlitem",
+      "status": "PASSED",
+      "name": "dlitem",
+      "duration_s": null,
+      "message": null,
+      "file": null,
+      "line": null,
+      "groups": [
+        "accessibility"
+      ],
+      "artifact_ids": [
+        "ev-0966a69f29d0"
+      ]
+    },
+    {
+      "id": "tr-44a5ece06632",
+      "identifier": "http://127.0.0.1:45691/::document-title",
+      "status": "PASSED",
+      "name": "document-title",
+      "duration_s": null,
+      "message": null,
+      "file": null,
+      "line": null,
+      "groups": [
+        "accessibility"
+      ],
+      "artifact_ids": [
+        "ev-0966a69f29d0"
+      ]
+    },
+    {
+      "id": "tr-6c72395fe9dc",
+      "identifier": "http://127.0.0.1:45691/::duplicate-id-aria",
+      "status": "PASSED",
+      "name": "duplicate-id-aria",
+      "duration_s": null,
+      "message": null,
+      "file": null,
+      "line": null,
+      "groups": [
+        "accessibility"
+      ],
+      "artifact_ids": [
+        "ev-0966a69f29d0"
+      ]
+    },
+    {
+      "id": "tr-fd25047dfcb1",
+      "identifier": "http://127.0.0.1:45691/::form-field-multiple-labels",
+      "status": "PASSED",
+      "name": "form-field-multiple-labels",
+      "duration_s": null,
+      "message": null,
+      "file": null,
+      "line": null,
+      "groups": [
+        "accessibility"
+      ],
+      "artifact_ids": [
+        "ev-0966a69f29d0"
+      ]
+    },
+    {
+      "id": "tr-4ce534b652f0",
+      "identifier": "http://127.0.0.1:45691/::html-has-lang",
+      "status": "PASSED",
+      "name": "html-has-lang",
+      "duration_s": null,
+      "message": null,
+      "file": null,
+      "line": null,
+      "groups": [
+        "accessibility"
+      ],
+      "artifact_ids": [
+        "ev-0966a69f29d0"
+      ]
+    },
+    {
+      "id": "tr-2f76d9fd8923",
+      "identifier": "http://127.0.0.1:45691/::html-lang-valid",
+      "status": "PASSED",
+      "name": "html-lang-valid",
+      "duration_s": null,
+      "message": null,
+      "file": null,
+      "line": null,
+      "groups": [
+        "accessibility"
+      ],
+      "artifact_ids": [
+        "ev-0966a69f29d0"
+      ]
+    },
+    {
+      "id": "tr-5f306d1eddf2",
+      "identifier": "http://127.0.0.1:45691/::label",
+      "status": "PASSED",
+      "name": "label",
+      "duration_s": null,
+      "message": null,
+      "file": null,
+      "line": null,
+      "groups": [
+        "accessibility"
+      ],
+      "artifact_ids": [
+        "ev-0966a69f29d0"
+      ]
+    },
+    {
+      "id": "tr-063b3b482631",
+      "identifier": "http://127.0.0.1:45691/::link-name",
+      "status": "PASSED",
+      "name": "link-name",
+      "duration_s": null,
+      "message": null,
+      "file": null,
+      "line": null,
+      "groups": [
+        "accessibility"
+      ],
+      "artifact_ids": [
+        "ev-0966a69f29d0"
+      ]
+    },
+    {
+      "id": "tr-e82be9ac32b0",
+      "identifier": "http://127.0.0.1:45691/::list",
+      "status": "PASSED",
+      "name": "list",
+      "duration_s": null,
+      "message": null,
+      "file": null,
+      "line": null,
+      "groups": [
+        "accessibility"
+      ],
+      "artifact_ids": [
+        "ev-0966a69f29d0"
+      ]
+    },
+    {
+      "id": "tr-178545d9e024",
+      "identifier": "http://127.0.0.1:45691/::listitem",
+      "status": "PASSED",
+      "name": "listitem",
+      "duration_s": null,
+      "message": null,
+      "file": null,
+      "line": null,
+      "groups": [
+        "accessibility"
+      ],
+      "artifact_ids": [
+        "ev-0966a69f29d0"
+      ]
+    },
+    {
+      "id": "tr-b8a886b20052",
+      "identifier": "http://127.0.0.1:45691/::meta-viewport",
+      "status": "PASSED",
+      "name": "meta-viewport",
+      "duration_s": null,
+      "message": null,
+      "file": null,
+      "line": null,
+      "groups": [
+        "accessibility"
+      ],
+      "artifact_ids": [
+        "ev-0966a69f29d0"
+      ]
+    },
+    {
+      "id": "tr-3db4e59aaf9a",
+      "identifier": "http://127.0.0.1:45691/::nested-interactive",
+      "status": "PASSED",
+      "name": "nested-interactive",
+      "duration_s": null,
+      "message": null,
+      "file": null,
+      "line": null,
+      "groups": [
+        "accessibility"
+      ],
+      "artifact_ids": [
+        "ev-0966a69f29d0"
+      ]
+    },
+    {
+      "id": "tr-1a055435da2b",
+      "identifier": "http://127.0.0.1:45691/::target-size",
+      "status": "PASSED",
+      "name": "target-size",
+      "duration_s": null,
+      "message": null,
+      "file": null,
+      "line": null,
+      "groups": [
+        "accessibility"
+      ],
+      "artifact_ids": [
+        "ev-0966a69f29d0"
+      ]
+    },
+    {
+      "id": "tr-ef49f1b516ba",
+      "identifier": "http://127.0.0.1:45691/::valid-lang",
+      "status": "PASSED",
+      "name": "valid-lang",
+      "duration_s": null,
+      "message": null,
+      "file": null,
+      "line": null,
+      "groups": [
+        "accessibility"
+      ],
+      "artifact_ids": [
+        "ev-0966a69f29d0"
+      ]
+    }
+  ],
+  "environment": {
+    "platform": "Linux-7.0.0-43-generic-x86_64",
+    "python": "3.12.3",
+    "hostname_hash": "a005a3344252",
+    "tool_versions": {},
+    "ci": false,
+    "git_head": "4fb3dc41f2ffdcd77ec07d4d5da64d77359fc0eb",
+    "git_dirty": true
+  },
+  "groups": [
+    "accessibility"
+  ],
+  "label": "axe landing page (375px)",
+  "status_reason": null,
+  "artifact_ids": [
+    "ev-bc873b8a8f97",
+    "ev-2984fcc37dc4",
+    "ev-0966a69f29d0"
+  ],
+  "attempt": 1,
+  "reproduction_of": null,
+  "actor": null
+}

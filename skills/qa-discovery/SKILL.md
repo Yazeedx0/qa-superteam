@@ -1,6 +1,6 @@
 ---
 name: qa-discovery
-description: Use when a QA task needs an evidence-based understanding of a codebase before requirements, risk or test planning - architecture and data flows, module boundaries, API contracts, schemas, the authentication/authorization model, external integrations, CI, existing tests and fixtures, and critical workflows. Turns `qast discover` and `qast doctor` output plus a read-only reading of docs, configs and code into confidence-tagged facts (observed / inferred / assumed) and turns every unknown into a question. Never executes the application or its tests.
+description: Use when starting QA on an unfamiliar repository or before planning tests - builds a confidence-tagged map of stack, components, data flows, auth, contracts, integrations, CI and existing tests from qast discover plus static reading, separating observed facts from inferences.
 ---
 
 # QA discovery

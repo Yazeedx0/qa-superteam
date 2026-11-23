@@ -1,6 +1,6 @@
 ---
 name: qa-reliability
-description: Use when behaviour under failure or concurrency must be verified - timeouts, retries (idempotency, backoff, caps), partial failures and rollback, circuit breakers, duplicate message delivery, race conditions on shared state, reconnection, recovery and graceful degradation. Prefers deterministic in-process fault injection (httpx MockTransport, monkeypatched clients, fake clocks, threads with a barrier); runs network or process-level fault injection only in disposable environments with permissions.allow_fault_injection, and declines it otherwise while still proposing in-process tests.
+description: Use when testing failure handling - timeouts, retries and idempotency, partial failures, circuit breakers, duplicate messages, races, reconnection and graceful degradation; fault injection only in disposable environments when authorized.
 ---
 
 # Reliability QA

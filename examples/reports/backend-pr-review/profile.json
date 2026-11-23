@@ -1,10 +1,10 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-11-23T13:47:18Z",
+  "generated_at": "2026-11-23T14:27:52Z",
   "project_name": "backend-api",
   "git": {
     "is_repo": true,
-    "head": "916b64eadacc9086a96234fe746f3b9371b05100",
+    "head": "8d087222b8ad378b8674f06d4b7c6ffa17afdc74",
     "branch": "pr/refactor-funds-check",
     "dirty": false
   },
@@ -49,7 +49,8 @@
         "--group",
         "existing-suite",
         "--",
-        "tests"
+        "tests",
+        "--ignore=tests/qa"
       ],
       "basis": "observed",
       "confidence": "high"

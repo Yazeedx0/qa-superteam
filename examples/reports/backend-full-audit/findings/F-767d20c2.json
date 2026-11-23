@@ -1,0 +1,49 @@
+{
+  "id": "F-767d20c2",
+  "title": "Fee is not included in the funds check, so balances go negative",
+  "category": "data-integrity",
+  "severity": "critical",
+  "summary": "Fee is not included in the funds check, so balances go negative",
+  "expected": "Transfer rejected when amount + fee exceeds the balance (REQ-BAL, INV-1)",
+  "actual": "Transfer of the whole balance succeeds and leaves balance at -fee",
+  "reproduction_steps": [
+    "Deposit 1000 cents",
+    "Transfer 1000 cents to another user (fee 10)",
+    "GET /wallets/me shows -10"
+  ],
+  "reported_by": "qa-superteam:backend-qa-engineer",
+  "created_at": "2026-11-23T14:27:46Z",
+  "evidence_ids": [
+    "ev-9e6edd21678d",
+    "ev-e8d2b45a1c39"
+  ],
+  "execution_ids": [
+    "ex-5d57bd816fd2"
+  ],
+  "test_identifiers": [
+    "tests/qa/test_qa_invariants.py::test_transfer_of_entire_balance_rejected_when_fee_not_covered",
+    "tests/qa/test_qa_invariants.py::test_balance_never_negative_when_fee_exceeds_remaining_funds"
+  ],
+  "affected": [
+    {
+      "path": "ledger/transfers.py",
+      "line": null,
+      "symbol": "create_transfer",
+      "note": null
+    }
+  ],
+  "inputs": {},
+  "environment_notes": null,
+  "hypotheses": [
+    {
+      "statement": "Logic in create_transfer does not enforce the stated rule",
+      "confidence": "medium",
+      "confirmed": false,
+      "evidence_ids": []
+    }
+  ],
+  "requirement_ids": [],
+  "invariant_ids": [],
+  "reproduction": null,
+  "regression_test": null
+}

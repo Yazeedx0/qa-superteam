@@ -22,6 +22,8 @@ test count. This skill is the operating contract and the router.
 9. **Where QA may write.** `<run dir>` is `.qa-superteam/runs/<run-id>/` (`qast run status --json` → `dir`).
    - Draft JSON for `qast record` / `qast finding add` → `<run dir>/drafts/`.
    - Throwaway reproduction tests ("probes") → `<run dir>/probes/`, allowed even when `write_tests = false` because they never touch the project tree. Make them self-contained and run them with `qast exec pytest -- <run dir>/probes/test_x.py`.
+   - Test identifiers are project-relative, exactly as `qast exec` prints them (e.g. `.qa-superteam/runs/<id>/probes/test_x.py::test_y`); use that form in `qast reproduce --test` and in findings.
+   - Attribute your executions: `--actor <your agent name>` on `qast exec` / `qast reproduce`.
    - Durable tests only when `write_tests = true`, and only under `permissions.test_dir`.
    - Never edit recorded evidence (`executions/`, `evidence/`, `artifacts/`, `findings/`, `verifications/`).
 
@@ -70,8 +72,10 @@ orchestration model is in [references/orchestration.md](references/orchestration
 
 ## Resuming
 
-`qast run status` shows completed phases, records and findings of the active run.
-Continue from the first phase that is not `done`; never redo recorded executions.
+`qast run status` shows the run state (active / finished), completed phases, records and
+findings. Continue from the first phase that is not `done`; never redo recorded executions.
+A finished or inactive run is re-opened with `qast run resume <id>` (this also re-enables the
+guard hook); evidence is never written into a run that is not active.
 
 ## When not to use QA Superteam
 

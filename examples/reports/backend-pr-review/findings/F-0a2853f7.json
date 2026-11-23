@@ -1,0 +1,43 @@
+{
+  "id": "F-0a2853f7",
+  "title": "PR lets the fee overdraw a wallet (regression)",
+  "category": "data-integrity",
+  "severity": "critical",
+  "summary": "The refactored funds check compares the balance with the amount only; the debit includes the fee.",
+  "expected": "422 when amount + fee > balance; balance unchanged",
+  "actual": "Transfer succeeds; balance becomes negative",
+  "reproduction_steps": [
+    "Checkout pr/refactor-funds-check",
+    "Deposit 1000",
+    "Transfer 1000 (fee 10)",
+    "Balance is -10"
+  ],
+  "reported_by": "qa-superteam:backend-qa-engineer",
+  "created_at": "2026-11-23T14:27:55Z",
+  "evidence_ids": [
+    "ev-6511faaaaa73",
+    "ev-10ba54b75826"
+  ],
+  "execution_ids": [
+    "ex-e27d18d18c61"
+  ],
+  "test_identifiers": [
+    "tests/qa/test_qa_invariants.py::test_transfer_of_entire_balance_rejected_when_fee_not_covered",
+    "tests/qa/test_qa_invariants.py::test_balance_never_negative_when_fee_exceeds_remaining_funds"
+  ],
+  "affected": [
+    {
+      "path": "ledger/transfers.py",
+      "line": null,
+      "symbol": "create_transfer",
+      "note": null
+    }
+  ],
+  "inputs": {},
+  "environment_notes": null,
+  "hypotheses": [],
+  "requirement_ids": [],
+  "invariant_ids": [],
+  "reproduction": null,
+  "regression_test": null
+}

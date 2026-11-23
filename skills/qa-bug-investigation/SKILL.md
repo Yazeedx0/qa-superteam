@@ -1,6 +1,6 @@
 ---
 name: qa-bug-investigation
-description: Use when a test failed or errored for an unclear reason, a bug report or exploratory observation needs to be reproduced, or a suspected defect must become an evidence-backed finding - exact steps, expected vs actual against a requirement source, minimal inputs, environment, logs or screenshots, repeated reproduction with qast reproduce (consistent, intermittent, not-reproduced, blocked), isolation, root-cause hypotheses kept apart from confirmed facts, classification as product defect, test defect, environment problem or flaky test, and severity from the release policy. Used by the verify-bug workflow and the bug-investigation-engineer specialist. Not for verifying a finding someone else reported, fixing application code, or searching broadly for new bugs.
+description: Use when a failure's cause is unclear or a bug report needs an evidence-backed finding - exact reproduction steps, minimal inputs, repeated reproduction, classification (product, test, environment, flaky) and hypotheses kept apart from facts.
 ---
 
 # Bug investigation
@@ -44,9 +44,9 @@ Do not use when:
 | Record a non-defect outcome | `qast run note "<what, why, evidence ids>" --kind limitation` |
 | Redact before quoting logs | `qast redact <file>` |
 
-`qast reproduce` classifies only adapters that report per-test identifiers; for a
-`command` probe, repeat `qast exec command --label <same id>` and count statuses
-yourself. If the runner is missing the execution is BLOCKED: say so, record the
+`qast reproduce` classifies every adapter; for a `command` probe use
+`qast reproduce --adapter command --test <probe id> --times 3 -- <command>` (the id is yours;
+attempts are capped by budget). If the runner is missing the execution is BLOCKED: say so, record the
 limitation, and do not guess the outcome.
 
 ## Method

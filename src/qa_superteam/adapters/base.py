@@ -44,6 +44,7 @@ class AdapterRequest:
     options: dict = field(default_factory=dict)
     attempt: int = 1
     reproduction_of: str | None = None
+    actor: str | None = None
 
 
 @dataclass
@@ -147,6 +148,7 @@ def blocked_execution(req: AdapterRequest, adapter: str, argv: list[str], reason
         status_reason=reason,
         attempt=req.attempt,
         reproduction_of=req.reproduction_of,
+        actor=req.actor,
     )
     req.store.save_execution(ex)
     return ex
@@ -242,6 +244,7 @@ def execute(
         artifact_ids=artifact_ids,
         attempt=req.attempt,
         reproduction_of=req.reproduction_of,
+        actor=req.actor,
     )
     for r in ex.results:
         if r.message:

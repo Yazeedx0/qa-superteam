@@ -11,6 +11,7 @@ from __future__ import annotations
 import argparse
 import importlib
 import json
+import os
 import sys
 import time
 import traceback
@@ -93,6 +94,9 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--min-kappa", type=float, default=0.6)
     args = ap.parse_args(argv)
 
+    for extra in reversed([p for p in os.environ.get("PYTHONPATH", "").split(os.pathsep) if p]):
+        if extra not in sys.path:
+            sys.path.insert(0, extra)
     sys.path.insert(0, str(Path.cwd()))
     cases = aieval.parse_dataset(Path(args.dataset).read_text(encoding="utf-8"))
     target = load_target(args.target)

@@ -1,6 +1,6 @@
 ---
 name: qa-strategy
-description: Use when deciding what to test, how deeply and by whom - refining the `qast risk` baseline into a probability x impact register with anchored factors (change surface, complexity, failure history, coverage weakness; business criticality, users affected, exposure), weighing execution cost and regression likelihood, mapping each risk to the lowest test level that can observe it and to a specialist, and deciding explicitly what not to test. Records the register with `qast record risks --supersede`. Declines testing that is not authorized (load, active security, fault injection, non-allowlisted targets) or that would not change release confidence.
+description: Use when deciding what to test and how deeply - refines qast risk into a probability x impact register with documented factors, maps risks to test levels and specialists, and states what will deliberately not be tested.
 ---
 
 # QA strategy (risk-based)
@@ -44,7 +44,7 @@ Do not use when:
 
 1. **Baseline.** Diff modes: `qast impact --base <ref>`, then `qast risk`. Full audit: `qast risk`. The baseline is one risk per top-level component, scored from path names only.
 2. **Split into testable risk items**, one per critical workflow, invariant or failure mode ("fee rounding at boundaries", "cross-user read of orders", "replay with the same idempotency key"). Keep a baseline id when an item maps to it; number new items after the highest id. Fill `paths` and `related_requirements`.
-3. **Score with the anchored rubric** in [references/scoring-rubric.md](references/scoring-rubric.md): seven factors with value, rationale and basis; probability and impact by its aggregation rules; `score = probability × impact`; `level` by band (≥ 20 critical, 12–19 high, 6–11 medium, ≤ 5 low). `qast` checks ranges and the product, not the band: check it yourself.
+3. **Score with the anchored rubric** in [references/scoring-rubric.md](references/scoring-rubric.md): seven factors with value, rationale and basis; probability and impact by its aggregation rules; `score = probability × impact`; `level` by band (≥ 20 critical, 12–19 high, 6–11 medium, ≤ 5 low). `qast record risks` rejects a record whose `level` does not match its band.
 4. **Evidence for factors:** failure history from `git log --oneline -n 50 -- <paths>` (fix, revert, hotfix commits), skip/xfail markers and findings in this run; churn from `git log --since=<window> --name-only --format=`; coverage weakness from what existing tests assert, never from test file counts. No history available: value 2, basis `assumed`.
 5. **Explain every change from the baseline** in the risk's `assumptions` ("baseline P3×I4 → P4×I5: complexity 5, money movement per REQ-3.2").
 6. **Planning attributes, not score:** execution cost 1–3 and regression likelihood per item (rubric). They order the work and pick durable `regression` tests. Never move probability or impact because a test is cheap or expensive.

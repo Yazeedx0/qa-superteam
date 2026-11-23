@@ -1,0 +1,13 @@
+{
+  "id": "ev-2984fcc37dc4",
+  "kind": "report",
+  "path": "artifacts/ev-2984fcc37dc4-axe-result.json",
+  "sha256": "2984fcc37dc49d8568ba30e3bb483378208b4784f5dd526bb1e6a3a5280185b8",
+  "size_bytes": 892,
+  "media_type": "application/json",
+  "created_at": "2026-11-23T14:28:17Z",
+  "redacted": true,
+  "redactions": 0,
+  "execution_id": "ex-cce3c25530e3",
+  "description": "axe-core results"
+}

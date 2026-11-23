@@ -1,0 +1,6 @@
+$ python3 -m qa_superteam.runners.axe_scan --url=http://127.0.0.1:45691/ --axe=<project>/node_modules/axe-core/axe.min.js --out=<project>/.qa-superteam/runs/20261123-142758-test-e2e-0d83/work/ex-cce3c25530e3/axe-result.json --shots=<project>/.qa-superteam/runs/20261123-142758-test-e2e-0d83/work/ex-cce3c25530e3/artifacts --viewport=375x812
+[exit_code=0 timed_out=False duration=1.468s]
+--- stdout ---
+
+--- stderr ---
+

@@ -25,10 +25,10 @@
       "rule_id": "R-CONFIRMED-BLOCKING",
       "outcome": "BLOCK",
       "triggered": true,
-      "reason": "F-6d0ec146 [critical security] Any logged-in user can read another user's transfer; F-f16b5fbd [critical data-integrity] Fee is not included in the funds check, so balances go negative",
+      "reason": "F-9718fe18 [critical security] Any logged-in user can read another user's transfer; F-767d20c2 [critical data-integrity] Fee is not included in the funds check, so balances go negative",
       "refs": [
-        "F-6d0ec146",
-        "F-f16b5fbd"
+        "F-767d20c2",
+        "F-9718fe18"
       ]
     },
     {
@@ -87,7 +87,7 @@
       "refs": []
     }
   ],
-  "evaluated_at": "2026-11-23T13:47:17Z",
-  "inputs_digest": "db85832b0c9c321eefd985de0ba8e7b9188c8a3d1a3efe59e787b62ddea13497",
+  "evaluated_at": "2026-11-23T14:27:51Z",
+  "inputs_digest": "8fe9e9538bdaafe7d1777532ab40fe6785062b9a5554a9a5bcaaaa027af01505",
   "summary": "BLOCK: R-CONFIRMED-BLOCKING, R-MANDATORY-GROUP:existing-suite, R-PLANNED-MANDATORY-CASES"
 }

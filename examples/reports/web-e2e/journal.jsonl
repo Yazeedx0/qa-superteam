@@ -1,58 +1,58 @@
-{"ts": "2026-11-23T13:47:24Z", "event": "run.created", "mode": "test-e2e", "scope": "Checkout SPA: critical journeys and accessibility"}
-{"ts": "2026-11-23T13:47:24Z", "event": "note", "kind": "limitation", "text": "Demonstration run: analysis records (requirements, plan, finding text) and the QA tests were scripted (reference tests stand in for agent-authored tests). All executions, evidence, verifications and the decision are real."}
-{"ts": "2026-11-23T13:47:24Z", "event": "record.saved", "kind": "profile"}
-{"ts": "2026-11-23T13:47:24Z", "event": "phase", "phase": "discovery", "state": "done", "note": null}
-{"ts": "2026-11-23T13:47:24Z", "event": "record.saved", "kind": "plan"}
-{"ts": "2026-11-23T13:47:24Z", "event": "phase", "phase": "planning", "state": "done", "note": null}
-{"ts": "2026-11-23T13:47:24Z", "event": "exec.start", "execution_id": "ex-ffb81dfea4fb", "adapter": "pytest", "argv": ["python3", "-m", "pytest", "tests", "-p", "qa_superteam.pytest_reporter", "-p", "no:cacheprovider", "-q", "-rN", "--junitxml", "<project>/.qa-superteam/runs/20261123-134724-test-e2e-9e6d/work/ex-ffb81dfea4fb/junit.xml"]}
-{"ts": "2026-11-23T13:47:27Z", "event": "execution.recorded", "id": "ex-ffb81dfea4fb"}
-{"ts": "2026-11-23T13:47:27Z", "event": "exec.finish", "execution_id": "ex-ffb81dfea4fb", "status": "PASSED", "counts": {"PASSED": 6, "FAILED": 0, "ERROR": 0, "SKIPPED": 0, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
-{"ts": "2026-11-23T13:47:27Z", "event": "exec.start", "execution_id": "ex-5f12edf9a86a", "adapter": "pytest", "argv": ["python3", "-m", "pytest", "tests/qa/test_qa_journeys.py", "-p", "qa_superteam.pytest_reporter", "-p", "no:cacheprovider", "-q", "-rN", "--junitxml", "<project>/.qa-superteam/runs/20261123-134724-test-e2e-9e6d/work/ex-5f12edf9a86a/junit.xml"]}
-{"ts": "2026-11-23T13:47:39Z", "event": "execution.recorded", "id": "ex-5f12edf9a86a"}
-{"ts": "2026-11-23T13:47:39Z", "event": "exec.finish", "execution_id": "ex-5f12edf9a86a", "status": "FAILED", "counts": {"PASSED": 5, "FAILED": 2, "ERROR": 0, "SKIPPED": 0, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
-{"ts": "2026-11-23T13:47:40Z", "event": "exec.start", "execution_id": "ex-4cff8ce2a7cc", "adapter": "pytest", "argv": ["python3", "-m", "pytest", "tests/qa/test_qa_a11y.py", "-p", "qa_superteam.pytest_reporter", "-p", "no:cacheprovider", "-q", "-rN", "--junitxml", "<project>/.qa-superteam/runs/20261123-134724-test-e2e-9e6d/work/ex-4cff8ce2a7cc/junit.xml"]}
-{"ts": "2026-11-23T13:47:42Z", "event": "execution.recorded", "id": "ex-4cff8ce2a7cc"}
-{"ts": "2026-11-23T13:47:42Z", "event": "exec.finish", "execution_id": "ex-4cff8ce2a7cc", "status": "FAILED", "counts": {"PASSED": 3, "FAILED": 1, "ERROR": 0, "SKIPPED": 0, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
-{"ts": "2026-11-23T13:47:42Z", "event": "exec.start", "execution_id": "ex-6a396bb34741", "adapter": "axe", "argv": ["python3", "-m", "qa_superteam.runners.axe_scan", "--url=http://127.0.0.1:36765/", "--axe=<project>/node_modules/axe-core/axe.min.js", "--out=<project>/.qa-superteam/runs/20261123-134724-test-e2e-9e6d/work/ex-6a396bb34741/axe-result.json", "--shots=<project>/.qa-superteam/runs/20261123-134724-test-e2e-9e6d/work/ex-6a396bb34741/artifacts", "--viewport=375x812"]}
-{"ts": "2026-11-23T13:47:44Z", "event": "execution.recorded", "id": "ex-6a396bb34741"}
-{"ts": "2026-11-23T13:47:44Z", "event": "exec.finish", "execution_id": "ex-6a396bb34741", "status": "PASSED", "counts": {"PASSED": 24, "FAILED": 0, "ERROR": 0, "SKIPPED": 0, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
-{"ts": "2026-11-23T13:47:44Z", "event": "phase", "phase": "execution", "state": "done", "note": null}
-{"ts": "2026-11-23T13:47:44Z", "event": "finding.recorded", "id": "F-52b23502"}
-{"ts": "2026-11-23T13:47:44Z", "event": "exec.start", "execution_id": "ex-054c3aecacfc", "adapter": "pytest", "argv": ["python3", "-m", "pytest", "tests/qa/test_qa_journeys.py::test_recover_from_postal_code_error_and_complete_checkout", "-p", "qa_superteam.pytest_reporter", "-p", "no:cacheprovider", "-q", "-rN", "--junitxml", "<project>/.qa-superteam/runs/20261123-134724-test-e2e-9e6d/work/ex-054c3aecacfc/junit.xml"]}
-{"ts": "2026-11-23T13:47:49Z", "event": "execution.recorded", "id": "ex-054c3aecacfc"}
-{"ts": "2026-11-23T13:47:49Z", "event": "exec.finish", "execution_id": "ex-054c3aecacfc", "status": "FAILED", "counts": {"PASSED": 0, "FAILED": 1, "ERROR": 0, "SKIPPED": 0, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
-{"ts": "2026-11-23T13:47:49Z", "event": "exec.start", "execution_id": "ex-a25228a7428f", "adapter": "pytest", "argv": ["python3", "-m", "pytest", "tests/qa/test_qa_journeys.py::test_recover_from_postal_code_error_and_complete_checkout", "-p", "qa_superteam.pytest_reporter", "-p", "no:cacheprovider", "-q", "-rN", "--junitxml", "<project>/.qa-superteam/runs/20261123-134724-test-e2e-9e6d/work/ex-a25228a7428f/junit.xml"]}
-{"ts": "2026-11-23T13:47:53Z", "event": "execution.recorded", "id": "ex-a25228a7428f"}
-{"ts": "2026-11-23T13:47:53Z", "event": "exec.finish", "execution_id": "ex-a25228a7428f", "status": "FAILED", "counts": {"PASSED": 0, "FAILED": 1, "ERROR": 0, "SKIPPED": 0, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
-{"ts": "2026-11-23T13:47:53Z", "event": "exec.start", "execution_id": "ex-fe2578c4c7fb", "adapter": "pytest", "argv": ["python3", "-m", "pytest", "tests/qa/test_qa_journeys.py::test_recover_from_postal_code_error_and_complete_checkout", "-p", "qa_superteam.pytest_reporter", "-p", "no:cacheprovider", "-q", "-rN", "--junitxml", "<project>/.qa-superteam/runs/20261123-134724-test-e2e-9e6d/work/ex-fe2578c4c7fb/junit.xml"]}
-{"ts": "2026-11-23T13:47:58Z", "event": "execution.recorded", "id": "ex-fe2578c4c7fb"}
-{"ts": "2026-11-23T13:47:58Z", "event": "exec.finish", "execution_id": "ex-fe2578c4c7fb", "status": "FAILED", "counts": {"PASSED": 0, "FAILED": 1, "ERROR": 0, "SKIPPED": 0, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
-{"ts": "2026-11-23T13:47:58Z", "event": "reproduce", "test": "tests/qa/test_qa_journeys.py::test_recover_from_postal_code_error_and_complete_checkout", "attempts": 3, "failures": 3, "classification": "consistent"}
-{"ts": "2026-11-23T13:47:58Z", "event": "verification.recorded", "id": "V-c0449591"}
-{"ts": "2026-11-23T13:47:58Z", "event": "finding.recorded", "id": "F-d164efd1"}
-{"ts": "2026-11-23T13:47:58Z", "event": "exec.start", "execution_id": "ex-b64f6017bdad", "adapter": "pytest", "argv": ["python3", "-m", "pytest", "tests/qa/test_qa_journeys.py::test_promo_apply_then_remove_restores_total", "-p", "qa_superteam.pytest_reporter", "-p", "no:cacheprovider", "-q", "-rN", "--junitxml", "<project>/.qa-superteam/runs/20261123-134724-test-e2e-9e6d/work/ex-b64f6017bdad/junit.xml"]}
-{"ts": "2026-11-23T13:48:05Z", "event": "execution.recorded", "id": "ex-b64f6017bdad"}
-{"ts": "2026-11-23T13:48:05Z", "event": "exec.finish", "execution_id": "ex-b64f6017bdad", "status": "FAILED", "counts": {"PASSED": 0, "FAILED": 1, "ERROR": 0, "SKIPPED": 0, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
-{"ts": "2026-11-23T13:48:05Z", "event": "exec.start", "execution_id": "ex-60f210e68357", "adapter": "pytest", "argv": ["python3", "-m", "pytest", "tests/qa/test_qa_journeys.py::test_promo_apply_then_remove_restores_total", "-p", "qa_superteam.pytest_reporter", "-p", "no:cacheprovider", "-q", "-rN", "--junitxml", "<project>/.qa-superteam/runs/20261123-134724-test-e2e-9e6d/work/ex-60f210e68357/junit.xml"]}
-{"ts": "2026-11-23T13:48:11Z", "event": "execution.recorded", "id": "ex-60f210e68357"}
-{"ts": "2026-11-23T13:48:11Z", "event": "exec.finish", "execution_id": "ex-60f210e68357", "status": "FAILED", "counts": {"PASSED": 0, "FAILED": 1, "ERROR": 0, "SKIPPED": 0, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
-{"ts": "2026-11-23T13:48:11Z", "event": "exec.start", "execution_id": "ex-a65cb31995b2", "adapter": "pytest", "argv": ["python3", "-m", "pytest", "tests/qa/test_qa_journeys.py::test_promo_apply_then_remove_restores_total", "-p", "qa_superteam.pytest_reporter", "-p", "no:cacheprovider", "-q", "-rN", "--junitxml", "<project>/.qa-superteam/runs/20261123-134724-test-e2e-9e6d/work/ex-a65cb31995b2/junit.xml"]}
-{"ts": "2026-11-23T13:48:18Z", "event": "execution.recorded", "id": "ex-a65cb31995b2"}
-{"ts": "2026-11-23T13:48:18Z", "event": "exec.finish", "execution_id": "ex-a65cb31995b2", "status": "FAILED", "counts": {"PASSED": 0, "FAILED": 1, "ERROR": 0, "SKIPPED": 0, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
-{"ts": "2026-11-23T13:48:18Z", "event": "reproduce", "test": "tests/qa/test_qa_journeys.py::test_promo_apply_then_remove_restores_total", "attempts": 3, "failures": 3, "classification": "consistent"}
-{"ts": "2026-11-23T13:48:18Z", "event": "finding.recorded", "id": "F-13c12f92"}
-{"ts": "2026-11-23T13:48:18Z", "event": "exec.start", "execution_id": "ex-5cc1a4c96de3", "adapter": "pytest", "argv": ["python3", "-m", "pytest", "tests/qa/test_qa_a11y.py::test_review_step_has_no_serious_axe_violations", "-p", "qa_superteam.pytest_reporter", "-p", "no:cacheprovider", "-q", "-rN", "--junitxml", "<project>/.qa-superteam/runs/20261123-134724-test-e2e-9e6d/work/ex-5cc1a4c96de3/junit.xml"]}
-{"ts": "2026-11-23T13:48:19Z", "event": "execution.recorded", "id": "ex-5cc1a4c96de3"}
-{"ts": "2026-11-23T13:48:19Z", "event": "exec.finish", "execution_id": "ex-5cc1a4c96de3", "status": "FAILED", "counts": {"PASSED": 0, "FAILED": 1, "ERROR": 0, "SKIPPED": 0, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
-{"ts": "2026-11-23T13:48:20Z", "event": "exec.start", "execution_id": "ex-b9bb5e82f55a", "adapter": "pytest", "argv": ["python3", "-m", "pytest", "tests/qa/test_qa_a11y.py::test_review_step_has_no_serious_axe_violations", "-p", "qa_superteam.pytest_reporter", "-p", "no:cacheprovider", "-q", "-rN", "--junitxml", "<project>/.qa-superteam/runs/20261123-134724-test-e2e-9e6d/work/ex-b9bb5e82f55a/junit.xml"]}
-{"ts": "2026-11-23T13:48:21Z", "event": "execution.recorded", "id": "ex-b9bb5e82f55a"}
-{"ts": "2026-11-23T13:48:21Z", "event": "exec.finish", "execution_id": "ex-b9bb5e82f55a", "status": "FAILED", "counts": {"PASSED": 0, "FAILED": 1, "ERROR": 0, "SKIPPED": 0, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
-{"ts": "2026-11-23T13:48:21Z", "event": "exec.start", "execution_id": "ex-abddc2daba70", "adapter": "pytest", "argv": ["python3", "-m", "pytest", "tests/qa/test_qa_a11y.py::test_review_step_has_no_serious_axe_violations", "-p", "qa_superteam.pytest_reporter", "-p", "no:cacheprovider", "-q", "-rN", "--junitxml", "<project>/.qa-superteam/runs/20261123-134724-test-e2e-9e6d/work/ex-abddc2daba70/junit.xml"]}
-{"ts": "2026-11-23T13:48:22Z", "event": "execution.recorded", "id": "ex-abddc2daba70"}
-{"ts": "2026-11-23T13:48:22Z", "event": "exec.finish", "execution_id": "ex-abddc2daba70", "status": "FAILED", "counts": {"PASSED": 0, "FAILED": 1, "ERROR": 0, "SKIPPED": 0, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
-{"ts": "2026-11-23T13:48:22Z", "event": "reproduce", "test": "tests/qa/test_qa_a11y.py::test_review_step_has_no_serious_axe_violations", "attempts": 3, "failures": 3, "classification": "consistent"}
-{"ts": "2026-11-23T13:48:23Z", "event": "verification.recorded", "id": "V-3bb946b4"}
-{"ts": "2026-11-23T13:48:23Z", "event": "phase", "phase": "verification", "state": "done", "note": null}
-{"ts": "2026-11-23T13:48:23Z", "event": "record.saved", "kind": "decision"}
-{"ts": "2026-11-23T13:48:23Z", "event": "report.written", "markdown": "report.md", "json": "report.json"}
-{"ts": "2026-11-23T13:48:23Z", "event": "run.finished"}
+{"ts": "2026-11-23T14:27:58Z", "event": "run.created", "mode": "test-e2e", "scope": "Checkout SPA: critical journeys and accessibility", "config_sha256": "defaults"}
+{"ts": "2026-11-23T14:27:58Z", "event": "note", "kind": "limitation", "text": "Demonstration run: analysis records (requirements, plan, finding text) and the QA tests were scripted (reference tests stand in for agent-authored tests). All executions, evidence, verifications and the decision are real."}
+{"ts": "2026-11-23T14:27:58Z", "event": "record.saved", "kind": "profile"}
+{"ts": "2026-11-23T14:27:58Z", "event": "phase", "phase": "discovery", "state": "done", "note": null}
+{"ts": "2026-11-23T14:27:58Z", "event": "record.saved", "kind": "plan"}
+{"ts": "2026-11-23T14:27:58Z", "event": "phase", "phase": "planning", "state": "done", "note": null}
+{"ts": "2026-11-23T14:27:58Z", "event": "exec.start", "execution_id": "ex-d474b03df9d6", "adapter": "pytest", "argv": ["python3", "-m", "pytest", "tests", "-p", "qa_superteam.pytest_reporter", "-p", "no:cacheprovider", "-q", "-rN", "--junitxml", "<project>/.qa-superteam/runs/20261123-142758-test-e2e-0d83/work/ex-d474b03df9d6/junit.xml"]}
+{"ts": "2026-11-23T14:28:01Z", "event": "execution.recorded", "id": "ex-d474b03df9d6"}
+{"ts": "2026-11-23T14:28:01Z", "event": "exec.finish", "execution_id": "ex-d474b03df9d6", "status": "PASSED", "counts": {"PASSED": 6, "FAILED": 0, "ERROR": 0, "SKIPPED": 0, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
+{"ts": "2026-11-23T14:28:01Z", "event": "exec.start", "execution_id": "ex-75b5494fe2e1", "adapter": "pytest", "argv": ["python3", "-m", "pytest", "tests/qa/test_qa_journeys.py", "-p", "qa_superteam.pytest_reporter", "-p", "no:cacheprovider", "-q", "-rN", "--junitxml", "<project>/.qa-superteam/runs/20261123-142758-test-e2e-0d83/work/ex-75b5494fe2e1/junit.xml"]}
+{"ts": "2026-11-23T14:28:13Z", "event": "execution.recorded", "id": "ex-75b5494fe2e1"}
+{"ts": "2026-11-23T14:28:13Z", "event": "exec.finish", "execution_id": "ex-75b5494fe2e1", "status": "FAILED", "counts": {"PASSED": 5, "FAILED": 2, "ERROR": 0, "SKIPPED": 0, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
+{"ts": "2026-11-23T14:28:13Z", "event": "exec.start", "execution_id": "ex-ab82a6a9e35a", "adapter": "pytest", "argv": ["python3", "-m", "pytest", "tests/qa/test_qa_a11y.py", "-p", "qa_superteam.pytest_reporter", "-p", "no:cacheprovider", "-q", "-rN", "--junitxml", "<project>/.qa-superteam/runs/20261123-142758-test-e2e-0d83/work/ex-ab82a6a9e35a/junit.xml"]}
+{"ts": "2026-11-23T14:28:16Z", "event": "execution.recorded", "id": "ex-ab82a6a9e35a"}
+{"ts": "2026-11-23T14:28:16Z", "event": "exec.finish", "execution_id": "ex-ab82a6a9e35a", "status": "FAILED", "counts": {"PASSED": 3, "FAILED": 1, "ERROR": 0, "SKIPPED": 0, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
+{"ts": "2026-11-23T14:28:16Z", "event": "exec.start", "execution_id": "ex-cce3c25530e3", "adapter": "axe", "argv": ["python3", "-m", "qa_superteam.runners.axe_scan", "--url=http://127.0.0.1:45691/", "--axe=<project>/node_modules/axe-core/axe.min.js", "--out=<project>/.qa-superteam/runs/20261123-142758-test-e2e-0d83/work/ex-cce3c25530e3/axe-result.json", "--shots=<project>/.qa-superteam/runs/20261123-142758-test-e2e-0d83/work/ex-cce3c25530e3/artifacts", "--viewport=375x812"]}
+{"ts": "2026-11-23T14:28:17Z", "event": "execution.recorded", "id": "ex-cce3c25530e3"}
+{"ts": "2026-11-23T14:28:17Z", "event": "exec.finish", "execution_id": "ex-cce3c25530e3", "status": "PASSED", "counts": {"PASSED": 25, "FAILED": 0, "ERROR": 0, "SKIPPED": 0, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
+{"ts": "2026-11-23T14:28:18Z", "event": "phase", "phase": "execution", "state": "done", "note": null}
+{"ts": "2026-11-23T14:28:18Z", "event": "finding.recorded", "id": "F-808e865e"}
+{"ts": "2026-11-23T14:28:18Z", "event": "exec.start", "execution_id": "ex-68ddd90b5fd0", "adapter": "pytest", "argv": ["python3", "-m", "pytest", "tests/qa/test_qa_journeys.py::test_recover_from_postal_code_error_and_complete_checkout", "-p", "qa_superteam.pytest_reporter", "-p", "no:cacheprovider", "-q", "-rN", "--junitxml", "<project>/.qa-superteam/runs/20261123-142758-test-e2e-0d83/work/ex-68ddd90b5fd0/junit.xml"]}
+{"ts": "2026-11-23T14:28:22Z", "event": "execution.recorded", "id": "ex-68ddd90b5fd0"}
+{"ts": "2026-11-23T14:28:22Z", "event": "exec.finish", "execution_id": "ex-68ddd90b5fd0", "status": "FAILED", "counts": {"PASSED": 0, "FAILED": 1, "ERROR": 0, "SKIPPED": 0, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
+{"ts": "2026-11-23T14:28:22Z", "event": "exec.start", "execution_id": "ex-5436e6d13420", "adapter": "pytest", "argv": ["python3", "-m", "pytest", "tests/qa/test_qa_journeys.py::test_recover_from_postal_code_error_and_complete_checkout", "-p", "qa_superteam.pytest_reporter", "-p", "no:cacheprovider", "-q", "-rN", "--junitxml", "<project>/.qa-superteam/runs/20261123-142758-test-e2e-0d83/work/ex-5436e6d13420/junit.xml"]}
+{"ts": "2026-11-23T14:28:27Z", "event": "execution.recorded", "id": "ex-5436e6d13420"}
+{"ts": "2026-11-23T14:28:27Z", "event": "exec.finish", "execution_id": "ex-5436e6d13420", "status": "FAILED", "counts": {"PASSED": 0, "FAILED": 1, "ERROR": 0, "SKIPPED": 0, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
+{"ts": "2026-11-23T14:28:27Z", "event": "exec.start", "execution_id": "ex-331bce68cca7", "adapter": "pytest", "argv": ["python3", "-m", "pytest", "tests/qa/test_qa_journeys.py::test_recover_from_postal_code_error_and_complete_checkout", "-p", "qa_superteam.pytest_reporter", "-p", "no:cacheprovider", "-q", "-rN", "--junitxml", "<project>/.qa-superteam/runs/20261123-142758-test-e2e-0d83/work/ex-331bce68cca7/junit.xml"]}
+{"ts": "2026-11-23T14:28:31Z", "event": "execution.recorded", "id": "ex-331bce68cca7"}
+{"ts": "2026-11-23T14:28:31Z", "event": "exec.finish", "execution_id": "ex-331bce68cca7", "status": "FAILED", "counts": {"PASSED": 0, "FAILED": 1, "ERROR": 0, "SKIPPED": 0, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
+{"ts": "2026-11-23T14:28:31Z", "event": "reproduce", "test": "tests/qa/test_qa_journeys.py::test_recover_from_postal_code_error_and_complete_checkout", "attempts": 3, "failures": 3, "classification": "consistent"}
+{"ts": "2026-11-23T14:28:31Z", "event": "verification.recorded", "id": "V-62140143"}
+{"ts": "2026-11-23T14:28:32Z", "event": "finding.recorded", "id": "F-5ce652ae"}
+{"ts": "2026-11-23T14:28:32Z", "event": "exec.start", "execution_id": "ex-dcdc0413d1cf", "adapter": "pytest", "argv": ["python3", "-m", "pytest", "tests/qa/test_qa_journeys.py::test_promo_apply_then_remove_restores_total", "-p", "qa_superteam.pytest_reporter", "-p", "no:cacheprovider", "-q", "-rN", "--junitxml", "<project>/.qa-superteam/runs/20261123-142758-test-e2e-0d83/work/ex-dcdc0413d1cf/junit.xml"]}
+{"ts": "2026-11-23T14:28:38Z", "event": "execution.recorded", "id": "ex-dcdc0413d1cf"}
+{"ts": "2026-11-23T14:28:38Z", "event": "exec.finish", "execution_id": "ex-dcdc0413d1cf", "status": "FAILED", "counts": {"PASSED": 0, "FAILED": 1, "ERROR": 0, "SKIPPED": 0, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
+{"ts": "2026-11-23T14:28:38Z", "event": "exec.start", "execution_id": "ex-0630dc520de7", "adapter": "pytest", "argv": ["python3", "-m", "pytest", "tests/qa/test_qa_journeys.py::test_promo_apply_then_remove_restores_total", "-p", "qa_superteam.pytest_reporter", "-p", "no:cacheprovider", "-q", "-rN", "--junitxml", "<project>/.qa-superteam/runs/20261123-142758-test-e2e-0d83/work/ex-0630dc520de7/junit.xml"]}
+{"ts": "2026-11-23T14:28:45Z", "event": "execution.recorded", "id": "ex-0630dc520de7"}
+{"ts": "2026-11-23T14:28:45Z", "event": "exec.finish", "execution_id": "ex-0630dc520de7", "status": "FAILED", "counts": {"PASSED": 0, "FAILED": 1, "ERROR": 0, "SKIPPED": 0, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
+{"ts": "2026-11-23T14:28:45Z", "event": "exec.start", "execution_id": "ex-bbd9f0888023", "adapter": "pytest", "argv": ["python3", "-m", "pytest", "tests/qa/test_qa_journeys.py::test_promo_apply_then_remove_restores_total", "-p", "qa_superteam.pytest_reporter", "-p", "no:cacheprovider", "-q", "-rN", "--junitxml", "<project>/.qa-superteam/runs/20261123-142758-test-e2e-0d83/work/ex-bbd9f0888023/junit.xml"]}
+{"ts": "2026-11-23T14:28:51Z", "event": "execution.recorded", "id": "ex-bbd9f0888023"}
+{"ts": "2026-11-23T14:28:51Z", "event": "exec.finish", "execution_id": "ex-bbd9f0888023", "status": "FAILED", "counts": {"PASSED": 0, "FAILED": 1, "ERROR": 0, "SKIPPED": 0, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
+{"ts": "2026-11-23T14:28:51Z", "event": "reproduce", "test": "tests/qa/test_qa_journeys.py::test_promo_apply_then_remove_restores_total", "attempts": 3, "failures": 3, "classification": "consistent"}
+{"ts": "2026-11-23T14:28:51Z", "event": "finding.recorded", "id": "F-ab1fe8b9"}
+{"ts": "2026-11-23T14:28:51Z", "event": "exec.start", "execution_id": "ex-4f34e3091dc0", "adapter": "pytest", "argv": ["python3", "-m", "pytest", "tests/qa/test_qa_a11y.py::test_review_step_has_no_serious_axe_violations", "-p", "qa_superteam.pytest_reporter", "-p", "no:cacheprovider", "-q", "-rN", "--junitxml", "<project>/.qa-superteam/runs/20261123-142758-test-e2e-0d83/work/ex-4f34e3091dc0/junit.xml"]}
+{"ts": "2026-11-23T14:28:53Z", "event": "execution.recorded", "id": "ex-4f34e3091dc0"}
+{"ts": "2026-11-23T14:28:53Z", "event": "exec.finish", "execution_id": "ex-4f34e3091dc0", "status": "FAILED", "counts": {"PASSED": 0, "FAILED": 1, "ERROR": 0, "SKIPPED": 0, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
+{"ts": "2026-11-23T14:28:53Z", "event": "exec.start", "execution_id": "ex-128127676bb5", "adapter": "pytest", "argv": ["python3", "-m", "pytest", "tests/qa/test_qa_a11y.py::test_review_step_has_no_serious_axe_violations", "-p", "qa_superteam.pytest_reporter", "-p", "no:cacheprovider", "-q", "-rN", "--junitxml", "<project>/.qa-superteam/runs/20261123-142758-test-e2e-0d83/work/ex-128127676bb5/junit.xml"]}
+{"ts": "2026-11-23T14:28:54Z", "event": "execution.recorded", "id": "ex-128127676bb5"}
+{"ts": "2026-11-23T14:28:54Z", "event": "exec.finish", "execution_id": "ex-128127676bb5", "status": "FAILED", "counts": {"PASSED": 0, "FAILED": 1, "ERROR": 0, "SKIPPED": 0, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
+{"ts": "2026-11-23T14:28:55Z", "event": "exec.start", "execution_id": "ex-1e5d97b51965", "adapter": "pytest", "argv": ["python3", "-m", "pytest", "tests/qa/test_qa_a11y.py::test_review_step_has_no_serious_axe_violations", "-p", "qa_superteam.pytest_reporter", "-p", "no:cacheprovider", "-q", "-rN", "--junitxml", "<project>/.qa-superteam/runs/20261123-142758-test-e2e-0d83/work/ex-1e5d97b51965/junit.xml"]}
+{"ts": "2026-11-23T14:28:56Z", "event": "execution.recorded", "id": "ex-1e5d97b51965"}
+{"ts": "2026-11-23T14:28:56Z", "event": "exec.finish", "execution_id": "ex-1e5d97b51965", "status": "FAILED", "counts": {"PASSED": 0, "FAILED": 1, "ERROR": 0, "SKIPPED": 0, "BLOCKED": 0, "NOT_RUN": 0, "INCONCLUSIVE": 0}}
+{"ts": "2026-11-23T14:28:56Z", "event": "reproduce", "test": "tests/qa/test_qa_a11y.py::test_review_step_has_no_serious_axe_violations", "attempts": 3, "failures": 3, "classification": "consistent"}
+{"ts": "2026-11-23T14:28:56Z", "event": "verification.recorded", "id": "V-96aad409"}
+{"ts": "2026-11-23T14:28:56Z", "event": "phase", "phase": "verification", "state": "done", "note": null}
+{"ts": "2026-11-23T14:28:56Z", "event": "record.saved", "kind": "decision"}
+{"ts": "2026-11-23T14:28:56Z", "event": "report.written", "markdown": "report.md", "json": "report.json"}
+{"ts": "2026-11-23T14:28:56Z", "event": "run.finished"}

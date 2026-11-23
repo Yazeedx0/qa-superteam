@@ -1,0 +1,13 @@
+{
+  "id": "ev-bc873b8a8f97",
+  "kind": "log",
+  "path": "artifacts/ev-bc873b8a8f97-axe-output.log",
+  "sha256": "5755ff369747cc15c0f1320899865fd7f6887f40d4c1a72190a97d3f8ee1ab07",
+  "size_bytes": 419,
+  "media_type": "application/octet-stream",
+  "created_at": "2026-11-23T14:28:17Z",
+  "redacted": true,
+  "redactions": 0,
+  "execution_id": "ex-cce3c25530e3",
+  "description": "axe stdout/stderr"
+}

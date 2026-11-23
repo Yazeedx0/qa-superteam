@@ -1,0 +1,51 @@
+{
+  "id": "V-96aad409",
+  "finding_id": "F-ab1fe8b9",
+  "verdict": "CONFIRMED",
+  "method": "independent-rerun",
+  "verifier": "qa-superteam:independent-verification-engineer",
+  "rationale": "Independent rerun of tests/qa/test_qa_a11y.py::test_review_step_has_no_serious_axe_violations: consistent failure; screenshots attached.",
+  "created_at": "2026-11-23T14:28:56Z",
+  "evidence_ids": [],
+  "execution_ids": [
+    "ex-1e5d97b51965"
+  ],
+  "test_identifiers": [],
+  "checks": [
+    {
+      "check": "evidence integrity",
+      "passed": true,
+      "detail": "all referenced evidence exists with matching sha256"
+    },
+    {
+      "check": "independent verifier",
+      "passed": true,
+      "detail": "reporter=qa-superteam:frontend-qa-engineer verifier=qa-superteam:independent-verification-engineer"
+    },
+    {
+      "check": "execution-based method",
+      "passed": true,
+      "detail": "method=independent-rerun; code inspection or manual review alone cannot confirm a defect"
+    },
+    {
+      "check": "verifier ran own execution",
+      "passed": true,
+      "detail": "verifier executions: ['ex-1e5d97b51965']"
+    },
+    {
+      "check": "tests identified",
+      "passed": true,
+      "detail": "finding or verifier names the failing tests"
+    },
+    {
+      "check": "failing evidence",
+      "passed": true,
+      "detail": "1 FAILED result(s) in the verifier's own executions"
+    },
+    {
+      "check": "reproduction stable",
+      "passed": true,
+      "detail": "3/3 attempts failed (consistent)"
+    }
+  ]
+}

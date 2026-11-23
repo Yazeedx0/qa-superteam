@@ -329,7 +329,8 @@ def evaluate(policy: Policy, inp: GateInputs) -> m.ReleaseDecision:
     rule("R-FLAKY-CRITICAL", D.REVIEW_REQUIRED, bool(flaky), f"flaky/inconclusive critical results: {sorted(set(flaky))[:10]}" if flaky else "no flaky critical tests observed", flaky[:20])
 
     # R9: AI evaluation
-    ai = [r for e in primary if e.adapter == "ai-eval" for r in e.results]
+    # exploratory/adversarial probes tagged with other groups do not dilute the release pass rate
+    ai = [r for e in primary if e.adapter == "ai-eval" and (not e.groups or "ai-eval" in e.groups) for r in e.results]
     if ai:
         decided = [r for r in ai if r.status in (S.PASSED, S.FAILED)]
         rate = (sum(1 for r in decided if r.status == S.PASSED) / len(decided)) if decided else None

@@ -1,14 +1,14 @@
 # QA Report — web-checkout (test-e2e)
 
-Run `20261123-134724-test-e2e-9e6d` · scope: Checkout SPA: critical journeys and accessibility · generated 2026-11-23T13:48:23Z
+Run `20261123-142758-test-e2e-0d83` · scope: Checkout SPA: critical journeys and accessibility · generated 2026-11-23T14:28:56Z
 
 ## ⛔ Release decision: **BLOCK**
 
-Policy `default` v1.0.0 (sha256 `f6b8fcb3544b`) · evaluated 2026-11-23T13:48:23Z · inputs digest `04a54e6a7275`
+Policy `default` v1.0.0 (sha256 `f6b8fcb3544b`) · evaluated 2026-11-23T14:28:56Z · inputs digest `696f26c3af62`
 
 | Rule | Outcome | Reason |
 |---|---|---|
-| `R-CONFIRMED-REVIEW` | REVIEW_REQUIRED | F-52b23502 [high] Checkout is blocked after correcting an invalid postal code; F-13c12f92 [high] Promo code input has no accessible name |
+| `R-CONFIRMED-REVIEW` | REVIEW_REQUIRED | F-808e865e [high] Checkout is blocked after correcting an invalid postal code; F-ab1fe8b9 [high] Promo code input has no accessible name |
 | `R-PLANNED-MANDATORY-CASES` | BLOCK | planned mandatory test cases failed: TC-RECOVER, TC-PROMO, TC-RTL |
 
 <details><summary>Rules satisfied (8)</summary>
@@ -28,34 +28,17 @@ Policy `default` v1.0.0 (sha256 `f6b8fcb3544b`) · evaluated 2026-11-23T13:48:23
 
 | FAILED | ERROR | INCONCLUSIVE | BLOCKED | NOT_RUN | SKIPPED | PASSED |
 |---|---|---|---|---|---|---|
-| 3 | 0 | 0 | 0 | 0 | 0 | 38 |
+| 3 | 0 | 0 | 0 | 0 | 0 | 39 |
 
 Executions: 13 · Findings: 3 (CONFIRMED 2, REPRODUCED 1)
 
 ## Findings
 
-### F-13c12f92 · Promo code input has no accessible name
-
-**CONFIRMED** · severity **high** · accessibility · reported by qa-superteam:frontend-qa-engineer
-
-_Status basis:_ independently verified by qa-superteam:independent-verification-engineer (independent-rerun) in V-3bb946b4
-
-- **Expected:** Every form control has an accessible name (WCAG 1.3.1 / 4.1.2)
-- **Actual:** axe 'label' violation on #promo-code
-- **Location:** `public/app.js`
-- **Tests:** `tests/qa/test_qa_a11y.py::test_review_step_has_no_serious_axe_violations`
-- **Reproduction steps:**
-  1. Reach review step
-  2. Run axe-core
-  3. Rule 'label' fails for #promo-code
-- **Evidence:** [`ev-80ff8843e4bf`](artifacts/ev-80ff8843e4bf-pytest-output.log), [`ev-4065c731b7fe`](artifacts/ev-4065c731b7fe-pytest-report.jsonl), [`ev-a9655cc7cb80`](artifacts/ev-a9655cc7cb80-junit.xml), [`ev-2c16b29ef450`](artifacts/ev-2c16b29ef450-tests-qa-test-qa-a11y-py-test-review-step-has-no-serious-axe.png)
-- **Verification V-3bb946b4:** CONFIRMED by qa-superteam:independent-verification-engineer via independent-rerun — Independent rerun of tests/qa/test_qa_a11y.py::test_review_step_has_no_serious_axe_violations: consistent failure; screenshots attached.
-
-### F-52b23502 · Checkout is blocked after correcting an invalid postal code
+### F-808e865e · Checkout is blocked after correcting an invalid postal code
 
 **CONFIRMED** · severity **high** · functional · reported by qa-superteam:frontend-qa-engineer
 
-_Status basis:_ independently verified by qa-superteam:independent-verification-engineer (independent-rerun) in V-c0449591
+_Status basis:_ independently verified by qa-superteam:independent-verification-engineer (independent-rerun) in V-62140143
 
 - **Expected:** After fixing the postal code, Continue is enabled (USER_JOURNEYS.md: recovering from a validation error)
 - **Actual:** Error clears but Continue stays disabled until reload
@@ -67,10 +50,27 @@ _Status basis:_ independently verified by qa-superteam:independent-verification-
   3. See error
   4. Correct to 12345
   5. Continue stays disabled
-- **Evidence:** [`ev-00ba9aaef7a4`](artifacts/ev-00ba9aaef7a4-pytest-output.log), [`ev-d02254f24b58`](artifacts/ev-d02254f24b58-pytest-report.jsonl), [`ev-b8a29234f630`](artifacts/ev-b8a29234f630-junit.xml), [`ev-d18f94779aae`](artifacts/ev-d18f94779aae-tests-qa-test-qa-journeys-py-test-promo-apply-then-remove-re.png), [`ev-8679a631d61a`](artifacts/ev-8679a631d61a-tests-qa-test-qa-journeys-py-test-recover-from-postal-code-e.png)
-- **Verification V-c0449591:** CONFIRMED by qa-superteam:independent-verification-engineer via independent-rerun — Independent rerun of tests/qa/test_qa_journeys.py::test_recover_from_postal_code_error_and_complete_checkout: consistent failure; screenshots attached.
+- **Evidence:** [`ev-34afeef02eea`](artifacts/ev-34afeef02eea-pytest-output.log), [`ev-4ded86b1d3e4`](artifacts/ev-4ded86b1d3e4-pytest-report.jsonl), [`ev-47fbc48c1187`](artifacts/ev-47fbc48c1187-junit.xml), [`ev-d18f94779aae`](artifacts/ev-d18f94779aae-tests-qa-test-qa-journeys-py-test-promo-apply-then-remove-re.png), [`ev-8679a631d61a`](artifacts/ev-8679a631d61a-tests-qa-test-qa-journeys-py-test-recover-from-postal-code-e.png)
+- **Verification V-62140143:** CONFIRMED by qa-superteam:independent-verification-engineer via independent-rerun — Independent rerun of tests/qa/test_qa_journeys.py::test_recover_from_postal_code_error_and_complete_checkout: consistent failure; screenshots attached.
 
-### F-d164efd1 · Removing a promo code keeps the discount in the total
+### F-ab1fe8b9 · Promo code input has no accessible name
+
+**CONFIRMED** · severity **high** · accessibility · reported by qa-superteam:frontend-qa-engineer
+
+_Status basis:_ independently verified by qa-superteam:independent-verification-engineer (independent-rerun) in V-96aad409
+
+- **Expected:** Every form control has an accessible name (WCAG 1.3.1 / 4.1.2)
+- **Actual:** axe 'label' violation on #promo-code
+- **Location:** `public/app.js`
+- **Tests:** `tests/qa/test_qa_a11y.py::test_review_step_has_no_serious_axe_violations`
+- **Reproduction steps:**
+  1. Reach review step
+  2. Run axe-core
+  3. Rule 'label' fails for #promo-code
+- **Evidence:** [`ev-c57c9c806572`](artifacts/ev-c57c9c806572-pytest-output.log), [`ev-624d1b691f47`](artifacts/ev-624d1b691f47-pytest-report.jsonl), [`ev-3f3c104a1ac7`](artifacts/ev-3f3c104a1ac7-junit.xml), [`ev-cc46d26ef7ce`](artifacts/ev-cc46d26ef7ce-tests-qa-test-qa-a11y-py-test-review-step-has-no-serious-axe.png)
+- **Verification V-96aad409:** CONFIRMED by qa-superteam:independent-verification-engineer via independent-rerun — Independent rerun of tests/qa/test_qa_a11y.py::test_review_step_has_no_serious_axe_violations: consistent failure; screenshots attached.
+
+### F-5ce652ae · Removing a promo code keeps the discount in the total
 
 **REPRODUCED** · severity **medium** · functional · reported by qa-superteam:frontend-qa-engineer
 
@@ -85,31 +85,31 @@ _Status basis:_ reproduction 3/3 failing (consistent); not yet independently ver
   2. Apply SAVE10
   3. Click Remove
   4. Total still discounted
-- **Evidence:** [`ev-00ba9aaef7a4`](artifacts/ev-00ba9aaef7a4-pytest-output.log), [`ev-d02254f24b58`](artifacts/ev-d02254f24b58-pytest-report.jsonl), [`ev-b8a29234f630`](artifacts/ev-b8a29234f630-junit.xml), [`ev-d18f94779aae`](artifacts/ev-d18f94779aae-tests-qa-test-qa-journeys-py-test-promo-apply-then-remove-re.png), [`ev-8679a631d61a`](artifacts/ev-8679a631d61a-tests-qa-test-qa-journeys-py-test-recover-from-postal-code-e.png)
+- **Evidence:** [`ev-34afeef02eea`](artifacts/ev-34afeef02eea-pytest-output.log), [`ev-4ded86b1d3e4`](artifacts/ev-4ded86b1d3e4-pytest-report.jsonl), [`ev-47fbc48c1187`](artifacts/ev-47fbc48c1187-junit.xml), [`ev-d18f94779aae`](artifacts/ev-d18f94779aae-tests-qa-test-qa-journeys-py-test-promo-apply-then-remove-re.png), [`ev-8679a631d61a`](artifacts/ev-8679a631d61a-tests-qa-test-qa-journeys-py-test-recover-from-postal-code-e.png)
 
 ## Test executions
 
 | Execution | Adapter | Label / groups | Status | P/F/E/S/B/NR/I | Duration | Note |
 |---|---|---|---|---|---|---|
-| `ex-ffb81dfea4fb` | pytest | existing Playwright suite [existing-suite] | **PASSED** | 6/0/0/0/0/0/0 | 2.7s |  |
-| `ex-5f12edf9a86a` | pytest | journeys [critical-journeys] | **FAILED** | 5/2/0/0/0/0/0 | 12.0s |  |
-| `ex-4cff8ce2a7cc` | pytest | axe on app states [accessibility] | **FAILED** | 3/1/0/0/0/0/0 | 2.5s |  |
-| `ex-6a396bb34741` | axe | axe landing page (375px) [accessibility] | **PASSED** | 24/0/0/0/0/0/0 | 1.5s |  |
-| `ex-054c3aecacfc` | pytest | reproduce tests/qa/test_qa_journeys.py::test_recover_from_postal_code_error_and… | **FAILED** | 0/1/0/0/0/0/0 | 4.4s |  |
-| `ex-a25228a7428f` | pytest | reproduce tests/qa/test_qa_journeys.py::test_recover_from_postal_code_error_and… | **FAILED** | 0/1/0/0/0/0/0 | 4.4s |  |
-| `ex-fe2578c4c7fb` | pytest | reproduce tests/qa/test_qa_journeys.py::test_recover_from_postal_code_error_and… | **FAILED** | 0/1/0/0/0/0/0 | 4.4s |  |
-| `ex-b64f6017bdad` | pytest | reproduce tests/qa/test_qa_journeys.py::test_promo_apply_then_remove_restores_t… | **FAILED** | 0/1/0/0/0/0/0 | 6.4s |  |
-| `ex-60f210e68357` | pytest | reproduce tests/qa/test_qa_journeys.py::test_promo_apply_then_remove_restores_t… | **FAILED** | 0/1/0/0/0/0/0 | 6.4s |  |
-| `ex-a65cb31995b2` | pytest | reproduce tests/qa/test_qa_journeys.py::test_promo_apply_then_remove_restores_t… | **FAILED** | 0/1/0/0/0/0/0 | 6.4s |  |
-| `ex-5cc1a4c96de3` | pytest | reproduce tests/qa/test_qa_a11y.py::test_review_step_has_no_serious_axe_violati… | **FAILED** | 0/1/0/0/0/0/0 | 1.4s |  |
-| `ex-b9bb5e82f55a` | pytest | reproduce tests/qa/test_qa_a11y.py::test_review_step_has_no_serious_axe_violati… | **FAILED** | 0/1/0/0/0/0/0 | 1.4s |  |
-| `ex-abddc2daba70` | pytest | reproduce tests/qa/test_qa_a11y.py::test_review_step_has_no_serious_axe_violati… | **FAILED** | 0/1/0/0/0/0/0 | 1.4s |  |
+| `ex-d474b03df9d6` | pytest | existing Playwright suite [existing-suite] | **PASSED** | 6/0/0/0/0/0/0 | 2.6s |  |
+| `ex-75b5494fe2e1` | pytest | journeys [critical-journeys] | **FAILED** | 5/2/0/0/0/0/0 | 12.0s |  |
+| `ex-ab82a6a9e35a` | pytest | axe on app states [accessibility] | **FAILED** | 3/1/0/0/0/0/0 | 2.5s |  |
+| `ex-cce3c25530e3` | axe | axe landing page (375px) [accessibility] | **PASSED** | 25/0/0/0/0/0/0 | 1.5s |  |
+| `ex-68ddd90b5fd0` | pytest | reproduce tests/qa/test_qa_journeys.py::test_recover_from_postal_code_error_and… | **FAILED** | 0/1/0/0/0/0/0 | 4.4s |  |
+| `ex-5436e6d13420` | pytest | reproduce tests/qa/test_qa_journeys.py::test_recover_from_postal_code_error_and… | **FAILED** | 0/1/0/0/0/0/0 | 4.4s |  |
+| `ex-331bce68cca7` | pytest | reproduce tests/qa/test_qa_journeys.py::test_recover_from_postal_code_error_and… | **FAILED** | 0/1/0/0/0/0/0 | 4.4s |  |
+| `ex-dcdc0413d1cf` | pytest | reproduce tests/qa/test_qa_journeys.py::test_promo_apply_then_remove_restores_t… | **FAILED** | 0/1/0/0/0/0/0 | 6.4s |  |
+| `ex-0630dc520de7` | pytest | reproduce tests/qa/test_qa_journeys.py::test_promo_apply_then_remove_restores_t… | **FAILED** | 0/1/0/0/0/0/0 | 6.4s |  |
+| `ex-bbd9f0888023` | pytest | reproduce tests/qa/test_qa_journeys.py::test_promo_apply_then_remove_restores_t… | **FAILED** | 0/1/0/0/0/0/0 | 6.4s |  |
+| `ex-4f34e3091dc0` | pytest | reproduce tests/qa/test_qa_a11y.py::test_review_step_has_no_serious_axe_violati… | **FAILED** | 0/1/0/0/0/0/0 | 1.4s |  |
+| `ex-128127676bb5` | pytest | reproduce tests/qa/test_qa_a11y.py::test_review_step_has_no_serious_axe_violati… | **FAILED** | 0/1/0/0/0/0/0 | 1.4s |  |
+| `ex-1e5d97b51965` | pytest | reproduce tests/qa/test_qa_a11y.py::test_review_step_has_no_serious_axe_violati… | **FAILED** | 0/1/0/0/0/0/0 | 1.4s |  |
 
 <details><summary>Failing, errored and inconclusive results (3)</summary>
 
-- **FAILED** `tests/qa/test_qa_journeys.py::test_recover_from_postal_code_error_and_complete_checkout` (ex-5f12edf9a86a): checkout = <conftest.Checkout object at 0x7c25d9866c30>      def test_recover_from_postal_code_error_and_complete_checkout(checkout):         page = checkout.page         checkout.open().fill_contact()              postal = page.get_by_test_id("postal-code")         continue_button = page.get_by_test_id("shipping-continue")         postal_error = page.locator("#postal-code-error")              po…
-- **FAILED** `tests/qa/test_qa_journeys.py::test_promo_apply_then_remove_restores_total` (ex-5f12edf9a86a): checkout = <conftest.Checkout object at 0x7c25d95db050>      def test_promo_apply_then_remove_restores_total(checkout):         page = checkout.page         checkout.to_review(country="US", postal="94107")              total = page.get_by_test_id("total")         expect(page.get_by_test_id("subtotal")).to_have_text("$80.00")         expect(page.get_by_test_id("shipping-cost")).to_have_text("$5.00…
-- **FAILED** `tests/qa/test_qa_a11y.py::test_review_step_has_no_serious_axe_violations` (ex-4cff8ce2a7cc): checkout = <conftest.Checkout object at 0x7a8b4786a7b0> axe_path = PosixPath('<project>/node_modules/axe-core/axe.min.js')      def test_review_step_has_no_serious_axe_violations(checkout, axe_path: Path):         checkout.to_review()         expect(checkout.page.get_by_test_id("promo-input")).to_be_visible()              violations = blocking(run_axe(checkout.p…
+- **FAILED** `tests/qa/test_qa_journeys.py::test_recover_from_postal_code_error_and_complete_checkout` (ex-75b5494fe2e1): checkout = <conftest.Checkout object at 0x7a45a095ac90>      def test_recover_from_postal_code_error_and_complete_checkout(checkout):         page = checkout.page         checkout.open().fill_contact()              postal = page.get_by_test_id("postal-code")         continue_button = page.get_by_test_id("shipping-continue")         postal_error = page.locator("#postal-code-error")              po…
+- **FAILED** `tests/qa/test_qa_journeys.py::test_promo_apply_then_remove_restores_total` (ex-75b5494fe2e1): checkout = <conftest.Checkout object at 0x7a459fece480>      def test_promo_apply_then_remove_restores_total(checkout):         page = checkout.page         checkout.to_review(country="US", postal="94107")              total = page.get_by_test_id("total")         expect(page.get_by_test_id("subtotal")).to_have_text("$80.00")         expect(page.get_by_test_id("shipping-cost")).to_have_text("$5.00…
+- **FAILED** `tests/qa/test_qa_a11y.py::test_review_step_has_no_serious_axe_violations` (ex-ab82a6a9e35a): checkout = <conftest.Checkout object at 0x7eb7a9866930> axe_path = PosixPath('<project>/node_modules/axe-core/axe.min.js')      def test_review_step_has_no_serious_axe_violations(checkout, axe_path: Path):         checkout.to_review()         expect(checkout.page.get_by_test_id("promo-input")).to_be_visible()              violations = blocking(run_axe(checkout.p…
 
 </details>
 
@@ -147,54 +147,56 @@ discovery: done, requirements: pending, impact: pending, risk: pending, planning
 
 - Project: web-checkout · languages: Python (5), JavaScript (2), HTML (1), CSS (1)
 - Test suites: pytest: tests (3 files)
-- Platform: Linux-7.0.0-43-generic-x86_64 · Python 3.12.3 · CI: False · git HEAD `bd743a5ff3d6` dirty=False
+- Platform: Linux-7.0.0-43-generic-x86_64 · Python 3.12.3 · CI: False · git HEAD `4fb3dc41f2ff` dirty=False
 - Tools: pytest `pytest 9.0.2`
 
 ## Evidence index
 
 | Artifact | Kind | Path | sha256 | Redactions |
 |---|---|---|---|---|
-| `ev-00ba9aaef7a4` | log | [ev-00ba9aaef7a4-pytest-output.log](artifacts/ev-00ba9aaef7a4-pytest-output.log) | `00ba9aaef7a4161a` | 0 |
-| `ev-04d77f18f409` | report | [ev-04d77f18f409-pytest-report.jsonl](artifacts/ev-04d77f18f409-pytest-report.jsonl) | `04d77f18f4090b1c` | 0 |
-| `ev-0966a69f29d0` | screenshot | [ev-0966a69f29d0-http-127-0-0-1-36765.png](artifacts/ev-0966a69f29d0-http-127-0-0-1-36765.png) | `0966a69f29d025c6` | 0 |
-| `ev-0b25ae41120e` | log | [ev-0b25ae41120e-pytest-output.log](artifacts/ev-0b25ae41120e-pytest-output.log) | `0b25ae41120e40b9` | 0 |
-| `ev-0eb500a3ae05` | report | [ev-0eb500a3ae05-pytest-report.jsonl](artifacts/ev-0eb500a3ae05-pytest-report.jsonl) | `0eb500a3ae059eb4` | 0 |
-| `ev-107ba709aadb` | report | [ev-107ba709aadb-pytest-report.jsonl](artifacts/ev-107ba709aadb-pytest-report.jsonl) | `107ba709aadbb2b3` | 0 |
+| `ev-010f9dea074c` | log | [ev-010f9dea074c-pytest-output.log](artifacts/ev-010f9dea074c-pytest-output.log) | `010f9dea074c29f7` | 0 |
+| `ev-0966a69f29d0` | screenshot | [ev-0966a69f29d0-http-127-0-0-1-45691.png](artifacts/ev-0966a69f29d0-http-127-0-0-1-45691.png) | `0966a69f29d025c6` | 0 |
+| `ev-0a83fe714214` | log | [ev-0a83fe714214-pytest-output.log](artifacts/ev-0a83fe714214-pytest-output.log) | `0a83fe71421486ce` | 0 |
+| `ev-10e8143b58b9` | junit | [ev-10e8143b58b9-junit.xml](artifacts/ev-10e8143b58b9-junit.xml) | `10e8143b58b94626` | 0 |
+| `ev-130d647e6abb` | junit | [ev-130d647e6abb-junit.xml](artifacts/ev-130d647e6abb-junit.xml) | `130d647e6abb69d8` | 0 |
+| `ev-1f0428711779` | report | [ev-1f0428711779-pytest-report.jsonl](artifacts/ev-1f0428711779-pytest-report.jsonl) | `1f0428711779d24a` | 0 |
+| `ev-217ca6e4728f` | screenshot | [ev-217ca6e4728f-tests-qa-test-qa-journeys-py-test-promo-apply-then-remove-re.png](artifacts/ev-217ca6e4728f-tests-qa-test-qa-journeys-py-test-promo-apply-then-remove-re.png) | `217ca6e4728f5353` | 0 |
+| `ev-2984fcc37dc4` | report | [ev-2984fcc37dc4-axe-result.json](artifacts/ev-2984fcc37dc4-axe-result.json) | `2984fcc37dc49d85` | 0 |
+| `ev-2bc959b25f8e` | report | [ev-2bc959b25f8e-pytest-report.jsonl](artifacts/ev-2bc959b25f8e-pytest-report.jsonl) | `2bc959b25f8ee8a6` | 0 |
 | `ev-2c16b29ef450` | screenshot | [ev-2c16b29ef450-tests-qa-test-qa-a11y-py-test-review-step-has-no-serious-axe.png](artifacts/ev-2c16b29ef450-tests-qa-test-qa-a11y-py-test-review-step-has-no-serious-axe.png) | `2c16b29ef4504aa5` | 0 |
-| `ev-33071bd82af4` | report | [ev-33071bd82af4-pytest-report.jsonl](artifacts/ev-33071bd82af4-pytest-report.jsonl) | `33071bd82af46b83` | 0 |
-| `ev-35154dc25841` | report | [ev-35154dc25841-pytest-report.jsonl](artifacts/ev-35154dc25841-pytest-report.jsonl) | `35154dc258412c0c` | 0 |
-| `ev-3fc6935fd51b` | report | [ev-3fc6935fd51b-pytest-report.jsonl](artifacts/ev-3fc6935fd51b-pytest-report.jsonl) | `3fc6935fd51b349c` | 0 |
-| `ev-4065c731b7fe` | report | [ev-4065c731b7fe-pytest-report.jsonl](artifacts/ev-4065c731b7fe-pytest-report.jsonl) | `4065c731b7fe8272` | 0 |
-| `ev-54be768ddeff` | junit | [ev-54be768ddeff-junit.xml](artifacts/ev-54be768ddeff-junit.xml) | `54be768ddeff3655` | 0 |
-| `ev-55b056853a90` | report | [ev-55b056853a90-pytest-report.jsonl](artifacts/ev-55b056853a90-pytest-report.jsonl) | `55b056853a90ad2e` | 0 |
-| `ev-57bf35ddf4a1` | log | [ev-57bf35ddf4a1-pytest-output.log](artifacts/ev-57bf35ddf4a1-pytest-output.log) | `57bf35ddf4a13c0a` | 0 |
-| `ev-5f367d5ca1f7` | log | [ev-5f367d5ca1f7-pytest-output.log](artifacts/ev-5f367d5ca1f7-pytest-output.log) | `5f367d5ca1f74eba` | 0 |
-| `ev-668d890c8df4` | junit | [ev-668d890c8df4-junit.xml](artifacts/ev-668d890c8df4-junit.xml) | `668d890c8df467b2` | 0 |
-| `ev-671f202f7608` | log | [ev-671f202f7608-pytest-output.log](artifacts/ev-671f202f7608-pytest-output.log) | `671f202f7608324c` | 0 |
-| `ev-6c5de29ac8b9` | junit | [ev-6c5de29ac8b9-junit.xml](artifacts/ev-6c5de29ac8b9-junit.xml) | `6c5de29ac8b9b1a7` | 0 |
-| `ev-6e9e064d811c` | log | [ev-6e9e064d811c-axe-output.log](artifacts/ev-6e9e064d811c-axe-output.log) | `6e9e064d811c61da` | 0 |
-| `ev-73f96087608a` | log | [ev-73f96087608a-pytest-output.log](artifacts/ev-73f96087608a-pytest-output.log) | `73f96087608add30` | 0 |
-| `ev-76127979b563` | report | [ev-76127979b563-axe-result.json](artifacts/ev-76127979b563-axe-result.json) | `76127979b563c86b` | 0 |
-| `ev-7989f26f0095` | junit | [ev-7989f26f0095-junit.xml](artifacts/ev-7989f26f0095-junit.xml) | `7989f26f009552b0` | 0 |
-| `ev-7c1769b14cc2` | junit | [ev-7c1769b14cc2-junit.xml](artifacts/ev-7c1769b14cc2-junit.xml) | `7c1769b14cc2b5e5` | 0 |
-| `ev-7fae74298a08` | log | [ev-7fae74298a08-pytest-output.log](artifacts/ev-7fae74298a08-pytest-output.log) | `7fae74298a08de49` | 0 |
-| `ev-80ff8843e4bf` | log | [ev-80ff8843e4bf-pytest-output.log](artifacts/ev-80ff8843e4bf-pytest-output.log) | `80ff8843e4bf3619` | 0 |
-| `ev-8512a628cfd2` | report | [ev-8512a628cfd2-pytest-report.jsonl](artifacts/ev-8512a628cfd2-pytest-report.jsonl) | `8512a628cfd273f0` | 0 |
-| `ev-85ee711c5098` | junit | [ev-85ee711c5098-junit.xml](artifacts/ev-85ee711c5098-junit.xml) | `85ee711c5098b767` | 0 |
+| `ev-34afeef02eea` | log | [ev-34afeef02eea-pytest-output.log](artifacts/ev-34afeef02eea-pytest-output.log) | `34afeef02eea1f47` | 0 |
+| `ev-3c688c55735e` | report | [ev-3c688c55735e-pytest-report.jsonl](artifacts/ev-3c688c55735e-pytest-report.jsonl) | `3c688c55735eda61` | 0 |
+| `ev-3f3c104a1ac7` | junit | [ev-3f3c104a1ac7-junit.xml](artifacts/ev-3f3c104a1ac7-junit.xml) | `3f3c104a1ac73f98` | 0 |
+| `ev-416bc97d33ec` | log | [ev-416bc97d33ec-pytest-output.log](artifacts/ev-416bc97d33ec-pytest-output.log) | `416bc97d33ec7477` | 0 |
+| `ev-42dee9287c41` | junit | [ev-42dee9287c41-junit.xml](artifacts/ev-42dee9287c41-junit.xml) | `42dee9287c41132f` | 0 |
+| `ev-4368e01e61ca` | log | [ev-4368e01e61ca-pytest-output.log](artifacts/ev-4368e01e61ca-pytest-output.log) | `4368e01e61cadd75` | 0 |
+| `ev-47fbc48c1187` | junit | [ev-47fbc48c1187-junit.xml](artifacts/ev-47fbc48c1187-junit.xml) | `47fbc48c1187aca2` | 0 |
+| `ev-4ded86b1d3e4` | report | [ev-4ded86b1d3e4-pytest-report.jsonl](artifacts/ev-4ded86b1d3e4-pytest-report.jsonl) | `4ded86b1d3e44e7d` | 0 |
+| `ev-5007c6fb4db2` | report | [ev-5007c6fb4db2-pytest-report.jsonl](artifacts/ev-5007c6fb4db2-pytest-report.jsonl) | `5007c6fb4db28de8` | 0 |
+| `ev-5255ea626a0f` | junit | [ev-5255ea626a0f-junit.xml](artifacts/ev-5255ea626a0f-junit.xml) | `5255ea626a0fd50d` | 0 |
+| `ev-5ec3925f7d9b` | junit | [ev-5ec3925f7d9b-junit.xml](artifacts/ev-5ec3925f7d9b-junit.xml) | `5ec3925f7d9b630a` | 0 |
+| `ev-624d1b691f47` | report | [ev-624d1b691f47-pytest-report.jsonl](artifacts/ev-624d1b691f47-pytest-report.jsonl) | `624d1b691f47d0a4` | 0 |
+| `ev-645bec591d95` | log | [ev-645bec591d95-pytest-output.log](artifacts/ev-645bec591d95-pytest-output.log) | `645bec591d953eff` | 0 |
+| `ev-6476b914b3ac` | report | [ev-6476b914b3ac-pytest-report.jsonl](artifacts/ev-6476b914b3ac-pytest-report.jsonl) | `6476b914b3ac1f1c` | 0 |
+| `ev-72d67b16111f` | log | [ev-72d67b16111f-pytest-output.log](artifacts/ev-72d67b16111f-pytest-output.log) | `72d67b16111f07a9` | 0 |
+| `ev-72fa857f5db9` | log | [ev-72fa857f5db9-pytest-output.log](artifacts/ev-72fa857f5db9-pytest-output.log) | `72fa857f5db9a7d7` | 0 |
+| `ev-7a5a5825577c` | report | [ev-7a5a5825577c-pytest-report.jsonl](artifacts/ev-7a5a5825577c-pytest-report.jsonl) | `7a5a5825577cf2d2` | 0 |
+| `ev-7db945a62325` | junit | [ev-7db945a62325-junit.xml](artifacts/ev-7db945a62325-junit.xml) | `7db945a623253a8b` | 0 |
 | `ev-8679a631d61a` | screenshot | [ev-8679a631d61a-tests-qa-test-qa-journeys-py-test-recover-from-postal-code-e.png](artifacts/ev-8679a631d61a-tests-qa-test-qa-journeys-py-test-recover-from-postal-code-e.png) | `8679a631d61a36cc` | 0 |
-| `ev-924942cc2ffd` | junit | [ev-924942cc2ffd-junit.xml](artifacts/ev-924942cc2ffd-junit.xml) | `924942cc2ffdb26b` | 0 |
-| `ev-a9655cc7cb80` | junit | [ev-a9655cc7cb80-junit.xml](artifacts/ev-a9655cc7cb80-junit.xml) | `a9655cc7cb8091d5` | 0 |
-| `ev-ad9de0de881e` | log | [ev-ad9de0de881e-pytest-output.log](artifacts/ev-ad9de0de881e-pytest-output.log) | `ad9de0de881ee0bb` | 0 |
-| `ev-b31fb1a3cdbe` | report | [ev-b31fb1a3cdbe-pytest-report.jsonl](artifacts/ev-b31fb1a3cdbe-pytest-report.jsonl) | `b31fb1a3cdbef192` | 0 |
-| `ev-b7c83382bd65` | log | [ev-b7c83382bd65-pytest-output.log](artifacts/ev-b7c83382bd65-pytest-output.log) | `b7c83382bd65b134` | 0 |
-| `ev-b8a29234f630` | junit | [ev-b8a29234f630-junit.xml](artifacts/ev-b8a29234f630-junit.xml) | `b8a29234f630dd56` | 0 |
-| `ev-bda98dc10bc1` | junit | [ev-bda98dc10bc1-junit.xml](artifacts/ev-bda98dc10bc1-junit.xml) | `bda98dc10bc127ab` | 0 |
-| `ev-d02254f24b58` | report | [ev-d02254f24b58-pytest-report.jsonl](artifacts/ev-d02254f24b58-pytest-report.jsonl) | `d02254f24b58169f` | 0 |
+| `ev-8751660e89aa` | report | [ev-8751660e89aa-pytest-report.jsonl](artifacts/ev-8751660e89aa-pytest-report.jsonl) | `8751660e89aa6bd5` | 0 |
+| `ev-8cd182346c7e` | report | [ev-8cd182346c7e-pytest-report.jsonl](artifacts/ev-8cd182346c7e-pytest-report.jsonl) | `8cd182346c7e82e2` | 0 |
+| `ev-9823c2151ec7` | log | [ev-9823c2151ec7-pytest-output.log](artifacts/ev-9823c2151ec7-pytest-output.log) | `9823c2151ec7594e` | 0 |
+| `ev-a6b0b57251ef` | junit | [ev-a6b0b57251ef-junit.xml](artifacts/ev-a6b0b57251ef-junit.xml) | `a6b0b57251ef79ec` | 0 |
+| `ev-afe64e85169a` | report | [ev-afe64e85169a-pytest-report.jsonl](artifacts/ev-afe64e85169a-pytest-report.jsonl) | `afe64e85169a7e67` | 0 |
+| `ev-bc873b8a8f97` | log | [ev-bc873b8a8f97-axe-output.log](artifacts/ev-bc873b8a8f97-axe-output.log) | `bc873b8a8f978846` | 0 |
+| `ev-c4406964033d` | junit | [ev-c4406964033d-junit.xml](artifacts/ev-c4406964033d-junit.xml) | `c4406964033da1fd` | 0 |
+| `ev-c57c9c806572` | log | [ev-c57c9c806572-pytest-output.log](artifacts/ev-c57c9c806572-pytest-output.log) | `c57c9c8065728e7c` | 0 |
+| `ev-cac0a1fe0186` | report | [ev-cac0a1fe0186-pytest-report.jsonl](artifacts/ev-cac0a1fe0186-pytest-report.jsonl) | `cac0a1fe01863bef` | 0 |
+| `ev-cc46d26ef7ce` | screenshot | [ev-cc46d26ef7ce-tests-qa-test-qa-a11y-py-test-review-step-has-no-serious-axe.png](artifacts/ev-cc46d26ef7ce-tests-qa-test-qa-a11y-py-test-review-step-has-no-serious-axe.png) | `cc46d26ef7ce2703` | 0 |
+| `ev-cc7ee25222f2` | junit | [ev-cc7ee25222f2-junit.xml](artifacts/ev-cc7ee25222f2-junit.xml) | `cc7ee25222f2188f` | 0 |
 | `ev-d18f94779aae` | screenshot | [ev-d18f94779aae-tests-qa-test-qa-journeys-py-test-promo-apply-then-remove-re.png](artifacts/ev-d18f94779aae-tests-qa-test-qa-journeys-py-test-promo-apply-then-remove-re.png) | `d18f94779aae9e8e` | 0 |
-| `ev-d30983f5dc76` | log | [ev-d30983f5dc76-pytest-output.log](artifacts/ev-d30983f5dc76-pytest-output.log) | `d30983f5dc763748` | 0 |
-| `ev-e15136746132` | junit | [ev-e15136746132-junit.xml](artifacts/ev-e15136746132-junit.xml) | `e151367461320fb3` | 0 |
-| `ev-ef60adc1cf1d` | junit | [ev-ef60adc1cf1d-junit.xml](artifacts/ev-ef60adc1cf1d-junit.xml) | `ef60adc1cf1d264e` | 0 |
-| `ev-f29ba7dcf39f` | report | [ev-f29ba7dcf39f-pytest-report.jsonl](artifacts/ev-f29ba7dcf39f-pytest-report.jsonl) | `f29ba7dcf39f118c` | 0 |
-| `ev-f662b84160a1` | log | [ev-f662b84160a1-pytest-output.log](artifacts/ev-f662b84160a1-pytest-output.log) | `f662b84160a1360e` | 0 |
+| `ev-e4f92950d29f` | log | [ev-e4f92950d29f-pytest-output.log](artifacts/ev-e4f92950d29f-pytest-output.log) | `e4f92950d29f1dfc` | 0 |
+| `ev-fa62f86e0d31` | junit | [ev-fa62f86e0d31-junit.xml](artifacts/ev-fa62f86e0d31-junit.xml) | `fa62f86e0d31152f` | 0 |
+| `ev-fd335953b385` | log | [ev-fd335953b385-pytest-output.log](artifacts/ev-fd335953b385-pytest-output.log) | `fd335953b3859502` | 0 |
 
 _Generated by QA Superteam from recorded evidence. Statuses are normalized tool results; finding statuses are derived from reproduction and verification records; the decision is computed by the deterministic policy engine._

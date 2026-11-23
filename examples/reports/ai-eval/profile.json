@@ -1,10 +1,10 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-11-23T13:48:23Z",
+  "generated_at": "2026-11-23T14:28:57Z",
   "project_name": "ai-support-bot",
   "git": {
     "is_repo": true,
-    "head": "22e5d49b81fda66f99b258dd4e5ebb27ae2da276",
+    "head": "5ca24955136b8f4db00b2d9feb1c99d0d176730f",
     "branch": "main",
     "dirty": false
   },
@@ -55,7 +55,8 @@
         "--group",
         "existing-suite",
         "--",
-        "tests"
+        "tests",
+        "--ignore=tests/qa"
       ],
       "basis": "observed",
       "confidence": "high"

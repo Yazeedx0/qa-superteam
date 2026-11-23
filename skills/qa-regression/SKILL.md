@@ -1,6 +1,6 @@
 ---
 name: qa-regression
-description: Use when a change, branch, pull request or fix needs regression testing - selecting tests from the git diff with qast impact, from earlier runs' failing tests and findings, and from confirmed-bug regression tests, always running the mandatory existing suite, comparing per-test results between runs, and preserving durable regression tests for confirmed defects (red now, green after the fix) without weakening or quarantining anything automatically. Used by the regression workflow and the regression phase of other workflows. Not for designing tests for new features, hunting for new bugs, or root-causing a failure.
+description: Use when selecting or running regression tests - chooses tests from the git diff and failure history, runs the mandatory suite, compares with earlier runs, and preserves regression tests for confirmed defects.
 ---
 
 # Regression testing

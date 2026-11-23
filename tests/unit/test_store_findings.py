@@ -10,10 +10,10 @@ S, FS = m.Status, m.FindingStatus
 ENV = m.EnvironmentInfo(platform="t", python="3", hostname_hash="h")
 
 
-def execution(store, ident, status, repro=None, eid=None):
+def execution(store, ident, status, repro=None, eid=None, actor=None, started="2026-01-01T00:00:00Z"):
     eid = eid or store.execution_id("pytest", ident + str(store.next_sequence("executions")))
     e = m.TestExecution(
-        id=eid, run_id=store.run_id, adapter="pytest", status=status, started_at="t", finished_at="t", duration_s=0.1,
+        id=eid, run_id=store.run_id, adapter="pytest", status=status, started_at=started, finished_at=started, duration_s=0.1, actor=actor,
         command=["pytest", ident], cwd=".", exit_code=0 if status == S.PASSED else 1, timed_out=False,
         counts={status.value: 1}, results=[m.TestResult(id="tr-" + eid, identifier=ident, status=status)],
         environment=ENV, reproduction_of=repro,
@@ -25,7 +25,7 @@ def execution(store, ident, status, repro=None, eid=None):
 def add_finding(store, ex_ids, ev_ids, tests=("tests/t.py::test_x",), reporter="backend-qa-engineer", sev="high"):
     f = m.DefectFinding(
         id=store.finding_id("bug", [], list(tests)), title="bug", category=m.Category.SECURITY, severity=m.Severity(sev),
-        summary="s", expected="403", actual="200", reproduction_steps=["call"], reported_by=reporter, created_at="t",
+        summary="s", expected="403", actual="200", reproduction_steps=["call"], reported_by=reporter, created_at="2026-01-01T00:00:00Z",
         execution_ids=list(ex_ids), evidence_ids=list(ev_ids), test_identifiers=list(tests),
     )
     store.save_finding(f)
@@ -116,22 +116,22 @@ def test_intermittent_reproduction_makes_finding_inconclusive(store):
     assert effective_status(f, [], EvidenceIndex.build(store))[0] == FS.INCONCLUSIVE
 
 
-def _gate(store, f, verifier, method, ex_ids, verifier_tests=()):
-    checks = verification_checks(f, m.Verdict.CONFIRMED, verifier, method, ex_ids, [], EvidenceIndex.build(store), list(verifier_tests))
+def _gate(store, f, verifier, method, ex_ids, verifier_tests=(), verdict=m.Verdict.CONFIRMED):
+    checks = verification_checks(f, verdict, verifier, method, ex_ids, [], EvidenceIndex.build(store), list(verifier_tests), store.verifications())
     return {c.check: c.passed for c in checks}
 
 
 def test_reporter_cannot_confirm_own_finding(store):
     e = execution(store, "tests/t.py::test_x", S.FAILED)
     f = add_finding(store, [e.id], [])
-    own = execution(store, "tests/t.py::test_x", S.FAILED)
+    own = execution(store, "tests/t.py::test_x", S.FAILED, actor="backend-qa-engineer")
     assert _gate(store, f, "backend-qa-engineer", "independent-rerun", [own.id])["independent verifier"] is False
 
 
 def test_code_inspection_cannot_confirm(store):
     e = execution(store, "tests/t.py::test_x", S.FAILED)
     f = add_finding(store, [e.id], [])
-    own = execution(store, "tests/t.py::test_x", S.FAILED)
+    own = execution(store, "tests/t.py::test_x", S.FAILED, actor="verifier")
     assert _gate(store, f, "verifier", "code-inspection", [own.id])["execution-based method"] is False
 
 
@@ -139,16 +139,20 @@ def test_confirm_needs_verifier_owned_failing_execution(store):
     e = execution(store, "tests/t.py::test_x", S.FAILED)
     f = add_finding(store, [e.id], [])
     assert _gate(store, f, "verifier", "independent-rerun", [e.id])["verifier ran own execution"] is False
-    passing = execution(store, "tests/t.py::test_x", S.PASSED)
+    passing = execution(store, "tests/t.py::test_x", S.PASSED, actor="verifier")
     assert _gate(store, f, "verifier", "independent-rerun", [passing.id])["failing evidence"] is False
-    failing = execution(store, "tests/t.py::test_x", S.FAILED)
+    borrowed = execution(store, "tests/t.py::test_x", S.FAILED, actor="backend-qa-engineer")  # reporter's rerun under a borrowed name
+    assert _gate(store, f, "verifier", "independent-rerun", [borrowed.id])["verifier ran own execution"] is False
+    early = execution(store, "tests/t.py::test_x", S.FAILED, actor="verifier", started="2025-12-31T23:59:00Z")  # before the finding existed
+    assert _gate(store, f, "verifier", "independent-rerun", [early.id])["verifier ran own execution"] is False
+    failing = execution(store, "tests/t.py::test_x", S.FAILED, actor="verifier")
     assert all(_gate(store, f, "verifier", "independent-rerun", [failing.id]).values())
 
 
 def test_alternate_oracle_uses_verifier_tests(store):
     e = execution(store, "tests/t.py::test_x", S.FAILED)
     f = add_finding(store, [e.id], [])
-    alt = execution(store, "tests/qa/test_alt.py::test_property", S.FAILED)
+    alt = execution(store, "tests/qa/test_alt.py::test_property", S.FAILED, actor="verifier")
     assert _gate(store, f, "verifier", "alternate-oracle", [alt.id])["failing evidence"] is False
     assert all(_gate(store, f, "verifier", "alternate-oracle", [alt.id], ["tests/qa/test_alt.py::test_property"]).values())
 
@@ -170,3 +174,44 @@ def test_confirmed_with_tampered_evidence_degrades_to_inconclusive(store):
     (store.dir / art.path).write_text("edited")
     view = finding_views(store)[0]
     assert view.effective_status == FS.INCONCLUSIVE and view.integrity_problems
+
+
+def test_finding_without_tests_needs_verifier_test(store):
+    e = execution(store, "tests/t.py::test_x", S.FAILED)
+    f = add_finding(store, [e.id], [], tests=())
+    own = execution(store, "tests/t.py::test_x", S.FAILED, actor="verifier")
+    g = _gate(store, f, "verifier", "independent-rerun", [own.id])
+    assert g["tests identified"] is False and g["failing evidence"] is False
+
+
+def test_reporter_cannot_reject_or_downgrade_own_finding(store):
+    e = execution(store, "tests/t.py::test_x", S.FAILED)
+    f = add_finding(store, [e.id], [])
+    for verdict in (m.Verdict.REJECTED, m.Verdict.INCONCLUSIVE):
+        assert _gate(store, f, "backend-qa-engineer", "manual", [], verdict=verdict)["independent verifier"] is False
+
+
+def _confirm(store, f):
+    own = execution(store, "tests/t.py::test_x", S.FAILED, actor="verifier")
+    store.save_verification(m.VerificationResult(id="V-1", finding_id=f.id, verdict=m.Verdict.CONFIRMED, method="independent-rerun",
+                                                 verifier="verifier", rationale="r", created_at="t", execution_ids=[own.id]))
+
+
+def test_overturning_confirmed_needs_passing_execution(store):
+    e = execution(store, "tests/t.py::test_x", S.FAILED)
+    f = add_finding(store, [e.id], [])
+    _confirm(store, f)
+    g = _gate(store, f, "second-verifier", "manual", [], verdict=m.Verdict.REJECTED)
+    assert g["overturning CONFIRMED needs executed evidence"] is False
+    ok = execution(store, "tests/t.py::test_x", S.PASSED, actor="second-verifier")
+    assert all(_gate(store, f, "second-verifier", "independent-rerun", [ok.id], verdict=m.Verdict.REJECTED).values())
+
+
+def test_conflicting_verdicts_need_human_review(store):
+    e = execution(store, "tests/t.py::test_x", S.FAILED)
+    f = add_finding(store, [e.id], [])
+    _confirm(store, f)
+    store.save_verification(m.VerificationResult(id="V-2", finding_id=f.id, verdict=m.Verdict.REJECTED, method="independent-rerun",
+                                                 verifier="other", rationale="passes now", created_at="t"))
+    view = finding_views(store)[0]
+    assert view.effective_status == FS.INCONCLUSIVE and "conflicting" in view.status_basis

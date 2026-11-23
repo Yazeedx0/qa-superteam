@@ -1,0 +1,31 @@
+$ python3 -m pytest tests/qa/test_qa_authz.py::test_outsider_cannot_read_transfer -p qa_superteam.pytest_reporter -p no:cacheprovider -q -rN --junitxml <project>/.qa-superteam/runs/20261123-142737-full-audit-e4dc/work/ex-fc9e7cd015ae/junit.xml
+[exit_code=1 timed_out=False duration=0.665s]
+--- stdout ---
+F                                                                        [100%]
+=================================== FAILURES ===================================
+______________________ test_outsider_cannot_read_transfer ______________________
+
+client = <starlette.testclient.TestClient object at 0x7df98be37e00>
+new_user = <function new_user.<locals>._new at 0x7df98be7b560>
+
+    def test_outsider_cannot_read_transfer(client, new_user):
+        alice = new_user(balance=10_000)
+        bob = new_user()
+        mallory = new_user()
+        transfer = _send(client, alice, bob, 4_200, memo="rent for March")
+    
+        r = client.get(f"/transfers/{transfer['id']}", headers=mallory.headers)
+    
+>       assert r.status_code in (403, 404), (
+            f"user C (not sender or recipient) could read transfer {transfer['id']} between "
+            f"A and B: GET /transfers/{{id}} returned {r.status_code} {r.text}"
+        )
+E       AssertionError: user C (not sender or recipient) could read transfer 1 between A and B: GET /transfers/{id} returned 200 {"id":1,"from_wallet_id":2,"to_wallet_id":3,"amount_cents":4200,"fee_cents":42,"memo":"rent for March","created_at":"2026-11-23T14:27:44+00:00"}
+E       assert 200 in (403, 404)
+E        +  where 200 = <Response [200 OK]>.status_code
+
+tests/qa/test_qa_authz.py:24: AssertionError
+1 failed in 0.11s
+
+--- stderr ---
+

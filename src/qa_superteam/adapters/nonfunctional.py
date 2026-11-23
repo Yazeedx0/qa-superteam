@@ -239,7 +239,9 @@ def run_ai_eval(req: AdapterRequest) -> m.TestExecution:
             extra.append(("ai-eval-summary.json", summ, m.ArtifactKind.REPORT, "AI eval aggregate metrics"))
         return Parsed(results=results, extra_artifacts=extra)
 
-    return execute(req, "ai-eval", argv, parse, env={"PYTHONPATH": plugin_pythonpath([str(req.cwd)])}, ex_id=ex_id)
+    # cwd first (e.g. a probe adapter module), then the project root so the system under test stays importable
+    paths = list(dict.fromkeys([str(req.cwd), str(req.config.project_root)]))
+    return execute(req, "ai-eval", argv, parse, env={"PYTHONPATH": plugin_pythonpath(paths)}, ex_id=ex_id)
 
 
 __all__ = ["run_k6", "run_axe", "run_ai_eval", "parse_k6_summary", "parse_axe_result", "BlockedError"]

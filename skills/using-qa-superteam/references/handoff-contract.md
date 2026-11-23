@@ -15,6 +15,9 @@ BUDGET: <max turns or minutes>; stop when <condition>
 REPORTER NAME: qa-superteam:<agent>   (use as reported_by in findings)
 ```
 
+Specialists pass `--actor <REPORTER NAME>` to every `qast exec` and `qast reproduce`, so each
+execution is attributed; `qast verify` only accepts a verifier's own attributed executions.
+
 Include the facts the specialist needs (from `profile.json`, `requirements.json`,
 `plan.json`); do not paste whole files. Never paste secrets.
 

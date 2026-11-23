@@ -1,6 +1,6 @@
 ---
 name: qa-security
-description: Use when testing or reviewing the security of an application, API, pull request or AI feature - authentication, authorization (IDOR/BOLA, BFLA, mass assignment), sessions, CSRF and cookie flags, injection and input validation, sensitive data exposure, tenant isolation, vulnerable dependencies, leaked secrets, static analysis, and prompt injection or tool misuse in LLM features. Treats scanner output (bandit, semgrep, pip-audit, npm-audit, gitleaks) as candidates to triage and proves exploitability only with executed tests against a local or authorized instance. Declines penetration testing of production or third-party systems.
+description: Use when testing or reviewing security - OWASP web/API/LLM risks, authn/authz and tenant isolation, sessions and cookies, injection, secrets and dependency scanning; scanner hits are triaged and confirmed by executed tests, active probing only when authorized.
 ---
 
 # Security QA
@@ -98,9 +98,10 @@ use it only if the user agrees.
 - Every scanner candidate has a triage outcome. Above 50 candidates: triage all high/critical
   ones and the top rule ids, then record the rest as a limitation.
 - At most 10 deep investigations and one `qast reproduce` per candidate. No retry loops.
-- `write_tests = false`: put each proof test (code + oracle) in the plan as `origin: "proposed"`,
-  record a limitation, and stop. A finding without an executed proof stays SUSPECTED and the
-  summary labels it unverified.
+- `write_tests = false`: write each proof test as a self-contained probe in `<run dir>/probes/`
+  (in-process only unless `allow_active_security` and an authorized target), execute it, and put
+  the durable version in the plan as `origin: "proposed"`. A finding without an executed proof
+  stays SUSPECTED and the summary labels it unverified.
 
 ## Safety
 

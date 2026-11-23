@@ -1,6 +1,6 @@
 ---
 name: qa-ai-systems
-description: Use when evaluating an LLM application, RAG pipeline, agent, tool-calling or multi-agent system, conversational memory, or streaming/realtime AI feature - answer correctness, groundedness and citations, retrieval relevance, tool-call and trajectory correctness, hallucination, multi-turn consistency, instruction adherence, prompt injection and tool misuse, latency and token cost - or when a prompt, model, retriever or eval dataset changes. Builds golden JSONL datasets with deterministic oracles run through qast exec ai-eval, uses model-based judges only when calibrated against human labels, and never treats a judge as ground truth.
+description: Use when evaluating LLM, RAG, agent or tool-calling systems - golden datasets with deterministic checks for correctness, groundedness, retrieval, tool-call arguments, injection and cost; model judges only as a calibrated complement.
 ---
 
 # AI system QA

@@ -1,9 +1,9 @@
 {
   "schema_version": "1.0",
   "run": {
-    "run_id": "20261123-134718-review-pr-f8e8",
+    "run_id": "20261123-142751-review-pr-0389",
     "mode": "review-pr",
-    "created_at": "2026-11-23T13:47:18Z",
+    "created_at": "2026-11-23T14:27:51Z",
     "scope": "PR: refactor transfer funds check",
     "base_ref": "main",
     "head_ref": null,
@@ -14,11 +14,11 @@
       "hostname_hash": "a005a3344252",
       "tool_versions": {},
       "ci": false,
-      "git_head": "916b64eadacc9086a96234fe746f3b9371b05100",
+      "git_head": "8d087222b8ad378b8674f06d4b7c6ffa17afdc74",
       "git_dirty": false
     }
   },
-  "generated_at": "2026-11-23T13:47:24Z",
+  "generated_at": "2026-11-23T14:27:57Z",
   "decision": {
     "decision": "BLOCK",
     "policy": {
@@ -46,9 +46,9 @@
         "rule_id": "R-CONFIRMED-BLOCKING",
         "outcome": "BLOCK",
         "triggered": true,
-        "reason": "F-0aff696c [critical data-integrity] PR lets the fee overdraw a wallet (regression)",
+        "reason": "F-0a2853f7 [critical data-integrity] PR lets the fee overdraw a wallet (regression)",
         "refs": [
-          "F-0aff696c"
+          "F-0a2853f7"
         ]
       },
       {
@@ -96,18 +96,18 @@
         "refs": []
       }
     ],
-    "evaluated_at": "2026-11-23T13:47:24Z",
-    "inputs_digest": "cb490e2c44f69a6b7f960513c095c31518c25f90b22b52b5cfac114c9db47b4a",
+    "evaluated_at": "2026-11-23T14:27:57Z",
+    "inputs_digest": "7525940bbd91c5a36cb4f172cf4f99b0ecabcfcfffec14065006105a052725cb",
     "summary": "BLOCK: R-CONFIRMED-BLOCKING, R-MANDATORY-GROUP:existing-suite"
   },
   "executions": [
     {
-      "id": "ex-5b9f57eae147",
-      "run_id": "20261123-134718-review-pr-f8e8",
+      "id": "ex-82ebc9264c73",
+      "run_id": "20261123-142751-review-pr-0389",
       "adapter": "pytest",
       "status": "PASSED",
-      "started_at": "2026-11-23T13:47:18Z",
-      "finished_at": "2026-11-23T13:47:19Z",
+      "started_at": "2026-11-23T14:27:52Z",
+      "finished_at": "2026-11-23T14:27:53Z",
       "duration_s": 1.017,
       "command": [
         "python3",
@@ -121,7 +121,7 @@
         "-q",
         "-rN",
         "--junitxml",
-        "<project>/.qa-superteam/runs/20261123-134718-review-pr-f8e8/work/ex-5b9f57eae147/junit.xml"
+        "<project>/.qa-superteam/runs/20261123-142751-review-pr-0389/work/ex-82ebc9264c73/junit.xml"
       ],
       "cwd": ".",
       "exit_code": 0,
@@ -141,7 +141,7 @@
           "identifier": "tests/test_auth.py::test_register_creates_user_with_empty_wallet",
           "status": "PASSED",
           "name": "test_register_creates_user_with_empty_wallet",
-          "duration_s": 0.0251,
+          "duration_s": 0.031,
           "message": null,
           "file": "tests/test_auth.py",
           "line": 4,
@@ -155,7 +155,7 @@
           "identifier": "tests/test_auth.py::test_register_duplicate_email_conflict",
           "status": "PASSED",
           "name": "test_register_duplicate_email_conflict",
-          "duration_s": 0.0211,
+          "duration_s": 0.0217,
           "message": null,
           "file": "tests/test_auth.py",
           "line": 17,
@@ -169,7 +169,7 @@
           "identifier": "tests/test_auth.py::test_login_wrong_password_is_rejected",
           "status": "PASSED",
           "name": "test_login_wrong_password_is_rejected",
-          "duration_s": 0.0222,
+          "duration_s": 0.0231,
           "message": null,
           "file": "tests/test_auth.py",
           "line": 23,
@@ -183,7 +183,7 @@
           "identifier": "tests/test_auth.py::test_endpoints_require_token",
           "status": "PASSED",
           "name": "test_endpoints_require_token",
-          "duration_s": 0.0208,
+          "duration_s": 0.0155,
           "message": null,
           "file": "tests/test_auth.py",
           "line": 29,
@@ -197,7 +197,7 @@
           "identifier": "tests/test_transfers.py::test_transfer_moves_money_and_charges_fee",
           "status": "PASSED",
           "name": "test_transfer_moves_money_and_charges_fee",
-          "duration_s": 0.0407,
+          "duration_s": 0.0396,
           "message": null,
           "file": "tests/test_transfers.py",
           "line": 8,
@@ -211,7 +211,7 @@
           "identifier": "tests/test_transfers.py::test_transfer_with_insufficient_funds_is_rejected",
           "status": "PASSED",
           "name": "test_transfer_with_insufficient_funds_is_rejected",
-          "duration_s": 0.041,
+          "duration_s": 0.0305,
           "message": null,
           "file": "tests/test_transfers.py",
           "line": 29,
@@ -225,7 +225,7 @@
           "identifier": "tests/test_transfers.py::test_list_transfers_shows_sent_and_received",
           "status": "PASSED",
           "name": "test_list_transfers_shows_sent_and_received",
-          "duration_s": 0.0532,
+          "duration_s": 0.0492,
           "message": null,
           "file": "tests/test_transfers.py",
           "line": 39,
@@ -239,7 +239,7 @@
           "identifier": "tests/test_transfers.py::test_get_transfer_by_id",
           "status": "PASSED",
           "name": "test_get_transfer_by_id",
-          "duration_s": 0.0354,
+          "duration_s": 0.0435,
           "message": null,
           "file": "tests/test_transfers.py",
           "line": 53,
@@ -253,7 +253,7 @@
           "identifier": "tests/test_transfers.py::test_idempotent_retry_does_not_charge_twice",
           "status": "PASSED",
           "name": "test_idempotent_retry_does_not_charge_twice",
-          "duration_s": 0.0395,
+          "duration_s": 0.0376,
           "message": null,
           "file": "tests/test_transfers.py",
           "line": 65,
@@ -281,7 +281,7 @@
           "identifier": "tests/test_wallets.py::test_deposit_increases_balance",
           "status": "PASSED",
           "name": "test_deposit_increases_balance",
-          "duration_s": 0.0328,
+          "duration_s": 0.0317,
           "message": null,
           "file": "tests/test_wallets.py",
           "line": 1,
@@ -295,7 +295,7 @@
           "identifier": "tests/test_wallets.py::test_deposit_must_be_positive",
           "status": "PASSED",
           "name": "test_deposit_must_be_positive",
-          "duration_s": 0.0385,
+          "duration_s": 0.0403,
           "message": null,
           "file": "tests/test_wallets.py",
           "line": 11,
@@ -309,7 +309,7 @@
           "identifier": "tests/test_wallets.py::test_owner_can_read_wallet_by_id",
           "status": "PASSED",
           "name": "test_owner_can_read_wallet_by_id",
-          "duration_s": 0.0391,
+          "duration_s": 0.0248,
           "message": null,
           "file": "tests/test_wallets.py",
           "line": 17,
@@ -323,7 +323,7 @@
           "identifier": "tests/test_wallets.py::test_cannot_read_someone_elses_wallet",
           "status": "PASSED",
           "name": "test_cannot_read_someone_elses_wallet",
-          "duration_s": 0.0417,
+          "duration_s": 0.0322,
           "message": null,
           "file": "tests/test_wallets.py",
           "line": 24,
@@ -341,7 +341,7 @@
           "pytest": "pytest 9.0.2"
         },
         "ci": false,
-        "git_head": "916b64eadacc9086a96234fe746f3b9371b05100",
+        "git_head": "8d087222b8ad378b8674f06d4b7c6ffa17afdc74",
         "git_dirty": false
       },
       "groups": [
@@ -350,21 +350,22 @@
       "label": "existing suite",
       "status_reason": null,
       "artifact_ids": [
-        "ev-fbce58e71906",
-        "ev-42ccfd72059e",
-        "ev-d1c538b207bb"
+        "ev-f34fd7d1c3c1",
+        "ev-5dbc6b8cf73d",
+        "ev-3e77f50574ae"
       ],
       "attempt": 1,
-      "reproduction_of": null
+      "reproduction_of": null,
+      "actor": null
     },
     {
-      "id": "ex-5d6d21b7ed4d",
-      "run_id": "20261123-134718-review-pr-f8e8",
+      "id": "ex-e27d18d18c61",
+      "run_id": "20261123-142751-review-pr-0389",
       "adapter": "pytest",
       "status": "FAILED",
-      "started_at": "2026-11-23T13:47:20Z",
-      "finished_at": "2026-11-23T13:47:21Z",
-      "duration_s": 1.467,
+      "started_at": "2026-11-23T14:27:53Z",
+      "finished_at": "2026-11-23T14:27:55Z",
+      "duration_s": 1.418,
       "command": [
         "python3",
         "-m",
@@ -377,7 +378,7 @@
         "-q",
         "-rN",
         "--junitxml",
-        "<project>/.qa-superteam/runs/20261123-134718-review-pr-f8e8/work/ex-5d6d21b7ed4d/junit.xml"
+        "<project>/.qa-superteam/runs/20261123-142751-review-pr-0389/work/ex-e27d18d18c61/junit.xml"
       ],
       "cwd": ".",
       "exit_code": 1,
@@ -397,8 +398,8 @@
           "identifier": "tests/qa/test_qa_invariants.py::test_transfer_of_entire_balance_rejected_when_fee_not_covered",
           "status": "FAILED",
           "name": "test_transfer_of_entire_balance_rejected_when_fee_not_covered",
-          "duration_s": 0.0404,
-          "message": "client = <starlette.testclient.TestClient object at 0x7baa72709b20>\nnew_user = <function new_user.<locals>._new at 0x7baa727140e0>\nbalance_of = <function balance_of.<locals>.<lambda> at 0x7baa72714180>\n\n    def test_transfer_of_entire_balance_rejected_when_fee_not_covered(client, new_user, balance_of):\n        alice = new_user(balance=1_000)\n        bob = new_user()\n    \n        r = _transfer(client, alice, bob.wallet_id, 1_000)  # fee 10 -> needs 1010\n    \n        after = balance_of(alice)\n>       assert r.status_code == 422 and after == 1_000, (\n            \"transfer of the entire balance must be rejected because amount + fee (1010) exceeds \"\n            f\"the balance (1000); got status {r.status_code} and sender balance {after}\"\n        )\nE       AssertionError: transfer of the entire balance must be rejected because amount + fee (1010) exceeds the balance (1000); got status 201 and sender balance -10\nE       assert (201 == 422)\nE        +  where 201 = <Response [201 Created]>.status_code\n\ntests/qa/test_qa_invariants.py:25: AssertionError",
+          "duration_s": 0.0462,
+          "message": "client = <starlette.testclient.TestClient object at 0x75d1883f5c10>\nnew_user = <function new_user.<locals>._new at 0x75d1883a40e0>\nbalance_of = <function balance_of.<locals>.<lambda> at 0x75d1883a4220>\n\n    def test_transfer_of_entire_balance_rejected_when_fee_not_covered(client, new_user, balance_of):\n        alice = new_user(balance=1_000)\n        bob = new_user()\n    \n        r = _transfer(client, alice, bob.wallet_id, 1_000)  # fee 10 -> needs 1010\n    \n        after = balance_of(alice)\n>       assert r.status_code == 422 and after == 1_000, (\n            \"transfer of the entire balance must be rejected because amount + fee (1010) exceeds \"\n            f\"the balance (1000); got status {r.status_code} and sender balance {after}\"\n        )\nE       AssertionError: transfer of the entire balance must be rejected because amount + fee (1010) exceeds the balance (1000); got status 201 and sender balance -10\nE       assert (201 == 422)\nE        +  where 201 = <Response [201 Created]>.status_code\n\ntests/qa/test_qa_invariants.py:25: AssertionError",
           "file": "tests/qa/test_qa_invariants.py",
           "line": 18,
           "groups": [
@@ -411,8 +412,8 @@
           "identifier": "tests/qa/test_qa_invariants.py::test_balance_never_negative_when_fee_exceeds_remaining_funds",
           "status": "FAILED",
           "name": "test_balance_never_negative_when_fee_exceeds_remaining_funds",
-          "duration_s": 0.0293,
-          "message": "client = <starlette.testclient.TestClient object at 0x7baa72703fb0>\nnew_user = <function new_user.<locals>._new at 0x7baa72717d80>\nbalance_of = <function balance_of.<locals>.<lambda> at 0x7baa72717ec0>\n\n    def test_balance_never_negative_when_fee_exceeds_remaining_funds(client, new_user, balance_of):\n        alice = new_user(balance=1_000)\n        bob = new_user()\n    \n        _transfer(client, alice, bob.wallet_id, 995)  # fee 10 -> needs 1005\n    \n        after = balance_of(alice)\n>       assert after >= 0, f\"sender balance went negative ({after}) after paying amount + fee\"\nE       AssertionError: sender balance went negative (-5) after paying amount + fee\nE       assert -5 >= 0\n\ntests/qa/test_qa_invariants.py:38: AssertionError",
+          "duration_s": 0.0382,
+          "message": "client = <starlette.testclient.TestClient object at 0x75d1883704a0>\nnew_user = <function new_user.<locals>._new at 0x75d1883a7d80>\nbalance_of = <function balance_of.<locals>.<lambda> at 0x75d1883a7ec0>\n\n    def test_balance_never_negative_when_fee_exceeds_remaining_funds(client, new_user, balance_of):\n        alice = new_user(balance=1_000)\n        bob = new_user()\n    \n        _transfer(client, alice, bob.wallet_id, 995)  # fee 10 -> needs 1005\n    \n        after = balance_of(alice)\n>       assert after >= 0, f\"sender balance went negative ({after}) after paying amount + fee\"\nE       AssertionError: sender balance went negative (-5) after paying amount + fee\nE       assert -5 >= 0\n\ntests/qa/test_qa_invariants.py:38: AssertionError",
           "file": "tests/qa/test_qa_invariants.py",
           "line": 31,
           "groups": [
@@ -425,7 +426,7 @@
           "identifier": "tests/qa/test_qa_invariants.py::test_transfer_of_balance_minus_fee_succeeds",
           "status": "PASSED",
           "name": "test_transfer_of_balance_minus_fee_succeeds",
-          "duration_s": 0.0279,
+          "duration_s": 0.0343,
           "message": null,
           "file": "tests/qa/test_qa_invariants.py",
           "line": 41,
@@ -439,7 +440,7 @@
           "identifier": "tests/qa/test_qa_invariants.py::test_amount_above_balance_rejected",
           "status": "PASSED",
           "name": "test_amount_above_balance_rejected",
-          "duration_s": 0.0365,
+          "duration_s": 0.0327,
           "message": null,
           "file": "tests/qa/test_qa_invariants.py",
           "line": 53,
@@ -453,7 +454,7 @@
           "identifier": "tests/qa/test_qa_invariants.py::test_fee_is_one_percent_rounded_up_min_one_cent[1-1]",
           "status": "PASSED",
           "name": "test_fee_is_one_percent_rounded_up_min_one_cent[1-1]",
-          "duration_s": 0.0312,
+          "duration_s": 0.0394,
           "message": null,
           "file": "tests/qa/test_qa_invariants.py",
           "line": 62,
@@ -467,7 +468,7 @@
           "identifier": "tests/qa/test_qa_invariants.py::test_fee_is_one_percent_rounded_up_min_one_cent[99-1]",
           "status": "PASSED",
           "name": "test_fee_is_one_percent_rounded_up_min_one_cent[99-1]",
-          "duration_s": 0.0375,
+          "duration_s": 0.037,
           "message": null,
           "file": "tests/qa/test_qa_invariants.py",
           "line": 62,
@@ -481,7 +482,7 @@
           "identifier": "tests/qa/test_qa_invariants.py::test_fee_is_one_percent_rounded_up_min_one_cent[100-1]",
           "status": "PASSED",
           "name": "test_fee_is_one_percent_rounded_up_min_one_cent[100-1]",
-          "duration_s": 0.031,
+          "duration_s": 0.0319,
           "message": null,
           "file": "tests/qa/test_qa_invariants.py",
           "line": 62,
@@ -495,7 +496,7 @@
           "identifier": "tests/qa/test_qa_invariants.py::test_fee_is_one_percent_rounded_up_min_one_cent[101-2]",
           "status": "PASSED",
           "name": "test_fee_is_one_percent_rounded_up_min_one_cent[101-2]",
-          "duration_s": 0.0304,
+          "duration_s": 0.0374,
           "message": null,
           "file": "tests/qa/test_qa_invariants.py",
           "line": 62,
@@ -509,7 +510,7 @@
           "identifier": "tests/qa/test_qa_invariants.py::test_fee_is_one_percent_rounded_up_min_one_cent[199-2]",
           "status": "PASSED",
           "name": "test_fee_is_one_percent_rounded_up_min_one_cent[199-2]",
-          "duration_s": 0.0546,
+          "duration_s": 0.0548,
           "message": null,
           "file": "tests/qa/test_qa_invariants.py",
           "line": 62,
@@ -523,7 +524,7 @@
           "identifier": "tests/qa/test_qa_invariants.py::test_fee_is_one_percent_rounded_up_min_one_cent[200-2]",
           "status": "PASSED",
           "name": "test_fee_is_one_percent_rounded_up_min_one_cent[200-2]",
-          "duration_s": 0.044,
+          "duration_s": 0.0305,
           "message": null,
           "file": "tests/qa/test_qa_invariants.py",
           "line": 62,
@@ -537,7 +538,7 @@
           "identifier": "tests/qa/test_qa_invariants.py::test_fee_is_one_percent_rounded_up_min_one_cent[201-3]",
           "status": "PASSED",
           "name": "test_fee_is_one_percent_rounded_up_min_one_cent[201-3]",
-          "duration_s": 0.0439,
+          "duration_s": 0.0397,
           "message": null,
           "file": "tests/qa/test_qa_invariants.py",
           "line": 62,
@@ -551,7 +552,7 @@
           "identifier": "tests/qa/test_qa_invariants.py::test_fee_is_one_percent_rounded_up_min_one_cent[12345-124]",
           "status": "PASSED",
           "name": "test_fee_is_one_percent_rounded_up_min_one_cent[12345-124]",
-          "duration_s": 0.0421,
+          "duration_s": 0.0376,
           "message": null,
           "file": "tests/qa/test_qa_invariants.py",
           "line": 62,
@@ -565,7 +566,7 @@
           "identifier": "tests/qa/test_qa_invariants.py::test_money_is_conserved_across_transfers",
           "status": "PASSED",
           "name": "test_money_is_conserved_across_transfers",
-          "duration_s": 0.0537,
+          "duration_s": 0.0503,
           "message": null,
           "file": "tests/qa/test_qa_invariants.py",
           "line": 76,
@@ -579,7 +580,7 @@
           "identifier": "tests/qa/test_qa_invariants.py::test_self_transfer_rejected",
           "status": "PASSED",
           "name": "test_self_transfer_rejected",
-          "duration_s": 0.0318,
+          "duration_s": 0.0311,
           "message": null,
           "file": "tests/qa/test_qa_invariants.py",
           "line": 86,
@@ -593,7 +594,7 @@
           "identifier": "tests/qa/test_qa_invariants.py::test_transfer_to_unknown_wallet_is_404",
           "status": "PASSED",
           "name": "test_transfer_to_unknown_wallet_is_404",
-          "duration_s": 0.0276,
+          "duration_s": 0.0227,
           "message": null,
           "file": "tests/qa/test_qa_invariants.py",
           "line": 93,
@@ -607,7 +608,7 @@
           "identifier": "tests/qa/test_qa_invariants.py::test_invalid_transfer_amounts_rejected[0]",
           "status": "PASSED",
           "name": "test_invalid_transfer_amounts_rejected[0]",
-          "duration_s": 0.0311,
+          "duration_s": 0.0293,
           "message": null,
           "file": "tests/qa/test_qa_invariants.py",
           "line": 100,
@@ -621,7 +622,7 @@
           "identifier": "tests/qa/test_qa_invariants.py::test_invalid_transfer_amounts_rejected[-5]",
           "status": "PASSED",
           "name": "test_invalid_transfer_amounts_rejected[-5]",
-          "duration_s": 0.038,
+          "duration_s": 0.0318,
           "message": null,
           "file": "tests/qa/test_qa_invariants.py",
           "line": 100,
@@ -635,7 +636,7 @@
           "identifier": "tests/qa/test_qa_invariants.py::test_invalid_transfer_amounts_rejected[10.5]",
           "status": "PASSED",
           "name": "test_invalid_transfer_amounts_rejected[10.5]",
-          "duration_s": 0.0362,
+          "duration_s": 0.0253,
           "message": null,
           "file": "tests/qa/test_qa_invariants.py",
           "line": 100,
@@ -649,7 +650,7 @@
           "identifier": "tests/qa/test_qa_invariants.py::test_invalid_transfer_amounts_rejected[100]",
           "status": "PASSED",
           "name": "test_invalid_transfer_amounts_rejected[100]",
-          "duration_s": 0.0354,
+          "duration_s": 0.0321,
           "message": null,
           "file": "tests/qa/test_qa_invariants.py",
           "line": 100,
@@ -663,7 +664,7 @@
           "identifier": "tests/qa/test_qa_invariants.py::test_invalid_transfer_amounts_rejected[True]",
           "status": "PASSED",
           "name": "test_invalid_transfer_amounts_rejected[True]",
-          "duration_s": 0.0469,
+          "duration_s": 0.0286,
           "message": null,
           "file": "tests/qa/test_qa_invariants.py",
           "line": 100,
@@ -677,7 +678,7 @@
           "identifier": "tests/qa/test_qa_invariants.py::test_invalid_transfer_amounts_rejected[None]",
           "status": "PASSED",
           "name": "test_invalid_transfer_amounts_rejected[None]",
-          "duration_s": 0.0395,
+          "duration_s": 0.0278,
           "message": null,
           "file": "tests/qa/test_qa_invariants.py",
           "line": 100,
@@ -691,7 +692,7 @@
           "identifier": "tests/qa/test_qa_invariants.py::test_idempotent_retry_moves_money_once",
           "status": "PASSED",
           "name": "test_idempotent_retry_moves_money_once",
-          "duration_s": 0.0408,
+          "duration_s": 0.0323,
           "message": null,
           "file": "tests/qa/test_qa_invariants.py",
           "line": 109,
@@ -705,7 +706,7 @@
           "identifier": "tests/qa/test_qa_invariants.py::test_idempotency_key_is_scoped_per_user",
           "status": "PASSED",
           "name": "test_idempotency_key_is_scoped_per_user",
-          "duration_s": 0.0491,
+          "duration_s": 0.0458,
           "message": null,
           "file": "tests/qa/test_qa_invariants.py",
           "line": 122,
@@ -723,7 +724,7 @@
           "pytest": "pytest 9.0.2"
         },
         "ci": false,
-        "git_head": "916b64eadacc9086a96234fe746f3b9371b05100",
+        "git_head": "8d087222b8ad378b8674f06d4b7c6ffa17afdc74",
         "git_dirty": true
       },
       "groups": [
@@ -732,21 +733,22 @@
       "label": "changed-behaviour tests",
       "status_reason": null,
       "artifact_ids": [
-        "ev-e0193a269506",
-        "ev-4251e3b1953c",
-        "ev-336326f2245b"
+        "ev-6511faaaaa73",
+        "ev-10ba54b75826",
+        "ev-4612dbebb0f5"
       ],
       "attempt": 1,
-      "reproduction_of": null
+      "reproduction_of": null,
+      "actor": null
     },
     {
-      "id": "ex-c29a777984e6",
-      "run_id": "20261123-134718-review-pr-f8e8",
+      "id": "ex-cd1cf77f6cb9",
+      "run_id": "20261123-142751-review-pr-0389",
       "adapter": "pytest",
       "status": "FAILED",
-      "started_at": "2026-11-23T13:47:21Z",
-      "finished_at": "2026-11-23T13:47:22Z",
-      "duration_s": 0.666,
+      "started_at": "2026-11-23T14:27:55Z",
+      "finished_at": "2026-11-23T14:27:56Z",
+      "duration_s": 0.616,
       "command": [
         "python3",
         "-m",
@@ -759,7 +761,7 @@
         "-q",
         "-rN",
         "--junitxml",
-        "<project>/.qa-superteam/runs/20261123-134718-review-pr-f8e8/work/ex-c29a777984e6/junit.xml"
+        "<project>/.qa-superteam/runs/20261123-142751-review-pr-0389/work/ex-cd1cf77f6cb9/junit.xml"
       ],
       "cwd": ".",
       "exit_code": 1,
@@ -779,8 +781,8 @@
           "identifier": "tests/qa/test_qa_invariants.py::test_transfer_of_entire_balance_rejected_when_fee_not_covered",
           "status": "FAILED",
           "name": "test_transfer_of_entire_balance_rejected_when_fee_not_covered",
-          "duration_s": 0.038,
-          "message": "client = <starlette.testclient.TestClient object at 0x784a65a68dd0>\nnew_user = <function new_user.<locals>._new at 0x784a65a17b00>\nbalance_of = <function balance_of.<locals>.<lambda> at 0x784a65a17d80>\n\n    def test_transfer_of_entire_balance_rejected_when_fee_not_covered(client, new_user, balance_of):\n        alice = new_user(balance=1_000)\n        bob = new_user()\n    \n        r = _transfer(client, alice, bob.wallet_id, 1_000)  # fee 10 -> needs 1010\n    \n        after = balance_of(alice)\n>       assert r.status_code == 422 and after == 1_000, (\n            \"transfer of the entire balance must be rejected because amount + fee (1010) exceeds \"\n            f\"the balance (1000); got status {r.status_code} and sender balance {after}\"\n        )\nE       AssertionError: transfer of the entire balance must be rejected because amount + fee (1010) exceeds the balance (1000); got status 201 and sender balance -10\nE       assert (201 == 422)\nE        +  where 201 = <Response [201 Created]>.status_code\n\ntests/qa/test_qa_invariants.py:25: AssertionError",
+          "duration_s": 0.0423,
+          "message": "client = <starlette.testclient.TestClient object at 0x7bb155ec0d70>\nnew_user = <function new_user.<locals>._new at 0x7bb155f47b00>\nbalance_of = <function balance_of.<locals>.<lambda> at 0x7bb155f47d80>\n\n    def test_transfer_of_entire_balance_rejected_when_fee_not_covered(client, new_user, balance_of):\n        alice = new_user(balance=1_000)\n        bob = new_user()\n    \n        r = _transfer(client, alice, bob.wallet_id, 1_000)  # fee 10 -> needs 1010\n    \n        after = balance_of(alice)\n>       assert r.status_code == 422 and after == 1_000, (\n            \"transfer of the entire balance must be rejected because amount + fee (1010) exceeds \"\n            f\"the balance (1000); got status {r.status_code} and sender balance {after}\"\n        )\nE       AssertionError: transfer of the entire balance must be rejected because amount + fee (1010) exceeds the balance (1000); got status 201 and sender balance -10\nE       assert (201 == 422)\nE        +  where 201 = <Response [201 Created]>.status_code\n\ntests/qa/test_qa_invariants.py:25: AssertionError",
           "file": "tests/qa/test_qa_invariants.py",
           "line": 18,
           "groups": [],
@@ -795,27 +797,28 @@
           "pytest": "pytest 9.0.2"
         },
         "ci": false,
-        "git_head": "916b64eadacc9086a96234fe746f3b9371b05100",
+        "git_head": "8d087222b8ad378b8674f06d4b7c6ffa17afdc74",
         "git_dirty": true
       },
       "groups": [],
       "label": "reproduce tests/qa/test_qa_invariants.py::test_transfer_of_entire_balance_rejected_when_fee_not_covered #1",
       "status_reason": null,
       "artifact_ids": [
-        "ev-85a151174c7f",
-        "ev-282ac5213a01",
-        "ev-7e82f1b19b5f"
+        "ev-97501d318fcc",
+        "ev-2e161871160f",
+        "ev-189224a95a0c"
       ],
       "attempt": 1,
-      "reproduction_of": "tests/qa/test_qa_invariants.py::test_transfer_of_entire_balance_rejected_when_fee_not_covered"
+      "reproduction_of": "tests/qa/test_qa_invariants.py::test_transfer_of_entire_balance_rejected_when_fee_not_covered",
+      "actor": "qa-superteam:independent-verification-engineer"
     },
     {
-      "id": "ex-fecbd6d285d3",
-      "run_id": "20261123-134718-review-pr-f8e8",
+      "id": "ex-6df3253f07b6",
+      "run_id": "20261123-142751-review-pr-0389",
       "adapter": "pytest",
       "status": "FAILED",
-      "started_at": "2026-11-23T13:47:22Z",
-      "finished_at": "2026-11-23T13:47:23Z",
+      "started_at": "2026-11-23T14:27:56Z",
+      "finished_at": "2026-11-23T14:27:56Z",
       "duration_s": 0.616,
       "command": [
         "python3",
@@ -829,7 +832,7 @@
         "-q",
         "-rN",
         "--junitxml",
-        "<project>/.qa-superteam/runs/20261123-134718-review-pr-f8e8/work/ex-fecbd6d285d3/junit.xml"
+        "<project>/.qa-superteam/runs/20261123-142751-review-pr-0389/work/ex-6df3253f07b6/junit.xml"
       ],
       "cwd": ".",
       "exit_code": 1,
@@ -849,8 +852,8 @@
           "identifier": "tests/qa/test_qa_invariants.py::test_transfer_of_entire_balance_rejected_when_fee_not_covered",
           "status": "FAILED",
           "name": "test_transfer_of_entire_balance_rejected_when_fee_not_covered",
-          "duration_s": 0.0468,
-          "message": "client = <starlette.testclient.TestClient object at 0x78bb645b4e00>\nnew_user = <function new_user.<locals>._new at 0x78bb6455fb00>\nbalance_of = <function balance_of.<locals>.<lambda> at 0x78bb6455fd80>\n\n    def test_transfer_of_entire_balance_rejected_when_fee_not_covered(client, new_user, balance_of):\n        alice = new_user(balance=1_000)\n        bob = new_user()\n    \n        r = _transfer(client, alice, bob.wallet_id, 1_000)  # fee 10 -> needs 1010\n    \n        after = balance_of(alice)\n>       assert r.status_code == 422 and after == 1_000, (\n            \"transfer of the entire balance must be rejected because amount + fee (1010) exceeds \"\n            f\"the balance (1000); got status {r.status_code} and sender balance {after}\"\n        )\nE       AssertionError: transfer of the entire balance must be rejected because amount + fee (1010) exceeds the balance (1000); got status 201 and sender balance -10\nE       assert (201 == 422)\nE        +  where 201 = <Response [201 Created]>.status_code\n\ntests/qa/test_qa_invariants.py:25: AssertionError",
+          "duration_s": 0.0409,
+          "message": "client = <starlette.testclient.TestClient object at 0x7c5cf5b9cc20>\nnew_user = <function new_user.<locals>._new at 0x7c5cf5b47b00>\nbalance_of = <function balance_of.<locals>.<lambda> at 0x7c5cf5b47d80>\n\n    def test_transfer_of_entire_balance_rejected_when_fee_not_covered(client, new_user, balance_of):\n        alice = new_user(balance=1_000)\n        bob = new_user()\n    \n        r = _transfer(client, alice, bob.wallet_id, 1_000)  # fee 10 -> needs 1010\n    \n        after = balance_of(alice)\n>       assert r.status_code == 422 and after == 1_000, (\n            \"transfer of the entire balance must be rejected because amount + fee (1010) exceeds \"\n            f\"the balance (1000); got status {r.status_code} and sender balance {after}\"\n        )\nE       AssertionError: transfer of the entire balance must be rejected because amount + fee (1010) exceeds the balance (1000); got status 201 and sender balance -10\nE       assert (201 == 422)\nE        +  where 201 = <Response [201 Created]>.status_code\n\ntests/qa/test_qa_invariants.py:25: AssertionError",
           "file": "tests/qa/test_qa_invariants.py",
           "line": 18,
           "groups": [],
@@ -865,28 +868,29 @@
           "pytest": "pytest 9.0.2"
         },
         "ci": false,
-        "git_head": "916b64eadacc9086a96234fe746f3b9371b05100",
+        "git_head": "8d087222b8ad378b8674f06d4b7c6ffa17afdc74",
         "git_dirty": true
       },
       "groups": [],
       "label": "reproduce tests/qa/test_qa_invariants.py::test_transfer_of_entire_balance_rejected_when_fee_not_covered #2",
       "status_reason": null,
       "artifact_ids": [
-        "ev-bfd851ce0571",
-        "ev-da323691d645",
-        "ev-9fd8c41f593a"
+        "ev-516fdce693da",
+        "ev-0c725dafc655",
+        "ev-a4f34cc7f9e8"
       ],
       "attempt": 2,
-      "reproduction_of": "tests/qa/test_qa_invariants.py::test_transfer_of_entire_balance_rejected_when_fee_not_covered"
+      "reproduction_of": "tests/qa/test_qa_invariants.py::test_transfer_of_entire_balance_rejected_when_fee_not_covered",
+      "actor": "qa-superteam:independent-verification-engineer"
     },
     {
-      "id": "ex-a718a972a316",
-      "run_id": "20261123-134718-review-pr-f8e8",
+      "id": "ex-0d62955fc37a",
+      "run_id": "20261123-142751-review-pr-0389",
       "adapter": "pytest",
       "status": "FAILED",
-      "started_at": "2026-11-23T13:47:23Z",
-      "finished_at": "2026-11-23T13:47:24Z",
-      "duration_s": 0.616,
+      "started_at": "2026-11-23T14:27:57Z",
+      "finished_at": "2026-11-23T14:27:57Z",
+      "duration_s": 0.667,
       "command": [
         "python3",
         "-m",
@@ -899,7 +903,7 @@
         "-q",
         "-rN",
         "--junitxml",
-        "<project>/.qa-superteam/runs/20261123-134718-review-pr-f8e8/work/ex-a718a972a316/junit.xml"
+        "<project>/.qa-superteam/runs/20261123-142751-review-pr-0389/work/ex-0d62955fc37a/junit.xml"
       ],
       "cwd": ".",
       "exit_code": 1,
@@ -919,8 +923,8 @@
           "identifier": "tests/qa/test_qa_invariants.py::test_transfer_of_entire_balance_rejected_when_fee_not_covered",
           "status": "FAILED",
           "name": "test_transfer_of_entire_balance_rejected_when_fee_not_covered",
-          "duration_s": 0.0385,
-          "message": "client = <starlette.testclient.TestClient object at 0x70d8a6654f50>\nnew_user = <function new_user.<locals>._new at 0x70d8a65fbb00>\nbalance_of = <function balance_of.<locals>.<lambda> at 0x70d8a65fbd80>\n\n    def test_transfer_of_entire_balance_rejected_when_fee_not_covered(client, new_user, balance_of):\n        alice = new_user(balance=1_000)\n        bob = new_user()\n    \n        r = _transfer(client, alice, bob.wallet_id, 1_000)  # fee 10 -> needs 1010\n    \n        after = balance_of(alice)\n>       assert r.status_code == 422 and after == 1_000, (\n            \"transfer of the entire balance must be rejected because amount + fee (1010) exceeds \"\n            f\"the balance (1000); got status {r.status_code} and sender balance {after}\"\n        )\nE       AssertionError: transfer of the entire balance must be rejected because amount + fee (1010) exceeds the balance (1000); got status 201 and sender balance -10\nE       assert (201 == 422)\nE        +  where 201 = <Response [201 Created]>.status_code\n\ntests/qa/test_qa_invariants.py:25: AssertionError",
+          "duration_s": 0.0429,
+          "message": "client = <starlette.testclient.TestClient object at 0x739886688dd0>\nnew_user = <function new_user.<locals>._new at 0x73988670bc40>\nbalance_of = <function balance_of.<locals>.<lambda> at 0x73988670bd80>\n\n    def test_transfer_of_entire_balance_rejected_when_fee_not_covered(client, new_user, balance_of):\n        alice = new_user(balance=1_000)\n        bob = new_user()\n    \n        r = _transfer(client, alice, bob.wallet_id, 1_000)  # fee 10 -> needs 1010\n    \n        after = balance_of(alice)\n>       assert r.status_code == 422 and after == 1_000, (\n            \"transfer of the entire balance must be rejected because amount + fee (1010) exceeds \"\n            f\"the balance (1000); got status {r.status_code} and sender balance {after}\"\n        )\nE       AssertionError: transfer of the entire balance must be rejected because amount + fee (1010) exceeds the balance (1000); got status 201 and sender balance -10\nE       assert (201 == 422)\nE        +  where 201 = <Response [201 Created]>.status_code\n\ntests/qa/test_qa_invariants.py:25: AssertionError",
           "file": "tests/qa/test_qa_invariants.py",
           "line": 18,
           "groups": [],
@@ -935,25 +939,26 @@
           "pytest": "pytest 9.0.2"
         },
         "ci": false,
-        "git_head": "916b64eadacc9086a96234fe746f3b9371b05100",
+        "git_head": "8d087222b8ad378b8674f06d4b7c6ffa17afdc74",
         "git_dirty": true
       },
       "groups": [],
       "label": "reproduce tests/qa/test_qa_invariants.py::test_transfer_of_entire_balance_rejected_when_fee_not_covered #3",
       "status_reason": null,
       "artifact_ids": [
-        "ev-77e95655ce93",
-        "ev-7d914ea16613",
-        "ev-57dfdad201a5"
+        "ev-d08ce036b99b",
+        "ev-f926b52c812e",
+        "ev-e85f0689439d"
       ],
       "attempt": 3,
-      "reproduction_of": "tests/qa/test_qa_invariants.py::test_transfer_of_entire_balance_rejected_when_fee_not_covered"
+      "reproduction_of": "tests/qa/test_qa_invariants.py::test_transfer_of_entire_balance_rejected_when_fee_not_covered",
+      "actor": "qa-superteam:independent-verification-engineer"
     }
   ],
   "findings": [
     {
       "finding": {
-        "id": "F-0aff696c",
+        "id": "F-0a2853f7",
         "title": "PR lets the fee overdraw a wallet (regression)",
         "category": "data-integrity",
         "severity": "critical",
@@ -967,13 +972,13 @@
           "Balance is -10"
         ],
         "reported_by": "qa-superteam:backend-qa-engineer",
-        "created_at": "2026-11-23T13:47:21Z",
+        "created_at": "2026-11-23T14:27:55Z",
         "evidence_ids": [
-          "ev-e0193a269506",
-          "ev-4251e3b1953c"
+          "ev-6511faaaaa73",
+          "ev-10ba54b75826"
         ],
         "execution_ids": [
-          "ex-5d6d21b7ed4d"
+          "ex-e27d18d18c61"
         ],
         "test_identifiers": [
           "tests/qa/test_qa_invariants.py::test_transfer_of_entire_balance_rejected_when_fee_not_covered",
@@ -996,23 +1001,23 @@
         "regression_test": null
       },
       "effective_status": "CONFIRMED",
-      "status_basis": "independently verified by qa-superteam:independent-verification-engineer (independent-rerun) in V-e20b32e4",
+      "status_basis": "independently verified by qa-superteam:independent-verification-engineer (independent-rerun) in V-b82465cc",
       "evidence_valid": true,
       "integrity_problems": []
     }
   ],
   "verifications": [
     {
-      "id": "V-e20b32e4",
-      "finding_id": "F-0aff696c",
+      "id": "V-b82465cc",
+      "finding_id": "F-0a2853f7",
       "verdict": "CONFIRMED",
       "method": "independent-rerun",
       "verifier": "qa-superteam:independent-verification-engineer",
       "rationale": "Independent rerun on the PR head; consistent 3/3 failure, and the same test passes on main.",
-      "created_at": "2026-11-23T13:47:24Z",
+      "created_at": "2026-11-23T14:27:57Z",
       "evidence_ids": [],
       "execution_ids": [
-        "ex-a718a972a316"
+        "ex-0d62955fc37a"
       ],
       "test_identifiers": [],
       "checks": [
@@ -1034,7 +1039,12 @@
         {
           "check": "verifier ran own execution",
           "passed": true,
-          "detail": "verifier executions: ['ex-a718a972a316']"
+          "detail": "verifier executions: ['ex-0d62955fc37a']"
+        },
+        {
+          "check": "tests identified",
+          "passed": true,
+          "detail": "finding or verifier names the failing tests"
         },
         {
           "check": "failing evidence",
@@ -1066,199 +1076,199 @@
   },
   "artifacts": [
     {
-      "id": "ev-282ac5213a01",
+      "id": "ev-0c725dafc655",
       "kind": "report",
-      "path": "artifacts/ev-282ac5213a01-pytest-report.jsonl",
-      "sha256": "282ac5213a01bf209e5cabaeb774423a06bf32e72ee8206d0af16d02689c76c1",
-      "size_bytes": 1361,
-      "media_type": "application/octet-stream",
-      "created_at": "2026-11-23T13:47:22Z",
-      "redacted": true,
-      "redactions": 0,
-      "execution_id": "ex-c29a777984e6",
-      "description": "per-test outcomes (qast reporter)"
-    },
-    {
-      "id": "ev-336326f2245b",
-      "kind": "junit",
-      "path": "artifacts/ev-336326f2245b-junit.xml",
-      "sha256": "336326f2245b69a6562e8a0d1f3b7e796930d479cdce93466e4e8c3c4c28853c",
-      "size_bytes": 5306,
-      "media_type": "application/xml",
-      "created_at": "2026-11-23T13:47:21Z",
-      "redacted": true,
-      "redactions": 0,
-      "execution_id": "ex-5d6d21b7ed4d",
-      "description": "pytest JUnit XML"
-    },
-    {
-      "id": "ev-4251e3b1953c",
-      "kind": "report",
-      "path": "artifacts/ev-4251e3b1953c-pytest-report.jsonl",
-      "sha256": "4251e3b1953cb574432a6bd9c4a17ca06c319601083a8ba63db40459ae18db52",
-      "size_bytes": 7701,
-      "media_type": "application/octet-stream",
-      "created_at": "2026-11-23T13:47:21Z",
-      "redacted": true,
-      "redactions": 0,
-      "execution_id": "ex-5d6d21b7ed4d",
-      "description": "per-test outcomes (qast reporter)"
-    },
-    {
-      "id": "ev-42ccfd72059e",
-      "kind": "report",
-      "path": "artifacts/ev-42ccfd72059e-pytest-report.jsonl",
-      "sha256": "42ccfd72059e170d2ff66e71916f71926542be92d0635c776f5d7fc7536bfabf",
-      "size_bytes": 3062,
-      "media_type": "application/octet-stream",
-      "created_at": "2026-11-23T13:47:19Z",
-      "redacted": true,
-      "redactions": 0,
-      "execution_id": "ex-5b9f57eae147",
-      "description": "per-test outcomes (qast reporter)"
-    },
-    {
-      "id": "ev-57dfdad201a5",
-      "kind": "junit",
-      "path": "artifacts/ev-57dfdad201a5-junit.xml",
-      "sha256": "57dfdad201a5b138fdf429e438ed50a9943f81aec5956deeddaa5082c65ccc47",
-      "size_bytes": 1764,
-      "media_type": "application/xml",
-      "created_at": "2026-11-23T13:47:24Z",
-      "redacted": true,
-      "redactions": 0,
-      "execution_id": "ex-a718a972a316",
-      "description": "pytest JUnit XML"
-    },
-    {
-      "id": "ev-77e95655ce93",
-      "kind": "log",
-      "path": "artifacts/ev-77e95655ce93-pytest-output.log",
-      "sha256": "77e95655ce931912474477dcbb4821ac86b3888bb5cda85b2ab174c47e5ef3e4",
-      "size_bytes": 1716,
-      "media_type": "application/octet-stream",
-      "created_at": "2026-11-23T13:47:24Z",
-      "redacted": true,
-      "redactions": 0,
-      "execution_id": "ex-a718a972a316",
-      "description": "pytest stdout/stderr"
-    },
-    {
-      "id": "ev-7d914ea16613",
-      "kind": "report",
-      "path": "artifacts/ev-7d914ea16613-pytest-report.jsonl",
-      "sha256": "7d914ea166139bb2df8bce2a4d21c00257bc9da5bdba5b30c824cd5bfbcb4970",
+      "path": "artifacts/ev-0c725dafc655-pytest-report.jsonl",
+      "sha256": "0c725dafc655cae2cf51901f7ec5e2475e25a61cde459edd8543fdf193085273",
       "size_bytes": 1362,
       "media_type": "application/octet-stream",
-      "created_at": "2026-11-23T13:47:24Z",
+      "created_at": "2026-11-23T14:27:56Z",
       "redacted": true,
       "redactions": 0,
-      "execution_id": "ex-a718a972a316",
+      "execution_id": "ex-6df3253f07b6",
       "description": "per-test outcomes (qast reporter)"
     },
     {
-      "id": "ev-7e82f1b19b5f",
-      "kind": "junit",
-      "path": "artifacts/ev-7e82f1b19b5f-junit.xml",
-      "sha256": "7e82f1b19b5f1915f45f55e2ea21da208697994cd7d80064526d0f5c4aa887b8",
-      "size_bytes": 1764,
-      "media_type": "application/xml",
-      "created_at": "2026-11-23T13:47:22Z",
+      "id": "ev-10ba54b75826",
+      "kind": "report",
+      "path": "artifacts/ev-10ba54b75826-pytest-report.jsonl",
+      "sha256": "10ba54b75826ebbd03b36908852994fcf97402e7ca8e40a0d44c5ca94e45a006",
+      "size_bytes": 7703,
+      "media_type": "application/octet-stream",
+      "created_at": "2026-11-23T14:27:55Z",
       "redacted": true,
       "redactions": 0,
-      "execution_id": "ex-c29a777984e6",
+      "execution_id": "ex-e27d18d18c61",
+      "description": "per-test outcomes (qast reporter)"
+    },
+    {
+      "id": "ev-189224a95a0c",
+      "kind": "junit",
+      "path": "artifacts/ev-189224a95a0c-junit.xml",
+      "sha256": "189224a95a0c8925052136382436d217f5e28dc318394730c840d727c9f6d20b",
+      "size_bytes": 1764,
+      "media_type": "application/xml",
+      "created_at": "2026-11-23T14:27:56Z",
+      "redacted": true,
+      "redactions": 0,
+      "execution_id": "ex-cd1cf77f6cb9",
       "description": "pytest JUnit XML"
     },
     {
-      "id": "ev-85a151174c7f",
-      "kind": "log",
-      "path": "artifacts/ev-85a151174c7f-pytest-output.log",
-      "sha256": "85a151174c7f1e716bee30b8569b11f1ff55b41b9c693e0a8a4046e1d3bec9f8",
-      "size_bytes": 1716,
+      "id": "ev-2e161871160f",
+      "kind": "report",
+      "path": "artifacts/ev-2e161871160f-pytest-report.jsonl",
+      "sha256": "2e161871160f9d41b22a3db1866356a5f89a8739813834aabfd8a2c860aa66ce",
+      "size_bytes": 1362,
       "media_type": "application/octet-stream",
-      "created_at": "2026-11-23T13:47:22Z",
+      "created_at": "2026-11-23T14:27:56Z",
       "redacted": true,
       "redactions": 0,
-      "execution_id": "ex-c29a777984e6",
-      "description": "pytest stdout/stderr"
+      "execution_id": "ex-cd1cf77f6cb9",
+      "description": "per-test outcomes (qast reporter)"
     },
     {
-      "id": "ev-9fd8c41f593a",
+      "id": "ev-3e77f50574ae",
       "kind": "junit",
-      "path": "artifacts/ev-9fd8c41f593a-junit.xml",
-      "sha256": "9fd8c41f593a7431ff732240ce301bb89cce051b29ac01625d7f8257c2d5d393",
-      "size_bytes": 1764,
-      "media_type": "application/xml",
-      "created_at": "2026-11-23T13:47:23Z",
-      "redacted": true,
-      "redactions": 0,
-      "execution_id": "ex-fecbd6d285d3",
-      "description": "pytest JUnit XML"
-    },
-    {
-      "id": "ev-bfd851ce0571",
-      "kind": "log",
-      "path": "artifacts/ev-bfd851ce0571-pytest-output.log",
-      "sha256": "bfd851ce0571dcb514ab328c4ea27b73f037429cf8cd1bbf210fe8594a6bda2a",
-      "size_bytes": 1716,
-      "media_type": "application/octet-stream",
-      "created_at": "2026-11-23T13:47:23Z",
-      "redacted": true,
-      "redactions": 0,
-      "execution_id": "ex-fecbd6d285d3",
-      "description": "pytest stdout/stderr"
-    },
-    {
-      "id": "ev-d1c538b207bb",
-      "kind": "junit",
-      "path": "artifacts/ev-d1c538b207bb-junit.xml",
-      "sha256": "d1c538b207bbf73f67b53e90bb081f1003949fe6cf50805ee1845cec67da0853",
+      "path": "artifacts/ev-3e77f50574ae-junit.xml",
+      "sha256": "3e77f50574ae2feb52e0ca18643d997a1395a34f0b19b529d6da1af493211170",
       "size_bytes": 1845,
       "media_type": "application/xml",
-      "created_at": "2026-11-23T13:47:19Z",
+      "created_at": "2026-11-23T14:27:53Z",
       "redacted": true,
       "redactions": 0,
-      "execution_id": "ex-5b9f57eae147",
+      "execution_id": "ex-82ebc9264c73",
       "description": "pytest JUnit XML"
     },
     {
-      "id": "ev-da323691d645",
-      "kind": "report",
-      "path": "artifacts/ev-da323691d645-pytest-report.jsonl",
-      "sha256": "da323691d6459028305958730f2f1ab1b0af1666e35589506b0d2f2eda96ef8c",
-      "size_bytes": 1362,
-      "media_type": "application/octet-stream",
-      "created_at": "2026-11-23T13:47:23Z",
+      "id": "ev-4612dbebb0f5",
+      "kind": "junit",
+      "path": "artifacts/ev-4612dbebb0f5-junit.xml",
+      "sha256": "4612dbebb0f5478f76dd49315bd54660a53605e6c8592e037a8f54a53d3921fe",
+      "size_bytes": 5306,
+      "media_type": "application/xml",
+      "created_at": "2026-11-23T14:27:55Z",
       "redacted": true,
       "redactions": 0,
-      "execution_id": "ex-fecbd6d285d3",
+      "execution_id": "ex-e27d18d18c61",
+      "description": "pytest JUnit XML"
+    },
+    {
+      "id": "ev-516fdce693da",
+      "kind": "log",
+      "path": "artifacts/ev-516fdce693da-pytest-output.log",
+      "sha256": "516fdce693da6dafec9220f93c1d09189685f7df8203d9ae6c20f3e6c1216084",
+      "size_bytes": 1716,
+      "media_type": "application/octet-stream",
+      "created_at": "2026-11-23T14:27:56Z",
+      "redacted": true,
+      "redactions": 0,
+      "execution_id": "ex-6df3253f07b6",
+      "description": "pytest stdout/stderr"
+    },
+    {
+      "id": "ev-5dbc6b8cf73d",
+      "kind": "report",
+      "path": "artifacts/ev-5dbc6b8cf73d-pytest-report.jsonl",
+      "sha256": "5dbc6b8cf73d67bd8025deb069ae5f0a3b41e10a2781a7ff9a4f55d5c3510bfb",
+      "size_bytes": 3062,
+      "media_type": "application/octet-stream",
+      "created_at": "2026-11-23T14:27:53Z",
+      "redacted": true,
+      "redactions": 0,
+      "execution_id": "ex-82ebc9264c73",
       "description": "per-test outcomes (qast reporter)"
     },
     {
-      "id": "ev-e0193a269506",
+      "id": "ev-6511faaaaa73",
       "kind": "log",
-      "path": "artifacts/ev-e0193a269506-pytest-output.log",
-      "sha256": "e0193a2695064865d6d9055c006715cb2e43283f9e052eab05e127cb2bd28e7c",
+      "path": "artifacts/ev-6511faaaaa73-pytest-output.log",
+      "sha256": "6511faaaaa733b62a76f166fc872f73631023da45a7e37c6179a6bc3e5db69ac",
       "size_bytes": 2488,
       "media_type": "application/octet-stream",
-      "created_at": "2026-11-23T13:47:21Z",
+      "created_at": "2026-11-23T14:27:55Z",
       "redacted": true,
       "redactions": 0,
-      "execution_id": "ex-5d6d21b7ed4d",
+      "execution_id": "ex-e27d18d18c61",
       "description": "pytest stdout/stderr"
     },
     {
-      "id": "ev-fbce58e71906",
+      "id": "ev-97501d318fcc",
       "kind": "log",
-      "path": "artifacts/ev-fbce58e71906-pytest-output.log",
-      "sha256": "fbce58e719062b3e9b559cfd8581282a948f776e08aae9cb5e743f1c7873203f",
-      "size_bytes": 419,
+      "path": "artifacts/ev-97501d318fcc-pytest-output.log",
+      "sha256": "97501d318fccd09947e40fc0002a0607a31c9970e3eb755f8e2a86a8dcd803d1",
+      "size_bytes": 1716,
       "media_type": "application/octet-stream",
-      "created_at": "2026-11-23T13:47:19Z",
+      "created_at": "2026-11-23T14:27:56Z",
       "redacted": true,
       "redactions": 0,
-      "execution_id": "ex-5b9f57eae147",
+      "execution_id": "ex-cd1cf77f6cb9",
       "description": "pytest stdout/stderr"
+    },
+    {
+      "id": "ev-a4f34cc7f9e8",
+      "kind": "junit",
+      "path": "artifacts/ev-a4f34cc7f9e8-junit.xml",
+      "sha256": "a4f34cc7f9e8b0e4a86a09238741c6c6a2604cda2710a4600d8c21b75e6010f5",
+      "size_bytes": 1764,
+      "media_type": "application/xml",
+      "created_at": "2026-11-23T14:27:56Z",
+      "redacted": true,
+      "redactions": 0,
+      "execution_id": "ex-6df3253f07b6",
+      "description": "pytest JUnit XML"
+    },
+    {
+      "id": "ev-d08ce036b99b",
+      "kind": "log",
+      "path": "artifacts/ev-d08ce036b99b-pytest-output.log",
+      "sha256": "d08ce036b99b0bc7b2885c4fcf910cda4c93f07c019961eb68c6ed1315d6ccf0",
+      "size_bytes": 1716,
+      "media_type": "application/octet-stream",
+      "created_at": "2026-11-23T14:27:57Z",
+      "redacted": true,
+      "redactions": 0,
+      "execution_id": "ex-0d62955fc37a",
+      "description": "pytest stdout/stderr"
+    },
+    {
+      "id": "ev-e85f0689439d",
+      "kind": "junit",
+      "path": "artifacts/ev-e85f0689439d-junit.xml",
+      "sha256": "e85f0689439dc674eb56eb9ef2d1f83c7b17f6ef5c96622b5336debe5994517d",
+      "size_bytes": 1764,
+      "media_type": "application/xml",
+      "created_at": "2026-11-23T14:27:57Z",
+      "redacted": true,
+      "redactions": 0,
+      "execution_id": "ex-0d62955fc37a",
+      "description": "pytest JUnit XML"
+    },
+    {
+      "id": "ev-f34fd7d1c3c1",
+      "kind": "log",
+      "path": "artifacts/ev-f34fd7d1c3c1-pytest-output.log",
+      "sha256": "f34fd7d1c3c11b5bad10276ea826f58f3e9c5aab26a523df0036f07c401ed1b8",
+      "size_bytes": 419,
+      "media_type": "application/octet-stream",
+      "created_at": "2026-11-23T14:27:53Z",
+      "redacted": true,
+      "redactions": 0,
+      "execution_id": "ex-82ebc9264c73",
+      "description": "pytest stdout/stderr"
+    },
+    {
+      "id": "ev-f926b52c812e",
+      "kind": "report",
+      "path": "artifacts/ev-f926b52c812e-pytest-report.jsonl",
+      "sha256": "f926b52c812e97a56645898c075cf2628383785238dd92c8c4c4457cb0008f10",
+      "size_bytes": 1362,
+      "media_type": "application/octet-stream",
+      "created_at": "2026-11-23T14:27:57Z",
+      "redacted": true,
+      "redactions": 0,
+      "execution_id": "ex-0d62955fc37a",
+      "description": "per-test outcomes (qast reporter)"
     }
   ],
   "limitations": [
@@ -1330,7 +1340,8 @@
       "pytest: tests (3 files)"
     ],
     "facts": 12,
-    "git_head": "916b64eadacc9086a96234fe746f3b9371b05100"
+    "git_head": "8d087222b8ad378b8674f06d4b7c6ffa17afdc74"
   },
-  "integrity_warnings": []
+  "integrity_warnings": [],
+  "notes": []
 }

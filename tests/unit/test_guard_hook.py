@@ -107,3 +107,35 @@ def test_stale_marker_is_ignored(active):
     old = marker.stat().st_mtime - 13 * 3600
     os.utime(marker, (old, old))
     assert run_hook(active, "pre", "Bash", {"command": "git push"}) is None
+
+
+@pytest.mark.parametrize(
+    "tool,inp",
+    [
+        ("Write", {"file_path": ".qa-superteam/config.toml"}),
+        ("Edit", {"file_path": ".qa-superteam/active-run"}),
+        ("Write", {"file_path": "policies/lenient.toml"}),
+        ("Bash", {"command": "sed -i 's/False/True/' .qa-superteam/config.toml"}),
+        ("Bash", {"command": "sed -i 's/>= amount/> amount/' ledger/transfers.py"}),
+        ("Bash", {"command": "perl -pi -e 's/a/b/' app.py"}),
+        ("Bash", {"command": "echo 'x = 1' > app.py"}),
+        ("Bash", {"command": "cat patch.txt | tee src/main.py"}),
+    ],
+)
+def test_permission_and_shell_write_bypasses_are_caught(active, tool, inp):
+    if "file_path" in inp:
+        inp = {"file_path": str(active / inp["file_path"])}
+    assert decision(run_hook(active, "pre", tool, inp)) == "ask"
+
+
+@pytest.mark.parametrize(
+    "cmd",
+    [
+        "qast exec pytest -- tests > /tmp/out.txt",
+        "python3 -m pytest 2>&1 | tail -5",
+        "cat > .qa-superteam/runs/x/drafts/plan.json <<'EOF'",
+        "echo done >/dev/null",
+    ],
+)
+def test_harmless_redirections_pass(active, cmd):
+    assert run_hook(active, "pre", "Bash", {"command": cmd}) is None

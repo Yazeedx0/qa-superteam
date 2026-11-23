@@ -1,0 +1,49 @@
+{
+  "cases": 6,
+  "counts": {
+    "FAILED": 3,
+    "PASSED": 3
+  },
+  "pass_rate_over_decided": 0.5,
+  "latency_ms": {
+    "p50": 0.03,
+    "p95": 0.04,
+    "max": 0.045
+  },
+  "output_tokens_total": 190,
+  "output_tokens_estimated": false,
+  "by_tag": {
+    "tools": {
+      "FAILED": 1,
+      "PASSED": 2
+    },
+    "refunds": {
+      "FAILED": 1,
+      "PASSED": 2
+    },
+    "security": {
+      "FAILED": 1
+    },
+    "prompt-injection": {
+      "FAILED": 1
+    },
+    "rag": {
+      "FAILED": 2
+    },
+    "retrieval": {
+      "FAILED": 1
+    },
+    "multi-turn": {
+      "PASSED": 1
+    },
+    "scope": {
+      "PASSED": 1
+    }
+  },
+  "judge": {
+    "available": false,
+    "reason": "judge not configured (pass --judge-model to enable)",
+    "kappa": null,
+    "min_kappa": 0.6
+  }
+}

@@ -1,0 +1,6 @@
+{"nodeid": "tests/test_happy_path.py::test_cart_lists_items_with_prices", "status": "PASSED", "duration_s": 0.4211, "message": null, "location": ["tests/test_happy_path.py", 11, "test_cart_lists_items_with_prices"]}
+{"nodeid": "tests/test_happy_path.py::test_checkout_with_valid_details_shows_confirmation", "status": "PASSED", "duration_s": 0.3726, "message": null, "location": ["tests/test_happy_path.py", 22, "test_checkout_with_valid_details_shows_confirmation"]}
+{"nodeid": "tests/test_happy_path.py::test_canadian_address_uses_canadian_shipping_rate", "status": "PASSED", "duration_s": 0.2243, "message": null, "location": ["tests/test_happy_path.py", 45, "test_canadian_address_uses_canadian_shipping_rate"]}
+{"nodeid": "tests/test_navigation.py::test_back_preserves_entered_fields", "status": "PASSED", "duration_s": 0.262, "message": null, "location": ["tests/test_navigation.py", 3, "test_back_preserves_entered_fields"]}
+{"nodeid": "tests/test_navigation.py::test_reload_restores_draft_and_step", "status": "PASSED", "duration_s": 0.2713, "message": null, "location": ["tests/test_navigation.py", 21, "test_reload_restores_draft_and_step"]}
+{"nodeid": "tests/test_validation.py::test_invalid_email_shows_inline_error", "status": "PASSED", "duration_s": 0.5998, "message": null, "location": ["tests/test_validation.py", 3, "test_invalid_email_shows_inline_error"]}

@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -35,8 +36,19 @@ def _cfg(args):
     return load_config(Path(args.project))
 
 
-def _store(args) -> RunStore:
-    return RunStore.resolve(_cfg(args), getattr(args, "run", None))
+def _store(args, write: bool = True) -> RunStore:
+    return RunStore.resolve(_cfg(args), getattr(args, "run", None), write=write)
+
+
+def _norm_ident(ident: str, root: Path) -> str:
+    """Test identifiers are project-relative, exactly as `qast exec` prints them."""
+    i = ident.strip()
+    for prefix in (str(root) + "/", str(root.resolve()) + "/"):
+        if i.startswith(prefix):
+            i = i[len(prefix):]
+    while i.startswith("./"):
+        i = i[2:]
+    return i
 
 
 def _read_input(path: str):
@@ -89,7 +101,13 @@ def cmd_run(args) -> int:
     cfg = _cfg(args)
     if args.run_cmd == "start":
         from .env import environment_info
+        from .store import active_marker
 
+        marker = active_marker(cfg)
+        if marker.exists() and not args.force:
+            rid = marker.read_text(encoding="utf-8").split()[0]
+            print(f"error: run {rid} is still active; continue it (`qast run status`), finish it (`qast run finish`), or pass --force")
+            return EXIT_ERR
         st = RunStore.create(cfg, args.mode, args.scope, args.base, args.head, environment_info(cfg.project_root))
         _out(args, {"run_id": st.run_id, "dir": str(st.dir)}, f"run started: {st.run_id}\nrecords: {st.dir}")
         return EXIT_OK
@@ -97,7 +115,15 @@ def cmd_run(args) -> int:
         runs = sorted(p.name for p in cfg.runs_dir.glob("*") if (p / "run.json").exists()) if cfg.runs_dir.exists() else []
         _out(args, runs, "\n".join(runs) or "no runs")
         return EXIT_OK
-    st = RunStore.resolve(cfg, args.run)
+    if args.run_cmd == "resume":
+        from .store import config_digest
+
+        st = RunStore.resolve(cfg, args.id)
+        st.activate()
+        st.journal("run.resumed", config_sha256=config_digest(cfg))
+        print(f"run {st.run_id} is active again (guard hook on)")
+        return EXIT_OK
+    st = RunStore.resolve(cfg, args.run, write=args.run_cmd in ("phase", "note"))
     if args.run_cmd == "phase":
         if args.phase not in PHASES:
             print(f"unknown phase {args.phase}; phases: {', '.join(PHASES)}")
@@ -116,15 +142,17 @@ def cmd_run(args) -> int:
         from .findings import finding_views
 
         views = finding_views(st)
+        state = "active" if st.is_active() else ("finished" if st.is_finished() else "inactive")
         data = {
             "dir": str(st.dir),
+            "state": state,
             "run": to_dict(st.info),
             "phases": st.phase_states(),
             "executions": [{"id": e.id, "adapter": e.adapter, "status": e.status.value, "counts": {k: v for k, v in e.counts.items() if v}, "groups": e.groups, "label": e.label} for e in execs],
             "findings": [{"id": v.finding.id, "title": v.finding.title, "severity": v.finding.severity.value, "status": v.effective_status.value} for v in views],
             "records": {k: (st.dir / f"{k}.json").exists() for k in ("profile", "requirements", "impact", "risks", "plan", "decision")},
         }
-        lines = [f"run {st.run_id} ({st.info.mode}) — {st.info.scope}", "phases: " + ", ".join(f"{k}={v}" for k, v in data["phases"].items()), "records: " + ", ".join(k for k, v in data["records"].items() if v)]
+        lines = [f"run {st.run_id} ({st.info.mode}, {state}) — {st.info.scope}", "phases: " + ", ".join(f"{k}={v}" for k, v in data["phases"].items()), "records: " + ", ".join(k for k, v in data["records"].items() if v)]
         for e in data["executions"]:
             lines.append(f"  {e['id']} {e['adapter']:<10} {e['status']:<12} {e['counts']} {e['groups']} {e['label'] or ''}")
         for f in data["findings"]:
@@ -137,9 +165,9 @@ def cmd_discover(args) -> int:
     from .discovery import discover
 
     cfg = _cfg(args)
-    prof = discover(cfg.project_root, cfg.budgets.max_scan_files, cfg.project_name)
+    prof = discover(cfg.project_root, cfg.budgets.max_scan_files, cfg.project_name, cfg.permissions.test_dir)
     try:
-        st = RunStore.resolve(cfg, args.run)
+        st = RunStore.resolve(cfg, args.run, write=True)
         st.save_singleton("profile", prof, supersede=args.supersede)
         where = f"saved to {st.dir / 'profile.json'}"
     except StoreError as e:
@@ -170,7 +198,7 @@ def cmd_impact(args) -> int:
         print(f"error: {e}")
         return EXIT_ERR
     try:
-        st = RunStore.resolve(cfg, args.run)
+        st = RunStore.resolve(cfg, args.run, write=True)
         st.save_singleton("impact", data, supersede=args.supersede)
     except StoreError as e:
         if "already exists" in str(e):
@@ -220,13 +248,15 @@ def cmd_record(args) -> int:
 
 
 def cmd_finding(args) -> int:
-    st = _store(args)
+    st = _store(args, write=args.finding_cmd == "add")
     if args.finding_cmd == "add":
         data = _read_input(args.file)
         if not isinstance(data, dict):
             print("finding must be a JSON object")
             return EXIT_ERR
         data.setdefault("created_at", now_iso())
+        if isinstance(data.get("test_identifiers"), list):
+            data["test_identifiers"] = [_norm_ident(t, st.config.project_root) if isinstance(t, str) else t for t in data["test_identifiers"]]
         paths = [a.get("path", "") for a in data.get("affected", []) if isinstance(a, dict)]
         data["id"] = st.finding_id(str(data.get("title", "")), paths, list(data.get("test_identifiers", [])))
         try:
@@ -282,7 +312,7 @@ def cmd_exec(args) -> int:
     from .env import project_python
 
     cfg = _cfg(args)
-    st = RunStore.resolve(cfg, args.run)
+    st = RunStore.resolve(cfg, args.run, write=True)
     cwd = (cfg.project_root / args.cwd).resolve() if args.cwd else cfg.project_root
     opts = _adapter_options(args)
     req = AdapterRequest(
@@ -296,6 +326,7 @@ def cmd_exec(args) -> int:
         python=args.python or project_python(cwd, cfg.python),
         targets=args.target or [],
         options=opts,
+        actor=args.actor or os.environ.get("QAST_ACTOR"),
     )
     try:
         ex = ADAPTER_FUNCS[args.adapter](req)
@@ -329,7 +360,8 @@ def cmd_reproduce(args) -> int:
     from .findings import classify_attempts
 
     cfg = _cfg(args)
-    st = RunStore.resolve(cfg, args.run)
+    st = RunStore.resolve(cfg, args.run, write=True)
+    args.test = _norm_ident(args.test, cfg.project_root)
     times = min(args.times, cfg.budgets.max_reproduce_attempts)
     if times < args.times:
         print(f"note: attempts capped at budgets.max_reproduce_attempts={cfg.budgets.max_reproduce_attempts}")
@@ -344,7 +376,7 @@ def cmd_reproduce(args) -> int:
         req = AdapterRequest(
             store=st, config=cfg, args=run_args, cwd=cwd, groups=args.group or [], label=f"reproduce {args.test} #{i}",
             timeout_s=args.timeout, python=args.python or project_python(cwd, cfg.python), attempt=i, reproduction_of=args.test,
-            targets=args.target or [], options=_adapter_options(args),
+            targets=args.target or [], options=_adapter_options(args), actor=args.actor or os.environ.get("QAST_ACTOR"),
         )
         ex = ADAPTER_FUNCS[args.adapter](req)
         execs.append(ex)
@@ -367,7 +399,8 @@ def cmd_verify(args) -> int:
         return EXIT_ERR
     verdict = m.Verdict(args.verdict)
     idx = EvidenceIndex.build(st)
-    checks = verification_checks(f, verdict, args.verifier, args.method, args.execution or [], args.evidence or [], idx, args.test or [])
+    tests = [_norm_ident(t, st.config.project_root) for t in (args.test or [])]
+    checks = verification_checks(f, verdict, args.verifier, args.method, args.execution or [], args.evidence or [], idx, tests, st.verifications())
     failed = [c for c in checks if not c.passed]
     if failed:
         print(f"refused: {verdict.value} is not supported by the evidence:")
@@ -385,7 +418,7 @@ def cmd_verify(args) -> int:
         created_at=now_iso(),
         evidence_ids=args.evidence or [],
         execution_ids=args.execution or [],
-        test_identifiers=args.test or [],
+        test_identifiers=tests,
         checks=checks,
     )
     st.save_verification(v)
@@ -419,7 +452,7 @@ def cmd_gate(args) -> int:
         findings=finding_views(st, idx),
         plan=st.load_singleton("plan"),
         risks=reg.risks if reg else [],
-        artifact_problems=sorted(set(idx.artifact_problems.values())),
+        artifact_problems=sorted(set(idx.artifact_problems.values())) + st.config_changes(),
         verifications=st.verifications(),
     )
     dec = evaluate(policy, inp)
@@ -435,7 +468,7 @@ def cmd_gate(args) -> int:
 def cmd_report(args) -> int:
     from .report import write_report
 
-    st = _store(args)
+    st = _store(args, write=False)
     jp, mp = write_report(st)
     if args.print:
         print(mp.read_text(encoding="utf-8"))
@@ -445,7 +478,7 @@ def cmd_report(args) -> int:
 
 
 def cmd_validate(args) -> int:
-    st = _store(args)
+    st = _store(args, write=False)
     problems = []
     checked = 0
     for sub, cls in (("executions", m.TestExecution), ("findings", m.DefectFinding), ("verifications", m.VerificationResult), ("evidence", m.EvidenceArtifact)):
@@ -572,7 +605,11 @@ def build_parser() -> argparse.ArgumentParser:
     x.add_argument("--scope", required=True, help="what is under test, in words")
     x.add_argument("--base", help="base git ref for diff-based modes")
     x.add_argument("--head", help="head git ref (default: working tree)")
+    x.add_argument("--force", action="store_true", help="start even though another run is still active")
     common(x, run=False)
+    x = rs.add_parser("resume", help="re-activate an earlier run (turns the guard hook back on)")
+    x.add_argument("id")
+    common(x, run=False, js=False)
     x = rs.add_parser("status")
     common(x)
     x = rs.add_parser("phase")
@@ -634,6 +671,7 @@ def build_parser() -> argparse.ArgumentParser:
         sp.add_argument("--cwd", help="directory to run in, relative to project root")
         sp.add_argument("--python", help="interpreter for Python-based tools (default: project venv or python3)")
         sp.add_argument("--report", help="junit: path of the JUnit XML the command writes")
+        sp.add_argument("--actor", help="who runs this (agent name, e.g. qa-superteam:independent-verification-engineer); default $QAST_ACTOR")
 
     def adapter_opts(sp):
         sp.add_argument("--target", action="append", help="URL under test (must be in permissions.authorized_targets)")

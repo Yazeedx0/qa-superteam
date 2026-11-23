@@ -1,6 +1,6 @@
 ---
 name: qa-test-design
-description: Use when turning requirements, invariants and risks into concrete test cases - equivalence partitioning, boundary value analysis, decision tables, state transitions, pairwise/combinatorial, property-based (Hypothesis, fast-check), negative, metamorphic, invariant and regression design - with an observable oracle for every case, deduplicated against the existing suite and recorded as TestPlan test_cases via `qast record plan`. Also use to review whether existing or proposed tests would actually detect a defect (oracle quality, assertion-free tests, mirrored oracles, over-mocking).
+description: Use when designing new test cases - applies equivalence, boundary, decision-table, state-transition, pairwise, property-based, negative and metamorphic techniques, gives every case an observable oracle, and avoids duplicating existing tests.
 ---
 
 # QA test design

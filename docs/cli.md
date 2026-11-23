@@ -6,7 +6,10 @@ call `qast` directly. Outside Claude Code: `python3 -m pip install -e .` or call
 `<repo>/bin/qast`. It needs Python ≥ 3.11 and nothing else.
 
 Run `qast <command> --help` for every flag. Global option: `--project DIR` (default `.`).
-Most commands accept `--run ID` (default: the active run) and `--json`.
+Most commands accept `--run ID` (default: the active run). `--json` is available on `doctor`,
+`run start|status|list`, `discover`, `impact`, `risk`, `finding list`, `exec`, `reproduce` and `gate`.
+Commands that record evidence only write into the **active** run (or an explicit `--run`);
+read-only commands fall back to the newest run.
 
 ## Run lifecycle (checkpoints & resumption)
 
@@ -17,6 +20,7 @@ Most commands accept `--run ID` (default: the active run) and `--json`.
 | `qast run phase <phase> <started\|done\|skipped\|blocked> [--note "..."]` | Checkpoint a phase: `discovery requirements impact risk planning delegation execution investigation verification release reporting regression` |
 | `qast run note "<text>" [--kind limitation\|assumption\|decision]` | Record a disclosure; limitations appear in the report |
 | `qast run finish` | Clear the active-run marker (turns the guard hook off) |
+| `qast run resume <id>` | Re-activate an earlier run (guard hook back on). `qast run start` refuses while another run is active unless `--force` |
 | `qast run list` | All runs |
 
 ## Understanding the project
@@ -47,7 +51,8 @@ Print a fill-in example with `qast schema <Model> --template`.
 qast exec <adapter> [--group G]... [--label L] [--timeout S] [--cwd DIR] [--python PY] [adapter flags] -- <tool args>
 ```
 
-Everything after `--` is passed to the tool. Every execution records normalized results
+Everything after `--` is passed to the tool. `--actor <agent name>` (or `$QAST_ACTOR`) attributes the
+execution; `qast verify` only counts a verifier's own attributed executions. Every execution records normalized results
 (`PASSED FAILED ERROR SKIPPED BLOCKED NOT_RUN INCONCLUSIVE`), redacted logs and reports
 as hashed evidence, and environment metadata. A missing tool yields a **BLOCKED**
 execution with an install hint — never a pass and never a failure.
@@ -81,7 +86,7 @@ collected, hashed and linked to the matching result.
 | Command | Purpose |
 |---|---|
 | `qast reproduce --test <id> [--times 3] [--adapter pytest] [-- <args that run only this test>]` | Re-runs one test N times (capped by `budgets.max_reproduce_attempts`), classifies `consistent` / `intermittent` / `not-reproduced` / `blocked` |
-| `qast verify <finding> --verdict CONFIRMED\|REJECTED\|INCONCLUSIVE --method independent-rerun\|alternate-oracle\|code-inspection\|manual --verifier <name> --rationale "..." [--execution ID]... [--evidence ID]... [--test ID]...` | Records a verdict **only if machine checks pass**. CONFIRMED requires: verifier ≠ reporter, execution-based method, a FAILED result in an execution the verifier ran, intact evidence, and no intermittent reproduction. Otherwise exit code 3 with the failed checks |
+| `qast verify <finding> --verdict CONFIRMED\|REJECTED\|INCONCLUSIVE --method independent-rerun\|alternate-oracle\|code-inspection\|manual --verifier <name> --rationale "..." [--execution ID]... [--evidence ID]... [--test ID]...` | Records a verdict **only if machine checks pass**. Every verdict requires verifier ≠ reporter and intact evidence. CONFIRMED also requires an execution-based method, identified tests, a FAILED result in an execution the verifier ran (`--actor <verifier>`, started after the finding was recorded) and no intermittent reproduction. Overturning a CONFIRMED verdict requires the verifier's own execution showing the tests PASS; conflicting verdicts make the finding INCONCLUSIVE. Otherwise exit code 3 with the failed checks |
 
 Finding status is derived, never edited: `SUSPECTED → REPRODUCED → CONFIRMED`, or
 `NOT_REPRODUCED`, `INCONCLUSIVE`, `REJECTED`.

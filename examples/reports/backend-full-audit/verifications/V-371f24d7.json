@@ -1,0 +1,51 @@
+{
+  "id": "V-371f24d7",
+  "finding_id": "F-767d20c2",
+  "verdict": "CONFIRMED",
+  "method": "independent-rerun",
+  "verifier": "qa-superteam:independent-verification-engineer",
+  "rationale": "Re-ran tests/qa/test_qa_invariants.py::test_transfer_of_entire_balance_rejected_when_fee_not_covered in an independent execution; failure is consistent (3/3).",
+  "created_at": "2026-11-23T14:27:48Z",
+  "evidence_ids": [],
+  "execution_ids": [
+    "ex-df07e8798dc1"
+  ],
+  "test_identifiers": [],
+  "checks": [
+    {
+      "check": "evidence integrity",
+      "passed": true,
+      "detail": "all referenced evidence exists with matching sha256"
+    },
+    {
+      "check": "independent verifier",
+      "passed": true,
+      "detail": "reporter=qa-superteam:backend-qa-engineer verifier=qa-superteam:independent-verification-engineer"
+    },
+    {
+      "check": "execution-based method",
+      "passed": true,
+      "detail": "method=independent-rerun; code inspection or manual review alone cannot confirm a defect"
+    },
+    {
+      "check": "verifier ran own execution",
+      "passed": true,
+      "detail": "verifier executions: ['ex-df07e8798dc1']"
+    },
+    {
+      "check": "tests identified",
+      "passed": true,
+      "detail": "finding or verifier names the failing tests"
+    },
+    {
+      "check": "failing evidence",
+      "passed": true,
+      "detail": "1 FAILED result(s) in the verifier's own executions"
+    },
+    {
+      "check": "reproduction stable",
+      "passed": true,
+      "detail": "3/3 attempts failed (consistent)"
+    }
+  ]
+}

@@ -32,10 +32,10 @@
       "rule_id": "R-CONFIRMED-REVIEW",
       "outcome": "REVIEW_REQUIRED",
       "triggered": true,
-      "reason": "F-52b23502 [high] Checkout is blocked after correcting an invalid postal code; F-13c12f92 [high] Promo code input has no accessible name",
+      "reason": "F-808e865e [high] Checkout is blocked after correcting an invalid postal code; F-ab1fe8b9 [high] Promo code input has no accessible name",
       "refs": [
-        "F-13c12f92",
-        "F-52b23502"
+        "F-808e865e",
+        "F-ab1fe8b9"
       ]
     },
     {
@@ -85,7 +85,7 @@
       "refs": []
     }
   ],
-  "evaluated_at": "2026-11-23T13:48:23Z",
-  "inputs_digest": "04a54e6a727532c6f83d48e6e7f69060c2ca7fe3c04485be1e7408161875f8fa",
+  "evaluated_at": "2026-11-23T14:28:56Z",
+  "inputs_digest": "696f26c3af6225a4972dd7772c46108753c04ff2304c62974bd7fdfcb711dea6",
   "summary": "BLOCK: R-CONFIRMED-REVIEW, R-PLANNED-MANDATORY-CASES"
 }

@@ -1,5 +1,5 @@
 {
-  "id": "TP-20261123-134703-full-audit-2c3b",
+  "id": "TP-20261123-142737-full-audit-e4dc",
   "scope": "Ledger API full audit",
   "strategy_summary": "Risk-based. Existing suite is mandatory. New API tests target the two critical invariants (INV-1, INV-2) and the email uniqueness rule with boundary and negative techniques. REQ-LARGE is ambiguous and out of scope.",
   "test_cases": [

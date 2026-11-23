@@ -1,6 +1,6 @@
 ---
 name: qa-unit
-description: Use when unit-level behaviour of risky logic (money and rounding, dates and time zones, parsing, permission predicates, state machines, retry or limit arithmetic) must be checked, when existing unit tests need a meaningful gap analysis or stronger assertions in the project's own framework (pytest, vitest, jest, go test), when a defect found at API or browser level needs a fast unit regression test, or when the user asks for coverage numbers. Measures coverage only with a real coverage tool and never estimates it.
+description: Use when assessing or improving unit-level tests - finds meaningful gaps in risky logic, strengthens assertions in the project's existing framework, and reports coverage only from a real coverage tool.
 ---
 
 # QA unit testing
@@ -46,11 +46,11 @@ Do not use when:
 
 1. **Select units by risk.** From risks/impact/critical paths pick at most ~8 units: arithmetic on money, boundaries and limits, time, parsing/normalisation, authorisation predicates, state transitions. Write down why each was chosen and what was excluded.
 2. **Behaviour inventory per unit** (technique names as in `qa-test-design`): equivalence classes, boundaries (min-1, min, max, max+1, zero, empty, null), error paths, state transitions, rounding/precision, time edges (DST, month end, leap day, time zones), idempotence and ordering. Each item gets an oracle and its source.
-3. **Run the existing suite first** (`--group existing-suite`), with branch coverage when a tool exists. Read missing lines/branches only inside the selected units; ignore the global percentage while hunting gaps.
+3. **Existing suite first, once per run** (`--group existing-suite`; reuse the run's execution if one exists, unless you need it again with coverage — then tag the coverage run `--group coverage`), with branch coverage when a tool exists. Read missing lines/branches only inside the selected units; ignore the global percentage while hunting gaps.
 4. **Mutation thinking.** For every risky decision list the plausible mutants (`>=`→`>`, `and`→`or`, sign flip, dropped clause, swapped arguments, `ceil`→`floor`, early return) and name the existing assertion that would fail. None ⇒ gap. Mutation tools only if already installed and only in a throwaway copy: [references/mutation-thinking.md](references/mutation-thinking.md).
 5. **Audit assertion quality** of the tests touching those units: [references/assertion-quality-and-smells.md](references/assertion-quality-and-smells.md). A covered line guarded by a weak oracle counts as a gap.
 6. **Design tests:** one behaviour per test, parametrized boundaries with readable ids, exact expected values from the oracle source, error type *and* message matched, injected clocks/randomness instead of sleeps. Patterns: [references/framework-patterns.md](references/framework-patterns.md).
-7. **Write or propose.** `write_tests = true`: new files only under `test_dir`, unique basenames (`test_qa_<unit>.py`, pytest's default import mode rejects duplicate basenames), reuse existing fixtures, no new frameworks or plugins. Otherwise record the cases as `origin: "proposed"` with code and oracle.
+7. **Write or propose.** `write_tests = true`: new files only under `test_dir`, unique basenames (`test_qa_<unit>.py`, pytest's default import mode rejects duplicate basenames), reuse existing fixtures, no new frameworks or plugins. Otherwise write self-contained probes in `<run dir>/probes/`, execute them, and record the durable cases as `origin: "proposed"` with code and oracle.
 8. **Execute** the new tests: `qast exec pytest --group <plan group> --label qa-unit -- <files>` (or the matching adapter).
 9. **Classify every non-PASS.** FAILED against a stated requirement ⇒ candidate product defect. FAILED against an inferred oracle ⇒ ambiguity to record, not a defect. ERROR ⇒ your test is broken: fix your own new test (at most twice), never an existing one.
 10. **Record defects** with `qast finding add --file <.qa-superteam/...json>` (template: `qast schema DefectFinding --template`), then `qast reproduce --test <nodeid> --times 3`. High/critical go to independent verification (`qa-verification`); never confirm your own finding.

@@ -112,13 +112,15 @@ class RunStore:
             environment=environment,
         )
         write_json_exclusive(store.dir / "run.json", to_dict(info))
-        store.journal("run.created", mode=mode, scope=scope)
+        store.journal("run.created", mode=mode, scope=scope, config_sha256=config_digest(config))
         if activate:
             store.activate()
         return store
 
     @classmethod
-    def resolve(cls, config: Config, run_id: str | None = None) -> RunStore:
+    def resolve(cls, config: Config, run_id: str | None = None, write: bool = False) -> RunStore:
+        """Explicit --run, else the active run. Read-only commands fall back to the newest run;
+        commands that record evidence never write into a run that is not active."""
         if run_id:
             store = cls(config, run_id)
             if not (store.dir / "run.json").exists():
@@ -133,7 +135,19 @@ class RunStore:
         runs = sorted(p.name for p in config.runs_dir.glob("*") if (p / "run.json").exists()) if config.runs_dir.exists() else []
         if not runs:
             raise StoreError("no QA run found; start one with: qast run start --mode <mode> --scope '<scope>'")
+        if write:
+            raise StoreError(
+                f"no active QA run (latest is {runs[-1]}, which is finished or inactive); "
+                "start a new run with `qast run start`, or continue one with `qast run resume <id>`"
+            )
         return cls(config, runs[-1])
+
+    def is_active(self) -> bool:
+        marker = active_marker(self.config)
+        return marker.exists() and marker.read_text(encoding="utf-8").split()[0].strip() == self.run_id
+
+    def is_finished(self) -> bool:
+        return any(ev.get("event") == "run.finished" for ev in self.journal_events())
 
     def activate(self) -> None:
         marker = active_marker(self.config)
@@ -156,6 +170,18 @@ class RunStore:
         line = self.redactor.redact(line)
         with open(self.dir / "journal.jsonl", "a", encoding="utf-8") as fh:
             fh.write(line + "\n")
+        marker = active_marker(self.config)
+        if event != "run.finished" and marker.exists() and marker.read_text(encoding="utf-8").startswith(self.run_id):
+            os.utime(marker)  # keep the guard hook's staleness clock fresh while work continues
+
+    def config_changes(self) -> list[str]:
+        """Problems if .qa-superteam/config.toml changed since the run started (permissions may have been loosened)."""
+        events = [ev for ev in self.journal_events() if ev.get("event") in ("run.created", "run.resumed") and "config_sha256" in ev]
+        if not events:
+            return []
+        if config_digest(self.config) == events[-1]["config_sha256"]:
+            return []
+        return ["config.toml changed after the run started (permissions or policy may have been loosened); start or resume the run again to accept the new config"]
 
     def journal_events(self) -> list[dict[str, Any]]:
         path = self.dir / "journal.jsonl"
@@ -319,6 +345,11 @@ class RunStore:
 
     def verification_id(self, finding_id: str, verifier: str) -> str:
         return stable_id("V", self.run_id, finding_id, verifier, str(self.next_sequence("verifications")), length=8)
+
+
+def config_digest(config: Config) -> str:
+    p = config.project_root / ".qa-superteam" / "config.toml"
+    return sha256_bytes(p.read_bytes()) if p.exists() else "defaults"
 
 
 def active_marker(config: Config) -> Path:
