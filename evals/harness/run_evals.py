@@ -30,7 +30,8 @@ from graders import grade, run_dir_records  # noqa: E402
 from transcript import parse_stream_json  # noqa: E402
 
 FIXTURES = {"backend-api", "web-checkout", "ai-support-bot"}
-USAGE_LIMIT_RE = __import__("re").compile(r"(?i)(hit your .{0,20}limit|usage limit|out of (usage )?credits|rate limit|overloaded|invalid api key|not logged in|please run /login)")
+# Claude Code's own limit/auth messages only; generic phrases like "rate limit" occur in normal QA answers.
+USAGE_LIMIT_RE = __import__("re").compile(r"(?i)(you've hit your [\w -]{0,20}limit|out of usage credits|invalid api key|please run /login)")
 ALLOWED_TOOLS = [
     "Read", "Grep", "Glob", "Write", "Edit", "Skill", "Agent", "TodoWrite",
     "Bash(qast:*)", "Bash(python3:*)", "Bash(python:*)", "Bash(pytest:*)", "Bash(npx playwright:*)", "Bash(npm test:*)",
@@ -138,7 +139,7 @@ def evaluate(sc: dict, condition: str, args, out_dir: Path) -> dict:
         if not t.tool_calls and not t.final_text:
             return {**rec, "status": "ERROR", "reason": "no transcript (auth or CLI error): " + raw[-300:]}
         limit = USAGE_LIMIT_RE.search(t.final_text or "")
-        if (t.is_error or limit) and not t.tool_calls:
+        if limit and not t.tool_calls:
             # the session never started working: not a behavioral result
             return {**rec, "status": "NOT_RUN", "reason": f"session did not run: {(t.final_text or raw)[-200:].strip()}", "cost_usd": t.cost_usd}
         if limit:

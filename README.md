@@ -273,6 +273,18 @@ content in machine-readable form ([schema](schemas/QAReport.schema.json)).
 - Treat an LLM judge as ground truth.
 - Test production or third-party systems. It only tests targets you explicitly authorize.
 
+**Measured so far.** Live runs, baseline Claude Code versus the plugin, Sonnet, one
+sample each:
+
+- The full audit and PR review on the reference API passed end to end only with the
+  plugin. The plugin recorded all three planted defects with executed evidence; the
+  baseline mentioned two of them in prose.
+- No unsupported pass claims and no false positives were observed.
+- Weak point: specific skills are skipped on small tasks.
+
+Details and the gaps are in
+[evals/reports/2026-11-23-live-sonnet.md](evals/reports/2026-11-23-live-sonnet.md).
+
 Coverage percentages appear only when a coverage tool measured them. Confidence is
 ordinal (high, medium or low) with a documented basis; see
 [docs/evidence-model.md](docs/evidence-model.md). Everything that is untested, partial or

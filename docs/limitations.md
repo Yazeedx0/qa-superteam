@@ -38,10 +38,15 @@ measured. Each item says how it was established.
 
 ## Skills and agents
 
-- **Live behavioral evals are mostly unmeasured.** In the one live run (2026-11-23), only 3 of
-  18 sessions executed before the account's usage limit was reached; see
-  `evals/reports/2026-11-23-live-sonnet.md`. The harness currently grades such limit-hit
-  sessions as FAILED instead of NOT_RUN, which is a known bug.
+- **Live behavioral evals cover 9 of 64 scenarios, one Sonnet sample each.** See
+  [evals/reports/2026-11-23-live-sonnet.md](../evals/reports/2026-11-23-live-sonnet.md).
+  - Measured strengths: the full audit and PR review passed end to end, and only the
+    plugin produced executed evidence and recorded findings.
+  - The SessionStart hook improved skill loading and stopped a secret leak.
+  - Measured weaknesses: specific methodology skills are still skipped in about half of
+    the small tasks (the agent works from the router skill), and verification
+    follow-through is inconsistent.
+  - The other 55 scenarios are unmeasured.
 - The methodology was written and then independently reviewed against the actual
   behavior of `qast`, and every `qast` command cited in skills and agents is checked by
   `scripts/validate_plugin.py`. **Behavioral quality is measured only by the live evals
