@@ -1,7 +1,8 @@
 {
   "name": "qa-superteam",
   "owner": {
-    "name": "QA Superteam contributors"
+    "name": "Yazeedx0",
+    "url": "https://github.com/Yazeedx0"
   },
   "description": "QA Superteam: an evidence-driven AI quality engineering team for Claude Code.",
   "plugins": [
@@ -11,7 +12,14 @@
       "description": "Risk-based QA skills, specialist QA agents, real test execution, evidence and a deterministic release gate.",
       "version": "0.1.0",
       "category": "testing",
-      "tags": ["qa", "testing", "release", "security", "accessibility", "ai-evals"]
+      "tags": [
+        "qa",
+        "testing",
+        "release",
+        "security",
+        "accessibility",
+        "ai-evals"
+      ]
     }
   ]
 }

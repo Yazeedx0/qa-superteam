@@ -20,7 +20,7 @@ and a report on every PR:
 - uses: actions/setup-python@v5
   with: { python-version: "3.12" }
 - run: pip install -r requirements.txt pytest
-- run: git clone --depth 1 https://github.com/<owner>/qa-superteam /tmp/qa-superteam
+- run: git clone --depth 1 https://github.com/Yazeedx0/qa-superteam /tmp/qa-superteam
 - name: QA gate
   run: |
     export PATH=/tmp/qa-superteam/bin:$PATH

@@ -3,22 +3,40 @@
   "version": "0.1.0",
   "description": "An autonomous AI quality engineering team: risk-based QA skills, real test execution, evidence capture, independent verification and a deterministic release gate.",
   "author": {
-    "name": "QA Superteam contributors"
+    "name": "Yazeedx0",
+    "url": "https://github.com/Yazeedx0"
   },
   "license": "MIT",
-  "keywords": ["qa", "testing", "quality-engineering", "release-gate", "playwright", "pytest", "security", "accessibility", "ai-evals"],
+  "keywords": [
+    "qa",
+    "testing",
+    "quality-engineering",
+    "release-gate",
+    "playwright",
+    "pytest",
+    "security",
+    "accessibility",
+    "ai-evals"
+  ],
   "skills": "./skills/",
   "hooks": {},
   "interface": {
     "displayName": "QA Superteam",
     "shortDescription": "Evidence-first QA: audits, PR review, bug verification and release gates",
     "longDescription": "QA Superteam makes the agent work like a QA team: it discovers what the software should do, ranks risks, runs your real tests, investigates and independently verifies failures, and decides PASS, REVIEW_REQUIRED or BLOCK from an explicit policy.",
-    "developerName": "QA Superteam contributors",
+    "developerName": "Yazeedx0",
     "category": "Developer Tools",
-    "capabilities": ["Interactive", "Read", "Write"],
+    "capabilities": [
+      "Interactive",
+      "Read",
+      "Write"
+    ],
     "defaultPrompt": [
       "Run a full QA audit of this repository.",
       "Is this branch safe to release?"
-    ]
-  }
+    ],
+    "websiteURL": "https://github.com/Yazeedx0/qa-superteam"
+  },
+  "homepage": "https://github.com/Yazeedx0/qa-superteam",
+  "repository": "https://github.com/Yazeedx0/qa-superteam"
 }
