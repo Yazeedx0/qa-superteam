@@ -25,6 +25,7 @@ class Transcript:
     is_error: bool = False
     result_subtype: str | None = None
     usage: dict[str, Any] = field(default_factory=dict)
+    slash_skill: str | None = None  # skill expanded from a `/qa-superteam:<name>` prompt (no Skill tool call is emitted)
 
     @property
     def bash_commands(self) -> list[str]:
@@ -32,7 +33,7 @@ class Transcript:
 
     @property
     def skills(self) -> list[str]:
-        out = []
+        out = [self.slash_skill] if self.slash_skill else []
         for c in self.tool_calls:
             if c.name == "Skill":
                 s = c.input.get("skill") or c.input.get("command") or c.input.get("name") or ""

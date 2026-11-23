@@ -30,6 +30,7 @@ from graders import grade, run_dir_records  # noqa: E402
 from transcript import parse_stream_json  # noqa: E402
 
 FIXTURES = {"backend-api", "web-checkout", "ai-support-bot"}
+USAGE_LIMIT_RE = __import__("re").compile(r"(?i)(hit your .{0,20}limit|usage limit|out of (usage )?credits|rate limit|overloaded|invalid api key|not logged in|please run /login)")
 ALLOWED_TOOLS = [
     "Read", "Grep", "Glob", "Write", "Edit", "Skill", "Agent", "TodoWrite",
     "Bash(qast:*)", "Bash(python3:*)", "Bash(python:*)", "Bash(pytest:*)", "Bash(npx playwright:*)", "Bash(npm test:*)",
@@ -136,6 +137,15 @@ def evaluate(sc: dict, condition: str, args, out_dir: Path) -> dict:
         t = parse_stream_json(raw)
         if not t.tool_calls and not t.final_text:
             return {**rec, "status": "ERROR", "reason": "no transcript (auth or CLI error): " + raw[-300:]}
+        limit = USAGE_LIMIT_RE.search(t.final_text or "")
+        if (t.is_error or limit) and not t.tool_calls:
+            # the session never started working: not a behavioral result
+            return {**rec, "status": "NOT_RUN", "reason": f"session did not run: {(t.final_text or raw)[-200:].strip()}", "cost_usd": t.cost_usd}
+        if limit:
+            return {**rec, "status": "ERROR", "reason": f"session interrupted by a usage/rate limit after {len(t.tool_calls)} tool calls", "cost_usd": t.cost_usd}
+        p = sc["prompt"].strip()
+        if condition == "plugin" and p.startswith("/qa-superteam:"):
+            t.slash_skill = p[len("/qa-superteam:"):].split()[0]
         gt = ground_truth(sc.get("fixture"))
         results = [grade(c, t, proj, gt) for c in sc["checks"]]
         recs = run_dir_records(proj)

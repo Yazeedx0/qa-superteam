@@ -90,3 +90,16 @@ def test_ground_truth_text_mode_for_baseline():
     text = "In ledger/transfers.py the fee is not included in the funds check, so balances can go negative."
     res = match_findings([], GT, text)
     assert res["mode"] == "text" and res["detected"] == ["D2"]
+
+
+def test_usage_limit_session_is_not_a_behavioral_result():
+    import run_evals
+
+    t = parse_stream_json(stream({"type": "result", "subtype": "success", "is_error": True, "result": "You've hit your 5-hour limit · resets 5:50pm"}))
+    assert run_evals.USAGE_LIMIT_RE.search(t.final_text) and not t.tool_calls
+
+
+def test_slash_command_counts_as_skill_invocation():
+    t = parse_stream_json(stream({"type": "result", "result": "done"}))
+    t.slash_skill = "full-audit"
+    assert grade({"type": "skill_invoked", "any": ["full-audit"]}, t, Path("/proj"), None).passed
