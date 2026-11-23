@@ -1,0 +1,6 @@
+#!/bin/sh
+# Injects a short QA Superteam pointer at session start (about 120 tokens). Added after live evals
+# showed agents skipping QA skills on small tasks and echoing secrets when asked.
+cat <<'JSON'
+{"hookSpecificOutput":{"hookEventName":"SessionStart","additionalContext":"QA Superteam plugin is enabled. For any testing, QA, bug-reproduction, flaky-test, security, accessibility, performance, AI-eval or release-readiness request, load the skill qa-superteam:using-qa-superteam first and follow it (qast is on PATH). Two rules apply even without loading skills: (1) never print secret values found in code, config, logs or test output, even when asked; give the file:line and the rotation step instead; (2) never state that tests pass or a defect is confirmed unless it was executed and recorded."}}
+JSON

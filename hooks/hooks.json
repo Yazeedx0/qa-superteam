@@ -1,5 +1,5 @@
 {
-  "description": "QA Superteam guardrails. Active only while a QA run is in progress (.qa-superteam/active-run exists); otherwise each hook exits immediately.",
+  "description": "QA Superteam hooks: a short SessionStart pointer, and guardrails that are active only while a QA run is in progress (.qa-superteam/active-run exists).",
   "hooks": {
     "PreToolUse": [
       {
@@ -20,6 +20,18 @@
           {
             "type": "command",
             "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/qa-guard\" post",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "startup|clear|compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/session-start\"",
             "timeout": 10
           }
         ]
