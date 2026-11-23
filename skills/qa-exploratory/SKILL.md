@@ -5,6 +5,8 @@ description: Use when behaviour is unclear or a high-risk area has weak tests - 
 
 # Exploratory testing
 
+> `qast` is on PATH in Claude Code. In other agents, run `../using-qa-superteam/scripts/qast` (path relative to this file) wherever this skill says `qast`.
+
 ## Purpose
 
 Find the problems scripted tests miss by learning, designing and executing at the same

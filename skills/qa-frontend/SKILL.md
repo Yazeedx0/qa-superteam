@@ -5,6 +5,8 @@ description: Use when testing browser journeys with Playwright - end-to-end flow
 
 # QA frontend / browser testing
 
+> `qast` is on PATH in Claude Code. In other agents, run `../using-qa-superteam/scripts/qast` (path relative to this file) wherever this skill says `qast`.
+
 ## Purpose
 
 Prove, with recorded browser executions, that users can complete the journeys the

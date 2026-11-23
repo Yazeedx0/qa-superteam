@@ -141,9 +141,20 @@ def test_harmless_redirections_pass(active, cmd):
     assert run_hook(active, "pre", "Bash", {"command": cmd}) is None
 
 
-def test_session_start_hook_emits_valid_context():
-    out = subprocess.run([str(ROOT / "hooks" / "session-start")], capture_output=True, text=True, timeout=10)
+@pytest.mark.parametrize(
+    "env,key",
+    [
+        ({"CLAUDE_PLUGIN_ROOT": "/p"}, "hookSpecificOutput"),
+        ({"CURSOR_PLUGIN_ROOT": "/p"}, "additional_context"),
+        ({"CLAUDE_PLUGIN_ROOT": "/p", "COPILOT_CLI": "1"}, "additionalContext"),
+        ({}, "additionalContext"),
+    ],
+)
+def test_session_start_hook_emits_each_hosts_format(env, key):
+    out = subprocess.run([str(ROOT / "hooks" / "session-start")], capture_output=True, text=True, timeout=10,
+                         env={"PATH": "/usr/bin:/bin", **env})
     data = json.loads(out.stdout)
-    ctx = data["hookSpecificOutput"]["additionalContext"]
-    assert data["hookSpecificOutput"]["hookEventName"] == "SessionStart"
-    assert "using-qa-superteam" in ctx and "secret" in ctx and len(ctx) < 800
+    ctx = data[key]["additionalContext"] if key == "hookSpecificOutput" else data[key]
+    if key == "hookSpecificOutput":
+        assert data[key]["hookEventName"] == "SessionStart"
+    assert "using-qa-superteam" in ctx and "secret" in ctx and len(ctx) < 900

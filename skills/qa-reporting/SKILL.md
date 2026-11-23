@@ -5,6 +5,8 @@ description: Use when summarizing QA results for developers, QA leads or release
 
 # QA reporting
 
+> `qast` is on PATH in Claude Code. In other agents, run `../using-qa-superteam/scripts/qast` (path relative to this file) wherever this skill says `qast`.
+
 ## Purpose
 
 Tell each audience what was verified, what failed, what is uncertain and what was not

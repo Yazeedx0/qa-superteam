@@ -12,6 +12,9 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from urllib.parse import urlsplit
 
+# Directory that contains the qa_superteam package (repo: src/, skill bundle: scripts/).
+PACKAGE_PARENT = Path(__file__).resolve().parents[1]
+# Root holding policies/ and templates/ (repo root, or the skill bundle's scripts/ via QAST_PLUGIN_ROOT).
 PLUGIN_ROOT = Path(os.environ.get("QAST_PLUGIN_ROOT") or Path(__file__).resolve().parents[2])
 DEFAULT_POLICY = PLUGIN_ROOT / "policies" / "default.toml"
 CONFIG_TEMPLATE = PLUGIN_ROOT / "templates" / "config.toml"

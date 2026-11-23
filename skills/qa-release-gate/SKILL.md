@@ -5,6 +5,8 @@ description: Use when a release decision is needed - checks the required evidenc
 
 # QA release gate
 
+> `qast` is on PATH in Claude Code. In other agents, run `../using-qa-superteam/scripts/qast` (path relative to this file) wherever this skill says `qast`.
+
 ## Purpose
 
 Turn recorded evidence into a release decision anyone can audit: same evidence plus
@@ -53,7 +55,7 @@ Never substitute your own verdict.
    Close a gap first when scope, budget and permissions allow, using the owning skill. Otherwise gate anyway: missing evidence is an input the policy handles, and it never becomes a pass.
 2. **Policy.** Use the configured policy. Pass `--policy` only when the user asks (bundled strict policy: `qast gate --policy policies/strict.toml`; a relative path is tried against the current directory, then the project root, then the plugin). Each gate run replaces `decision.json`, so after a comparison run the configured policy again last, unless the user chose the other policy for this release. Never switch policy to obtain a better outcome. Name policy, version and sha in every answer.
 3. **Run** `qast gate --json` (CI: `qast gate --exit-code`; 0 PASS, 10 REVIEW_REQUIRED, 20 BLOCK).
-4. **Read every triggered rule** (`"triggered": true`): its reason, its refs (finding ids, test ids), and what would change it. Semantics: `${CLAUDE_PLUGIN_ROOT}/docs/policy.md`. Per-rule resolutions: [references/rule-playbook.md](references/rule-playbook.md).
+4. **Read every triggered rule** (`"triggered": true`): its reason, its refs (finding ids, test ids), and what would change it. Semantics: `references/policy.md`. Per-rule resolutions: [references/rule-playbook.md](references/rule-playbook.md).
 5. **Explain the decision.** It is the most severe triggered outcome (BLOCK > REVIEW_REQUIRED > PASS); PASS also requires positive evidence (`R-POSITIVE-EVIDENCE`). Quote each rule id and translate it into one plain sentence.
 6. **REVIEW_REQUIRED: list the human decisions.** One per triggered REVIEW rule, addressed to a role (release manager, product owner, security lead): the question, the evidence ids, the risk if accepted, and the options (accept with a recorded rationale, produce the missing evidence, fix first). Do not answer them yourself and never describe REVIEW_REQUIRED as "basically a pass".
 7. **BLOCK: the path to unblock.** Each blocking item with evidence, and the sequence that changes it: fix → new run on the fixed build → re-execute → re-verify → `qast gate`.
@@ -100,5 +102,5 @@ Evidence gaps that fed the decision: <not executed / BLOCKED / skipped items>
 
 ## References
 
-- `${CLAUDE_PLUGIN_ROOT}/docs/policy.md`: every rule id and policy key, defaults, customization examples.
+- `references/policy.md`: every rule id and policy key, defaults, customization examples.
 - [references/rule-playbook.md](references/rule-playbook.md): per rule, typical causes, legitimate resolutions, the human question, and moves that are never acceptable.

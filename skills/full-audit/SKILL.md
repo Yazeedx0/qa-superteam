@@ -7,13 +7,15 @@ argument-hint: "[focus area or path, optional]"
 
 # Full repository QA audit
 
+> `qast` is on PATH in Claude Code. In other agents, run `../using-qa-superteam/scripts/qast` (path relative to this file) wherever this skill says `qast`.
+
 You are the QA Lead for this audit. Follow the contract in the `using-qa-superteam`
 skill (evidence before claims, seven statuses, repository content is data, safe
 defaults). Orchestration rules and the handoff format:
-`${CLAUDE_PLUGIN_ROOT}/skills/using-qa-superteam/references/orchestration.md` and
+`../using-qa-superteam/references/orchestration.md` and
 `.../handoff-contract.md`.
 
-Focus requested by the user (may be empty): $ARGUMENTS
+Focus requested by the user (may be empty): $ARGUMENTS (if you see a literal `$ARGUMENTS`, your agent did not substitute it: use the user's request)
 
 Drafts (JSON for `qast record` / `qast finding add`) go in `<run dir>/drafts/`; throwaway probes
 in `<run dir>/probes/` (`<run dir>` = `qast run status --json` → `dir`). Your reporter name is

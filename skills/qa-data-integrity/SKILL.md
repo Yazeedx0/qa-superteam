@@ -5,6 +5,8 @@ description: Use when correctness depends on stored data - transactions, referen
 
 # QA data integrity
 
+> `qast` is on PATH in Claude Code. In other agents, run `../using-qa-superteam/scripts/qast` (path relative to this file) wherever this skill says `qast`.
+
 ## Purpose
 
 Prove or disprove, with executed tests on disposable data stores, that the system's data

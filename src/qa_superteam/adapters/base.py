@@ -19,7 +19,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 from .. import models as m
-from ..config import PLUGIN_ROOT, Config
+from ..config import PACKAGE_PARENT, Config
 from ..env import environment_info
 from ..procexec import ProcResult, run
 from ..redact import redact_argv
@@ -112,7 +112,7 @@ def derive_status(
 
 
 def plugin_pythonpath(extra: list[str] | None = None) -> str:
-    parts = [str(PLUGIN_ROOT / "src"), *(extra or [])]
+    parts = [str(PACKAGE_PARENT), *(extra or [])]
     existing = os.environ.get("PYTHONPATH")
     if existing:
         parts.append(existing)

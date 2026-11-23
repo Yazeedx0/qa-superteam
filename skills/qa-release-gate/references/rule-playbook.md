@@ -1,7 +1,7 @@
 # Gate rule playbook
 
 What to do when a rule triggers. Exact semantics are in
-`${CLAUDE_PLUGIN_ROOT}/docs/policy.md`. Two facts shape most resolutions:
+`policy.md`. Two facts shape most resolutions:
 
 - **A run describes one build.** Executions are write-once and every execution in a
   mandatory group counts. After a fix or an environment change, evaluate in a new run

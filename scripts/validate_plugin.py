@@ -149,6 +149,13 @@ def check_links(where: Path, body: str, rep: Report) -> None:
         p = (where.parent / target).resolve()
         if not p.exists():
             rep.err(str(where.relative_to(ROOT)), f"broken link {target}")
+    for target in re.findall(r"`(\.\./[a-z0-9-]+/[^\s`]+)`", body):  # sibling-skill paths used in any agent
+        if "<" in target or "..." in target[3:]:
+            continue
+        if not (where.parent / target).exists():
+            rep.err(str(where.relative_to(ROOT)), f"relative path {target} does not exist")
+    if "${CLAUDE_PLUGIN_ROOT}" in body and where.parts[-3:-2] != ("hooks",):
+        rep.err(str(where.relative_to(ROOT)), "uses ${CLAUDE_PLUGIN_ROOT}; skills must use relative paths so they work in every agent")
     for target in re.findall(r"\$\{CLAUDE_PLUGIN_ROOT\}/([^\s`'\")]+)", body):
         target = target.rstrip(".,;:")
         if "..." in target or "<" in target:
@@ -186,8 +193,20 @@ def validate_manifests(rep: Report) -> None:
     from qa_superteam import __version__
 
     versions["qa_superteam.__version__"] = __version__
+    for other in (".codex-plugin/plugin.json", ".cursor-plugin/plugin.json", "gemini-extension.json"):
+        path = ROOT / other
+        if path.exists():
+            try:
+                versions[other] = json.loads(path.read_text()).get("version")
+            except json.JSONDecodeError as e:
+                rep.err(other, f"invalid JSON: {e}")
     if len(set(versions.values())) != 1:
         rep.err("versions", f"inconsistent: {versions}")
+    import subprocess
+
+    out = subprocess.run([sys.executable, str(ROOT / "scripts" / "sync_skill_runtime.py"), "--check"], capture_output=True, text=True)
+    if out.returncode != 0:
+        rep.err("skills/using-qa-superteam/scripts", "bundled qast runtime is out of date: run python3 scripts/sync_skill_runtime.py")
 
 
 def validate_skills(rep: Report, tree) -> list[str]:

@@ -50,40 +50,56 @@ and declines testing that would not change release confidence.
 
 ## Install
 
-Requirements: Claude Code ≥ 2.1, Python ≥ 3.11 on `PATH` as `python3`, and git. The core
-has **no Python dependencies**. Test tools (pytest, Playwright, k6, axe-core, scanners) are
-used when your project has them; when one is missing, the checks that need it are reported
-as `BLOCKED` along with how to install the tool.
+QA Superteam is a standard [Agent Skills](https://agentskills.io) package (`skills/<name>/SKILL.md`)
+and also a native plugin for several agents. Requirements: **Python 3.11+** for the bundled
+`qast` tool (no packages needed), git, and Node 22.20+ only if you use the `npx` installer.
 
-Inside Claude Code:
+### Any coding agent: `npx skills`
 
+Works with Claude Code, Codex, Cursor, Gemini CLI, GitHub Copilot, OpenCode, Windsurf, Cline,
+Roo Code, Kiro, Goose, Amp, Qwen Code and [about 70 more](https://github.com/vercel-labs/skills/blob/main/docs/agents.md)
+through the open [`skills` installer](https://skills.sh):
+
+```bash
+npx skills add <owner>/qa-superteam                              # choose agents interactively (project scope)
+npx skills add <owner>/qa-superteam -g -a codex -a cursor -y      # user-wide, for specific agents
+npx skills add <owner>/qa-superteam --skill using-qa-superteam --skill review-pr   # only some skills
 ```
-/plugin marketplace add <owner>/qa-superteam
-/plugin install qa-superteam@qa-superteam
-```
 
-From a shell:
+Outside Claude Code, `qast` ships inside the entry skill:
+`.agents/skills/using-qa-superteam/scripts/qast doctor` (the exact folder depends on the agent).
+The skills tell the agent where to find it.
+
+### Claude Code: full plugin (recommended there)
+
+The plugin adds what plain skills cannot: the 12 specialist agents, the guard hook, the
+session pointer, and `qast` on `PATH`.
 
 ```bash
 claude plugin marketplace add <owner>/qa-superteam
-claude plugin install qa-superteam@qa-superteam          # add --scope project to share via .claude/settings.json
+claude plugin install qa-superteam@qa-superteam      # add --scope project to share via .claude/settings.json
 ```
 
-Try it without installing (local clone):
+In a session: `/plugin marketplace add <owner>/qa-superteam`, then `/plugin install qa-superteam@qa-superteam`.
+To try a local clone: `claude --plugin-dir ./qa-superteam`.
 
-```bash
-git clone https://github.com/<owner>/qa-superteam
-claude --plugin-dir ./qa-superteam
-```
+### Native plugins for other agents
 
-Replace `<owner>` with the GitHub account that hosts your copy. Check the setup from any
-project:
+The repository includes manifests in the formats these agents use for plugins and
+extensions. They follow the layout of widely used multi-agent skill repositories, but **they
+have not been tested inside these agents**; `npx skills` above is the tested path.
 
-```bash
-qast doctor          # available inside Claude Code sessions (plugin bin/ is on PATH)
-```
+| Agent | Command or manifest |
+|---|---|
+| Gemini CLI | `gemini extensions install https://github.com/<owner>/qa-superteam` (`gemini-extension.json`, `GEMINI.md`) |
+| GitHub Copilot CLI | `copilot plugin marketplace add <owner>/qa-superteam`, then `copilot plugin install qa-superteam@qa-superteam` |
+| Factory Droid | `droid plugin marketplace add https://github.com/<owner>/qa-superteam`, then `droid plugin install qa-superteam@qa-superteam` |
+| Qwen Code | `qwen extensions install <owner>/qa-superteam` (reads the Claude Code marketplace) |
+| Codex | `.codex-plugin/plugin.json` and `.agents/plugins/marketplace.json` (add the repo as a plugin marketplace in Codex) |
+| Cursor | `.cursor-plugin/plugin.json`, with a session-start hook (`hooks/hooks-cursor.json`) |
 
-Outside Claude Code, `<clone>/bin/qast` works the same, or `pip install -e <clone>`.
+Replace `<owner>` with the GitHub account that hosts your copy. Check the setup from any project
+with `qast doctor`.
 
 ## Quick start
 
@@ -320,7 +336,7 @@ Full threat model: [docs/security.md](docs/security.md). Report vulnerabilities 
 
 | Symptom | Fix |
 |---|---|
-| `qast: command not found` | The plugin is not enabled in this session (`/plugin`), or outside Claude Code: use `<clone>/bin/qast` |
+| `qast: command not found` | Claude Code: the plugin is not enabled (`/plugin`). Other agents: use the bundled `<skills dir>/using-qa-superteam/scripts/qast` |
 | `qast requires Python >= 3.11` | Set `QAST_PYTHON=/path/to/python3.11+` |
 | Executions are `BLOCKED` | Read the reason. Usually a missing tool (`qast doctor` shows the install command) or a target missing from `authorized_targets` |
 | pytest runs the wrong interpreter | Set `[python] interpreter` in config, or pass `--python .venv/bin/python` |
@@ -340,15 +356,16 @@ More in [docs/troubleshooting.md](docs/troubleshooting.md).
   parser tests using real tool output in `tests/data/`.
 - **New policy rule.** Add it to `src/qa_superteam/policy.py`, with unit tests in
   `tests/unit/test_policy.py` and documentation in `docs/policy.md`.
-- **Other coding agents.** See [docs/compatibility.md](docs/compatibility.md) for what
-  works in Codex and others, and what does not.
+- **Other coding agents.** See [docs/compatibility.md](docs/compatibility.md) for what each
+  install provides and what has been tested.
 
 Development:
 
 ```bash
 python3 -m pytest tests/unit                 # framework tests (no network, no LLM)
 python3 -m pytest tests -m integration       # real tools: pytest, Playwright, k6, node runners
-python3 scripts/validate_plugin.py           # skills, agents, hooks, scenarios, hygiene
+python3 scripts/sync_skill_runtime.py        # after changing src/, policies/ or docs: refresh the skill-bundled qast
+python3 scripts/validate_plugin.py           # skills, agents, hooks, scenarios, manifests, hygiene
 claude plugin validate . --strict            # Claude Code's own manifest validation
 bash evals/ground_truth/backend-api/verify_oracle.sh   # planted defects are real
 python3 evals/harness/run_evals.py --list    # behavioral evals (add --live to run)

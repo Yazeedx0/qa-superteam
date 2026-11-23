@@ -1,0 +1,6 @@
+{
+  "name": "qa-superteam",
+  "description": "Evidence-first QA skills: audits, PR review, bug verification, security, accessibility, AI evals and a deterministic release gate.",
+  "version": "0.1.0",
+  "contextFileName": "GEMINI.md"
+}

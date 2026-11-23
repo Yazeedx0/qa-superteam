@@ -5,6 +5,8 @@ description: Use when a failure's cause is unclear or a bug report needs an evid
 
 # Bug investigation
 
+> `qast` is on PATH in Claude Code. In other agents, run `../using-qa-superteam/scripts/qast` (path relative to this file) wherever this skill says `qast`.
+
 ## Purpose
 
 Turn a failure signal (a FAILED/ERROR result, a bug report, an exploratory observation)
@@ -67,7 +69,7 @@ limitation, and do not guess the outcome.
    - *flaky* - intermittent; the source decides whether it is a test or product problem;
    - *not a defect* - misread or out-of-scope requirement.
 6. **Isolate and hypothesize.** Localize with read-only means: stack trace, logs, `git log -p -- <file>`, `git blame -L`. Each root-cause idea is a hypothesis with a confidence. It may be `confirmed: true` only when an execution demonstrates it (a variant that toggles the suspected condition flips the outcome) and its `evidence_ids` are attached. Toggle conditions through inputs, configuration or test doubles - never by editing application code. `git bisect run` only when the user explicitly asks, inside a disposable worktree under the run directory (details in minimization.md).
-7. **Severity** from the active policy's `[severity_definitions]` (config `[policy] path`, default `${CLAUDE_PLUGIN_ROOT}/policies/default.toml`). Severity is the impact if users hit it, not how likely or how hard to fix; name the definition clause you matched. Pick the category honestly - security and data-integrity block at lower severities, which is the point.
+7. **Severity** from the active policy's `[severity_definitions]` (config `[policy] path`, default `../using-qa-superteam/scripts/policies/default.toml`). Severity is the impact if users hit it, not how likely or how hard to fix; name the definition clause you matched. Pick the category honestly - security and data-integrity block at lower severities, which is the point.
 8. **Record** product defects (including INCONCLUSIVE flaky ones) with `qast finding add --file - <<'EOF'` following [references/bug-report-template.md](references/bug-report-template.md): `execution_ids` (failing executions), `evidence_ids`, `test_identifiers` exactly as passed to `qast reproduce` (this links the reproduction to the derived status), `requirement_ids`, minimal `inputs`, `environment_notes`, `hypotheses`, `reported_by` = your agent name. Read the derived status it prints. Test defects, environment problems and flaky tests whose cause is in the test are recorded as findings with `category: "other"`, `severity: "info"` and a title starting `Test defect:` or `Environment:` (with the failing `test_identifiers`, evidence ids and a proposed fix in `summary`) - this triages the failure for the gate (`R-UNTRIAGED-FAILURES`) without ever blocking, and keeps it visible in the report. Never give such a finding a product severity.
 9. **Hand off.** High/critical findings go to `qa-verification` by a different agent (`qa-superteam:independent-verification-engineer`). Never verify your own finding.
 

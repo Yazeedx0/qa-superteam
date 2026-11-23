@@ -5,6 +5,8 @@ description: Use when starting QA on an unfamiliar repository or before planning
 
 # QA discovery
 
+> `qast` is on PATH in Claude Code. In other agents, run `../using-qa-superteam/scripts/qast` (path relative to this file) wherever this skill says `qast`.
+
 ## Purpose
 
 Build the map a QA team needs before deciding what to test: what the system does,

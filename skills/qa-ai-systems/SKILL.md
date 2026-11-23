@@ -5,6 +5,8 @@ description: Use when evaluating LLM, RAG, agent or tool-calling systems - golde
 
 # AI system QA
 
+> `qast` is on PATH in Claude Code. In other agents, run `../using-qa-superteam/scripts/qast` (path relative to this file) wherever this skill says `qast`.
+
 ## Purpose
 
 Hold AI features to the same evidence standard as other software. Behaviour is specified

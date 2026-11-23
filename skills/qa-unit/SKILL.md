@@ -5,6 +5,8 @@ description: Use when assessing or improving unit-level tests - finds meaningful
 
 # QA unit testing
 
+> `qast` is on PATH in Claude Code. In other agents, run `../using-qa-superteam/scripts/qast` (path relative to this file) wherever this skill says `qast`.
+
 ## Purpose
 
 Find the behaviours of risky logic that no existing test would catch if they broke, and

@@ -28,6 +28,14 @@ record schemas (`schemas/`), policy keys and exit codes.
   secret echoed on request.
 - Live behavioral eval report: `evals/reports/2026-11-23-live-sonnet.md`.
 
+### Multi-agent support
+- Installable in any Agent Skills-compatible agent with `npx skills add <owner>/qa-superteam` (tested for
+  claude-code, codex, cursor, gemini-cli, github-copilot and opencode project installs).
+- `qast` runtime, policies and config template bundled inside the `using-qa-superteam` skill
+  (`scripts/sync_skill_runtime.py`, drift-checked in CI); skills use relative paths only.
+- Native manifests for Codex, Cursor (with session-start hook) and Gemini CLI; the session-start hook
+  emits each host's format.
+
 ### Changed after independent review
 - Every `qast verify` verdict requires independence. CONFIRMED needs the verifier's own `--actor`
   executions; conflicting verdicts degrade to INCONCLUSIVE.

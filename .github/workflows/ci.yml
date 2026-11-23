@@ -25,6 +25,8 @@ jobs:
       - run: pip install ruff
       - name: Schemas match models
         run: python3 scripts/gen_schemas.py --check
+      - name: Skill-bundled qast runtime matches src/
+        run: python3 scripts/sync_skill_runtime.py --check
       - name: QA Superteam plugin contracts (skills, agents, hooks, scenarios, hygiene)
         run: python3 scripts/validate_plugin.py
       - name: Lint
@@ -62,7 +64,7 @@ jobs:
           python-version: "3.12"
       - uses: actions/setup-node@v4
         with:
-          node-version: "22"
+          node-version: "24"
       - uses: grafana/setup-k6-action@v1
       - name: Install test tools
         run: |

@@ -5,6 +5,8 @@ description: Use when deciding what to test and how deeply - refines qast risk i
 
 # QA strategy (risk-based)
 
+> `qast` is on PATH in Claude Code. In other agents, run `../using-qa-superteam/scripts/qast` (path relative to this file) wherever this skill says `qast`.
+
 ## Purpose
 
 Spend test effort where a defect is most likely and most damaging, and say plainly
@@ -33,7 +35,7 @@ Do not use when:
 | Command | Use |
 |---|---|
 | `qast impact --base <ref> [--head <ref>]` | diff modes, before `qast risk`: changed files, signals, selected tests, changed source without tests |
-| `qast risk [--supersede]` | deterministic baseline (`${CLAUDE_PLUGIN_ROOT}/docs/risk-model.md`) |
+| `qast risk [--supersede]` | deterministic baseline (`references/risk-model.md`) |
 | `qast schema RiskRegister --template` | JSON shape |
 | `qast record risks --file <run dir>/drafts/risks.json --supersede` | store the refined register; the baseline moves to `history/` |
 | `qast doctor` | what can execute; a risk that needs a missing tool is planned as BLOCKED, not dropped |
@@ -116,4 +118,4 @@ BLOCKED by tooling: <level> — <missing capability from qast doctor>
 ## References
 
 - [references/scoring-rubric.md](references/scoring-rubric.md): anchored 1–5 factor definitions, aggregation, level bands, planning attributes, worked example.
-- `${CLAUDE_PLUGIN_ROOT}/docs/risk-model.md`: how `qast risk` computes the baseline, and where the register is used.
+- `references/risk-model.md`: how `qast risk` computes the baseline, and where the register is used.

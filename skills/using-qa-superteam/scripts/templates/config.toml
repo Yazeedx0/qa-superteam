@@ -1,0 +1,43 @@
+# QA Superteam project configuration (.qa-superteam/config.toml)
+# Defaults are read-only and local-only. Loosen deliberately; every permission here
+# is enforced by `qast` and by the plugin's guard hook during active QA runs.
+
+[project]
+name = ""                       # defaults to the directory name
+# Paths whose failure is business-critical; raises impact in risk scoring.
+critical_paths = []             # e.g. ["src/payments/", "app/auth/"]
+
+[output]
+dir = ".qa-superteam"           # run records, evidence and reports (git-ignored)
+
+[permissions]
+write_tests = false             # may QA agents add new test files?
+test_dir = "tests/qa"           # where new tests go when write_tests = true
+modify_app_code = false         # QA never edits application code unless you allow it
+# Origins that active tests (HTTP probes, k6, axe) may target. Production is never implied.
+authorized_targets = ["http://127.0.0.1", "http://localhost"]
+allow_load_testing = false      # k6 'load' profile (smoke profile is always single-VU)
+allow_active_security = false   # active security probes (auth bypass attempts, injection payloads)
+allow_fault_injection = false   # reliability fault injection (only in disposable environments)
+
+[budgets]
+command_timeout_s = 900         # per tool invocation
+max_reproduce_attempts = 5      # hard cap 20; prevents retry loops
+max_output_bytes = 2000000      # captured stdout/stderr per invocation
+max_artifact_bytes = 50000000   # per artifact
+max_scan_files = 20000          # discovery file budget
+
+[policy]
+path = ""                       # empty = plugin policies/default.toml; or e.g. "policies/strict.toml"
+
+[groups]
+# Optional: name the selectors that make up policy groups, for documentation and planning.
+# existing-suite = ["tests"]
+# critical-journeys = ["tests/e2e/test_checkout.py"]
+
+[redaction]
+extra_patterns = []             # additional regexes to redact from evidence
+redact_emails = true            # example.com/.org/.net and test.com addresses are kept
+
+[python]
+interpreter = ""                # interpreter for project tests; auto: .venv/bin/python, venv/bin/python, python3

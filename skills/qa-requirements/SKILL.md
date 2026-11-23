@@ -5,6 +5,8 @@ description: Use when expected behaviour must be established from PRDs, tickets,
 
 # QA requirements & invariants
 
+> `qast` is on PATH in Claude Code. In other agents, run `../using-qa-superteam/scripts/qast` (path relative to this file) wherever this skill says `qast`.
+
 ## Purpose
 
 Establish what "correct" means before anything is tested, so every test has an oracle

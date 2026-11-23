@@ -1,0 +1,54 @@
+# QA Superteam default release policy.
+#
+# The gate is deterministic: `qast gate` evaluates these rules against recorded
+# evidence. No model opinion is consulted. See docs/policy.md for every rule.
+#
+# Decision = most severe triggered outcome (BLOCK > REVIEW_REQUIRED > PASS).
+# PASS also requires positive evidence: a mandatory check that executed and passed.
+
+[policy]
+name = "default"
+version = "1.0.0"
+description = "Balanced default: confirmed critical/blocking defects block; uncertainty requires human review."
+
+[severity_definitions]
+critical = "Security breach, data loss/corruption, money or legal exposure, or an essential workflow unusable for all users with no workaround."
+high = "Major function broken or wrong for many users, or a security weakness with limited preconditions; workaround is costly."
+medium = "Function wrong in specific conditions or for some users; reasonable workaround exists."
+low = "Minor defect with little user impact (cosmetic, rare edge case)."
+info = "Observation or improvement; not a defect."
+
+[findings]
+# Confirmed findings at or above these severities BLOCK, per category ("default" = all others).
+block_at = { default = "critical", security = "high", data-integrity = "high" }
+# Confirmed findings at or above these severities (that do not block) need REVIEW.
+review_at = { default = "high", accessibility = "high" }
+# Suspected / reproduced-but-unverified / inconclusive findings at or above this severity need REVIEW.
+unverified_review_at = "high"
+
+[groups]
+# Must execute, and must have no failures. A group that did not run is never treated as passed.
+mandatory = ["existing-suite"]
+# If the test plan contains cases in these groups, each must execute and pass.
+mandatory_if_planned = ["critical-journeys", "contract", "regression"]
+# Inconclusive (flaky) results in these groups require review.
+critical = ["critical-journeys", "contract"]
+on_fail = "BLOCK"
+on_missing = "REVIEW_REQUIRED"       # not executed, BLOCKED, skipped, NOT_RUN
+on_error = "REVIEW_REQUIRED"         # test infrastructure errors
+on_inconclusive = "REVIEW_REQUIRED"
+max_skipped_in_mandatory = 0         # skipped mandatory tests require review unless allowed here
+
+[ai_eval]
+min_pass_rate = 0.9                  # over decided (PASSED + FAILED) cases
+below_threshold = "BLOCK"
+inconclusive = "REVIEW_REQUIRED"     # uncalibrated judge, nondeterminism, errors
+
+[coverage]
+untested_high_risk = "REVIEW_REQUIRED"
+max_untested_high_risk = 0
+
+[evidence]
+no_executions = "REVIEW_REQUIRED"
+integrity_violation = "REVIEW_REQUIRED"
+untriaged_failures = "REVIEW_REQUIRED"     # FAILED/ERROR results not linked to any finding

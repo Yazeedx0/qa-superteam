@@ -1,0 +1,13 @@
+{
+  "name": "qa-superteam",
+  "displayName": "QA Superteam",
+  "description": "Evidence-first QA skills: audits, PR review, bug verification, security, accessibility, AI evals and a deterministic release gate.",
+  "version": "0.1.0",
+  "author": {
+    "name": "QA Superteam contributors"
+  },
+  "license": "MIT",
+  "keywords": ["qa", "testing", "release-gate", "playwright", "pytest", "security", "accessibility", "ai-evals"],
+  "skills": "./skills/",
+  "hooks": "./hooks/hooks-cursor.json"
+}

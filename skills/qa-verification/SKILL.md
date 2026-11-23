@@ -5,6 +5,8 @@ description: Use when a recorded finding needs independent confirmation or rejec
 
 # Independent verification
 
+> `qast` is on PATH in Claude Code. In other agents, run `../using-qa-superteam/scripts/qast` (path relative to this file) wherever this skill says `qast`.
+
 ## Purpose
 
 Decide whether a finding is real, using evidence the verifier produced, not the

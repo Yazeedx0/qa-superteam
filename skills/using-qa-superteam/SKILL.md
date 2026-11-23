@@ -54,9 +54,13 @@ Do not load skills "just in case".
 
 ## Tools
 
-`qast` (on PATH when the plugin is enabled) does all deterministic work. Start with
-`qast doctor` to learn what can actually run here. Full reference: `docs/cli.md` in the
-plugin, or `qast <command> --help`.
+`qast` does all deterministic work. Start with `qast doctor` to learn what can actually run
+here. Full reference: `qast <command> --help`.
+
+**Finding `qast`.** In Claude Code the plugin puts it on PATH. In any other agent (Codex,
+Cursor, Gemini CLI, Copilot, OpenCode, ...) it ships inside this skill: run
+`scripts/qast` from this skill's folder, e.g. `.agents/skills/using-qa-superteam/scripts/qast doctor`,
+and use that path wherever a skill says `qast`. It needs Python 3.11+ and nothing else.
 
 ## Specialists
 

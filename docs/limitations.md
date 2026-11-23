@@ -54,8 +54,10 @@ measured. Each item says how it was established.
   unmeasured.
 - The workflows depend on the model following long procedures. Live runs show where it
   skips steps. Those results, not the prose, are the measure.
-- Compatibility with other coding agents (Codex and others) is documented but untested.
-  See [compatibility.md](compatibility.md).
+- **Other agents.** Installation into other agents' skill folders with `npx skills add` is tested,
+  and so is running the bundled `qast` from there. Live behavior inside those agents is not
+  tested, and neither are the native Codex, Cursor and Gemini CLI manifests. See
+  [compatibility.md](compatibility.md).
 
 ## CI
 

@@ -23,6 +23,7 @@ python3 -m playwright install chromium           # optional: browser tests
 python3 -m pytest tests/unit -q
 python3 -m pytest tests/integration -q -rs     # skips are listed with reasons
 python3 scripts/gen_schemas.py --check
+python3 scripts/sync_skill_runtime.py --check   # run without --check after changing src/, policies/, docs/policy.md or docs/risk-model.md
 python3 scripts/validate_plugin.py
 ruff check src scripts evals/harness tests hooks
 claude plugin validate . --strict               # if Claude Code is installed
@@ -43,4 +44,5 @@ Planted defects must stay realistic and undocumented inside `examples/`. Update
 SemVer. Breaking changes to skill names, `qast` commands/flags, record schemas, policy keys
 or exit codes require a major version bump (minor while < 1.0) and a CHANGELOG entry.
 Keep `version` identical in `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json`,
-`pyproject.toml` and `src/qa_superteam/__init__.py` (CI checks this).
+`.codex-plugin/plugin.json`, `.cursor-plugin/plugin.json`, `gemini-extension.json`, `pyproject.toml`
+and `src/qa_superteam/__init__.py` (CI checks this).

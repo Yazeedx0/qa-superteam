@@ -5,6 +5,8 @@ description: Use when an API or service contract may have changed - diffs OpenAP
 
 # QA contracts
 
+> `qast` is on PATH in Claude Code. In other agents, run `../using-qa-superteam/scripts/qast` (path relative to this file) wherever this skill says `qast`.
+
 ## Purpose
 
 Answer two questions with recorded evidence: (1) can a consumer built against the

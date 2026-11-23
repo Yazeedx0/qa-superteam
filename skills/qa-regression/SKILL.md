@@ -5,6 +5,8 @@ description: Use when selecting or running regression tests - chooses tests from
 
 # Regression testing
 
+> `qast` is on PATH in Claude Code. In other agents, run `../using-qa-superteam/scripts/qast` (path relative to this file) wherever this skill says `qast`.
+
 ## Purpose
 
 Show, with executions, that a change did not break behaviour that used to work and that

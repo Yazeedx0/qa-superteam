@@ -5,6 +5,8 @@ description: Use when checking accessibility - axe-core scans of pages and app s
 
 # QA accessibility
 
+> `qast` is on PATH in Claude Code. In other agents, run `../using-qa-superteam/scripts/qast` (path relative to this file) wherever this skill says `qast`.
+
 ## Purpose
 
 Find accessibility barriers on the journeys that matter, with recorded automated

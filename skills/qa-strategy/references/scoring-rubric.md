@@ -1,7 +1,7 @@
 # Risk scoring rubric
 
 Used by `qa-strategy` to refine the `qast risk` baseline. This rubric is identical to
-the "Refinement rubric" section of `${CLAUDE_PLUGIN_ROOT}/docs/risk-model.md`, which also
+the "Refinement rubric" section of `risk-model.md`, which also
 documents how the baseline is computed.
 
 Score every risk item on seven factors, 1 (low) to 5 (high), using the anchors below.

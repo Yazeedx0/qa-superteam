@@ -5,6 +5,8 @@ description: Use when designing new test cases - applies equivalence, boundary, 
 
 # QA test design
 
+> `qast` is on PATH in Claude Code. In other agents, run `../using-qa-superteam/scripts/qast` (path relative to this file) wherever this skill says `qast`.
+
 ## Purpose
 
 Design the smallest set of test cases that would detect the defects the risk register

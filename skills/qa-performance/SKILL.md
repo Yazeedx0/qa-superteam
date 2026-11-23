@@ -5,6 +5,8 @@ description: Use when latency, throughput, concurrency or capacity matter - k6 a
 
 # Performance QA
 
+> `qast` is on PATH in Claude Code. In other agents, run `../using-qa-superteam/scripts/qast` (path relative to this file) wherever this skill says `qast`.
+
 ## Purpose
 
 Produce evidence about speed and capacity that a release decision can rely on: explicit

@@ -5,6 +5,8 @@ description: Use when testing failure handling - timeouts, retries and idempoten
 
 # Reliability QA
 
+> `qast` is on PATH in Claude Code. In other agents, run `../using-qa-superteam/scripts/qast` (path relative to this file) wherever this skill says `qast`.
+
 ## Purpose
 
 Show, with executed tests, what the system does when its dependencies are slow, failing,

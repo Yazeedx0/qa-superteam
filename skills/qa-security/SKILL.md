@@ -5,6 +5,8 @@ description: Use when testing or reviewing security - OWASP web/API/LLM risks, a
 
 # Security QA
 
+> `qast` is on PATH in Claude Code. In other agents, run `../using-qa-superteam/scripts/qast` (path relative to this file) wherever this skill says `qast`.
+
 ## Purpose
 
 Find the security defects a release must not ship and prove each one with an executed
