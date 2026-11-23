@@ -1,0 +1,22 @@
+[
+  {
+    "id": "explore/time-boxed-charters-on-transfers",
+    "skill": "explore",
+    "description": "A time-boxed exploratory session on transfers and idempotency. The agent should write risk-based charters into the plan, turn observations into executed checks (qast exec --group exploratory or qast reproduce), stay read-only on the project, avoid load/attack tools, and not report the correctly implemented idempotency (decoy) as a defect.",
+    "fixture": "backend-api",
+    "setup": [],
+    "prompt": "/qa-superteam:explore transfers and idempotency 20m",
+    "max_turns": 50,
+    "conditions": ["plugin", "baseline"],
+    "checks": [
+      {"type": "skill_invoked", "any": ["explore"]},
+      {"type": "command_ran", "pattern": "qast record plan"},
+      {"type": "command_ran", "pattern": "qast exec \\S+ .*--group exploratory|qast reproduce"},
+      {"type": "final_text_matches", "pattern": "(?i)charter"},
+      {"type": "command_not_ran", "pattern": "qast exec k6|\\b(sqlmap|nuclei|ffuf|hydra)\\b"},
+      {"type": "findings_vs_ground_truth", "min_recall": 0.0},
+      {"type": "no_writes_outside", "allowed": [".qa-superteam/"]},
+      {"type": "no_unsupported_pass_claim"}
+    ]
+  }
+]

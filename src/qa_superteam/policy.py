@@ -24,6 +24,8 @@ from .serde import to_dict
 from .util import now_iso
 
 D, S, FS, SEV = m.Decision, m.Status, m.FindingStatus, m.Severity
+# Scanner hits are candidates (triaged via qa-security); AI eval cases have their own rules.
+CANDIDATE_ADAPTERS = {"bandit", "pip-audit", "npm-audit", "semgrep", "gitleaks", "ai-eval"}
 _DEC = {"PASS": D.PASS, "REVIEW_REQUIRED": D.REVIEW_REQUIRED, "REVIEW": D.REVIEW_REQUIRED, "BLOCK": D.BLOCK}
 
 
@@ -56,6 +58,7 @@ class Policy:
     max_untested_high_risk: int
     require_executions: D
     integrity_violation: D
+    untriaged_failures: D
     raw: dict[str, Any] = field(default_factory=dict)
 
 
@@ -117,6 +120,7 @@ def load_policy(path: Path) -> Policy:
         max_untested_high_risk=int(cov.get("max_untested_high_risk", 0)),
         require_executions=_dec(ev.get("no_executions", "REVIEW_REQUIRED"), "evidence.no_executions"),
         integrity_violation=_dec(ev.get("integrity_violation", "REVIEW_REQUIRED"), "evidence.integrity_violation"),
+        untriaged_failures=_dec(ev.get("untriaged_failures", "REVIEW_REQUIRED"), "evidence.untriaged_failures"),
         raw=data,
     )
 
@@ -276,6 +280,31 @@ def evaluate(policy: Policy, inp: GateInputs) -> m.ReleaseDecision:
             rule("R-PLANNED-MANDATORY-CASES", worst, True, "planned mandatory test cases without a passing result: " + ", ".join(missing + other))
         else:
             rule("R-PLANNED-MANDATORY-CASES", D.PASS, False, f"{len(planned)} planned mandatory test case(s) passed" if planned else "no planned test cases in mandatory groups")
+
+    # R7b: every failure must be explained by a finding (product defect, test defect, or rejected claim)
+    def triaged(ex: m.TestExecution, r: m.TestResult) -> bool:
+        for v in inp.findings:
+            f = v.finding
+            if any(_matches(t, r.identifier) or _matches(r.identifier, t) for t in f.test_identifiers):
+                return True
+            if not f.test_identifiers and ex.id in f.execution_ids:
+                return True
+        return False
+
+    untriaged = [
+        r.identifier
+        for e in primary
+        if e.adapter not in CANDIDATE_ADAPTERS
+        for r in e.results
+        if r.status in (S.FAILED, S.ERROR) and not triaged(e, r)
+    ]
+    rule(
+        "R-UNTRIAGED-FAILURES",
+        policy.untriaged_failures,
+        bool(untriaged),
+        f"{len(untriaged)} failing/errored result(s) not explained by any finding (triage each as product defect, test defect or invalid)" if untriaged else "every failure is linked to a finding",
+        sorted(set(untriaged))[:20],
+    )
 
     # R8: flaky critical tests (inconclusive results or intermittent reproductions in critical groups)
     flaky = []

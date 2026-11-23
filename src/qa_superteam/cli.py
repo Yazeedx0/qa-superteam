@@ -44,7 +44,7 @@ def _read_input(path: str):
     try:
         return json.loads(text)
     except json.JSONDecodeError as e:
-        raise SystemExit(f"error: input is not valid JSON: {e}")
+        raise SystemExit(f"error: input is not valid JSON: {e}") from None
 
 
 # ----------------------------------------------------------------------------- commands
@@ -117,6 +117,7 @@ def cmd_run(args) -> int:
 
         views = finding_views(st)
         data = {
+            "dir": str(st.dir),
             "run": to_dict(st.info),
             "phases": st.phase_states(),
             "executions": [{"id": e.id, "adapter": e.adapter, "status": e.status.value, "counts": {k: v for k, v in e.counts.items() if v}, "groups": e.groups, "label": e.label} for e in execs],
@@ -147,7 +148,7 @@ def cmd_discover(args) -> int:
             return EXIT_ERR
         where = "not saved (no active run)"
     lines = [f"project: {prof.project_name} · files scanned: {prof.files_scanned} · {where}"]
-    lines.append("languages: " + ", ".join(f"{l.name}({l.files})" for l in prof.languages[:8]))
+    lines.append("languages: " + ", ".join(f"{lang.name}({lang.files})" for lang in prof.languages[:8]))
     for s in prof.test_suites:
         lines.append(f"test suite: {s.framework} {s.paths} files={s.test_files} -> {' '.join(s.suggested_command)}")
     for f in prof.facts:
@@ -259,15 +260,8 @@ def cmd_finding(args) -> int:
     return EXIT_OK
 
 
-def cmd_exec(args) -> int:
-    from .adapters import ADAPTER_FUNCS
-    from .adapters.base import AdapterRequest
-    from .env import project_python
-
-    cfg = _cfg(args)
-    st = RunStore.resolve(cfg, args.run)
-    cwd = (cfg.project_root / args.cwd).resolve() if args.cwd else cfg.project_root
-    opts = {
+def _adapter_options(args) -> dict:
+    return {
         "report": args.report,
         "ok_codes": args.ok_codes,
         "profile": args.profile,
@@ -280,6 +274,17 @@ def cmd_exec(args) -> int:
         "config": args.config,
         "via_uvx": args.via_uvx,
     }
+
+
+def cmd_exec(args) -> int:
+    from .adapters import ADAPTER_FUNCS
+    from .adapters.base import AdapterRequest
+    from .env import project_python
+
+    cfg = _cfg(args)
+    st = RunStore.resolve(cfg, args.run)
+    cwd = (cfg.project_root / args.cwd).resolve() if args.cwd else cfg.project_root
+    opts = _adapter_options(args)
     req = AdapterRequest(
         store=st,
         config=cfg,
@@ -310,7 +315,8 @@ def _print_execution(args, ex: m.TestExecution) -> None:
         if r.status in (m.Status.FAILED, m.Status.ERROR, m.Status.INCONCLUSIVE, m.Status.BLOCKED):
             msg = (r.message or "").strip().splitlines()
             e_lines = [ln[1:].strip() for ln in msg if ln.startswith("E ")]
-            tail = (e_lines[0] if e_lines else (msg[-1] if msg else ""))[:200]
+            first = next((ln.strip() for ln in msg if ln.strip()), "")
+            tail = (e_lines[0] if e_lines else first)[:200]
             lines.append(f"  {r.status.value}: {r.identifier} — {tail}")
     lines.append(f"  evidence: {', '.join(ex.artifact_ids) or 'none'}")
     _out(args, to_dict(ex), "\n".join(lines))
@@ -330,7 +336,7 @@ def cmd_reproduce(args) -> int:
     cwd = (cfg.project_root / args.cwd).resolve() if args.cwd else cfg.project_root
     extra = list(args.args or [])
     run_args = extra if extra else ([args.test] if args.adapter == "pytest" else [])
-    if not run_args:
+    if not run_args and args.adapter in ("junit", "command", "vitest", "jest", "playwright", "k6"):
         print("error: pass the command arguments that run only this test after --")
         return EXIT_ERR
     execs = []
@@ -338,7 +344,7 @@ def cmd_reproduce(args) -> int:
         req = AdapterRequest(
             store=st, config=cfg, args=run_args, cwd=cwd, groups=args.group or [], label=f"reproduce {args.test} #{i}",
             timeout_s=args.timeout, python=args.python or project_python(cwd, cfg.python), attempt=i, reproduction_of=args.test,
-            options={"report": args.report},
+            targets=args.target or [], options=_adapter_options(args),
         )
         ex = ADAPTER_FUNCS[args.adapter](req)
         execs.append(ex)
@@ -614,20 +620,23 @@ def build_parser() -> argparse.ArgumentParser:
         sp.add_argument("--python", help="interpreter for Python-based tools (default: project venv or python3)")
         sp.add_argument("--report", help="junit: path of the JUnit XML the command writes")
 
+    def adapter_opts(sp):
+        sp.add_argument("--target", action="append", help="URL under test (must be in permissions.authorized_targets)")
+        sp.add_argument("--ok-codes", help="command: comma-separated success exit codes (default 0)")
+        sp.add_argument("--profile", choices=["smoke", "load"], help="k6 profile (default smoke)")
+        sp.add_argument("--viewport", help="axe: WIDTHxHEIGHT")
+        sp.add_argument("--dataset", help="ai-eval: JSONL dataset")
+        sp.add_argument("--entry", help="ai-eval: module:function under test")
+        sp.add_argument("--samples", type=int, help="ai-eval: samples per case (nondeterminism check)")
+        sp.add_argument("--judge-model", help="ai-eval: enable model-graded checks")
+        sp.add_argument("--calibration", help="ai-eval: calibration.json for the judge")
+        sp.add_argument("--config", help="semgrep: rules config")
+        sp.add_argument("--via-uvx", action="store_true", help="security scanners: run via uvx if not installed (downloads the tool)")
+
     sp = sub.add_parser("exec", help="run a real test tool through an adapter and record evidence")
     sp.add_argument("adapter", choices=ADAPTERS)
     exec_opts(sp)
-    sp.add_argument("--target", action="append", help="URL under test (must be in permissions.authorized_targets)")
-    sp.add_argument("--ok-codes", help="command: comma-separated success exit codes (default 0)")
-    sp.add_argument("--profile", choices=["smoke", "load"], help="k6 profile (default smoke)")
-    sp.add_argument("--viewport", help="axe: WIDTHxHEIGHT")
-    sp.add_argument("--dataset", help="ai-eval: JSONL dataset")
-    sp.add_argument("--entry", help="ai-eval: module:function under test")
-    sp.add_argument("--samples", type=int, help="ai-eval: samples per case (nondeterminism check)")
-    sp.add_argument("--judge-model", help="ai-eval: enable model-graded checks")
-    sp.add_argument("--calibration", help="ai-eval: calibration.json for the judge")
-    sp.add_argument("--config", help="semgrep: rules config")
-    sp.add_argument("--via-uvx", action="store_true", help="security scanners: run via uvx if not installed (downloads the tool)")
+    adapter_opts(sp)
     common(sp)
     sp.set_defaults(func=cmd_exec)
 
@@ -636,6 +645,7 @@ def build_parser() -> argparse.ArgumentParser:
     sp.add_argument("--adapter", default="pytest", choices=ADAPTERS)
     sp.add_argument("--times", type=int, default=3)
     exec_opts(sp)
+    adapter_opts(sp)
     common(sp)
     sp.set_defaults(func=cmd_reproduce)
 
@@ -688,9 +698,6 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def main(argv: list[str] | None = None) -> int:
-    if sys.version_info < (3, 11):
-        print("qast requires Python >= 3.11 (set QAST_PYTHON to a newer interpreter)", file=sys.stderr)
-        return EXIT_ERR
     argv = list(sys.argv[1:] if argv is None else argv)
     tool_args: list[str] = []
     if "--" in argv:  # everything after the first "--" belongs to the wrapped tool

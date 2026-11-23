@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://qa-superteam.dev/schemas/RunInfo.schema.json",
+  "title": "RunInfo",
+  "type": "object",
+  "properties": {
+    "run_id": {
+      "type": "string"
+    },
+    "mode": {
+      "type": "string",
+      "description": "full-audit | review-pr | test-feature | test-api | test-e2e | security-review | eval-ai | explore | verify-bug | regression | release-check | improve-suite | adhoc"
+    },
+    "created_at": {
+      "type": "string"
+    },
+    "scope": {
+      "type": "string"
+    },
+    "base_ref": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "head_ref": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "project_name": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "environment": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/EnvironmentInfo"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "run_id",
+    "mode",
+    "created_at",
+    "scope"
+  ],
+  "$defs": {
+    "EnvironmentInfo": {
+      "type": "object",
+      "properties": {
+        "platform": {
+          "type": "string"
+        },
+        "python": {
+          "type": "string"
+        },
+        "hostname_hash": {
+          "type": "string",
+          "description": "sha256 prefix of hostname; raw hostname is never stored"
+        },
+        "tool_versions": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "ci": {
+          "type": "boolean"
+        },
+        "git_head": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "git_dirty": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "platform",
+        "python",
+        "hostname_hash"
+      ]
+    }
+  }
+}

@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://qa-superteam.dev/schemas/BusinessInvariant.schema.json",
+  "title": "BusinessInvariant",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "statement": {
+      "type": "string"
+    },
+    "criticality": {
+      "$ref": "#/$defs/Severity"
+    },
+    "oracle": {
+      "type": "string",
+      "description": "How a test observes whether the invariant holds"
+    },
+    "basis": {
+      "$ref": "#/$defs/Basis"
+    },
+    "components": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/SourceRef"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "statement",
+    "criticality",
+    "oracle"
+  ],
+  "description": "A property that must always hold, with an executable oracle.",
+  "$defs": {
+    "Basis": {
+      "type": "string",
+      "enum": [
+        "observed",
+        "inferred",
+        "assumed"
+      ],
+      "description": "How a fact was established."
+    },
+    "Severity": {
+      "type": "string",
+      "enum": [
+        "critical",
+        "high",
+        "medium",
+        "low",
+        "info"
+      ],
+      "description": "Impact of a defect if it reaches users. Definitions live in the active policy."
+    },
+    "SourceRef": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "line": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "symbol": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "path"
+      ],
+      "description": "A pointer into the project: file path relative to the project root."
+    }
+  }
+}

@@ -196,7 +196,7 @@ def run_ai_eval(req: AdapterRequest) -> m.TestExecution:
     opts = req.options
     dataset, target = opts.get("dataset"), opts.get("target")
     if not dataset or not target:
-        raise ValueError("ai-eval adapter needs --dataset <jsonl> and --target <module:function>")
+        raise ValueError("ai-eval adapter needs --dataset <jsonl> and --entry <module:function>")
     base_argv = [req.python, "-m", "qa_superteam.runners.ai_eval", "--dataset", dataset, "--target", target]
     if not (req.cwd / dataset).exists():
         return blocked_execution(req, "ai-eval", base_argv, f"dataset not found: {dataset}")

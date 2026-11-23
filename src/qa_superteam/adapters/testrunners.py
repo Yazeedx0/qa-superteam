@@ -65,8 +65,10 @@ def run_pytest(req: AdapterRequest) -> m.TestExecution:
         return Parsed(results=results, ok=True, note=note, extra_artifacts=extra)
 
     def classify(proc: ProcResult):
-        text = proc.stderr + proc.stdout
-        if proc.exit_code not in (0, 1, 5) and "No module named pytest" in text:
+        # `python -m pytest` without pytest exits 1, like a test failure: decide by the
+        # missing report plus the interpreter's own error, never by exit code alone.
+        report_written = (work / "pytest-report.jsonl").exists() or (work / "junit.xml").exists()
+        if not report_written and "No module named pytest" in proc.stderr:
             return S.BLOCKED, f"pytest is not installed for interpreter {req.python}; install it or set [python] interpreter"
         return None
 
@@ -229,15 +231,24 @@ def run_jest(req: AdapterRequest) -> m.TestExecution:
 _PW_STATUS = {"expected": S.PASSED, "unexpected": S.FAILED, "flaky": S.INCONCLUSIVE, "skipped": S.SKIPPED}
 
 
-def parse_playwright_json(data: dict, groups: list[str]) -> tuple[list[m.TestResult], list[str]]:
+def parse_playwright_json(data: dict, groups: list[str], project_root: Path | None = None) -> tuple[list[m.TestResult], list[str]]:
     results: list[m.TestResult] = []
     attachments: list[str] = []
+    root_dir = (data.get("config") or {}).get("rootDir")
+
+    def project_rel(file: str) -> str:
+        if not root_dir or not project_root:
+            return file
+        try:
+            return (Path(root_dir) / file).resolve().relative_to(project_root.resolve()).as_posix()
+        except ValueError:
+            return file
 
     def walk(suite: dict, titles: list[str]):
         for spec in suite.get("specs", []):
             for t in spec.get("tests", []):
                 project = t.get("projectName") or ""
-                file = spec.get("file") or suite.get("file") or "?"
+                file = project_rel(spec.get("file") or suite.get("file") or "?")
                 title = " > ".join([*titles, spec.get("title", "")]).strip(" >")
                 ident = f"{file}::{title}" + (f" [{project}]" if project else "")
                 st = _PW_STATUS.get(t.get("status", ""), S.INCONCLUSIVE)
@@ -288,7 +299,7 @@ def run_playwright(req: AdapterRequest) -> m.TestExecution:
         if raw is None:
             return Parsed(results=[], ok=False, note="playwright did not write a JSON report")
         data = json.loads(raw)
-        results, attachment_paths = parse_playwright_json(data, req.groups)
+        results, attachment_paths = parse_playwright_json(data, req.groups, req.cwd)
         extra = [("playwright-report.json", raw, m.ArtifactKind.REPORT, "Playwright JSON report")]
         for p in attachment_paths:
             ap = Path(p)
@@ -314,7 +325,14 @@ def run_command(req: AdapterRequest) -> m.TestExecution:
     if not req.args:
         raise ValueError("command adapter needs a command after --")
     ok_codes = tuple(int(c) for c in str(req.options.get("ok_codes") or "0").split(","))
-    ident = req.label or " ".join(req.args)
+    # during `qast reproduce` the result must carry the identifier being reproduced
+    ident = req.reproduction_of or req.label or " ".join(req.args)
+    module = req.args[req.args.index("-m") + 1] if "-m" in req.args[:-1] else None
+
+    def classify(proc: ProcResult):
+        if module and proc.exit_code not in ok_codes and f"No module named {module}" in proc.stderr:
+            return S.BLOCKED, f"python module '{module}' is not installed for {req.args[0]}"
+        return None
 
     def parse(proc: ProcResult, work: Path) -> Parsed:
         if proc.timed_out:
@@ -326,4 +344,4 @@ def run_command(req: AdapterRequest) -> m.TestExecution:
             note="coarse result: derived from exit code only, no per-test detail",
         )
 
-    return execute(req, "command", list(req.args), parse, ok_codes=ok_codes)
+    return execute(req, "command", list(req.args), parse, ok_codes=ok_codes, classify_process=classify)

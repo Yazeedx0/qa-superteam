@@ -1,0 +1,116 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Plugin structure, schemas, lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install ruff
+      - name: Schemas match models
+        run: python3 scripts/gen_schemas.py --check
+      - name: QA Superteam plugin contracts (skills, agents, hooks, scenarios, hygiene)
+        run: python3 scripts/validate_plugin.py
+      - name: Lint
+        run: ruff check src scripts evals/harness tests hooks
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Claude Code manifest validation
+        run: |
+          npm install -g @anthropic-ai/claude-code
+          claude plugin validate . --strict || claude plugin validate .
+
+  unit:
+    name: Unit tests (Python ${{ matrix.python }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - run: pip install pytest jsonschema
+      - run: python -m pytest tests/unit -q
+
+  integration:
+    name: Adapter integration (real tools)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - uses: grafana/setup-k6-action@v1
+      - name: Install test tools
+        run: |
+          pip install pytest jsonschema fastapi httpx playwright
+          python -m playwright install --with-deps chromium
+          (cd tests/integration/node_project && npm ci && npx playwright install chromium)
+          (cd examples/web-checkout && npm ci)
+      - run: python -m pytest tests/integration -q -rs
+
+  fixtures:
+    name: Fixture oracles (planted defects are real)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: |
+          pip install pytest fastapi httpx playwright
+          python -m playwright install --with-deps chromium
+          (cd examples/web-checkout && npm ci)
+      - run: bash evals/ground_truth/backend-api/verify_oracle.sh
+      - run: bash evals/ground_truth/ai-support-bot/verify_oracle.sh
+      - run: bash evals/ground_truth/web-checkout/verify_oracle.sh
+
+  demo-reports:
+    name: Sample reports from real runs
+    runs-on: ubuntu-latest
+    needs: [unit]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: |
+          pip install pytest fastapi httpx playwright
+          python -m playwright install --with-deps chromium
+          (cd examples/web-checkout && npm ci)
+      - run: python3 scripts/demo_pipeline.py --scenario all --out "$RUNNER_TEMP/reports"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: qa-superteam-sample-reports
+          path: ${{ runner.temp }}/reports
+      - name: Behavioral eval harness (dry run, no LLM)
+        run: python3 evals/harness/run_evals.py --out "$RUNNER_TEMP/evals"

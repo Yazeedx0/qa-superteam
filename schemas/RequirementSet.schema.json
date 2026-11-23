@@ -1,0 +1,235 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://qa-superteam.dev/schemas/RequirementSet.schema.json",
+  "title": "RequirementSet",
+  "type": "object",
+  "properties": {
+    "requirements": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Requirement"
+      }
+    },
+    "invariants": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/BusinessInvariant"
+      }
+    },
+    "ambiguities": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "assumptions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Assumption"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "requirements"
+  ],
+  "description": "Container written to requirements.json (Phase B output).",
+  "$defs": {
+    "Assumption": {
+      "type": "object",
+      "properties": {
+        "statement": {
+          "type": "string"
+        },
+        "impact_if_wrong": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "statement"
+      ]
+    },
+    "Basis": {
+      "type": "string",
+      "enum": [
+        "observed",
+        "inferred",
+        "assumed"
+      ],
+      "description": "How a fact was established."
+    },
+    "BusinessInvariant": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "statement": {
+          "type": "string"
+        },
+        "criticality": {
+          "$ref": "#/$defs/Severity"
+        },
+        "oracle": {
+          "type": "string",
+          "description": "How a test observes whether the invariant holds"
+        },
+        "basis": {
+          "$ref": "#/$defs/Basis"
+        },
+        "components": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SourceRef"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "statement",
+        "criticality",
+        "oracle"
+      ],
+      "description": "A property that must always hold, with an executable oracle."
+    },
+    "Requirement": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/RequirementStatus"
+        },
+        "basis": {
+          "$ref": "#/$defs/Basis"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "acceptance_criteria": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SourceRef"
+          }
+        },
+        "priority": {
+          "$ref": "#/$defs/Severity"
+        },
+        "open_questions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "depends_on": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "status",
+        "basis"
+      ]
+    },
+    "RequirementStatus": {
+      "type": "string",
+      "enum": [
+        "stated",
+        "inferred",
+        "ambiguous",
+        "conflicting"
+      ]
+    },
+    "Severity": {
+      "type": "string",
+      "enum": [
+        "critical",
+        "high",
+        "medium",
+        "low",
+        "info"
+      ],
+      "description": "Impact of a defect if it reaches users. Definitions live in the active policy."
+    },
+    "SourceRef": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "line": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "symbol": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "path"
+      ],
+      "description": "A pointer into the project: file path relative to the project root."
+    }
+  }
+}

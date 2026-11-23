@@ -40,3 +40,4 @@ max_untested_high_risk = 0
 [evidence]
 no_executions = "BLOCK"
 integrity_violation = "BLOCK"
+untriaged_failures = "BLOCK"     # FAILED/ERROR results not linked to any finding

@@ -1,0 +1,313 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://qa-superteam.dev/schemas/ProjectProfile.schema.json",
+  "title": "ProjectProfile",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "generated_at": {
+      "type": "string"
+    },
+    "project_name": {
+      "type": "string"
+    },
+    "git": {
+      "$ref": "#/$defs/GitInfo"
+    },
+    "languages": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/LanguageStat"
+      }
+    },
+    "components": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Component"
+      }
+    },
+    "test_suites": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/TestSuiteInfo"
+      }
+    },
+    "facts": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Fact"
+      }
+    },
+    "unknowns": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Questions discovery could not answer"
+    },
+    "files_scanned": {
+      "type": "integer"
+    },
+    "truncated": {
+      "type": "boolean"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "generated_at",
+    "project_name",
+    "git",
+    "languages",
+    "components",
+    "test_suites",
+    "facts"
+  ],
+  "description": "Confidence-tagged description of the project under test (Phase A output).",
+  "$defs": {
+    "Basis": {
+      "type": "string",
+      "enum": [
+        "observed",
+        "inferred",
+        "assumed"
+      ],
+      "description": "How a fact was established."
+    },
+    "Component": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string",
+          "description": "e.g. package, service, frontend, tests, infra, docs"
+        },
+        "files": {
+          "type": "integer"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "path",
+        "kind"
+      ]
+    },
+    "Confidence": {
+      "type": "string",
+      "enum": [
+        "high",
+        "medium",
+        "low"
+      ],
+      "description": "Ordinal confidence. See docs/evidence-model.md for the measurement basis."
+    },
+    "Fact": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "$ref": "#/$defs/FactKind"
+        },
+        "name": {
+          "type": "string"
+        },
+        "basis": {
+          "$ref": "#/$defs/Basis"
+        },
+        "confidence": {
+          "$ref": "#/$defs/Confidence"
+        },
+        "detail": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SourceRef"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "name",
+        "basis",
+        "confidence"
+      ],
+      "description": "A single confidence-tagged statement about the project."
+    },
+    "FactKind": {
+      "type": "string",
+      "enum": [
+        "language",
+        "framework",
+        "runtime",
+        "test-framework",
+        "ci",
+        "api-contract",
+        "data-store",
+        "auth",
+        "integration",
+        "ai-component",
+        "documentation",
+        "infrastructure",
+        "security-tooling",
+        "other"
+      ]
+    },
+    "GitInfo": {
+      "type": "object",
+      "properties": {
+        "is_repo": {
+          "type": "boolean"
+        },
+        "head": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "branch": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "dirty": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "is_repo"
+      ]
+    },
+    "LanguageStat": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "files": {
+          "type": "integer"
+        },
+        "basis": {
+          "$ref": "#/$defs/Basis"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "files"
+      ]
+    },
+    "SourceRef": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "line": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "symbol": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "path"
+      ],
+      "description": "A pointer into the project: file path relative to the project root."
+    },
+    "TestSuiteInfo": {
+      "type": "object",
+      "properties": {
+        "framework": {
+          "type": "string"
+        },
+        "paths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "test_files": {
+          "type": "integer"
+        },
+        "suggested_command": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "argv for qast exec, not a shell string"
+        },
+        "basis": {
+          "$ref": "#/$defs/Basis"
+        },
+        "confidence": {
+          "$ref": "#/$defs/Confidence"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "framework",
+        "paths",
+        "test_files"
+      ]
+    }
+  }
+}

@@ -168,7 +168,7 @@ def strict_equal(a: Any, b: Any) -> bool:
     if isinstance(a, dict) and isinstance(b, dict):
         return a.keys() == b.keys() and all(strict_equal(a[k], b[k]) for k in a)
     if isinstance(a, list) and isinstance(b, list):
-        return len(a) == len(b) and all(strict_equal(x, y) for x, y in zip(a, b))
+        return len(a) == len(b) and all(strict_equal(x, y) for x, y in zip(a, b, strict=False))
     return type(a) is type(b) and a == b
 
 
@@ -184,7 +184,7 @@ def match_tool_calls(expected: list[dict], actual: list[dict], mode: str) -> tup
         return e.get("name") == a.get("name") and args_match(e.get("args", {}) or {}, a.get("args", {}) or {})
 
     if mode == "exact":
-        ok = len(expected) == len(actual) and all(one(e, a) for e, a in zip(expected, actual))
+        ok = len(expected) == len(actual) and all(one(e, a) for e, a in zip(expected, actual, strict=False))
     elif mode == "subset":
         ok = all(any(one(e, a) for a in actual) for e in expected)
     else:  # ordered-subset
@@ -316,7 +316,7 @@ def cohen_kappa(a: list[str], b: list[str]) -> float | None:
         return None
     labels = sorted(set(a) | set(b))
     n = len(a)
-    po = sum(1 for x, y in zip(a, b) if x == y) / n
+    po = sum(1 for x, y in zip(a, b, strict=False) if x == y) / n
     pe = sum((a.count(lab) / n) * (b.count(lab) / n) for lab in labels)
     if pe >= 1.0:
         return 1.0 if po == 1.0 else None
@@ -330,9 +330,9 @@ def calibrate(judgments: dict[str, str], human: dict[str, str]) -> dict[str, Any
     h = [human[k] for k in shared]
     labels = sorted(set(j) | set(h))
     confusion = {hl: {jl: 0 for jl in labels} for hl in labels}
-    for hv, jv in zip(h, j):
+    for hv, jv in zip(h, j, strict=False):
         confusion[hv][jv] += 1
-    agree = sum(1 for x, y in zip(j, h) if x == y)
+    agree = sum(1 for x, y in zip(j, h, strict=False) if x == y)
     kappa = cohen_kappa(h, j)
     return {
         "n": len(shared),

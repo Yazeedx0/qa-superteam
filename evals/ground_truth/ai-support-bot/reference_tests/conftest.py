@@ -14,7 +14,8 @@ def _fixture_root() -> Path:
     env = os.environ.get("SUPPORT_BOT_ROOT")
     here = Path(__file__).resolve().parent
     candidates = [Path(env)] if env else []
-    candidates += [here.parent, here.parents[3] / "examples" / "ai-support-bot"]
+    candidates += list(here.parents)  # copied anywhere inside a fixture checkout (e.g. tests/qa/)
+    candidates += [here.parents[3] / "examples" / "ai-support-bot"] if len(here.parents) > 3 else []
     for candidate in candidates:
         if (candidate / "support_bot" / "__init__.py").is_file():
             return candidate.resolve()

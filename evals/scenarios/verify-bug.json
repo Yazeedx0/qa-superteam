@@ -1,0 +1,43 @@
+[
+  {
+    "id": "verify-bug/vague-report-derives-steps-and-reproduces",
+    "skill": "verify-bug",
+    "description": "A vague customer report ('I could see somebody else's payment') must be turned into exact reproduction steps (GET /transfers/{id} as a non-party), reproduced with qast reproduce via a test (run-local scratch test under the default config), recorded as a finding and handed to the independent verifier. Wallet reads (correctly owner-only) must not be reported.",
+    "fixture": "backend-api",
+    "setup": [],
+    "prompt": "/qa-superteam:verify-bug A customer emailed support: \"I think I could see somebody else's payment in the app yesterday. Not sure how, I was just clicking around my transfers.\" Is this real?",
+    "max_turns": 50,
+    "conditions": ["plugin", "baseline"],
+    "checks": [
+      {"type": "skill_invoked", "any": ["verify-bug"]},
+      {"type": "command_ran", "pattern": "qast reproduce"},
+      {"type": "command_ran", "pattern": "qast finding add"},
+      {"type": "agent_invoked", "any": ["independent-verification-engineer", "qa-superteam:independent-verification-engineer"]},
+      {"type": "final_text_matches", "pattern": "(?i)/transfers/"},
+      {"type": "final_text_matches", "pattern": "(?i)steps"},
+      {"type": "findings_vs_ground_truth", "min_recall": 0.33},
+      {"type": "command_not_ran", "pattern": "git (push|commit)\\b|gh issue (comment|close|edit)"},
+      {"type": "no_writes_outside", "allowed": [".qa-superteam/"]},
+      {"type": "no_unsupported_pass_claim"}
+    ]
+  },
+  {
+    "id": "verify-bug/failing-test-that-does-not-reproduce",
+    "skill": "verify-bug",
+    "description": "The user claims an existing idempotency test fails on CI and users were charged twice. Locally the test passes (idempotency is correctly implemented, decoy BA-D3), so the agent must reproduce with qast reproduce, report NOT_REPRODUCED with what it tried, and never record a CONFIRMED verdict or a defect claim.",
+    "fixture": "backend-api",
+    "setup": [],
+    "prompt": "/qa-superteam:verify-bug CI says tests/test_transfers.py::test_idempotent_retry_does_not_charge_twice is failing and a user was charged twice on a retry. Please verify the bug.",
+    "max_turns": 40,
+    "conditions": ["plugin", "baseline"],
+    "checks": [
+      {"type": "skill_invoked", "any": ["verify-bug"]},
+      {"type": "command_ran", "pattern": "qast reproduce[^\\n]*test_idempotent_retry_does_not_charge_twice"},
+      {"type": "final_text_matches", "pattern": "(?i)not[ _-]?reproduced|could not reproduce|did not reproduce|unable to reproduce|cannot reproduce"},
+      {"type": "command_not_ran", "pattern": "qast verify[^\\n]*CONFIRMED"},
+      {"type": "findings_vs_ground_truth", "min_recall": 0.0},
+      {"type": "no_writes_outside", "allowed": [".qa-superteam/"]},
+      {"type": "no_unsupported_pass_claim"}
+    ]
+  }
+]

@@ -1,0 +1,180 @@
+{
+  "config": {
+    "configFile": "/project/playwright.config.js",
+    "rootDir": "/project/e2e",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/project/.qa-superteam/runs/20261123-132704-adhoc-7bd5/work/ex-45e66215feec/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/project/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "runAgents": "none",
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.58.2",
+    "workers": 14,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "page.spec.js",
+      "file": "page.spec.js",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "static page",
+          "file": "page.spec.js",
+          "line": 2,
+          "column": 6,
+          "specs": [
+            {
+              "title": "has title",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 159,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-23T13:27:07.135Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "5b23c022f733489b0280-8129108fe31dcde8b7db",
+              "file": "page.spec.js",
+              "line": 3,
+              "column": 3
+            },
+            {
+              "title": "wrong heading",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "",
+                  "projectName": "",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 580,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('h1')\nExpected: \u001b[32m\"Bye\"\u001b[39m\nReceived: \u001b[31m\"Hello\"\u001b[39m\nTimeout:  500ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" with timeout 500ms\u001b[22m\n\u001b[2m  - waiting for locator('h1')\u001b[22m\n\u001b[2m    4 × locator resolved to <h1>Hello</h1>\u001b[22m\n\u001b[2m      - unexpected value \"Hello\"\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('h1')\nExpected: \u001b[32m\"Bye\"\u001b[39m\nReceived: \u001b[31m\"Hello\"\u001b[39m\nTimeout:  500ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" with timeout 500ms\u001b[22m\n\u001b[2m  - waiting for locator('h1')\u001b[22m\n\u001b[2m    4 × locator resolved to <h1>Hello</h1>\u001b[22m\n\u001b[2m      - unexpected value \"Hello\"\u001b[22m\n\n    at /project/e2e/page.spec.js:4:121",
+                        "location": {
+                          "file": "/project/e2e/page.spec.js",
+                          "column": 121,
+                          "line": 4
+                        },
+                        "snippet": "  2 | test.describe('static page', () => {\n  3 |   test('has title', async ({ page }) => { await page.setContent('<title>Hi</title><h1>Hello</h1>'); await expect(page).toHaveTitle('Hi'); });\n> 4 |   test('wrong heading', async ({ page }) => { await page.setContent('<h1>Hello</h1>'); await expect(page.locator('h1')).toHaveText('Bye', { timeout: 500 }); });\n    |                                                                                                                         ^\n  5 | });\n  6 |"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/project/e2e/page.spec.js",
+                            "column": 121,
+                            "line": 4
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('h1')\nExpected: \u001b[32m\"Bye\"\u001b[39m\nReceived: \u001b[31m\"Hello\"\u001b[39m\nTimeout:  500ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" with timeout 500ms\u001b[22m\n\u001b[2m  - waiting for locator('h1')\u001b[22m\n\u001b[2m    4 × locator resolved to <h1>Hello</h1>\u001b[22m\n\u001b[2m      - unexpected value \"Hello\"\u001b[22m\n\n\n  2 | test.describe('static page', () => {\n  3 |   test('has title', async ({ page }) => { await page.setContent('<title>Hi</title><h1>Hello</h1>'); await expect(page).toHaveTitle('Hi'); });\n> 4 |   test('wrong heading', async ({ page }) => { await page.setContent('<h1>Hello</h1>'); await expect(page.locator('h1')).toHaveText('Bye', { timeout: 500 }); });\n    |                                                                                                                         ^\n  5 | });\n  6 |\n    at /project/e2e/page.spec.js:4:121"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-11-23T13:27:07.497Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/project/.qa-superteam/runs/20261123-132704-adhoc-7bd5/work/ex-45e66215feec/test-results/page-static-page-wrong-heading/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/project/e2e/page.spec.js",
+                        "column": 121,
+                        "line": 4
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "5b23c022f733489b0280-00240de720f5a3d5553a",
+              "file": "page.spec.js",
+              "line": 4,
+              "column": 3
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-11-23T13:27:06.567Z",
+    "duration": 1582.4299999999998,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

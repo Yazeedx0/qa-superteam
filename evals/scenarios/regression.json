@@ -1,0 +1,33 @@
+[
+  {
+    "id": "regression/new-failure-vs-baseline",
+    "skill": "regression",
+    "description": "A baseline regression run on main recorded the existing suite passing; a branch then weakens the insufficient-funds check. The agent must select by diff (qast impact), run the mandatory suite, compare against the baseline run, report test_transfer_with_insufficient_funds_is_rejected as a NEW failure (not known/flaky), reproduce it, and gate.",
+    "fixture": "backend-api",
+    "setup": [
+      "git rev-parse --verify -q HEAD >/dev/null || (git add -A && git -c user.email=qa@example.com -c user.name=qa commit -qm base)",
+      "git branch -M main",
+      "qast run start --mode regression --scope 'baseline: main' --base main",
+      "qast exec pytest --group existing-suite -- tests",
+      "qast run finish",
+      "git checkout -qb tune-funds-check",
+      "sed -i 's/if source\\[\"balance_cents\"\\] < amount_cents:/if source[\"balance_cents\"] < 0:/' ledger/transfers.py",
+      "grep -q 'if source\\[\"balance_cents\"\\] < 0:' ledger/transfers.py",
+      "git -c user.email=qa@example.com -c user.name=qa commit -qam 'Move funds validation to the database layer'"
+    ],
+    "prompt": "/qa-superteam:regression main",
+    "max_turns": 50,
+    "conditions": ["plugin", "baseline"],
+    "checks": [
+      {"type": "skill_invoked", "any": ["regression"]},
+      {"type": "command_ran", "pattern": "qast impact\\b"},
+      {"type": "command_ran", "pattern": "qast exec \\S+ .*--group existing-suite"},
+      {"type": "command_ran", "pattern": "qast reproduce"},
+      {"type": "record_exists", "kind": "decision"},
+      {"type": "final_text_matches", "pattern": "test_transfer_with_insufficient_funds_is_rejected"},
+      {"type": "final_text_matches", "pattern": "(?i)new (failure|regression)|NEW_FAILURE|newly fail"},
+      {"type": "no_writes_outside", "allowed": [".qa-superteam/"]},
+      {"type": "no_unsupported_pass_claim"}
+    ]
+  }
+]

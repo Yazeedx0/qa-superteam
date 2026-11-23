@@ -27,8 +27,9 @@ import json
 import mimetypes
 import os
 import secrets
+from collections.abc import Iterator
 from pathlib import Path
-from typing import Any, Iterator
+from typing import Any
 
 from . import models as m
 from .config import Config
@@ -94,7 +95,7 @@ class RunStore:
         head_ref: str | None = None,
         environment: m.EnvironmentInfo | None = None,
         activate: bool = True,
-    ) -> "RunStore":
+    ) -> RunStore:
         stamp = now_iso().replace("-", "").replace(":", "").replace("T", "-").rstrip("Z")
         run_id = f"{stamp}-{slug(mode, 16)}-{secrets.token_hex(2)}"
         store = cls(config, run_id)
@@ -117,7 +118,7 @@ class RunStore:
         return store
 
     @classmethod
-    def resolve(cls, config: Config, run_id: str | None = None) -> "RunStore":
+    def resolve(cls, config: Config, run_id: str | None = None) -> RunStore:
         if run_id:
             store = cls(config, run_id)
             if not (store.dir / "run.json").exists():
@@ -223,7 +224,10 @@ class RunStore:
             execution_id=execution_id,
             description=description,
         )
-        write_json_exclusive(rec_path, to_dict(art))
+        try:
+            write_json_exclusive(rec_path, to_dict(art))
+        except FileExistsError:  # a parallel writer stored identical content first
+            return from_dict(m.EvidenceArtifact, read_json(rec_path))
         return art
 
     def artifacts(self) -> list[m.EvidenceArtifact]:
@@ -307,7 +311,8 @@ class RunStore:
 
     # ------------------------------------------------------------------ ids
     def execution_id(self, adapter: str, label: str) -> str:
-        return stable_id("ex", self.run_id, str(self.next_sequence("executions")), adapter, label)
+        # pid disambiguates parallel specialists that start executions at the same moment
+        return stable_id("ex", self.run_id, str(self.next_sequence("executions")), adapter, label, str(os.getpid()))
 
     def finding_id(self, title: str, paths: list[str], tests: list[str]) -> str:
         return stable_id("F", self.run_id, title.strip().lower(), *sorted(paths), *sorted(tests), length=8)

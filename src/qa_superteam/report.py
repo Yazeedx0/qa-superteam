@@ -137,7 +137,7 @@ def build_report(store: RunStore) -> m.QAReport:
     if profile:
         profile_summary = {
             "project": profile.project_name,
-            "languages": [f"{l.name} ({l.files})" for l in profile.languages[:6]],
+            "languages": [f"{lang.name} ({lang.files})" for lang in profile.languages[:6]],
             "test_suites": [f"{s.framework}: {', '.join(s.paths)} ({s.test_files} files)" for s in profile.test_suites],
             "facts": len(profile.facts),
             "git_head": profile.git.head,

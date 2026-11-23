@@ -1,0 +1,53 @@
+name: Behavioral evals (optional, live LLM)
+
+# Runs real Claude Code sessions against the reference fixtures with and without the plugin.
+# Costs tokens. Manual trigger only. Without the ANTHROPIC_API_KEY secret every scenario is NOT_RUN.
+on:
+  workflow_dispatch:
+    inputs:
+      only:
+        description: "Comma-separated skills or scenario ids (empty = all)"
+        required: false
+        default: "qa-verification,qa-bug-investigation,qa-performance,review-pr"
+      model:
+        description: "Model alias or id"
+        required: false
+        default: "sonnet"
+      conditions:
+        description: "plugin,baseline"
+        required: false
+        default: "plugin,baseline"
+
+permissions:
+  contents: read
+
+jobs:
+  evals:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install tools
+        run: |
+          npm install -g @anthropic-ai/claude-code
+          pip install pytest fastapi httpx playwright
+          python -m playwright install --with-deps chromium
+          (cd examples/web-checkout && npm ci)
+      - name: Run evals
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          if [ -n "$ANTHROPIC_API_KEY" ]; then LIVE="--live --bare"; else LIVE=""; echo "::warning::ANTHROPIC_API_KEY not set: scenarios will be NOT_RUN"; fi
+          python3 evals/harness/run_evals.py $LIVE --model "${{ inputs.model }}" --conditions "${{ inputs.conditions }}" \
+            ${{ inputs.only && format('--only {0}', inputs.only) || '' }} --out "$RUNNER_TEMP/evals"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: behavioral-eval-results
+          path: ${{ runner.temp }}/evals

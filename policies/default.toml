@@ -51,3 +51,4 @@ max_untested_high_risk = 0
 [evidence]
 no_executions = "REVIEW_REQUIRED"
 integrity_violation = "REVIEW_REQUIRED"
+untriaged_failures = "REVIEW_REQUIRED"     # FAILED/ERROR results not linked to any finding

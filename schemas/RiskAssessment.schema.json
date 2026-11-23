@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://qa-superteam.dev/schemas/RiskAssessment.schema.json",
+  "title": "RiskAssessment",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "area": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "probability": {
+      "type": "integer"
+    },
+    "impact": {
+      "type": "integer"
+    },
+    "score": {
+      "type": "integer"
+    },
+    "level": {
+      "$ref": "#/$defs/Severity"
+    },
+    "factors": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/RiskFactor"
+      }
+    },
+    "paths": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "existing_coverage": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "related_requirements": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "assumptions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "area",
+    "description",
+    "probability",
+    "impact",
+    "score",
+    "level"
+  ],
+  "description": "Probability x impact risk for an area. Score = probability * impact (1..25).",
+  "$defs": {
+    "Basis": {
+      "type": "string",
+      "enum": [
+        "observed",
+        "inferred",
+        "assumed"
+      ],
+      "description": "How a fact was established."
+    },
+    "RiskFactor": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "value": {
+          "type": "integer",
+          "description": "1 (low) .. 5 (high)"
+        },
+        "rationale": {
+          "type": "string"
+        },
+        "basis": {
+          "$ref": "#/$defs/Basis"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "value",
+        "rationale"
+      ]
+    },
+    "Severity": {
+      "type": "string",
+      "enum": [
+        "critical",
+        "high",
+        "medium",
+        "low",
+        "info"
+      ],
+      "description": "Impact of a defect if it reaches users. Definitions live in the active policy."
+    }
+  }
+}

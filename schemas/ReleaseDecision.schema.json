@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://qa-superteam.dev/schemas/ReleaseDecision.schema.json",
+  "title": "ReleaseDecision",
+  "type": "object",
+  "properties": {
+    "decision": {
+      "$ref": "#/$defs/Decision"
+    },
+    "policy": {
+      "$ref": "#/$defs/PolicyRef"
+    },
+    "rules": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/RuleOutcome"
+      }
+    },
+    "evaluated_at": {
+      "type": "string"
+    },
+    "inputs_digest": {
+      "type": "string",
+      "description": "sha256 over the records the decision was computed from"
+    },
+    "summary": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "decision",
+    "policy",
+    "rules",
+    "evaluated_at",
+    "inputs_digest",
+    "summary"
+  ],
+  "$defs": {
+    "Decision": {
+      "type": "string",
+      "enum": [
+        "PASS",
+        "REVIEW_REQUIRED",
+        "BLOCK"
+      ]
+    },
+    "PolicyRef": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "sha256": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "version",
+        "sha256",
+        "path"
+      ]
+    },
+    "RuleOutcome": {
+      "type": "object",
+      "properties": {
+        "rule_id": {
+          "type": "string"
+        },
+        "outcome": {
+          "$ref": "#/$defs/Decision"
+        },
+        "triggered": {
+          "type": "boolean"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "refs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "rule_id",
+        "outcome",
+        "triggered",
+        "reason"
+      ]
+    }
+  }
+}

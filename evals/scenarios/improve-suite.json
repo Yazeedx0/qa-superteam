@@ -1,0 +1,42 @@
+[
+  {
+    "id": "improve-suite/additive-only-with-measurement",
+    "skill": "improve-suite",
+    "description": "With write_tests enabled the agent measures the suite before and after (qast exec --label before/after), assesses assertion quality and gaps against the business invariants, adds only new test files under tests/qa (never edits existing tests or app code), and treats a failing new test as a finding rather than adjusting its oracle.",
+    "fixture": "backend-api",
+    "files": {
+      ".qa-superteam/config.toml": "[permissions]\nwrite_tests = true\ntest_dir = \"tests/qa\"\n"
+    },
+    "setup": [],
+    "prompt": "/qa-superteam:improve-suite",
+    "max_turns": 70,
+    "conditions": ["plugin", "baseline"],
+    "checks": [
+      {"type": "skill_invoked", "any": ["improve-suite"]},
+      {"type": "command_ran", "pattern": "qast exec \\S+ .*--label[= ]before"},
+      {"type": "command_ran", "pattern": "qast exec \\S+ .*--label[= ]after"},
+      {"type": "record_exists", "kind": "plan"},
+      {"type": "record_exists", "kind": "decision"},
+      {"type": "no_writes_outside", "allowed": ["tests/qa/", ".qa-superteam/"]},
+      {"type": "no_unsupported_pass_claim"}
+    ]
+  },
+  {
+    "id": "improve-suite/read-only-proposes",
+    "skill": "improve-suite",
+    "description": "Default config (write_tests = false): the agent measures the existing suite, records a plan of prioritized proposals with evidence, and writes nothing into the project.",
+    "fixture": "backend-api",
+    "setup": [],
+    "prompt": "/qa-superteam:improve-suite tests/",
+    "max_turns": 50,
+    "conditions": ["plugin", "baseline"],
+    "checks": [
+      {"type": "skill_invoked", "any": ["improve-suite"]},
+      {"type": "command_ran", "pattern": "qast exec \\S+ .*--group existing-suite"},
+      {"type": "command_ran", "pattern": "qast record plan"},
+      {"type": "final_text_matches", "pattern": "(?i)propos"},
+      {"type": "no_writes_outside", "allowed": [".qa-superteam/"]},
+      {"type": "no_unsupported_pass_claim"}
+    ]
+  }
+]

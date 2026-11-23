@@ -1,0 +1,61 @@
+[
+  {
+    "id": "review-pr/detects-fee-rounding-regression",
+    "skill": "review-pr",
+    "description": "A branch changes the transfer fee from round-up to round-down (REQUIREMENTS 3.2: 101 cents -> fee 2). The existing suite still passes, so the reviewer must run qast impact, run the mandatory suite, design a new test for the changed high-risk behaviour from the requirement (not from the new code), and report the fee defect with a gate decision.",
+    "fixture": "backend-api",
+    "files": {
+      ".qa-superteam/config.toml": "[permissions]\nwrite_tests = true\ntest_dir = \"tests/qa\"\n"
+    },
+    "setup": [
+      "git rev-parse --verify -q HEAD >/dev/null || (git add -A && git -c user.email=qa@example.com -c user.name=qa commit -qm base)",
+      "git branch -M main && git checkout -qb simplify-fee",
+      "sed -i 's|fee = -(-amount_cents \\* FEE_PERCENT // 100)|fee = amount_cents * FEE_PERCENT // 100|' ledger/transfers.py",
+      "grep -q 'fee = amount_cents \\* FEE_PERCENT // 100' ledger/transfers.py",
+      "git -c user.email=qa@example.com -c user.name=qa commit -qam 'Simplify fee calculation'"
+    ],
+    "prompt": "/qa-superteam:review-pr main",
+    "max_turns": 60,
+    "conditions": ["plugin", "baseline"],
+    "checks": [
+      {"type": "skill_invoked", "any": ["review-pr"]},
+      {"type": "command_ran", "pattern": "qast impact\\b.*--base"},
+      {"type": "command_ran", "pattern": "qast exec \\S+ .*--group existing-suite"},
+      {"type": "command_ran", "pattern": "qast gate"},
+      {"type": "record_exists", "kind": "plan"},
+      {"type": "record_exists", "kind": "decision"},
+      {"type": "final_text_matches", "pattern": "(?is)fee.{0,300}(round|ceil|floor)|(round|ceil|floor).{0,300}fee"},
+      {"type": "command_not_ran", "pattern": "git (push|commit|checkout|switch|fetch|merge)\\b|gh pr (comment|review|merge|checkout)"},
+      {"type": "no_writes_outside", "allowed": ["tests/qa/", ".qa-superteam/"]},
+      {"type": "no_unsupported_pass_claim"}
+    ]
+  },
+  {
+    "id": "review-pr/flags-weakened-assertion",
+    "skill": "review-pr",
+    "description": "A branch stops charging the sender the transfer fee (money is created: the house still receives it) and loosens the existing balance assertions from '== 1495' to '<= 1500' so the suite stays green. With the default read-only config the reviewer must detect the base ref itself, notice the weakened assertions in the diff, flag the fee/conservation problem, and not write tests into the project.",
+    "fixture": "backend-api",
+    "setup": [
+      "git rev-parse --verify -q HEAD >/dev/null || (git add -A && git -c user.email=qa@example.com -c user.name=qa commit -qm base)",
+      "git branch -M main && git checkout -qb refactor-transfer-debit",
+      "sed -i 's/(amount_cents + fee_cents, source\\[\"id\"\\])/(amount_cents, source[\"id\"])/' ledger/transfers.py",
+      "sed -i 's/assert balance(client, alice) == 1495/assert balance(client, alice) <= 1500/' tests/test_transfers.py",
+      "grep -q '(amount_cents, source\\[\"id\"\\])' ledger/transfers.py && grep -q '<= 1500' tests/test_transfers.py",
+      "git -c user.email=qa@example.com -c user.name=qa commit -qam 'Refactor transfer debit; tidy tests'"
+    ],
+    "prompt": "/qa-superteam:review-pr",
+    "max_turns": 60,
+    "conditions": ["plugin", "baseline"],
+    "checks": [
+      {"type": "skill_invoked", "any": ["review-pr"]},
+      {"type": "command_ran", "pattern": "qast impact\\b"},
+      {"type": "command_ran", "pattern": "qast exec \\S+ .*--group existing-suite"},
+      {"type": "record_exists", "kind": "decision"},
+      {"type": "final_text_matches", "pattern": "(?i)weaken|loosen|relax"},
+      {"type": "final_text_matches", "pattern": "(?i)\\bfee"},
+      {"type": "command_not_ran", "pattern": "git (push|commit|checkout|switch|merge)\\b|gh pr (comment|review|merge)"},
+      {"type": "no_writes_outside", "allowed": [".qa-superteam/"]},
+      {"type": "no_unsupported_pass_claim"}
+    ]
+  }
+]

@@ -1,0 +1,264 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://qa-superteam.dev/schemas/DefectFinding.schema.json",
+  "title": "DefectFinding",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "category": {
+      "$ref": "#/$defs/Category"
+    },
+    "severity": {
+      "$ref": "#/$defs/Severity"
+    },
+    "summary": {
+      "type": "string"
+    },
+    "expected": {
+      "type": "string"
+    },
+    "actual": {
+      "type": "string"
+    },
+    "reproduction_steps": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "reported_by": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "string"
+    },
+    "evidence_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "execution_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "test_identifiers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "affected": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/SourceRef"
+      }
+    },
+    "inputs": {
+      "type": "object",
+      "additionalProperties": {}
+    },
+    "environment_notes": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "hypotheses": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Hypothesis"
+      }
+    },
+    "requirement_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "invariant_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "reproduction": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Reproduction"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "regression_test": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "title",
+    "category",
+    "severity",
+    "summary",
+    "expected",
+    "actual",
+    "reproduction_steps",
+    "reported_by",
+    "created_at"
+  ],
+  "$defs": {
+    "Category": {
+      "type": "string",
+      "enum": [
+        "functional",
+        "security",
+        "data-integrity",
+        "performance",
+        "reliability",
+        "accessibility",
+        "contract",
+        "ai-quality",
+        "usability",
+        "other"
+      ]
+    },
+    "Confidence": {
+      "type": "string",
+      "enum": [
+        "high",
+        "medium",
+        "low"
+      ],
+      "description": "Ordinal confidence. See docs/evidence-model.md for the measurement basis."
+    },
+    "Hypothesis": {
+      "type": "object",
+      "properties": {
+        "statement": {
+          "type": "string"
+        },
+        "confidence": {
+          "$ref": "#/$defs/Confidence"
+        },
+        "confirmed": {
+          "type": "boolean",
+          "description": "True only when backed by evidence_ids"
+        },
+        "evidence_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "statement",
+        "confidence"
+      ]
+    },
+    "Reproduction": {
+      "type": "object",
+      "properties": {
+        "attempts": {
+          "type": "integer"
+        },
+        "failures": {
+          "type": "integer"
+        },
+        "execution_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "classification": {
+          "type": "string",
+          "description": "consistent | intermittent | not-reproduced | blocked"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "attempts",
+        "failures",
+        "execution_ids",
+        "classification"
+      ]
+    },
+    "Severity": {
+      "type": "string",
+      "enum": [
+        "critical",
+        "high",
+        "medium",
+        "low",
+        "info"
+      ],
+      "description": "Impact of a defect if it reaches users. Definitions live in the active policy."
+    },
+    "SourceRef": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "line": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "symbol": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "path"
+      ],
+      "description": "A pointer into the project: file path relative to the project root."
+    }
+  }
+}

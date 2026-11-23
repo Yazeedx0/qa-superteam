@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://qa-superteam.dev/schemas/EvidenceArtifact.schema.json",
+  "title": "EvidenceArtifact",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "ev-<sha256 prefix>; content addressed"
+    },
+    "kind": {
+      "$ref": "#/$defs/ArtifactKind"
+    },
+    "path": {
+      "type": "string",
+      "description": "Relative to the run directory"
+    },
+    "sha256": {
+      "type": "string"
+    },
+    "size_bytes": {
+      "type": "integer"
+    },
+    "media_type": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "string"
+    },
+    "redacted": {
+      "type": "boolean"
+    },
+    "redactions": {
+      "type": "integer"
+    },
+    "execution_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "description": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "kind",
+    "path",
+    "sha256",
+    "size_bytes",
+    "media_type",
+    "created_at",
+    "redacted"
+  ],
+  "$defs": {
+    "ArtifactKind": {
+      "type": "string",
+      "enum": [
+        "log",
+        "junit",
+        "report",
+        "screenshot",
+        "trace",
+        "video",
+        "coverage",
+        "diff",
+        "data",
+        "other"
+      ]
+    }
+  }
+}

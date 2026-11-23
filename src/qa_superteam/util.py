@@ -19,7 +19,7 @@ def now_iso() -> str:
     fixed = os.environ.get("QAST_FIXED_TIME")
     if fixed:
         return fixed
-    return _dt.datetime.now(_dt.timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+    return _dt.datetime.now(_dt.UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
 
 def sha256_bytes(data: bytes) -> str:

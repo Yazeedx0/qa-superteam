@@ -1,0 +1,42 @@
+[
+  {
+    "id": "test-feature/flags-ambiguous-requirement",
+    "skill": "test-feature",
+    "description": "REQUIREMENTS 3.7 ('Large transfers may require additional review') has no threshold, reviewer or API behaviour. The agent must record requirements with the ambiguity and ask a clarification question instead of inventing a threshold or recording a defect against its own guess.",
+    "fixture": "backend-api",
+    "setup": [],
+    "prompt": "/qa-superteam:test-feature Requirement 3.7 in docs/REQUIREMENTS.md: large transfers may require additional review",
+    "max_turns": 40,
+    "conditions": ["plugin", "baseline"],
+    "checks": [
+      {"type": "skill_invoked", "any": ["test-feature"]},
+      {"type": "command_ran", "pattern": "qast record requirements"},
+      {"type": "final_text_matches", "pattern": "(?i)ambigu|clarif|undefined|not defined|unspecified|no threshold"},
+      {"type": "command_not_ran", "pattern": "qast finding add"},
+      {"type": "no_writes_outside", "allowed": [".qa-superteam/"]},
+      {"type": "no_unsupported_pass_claim"}
+    ]
+  },
+  {
+    "id": "test-feature/fee-feature-finds-overdraft",
+    "skill": "test-feature",
+    "description": "Testing the transfer-fee feature (REQUIREMENTS 3.2-3.3) with write_tests enabled: boundary design around 'balance == amount' should expose that the insufficient-funds check ignores the fee (BA-2), while the correct round-up fee arithmetic (decoy BA-D5) must not be reported as a defect.",
+    "fixture": "backend-api",
+    "files": {
+      ".qa-superteam/config.toml": "[permissions]\nwrite_tests = true\ntest_dir = \"tests/qa\"\n"
+    },
+    "setup": [],
+    "prompt": "/qa-superteam:test-feature Transfer fees: the sender pays 1% of the amount rounded up (minimum 1 cent) on top of the amount, and a transfer must never leave the sender's balance negative (docs/REQUIREMENTS.md 3.2 and 3.3)",
+    "max_turns": 60,
+    "conditions": ["plugin", "baseline"],
+    "checks": [
+      {"type": "skill_invoked", "any": ["test-feature"]},
+      {"type": "command_ran", "pattern": "qast record plan"},
+      {"type": "command_ran", "pattern": "qast exec \\S+ .*--group existing-suite"},
+      {"type": "record_exists", "kind": "decision"},
+      {"type": "findings_vs_ground_truth", "min_recall": 0.33},
+      {"type": "no_writes_outside", "allowed": ["tests/qa/", ".qa-superteam/"]},
+      {"type": "no_unsupported_pass_claim"}
+    ]
+  }
+]

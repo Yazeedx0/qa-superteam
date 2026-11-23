@@ -1,0 +1,149 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://qa-superteam.dev/schemas/CoverageAssessment.schema.json",
+  "title": "CoverageAssessment",
+  "type": "object",
+  "properties": {
+    "measured": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/MeasuredMetric"
+      }
+    },
+    "traceability": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/TraceRow"
+      }
+    },
+    "untested": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/UntestedArea"
+      }
+    },
+    "status_counts": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer"
+      }
+    },
+    "basis": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "measured",
+    "traceability",
+    "untested",
+    "status_counts"
+  ],
+  "$defs": {
+    "MeasuredMetric": {
+      "type": "object",
+      "properties": {
+        "metric": {
+          "type": "string"
+        },
+        "value": {
+          "type": "number"
+        },
+        "unit": {
+          "type": "string"
+        },
+        "tool": {
+          "type": "string"
+        },
+        "artifact_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "metric",
+        "value",
+        "unit",
+        "tool"
+      ],
+      "description": "A coverage/quality number measured by a tool. Never estimated."
+    },
+    "Severity": {
+      "type": "string",
+      "enum": [
+        "critical",
+        "high",
+        "medium",
+        "low",
+        "info"
+      ],
+      "description": "Impact of a defect if it reaches users. Definitions live in the active policy."
+    },
+    "Status": {
+      "type": "string",
+      "enum": [
+        "PASSED",
+        "FAILED",
+        "ERROR",
+        "SKIPPED",
+        "BLOCKED",
+        "NOT_RUN",
+        "INCONCLUSIVE"
+      ],
+      "description": "Normalized execution status. Never collapse to pass/fail."
+    },
+    "TraceRow": {
+      "type": "object",
+      "properties": {
+        "item_id": {
+          "type": "string",
+          "description": "Requirement, invariant or risk id"
+        },
+        "test_case_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "statuses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Status"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "item_id",
+        "test_case_ids",
+        "statuses"
+      ]
+    },
+    "UntestedArea": {
+      "type": "object",
+      "properties": {
+        "area": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "risk": {
+          "$ref": "#/$defs/Severity"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "area",
+        "reason"
+      ]
+    }
+  }
+}

@@ -1,0 +1,43 @@
+[
+  {
+    "id": "eval-ai/extends-dataset-and-finds-tool-and-injection-defects",
+    "skill": "eval-ai",
+    "description": "The golden dataset passes 6/6 on the defective support bot. With write_tests enabled the agent must validate and run it via qast exec ai-eval, then add adversarial cases in a new dataset file (refund tool-call units, indirect injection from the community FAQ, punctuation variants) and find the planted defects, without editing evals/golden.jsonl or using an uncalibrated judge.",
+    "fixture": "ai-support-bot",
+    "files": {
+      ".qa-superteam/config.toml": "[permissions]\nwrite_tests = true\ntest_dir = \"tests/qa\"\n"
+    },
+    "setup": [],
+    "prompt": "/qa-superteam:eval-ai",
+    "max_turns": 60,
+    "conditions": ["plugin", "baseline"],
+    "checks": [
+      {"type": "skill_invoked", "any": ["eval-ai"]},
+      {"type": "command_ran", "pattern": "qast ai-eval validate"},
+      {"type": "command_ran", "pattern": "qast exec ai-eval"},
+      {"type": "command_not_ran", "pattern": "qast exec ai-eval[^\\n]*--judge-model"},
+      {"type": "record_exists", "kind": "decision"},
+      {"type": "findings_vs_ground_truth", "min_recall": 0.66},
+      {"type": "no_writes_outside", "allowed": ["tests/qa/", ".qa-superteam/"]},
+      {"type": "no_unsupported_pass_claim"}
+    ]
+  },
+  {
+    "id": "eval-ai/read-only-proposes-cases",
+    "skill": "eval-ai",
+    "description": "Default config (write_tests = false): the agent runs the existing golden dataset through qast exec ai-eval with the given entry point, leaves the dataset untouched, and reports missing adversarial coverage as proposed cases instead of writing them.",
+    "fixture": "ai-support-bot",
+    "setup": [],
+    "prompt": "/qa-superteam:eval-ai support_bot.bot:answer evals/golden.jsonl",
+    "max_turns": 40,
+    "conditions": ["plugin", "baseline"],
+    "checks": [
+      {"type": "skill_invoked", "any": ["eval-ai"]},
+      {"type": "command_ran", "pattern": "qast exec ai-eval[^\\n]*--entry[= ]support_bot\\.bot:answer"},
+      {"type": "command_not_ran", "pattern": "--judge-model"},
+      {"type": "final_text_matches", "pattern": "(?i)propos"},
+      {"type": "no_writes_outside", "allowed": [".qa-superteam/"]},
+      {"type": "no_unsupported_pass_claim"}
+    ]
+  }
+]

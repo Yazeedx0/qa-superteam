@@ -1,0 +1,56 @@
+# Example workflow for YOUR project (copy to .github/workflows/qa-pr-review.yml).
+# Runs the QA Superteam review-pr workflow headless with Claude Code, then enforces the
+# deterministic release gate. Requires the ANTHROPIC_API_KEY repository secret.
+# Replace <owner> with the account hosting your qa-superteam copy.
+name: QA Superteam PR review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+
+jobs:
+  qa-review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0            # impact analysis needs the base branch history
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install project test dependencies
+        run: pip install -r requirements.txt pytest
+
+      - name: Install Claude Code and QA Superteam
+        run: |
+          npm install -g @anthropic-ai/claude-code
+          claude plugin marketplace add <owner>/qa-superteam
+          claude plugin install qa-superteam@qa-superteam
+          git clone --depth 1 https://github.com/<owner>/qa-superteam "$RUNNER_TEMP/qa-superteam"
+          echo "$RUNNER_TEMP/qa-superteam/bin" >> "$GITHUB_PATH"
+
+      - name: QA review (agentic)
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          claude -p "/qa-superteam:review-pr origin/${{ github.base_ref }}" \
+            --max-turns 80 \
+            --allowedTools "Read" "Grep" "Glob" "Write" "Edit" "Skill" "Agent" \
+              "Bash(qast:*)" "Bash(python:*)" "Bash(python3:*)" "Bash(pytest:*)" \
+              "Bash(git diff:*)" "Bash(git log:*)" "Bash(git show:*)" "Bash(git status:*)" "Bash(git rev-parse:*)"
+
+      - name: Release gate (deterministic)
+        run: qast gate --exit-code
+
+      - name: Upload QA report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: qa-superteam-report
+          path: .qa-superteam/runs/

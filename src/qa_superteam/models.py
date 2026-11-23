@@ -30,7 +30,7 @@ SCHEMA_VERSION = "1.0"
 # --------------------------------------------------------------------------- enums
 
 
-class Status(str, enum.Enum):
+class Status(enum.StrEnum):
     """Normalized execution status. Never collapse to pass/fail."""
 
     PASSED = "PASSED"  # executed and the oracle held
@@ -42,7 +42,7 @@ class Status(str, enum.Enum):
     INCONCLUSIVE = "INCONCLUSIVE"  # executed but the outcome cannot be trusted (flaky, judge uncertainty)
 
 
-class Severity(str, enum.Enum):
+class Severity(enum.StrEnum):
     """Impact of a defect if it reaches users. Definitions live in the active policy."""
 
     CRITICAL = "critical"
@@ -55,7 +55,7 @@ class Severity(str, enum.Enum):
 SEVERITY_RANK = {Severity.INFO: 0, Severity.LOW: 1, Severity.MEDIUM: 2, Severity.HIGH: 3, Severity.CRITICAL: 4}
 
 
-class Confidence(str, enum.Enum):
+class Confidence(enum.StrEnum):
     """Ordinal confidence. See docs/evidence-model.md for the measurement basis."""
 
     HIGH = "high"
@@ -63,7 +63,7 @@ class Confidence(str, enum.Enum):
     LOW = "low"
 
 
-class Basis(str, enum.Enum):
+class Basis(enum.StrEnum):
     """How a fact was established."""
 
     OBSERVED = "observed"  # read directly from a file, command output or test result
@@ -71,7 +71,7 @@ class Basis(str, enum.Enum):
     ASSUMED = "assumed"  # adopted without evidence; must be listed as an assumption
 
 
-class Category(str, enum.Enum):
+class Category(enum.StrEnum):
     FUNCTIONAL = "functional"
     SECURITY = "security"
     DATA_INTEGRITY = "data-integrity"
@@ -84,7 +84,7 @@ class Category(str, enum.Enum):
     OTHER = "other"
 
 
-class FindingStatus(str, enum.Enum):
+class FindingStatus(enum.StrEnum):
     """Lifecycle of a defect claim. Only CONFIRMED findings count as verified defects."""
 
     SUSPECTED = "SUSPECTED"  # hypothesis, no reproduction yet
@@ -95,13 +95,13 @@ class FindingStatus(str, enum.Enum):
     INCONCLUSIVE = "INCONCLUSIVE"  # evidence is mixed (e.g. flaky) or insufficient
 
 
-class Verdict(str, enum.Enum):
+class Verdict(enum.StrEnum):
     CONFIRMED = "CONFIRMED"
     REJECTED = "REJECTED"
     INCONCLUSIVE = "INCONCLUSIVE"
 
 
-class Decision(str, enum.Enum):
+class Decision(enum.StrEnum):
     PASS = "PASS"
     REVIEW_REQUIRED = "REVIEW_REQUIRED"
     BLOCK = "BLOCK"
@@ -110,14 +110,14 @@ class Decision(str, enum.Enum):
 DECISION_RANK = {Decision.PASS: 0, Decision.REVIEW_REQUIRED: 1, Decision.BLOCK: 2}
 
 
-class RequirementStatus(str, enum.Enum):
+class RequirementStatus(enum.StrEnum):
     STATED = "stated"  # explicitly written in a requirement source
     INFERRED = "inferred"  # derived from code/tests behaviour; needs confirmation
     AMBIGUOUS = "ambiguous"  # stated but not testable as written
     CONFLICTING = "conflicting"  # sources disagree
 
 
-class TestOrigin(str, enum.Enum):
+class TestOrigin(enum.StrEnum):
 
     __test__ = False  # not a pytest test class
     EXISTING = "existing"  # already in the project
@@ -125,7 +125,7 @@ class TestOrigin(str, enum.Enum):
     PROPOSED = "proposed"  # designed but not implemented
 
 
-class ArtifactKind(str, enum.Enum):
+class ArtifactKind(enum.StrEnum):
     LOG = "log"
     JUNIT = "junit"
     REPORT = "report"
@@ -138,7 +138,7 @@ class ArtifactKind(str, enum.Enum):
     OTHER = "other"
 
 
-class FactKind(str, enum.Enum):
+class FactKind(enum.StrEnum):
     LANGUAGE = "language"
     FRAMEWORK = "framework"
     RUNTIME = "runtime"

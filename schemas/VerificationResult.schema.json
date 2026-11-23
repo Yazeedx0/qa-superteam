@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://qa-superteam.dev/schemas/VerificationResult.schema.json",
+  "title": "VerificationResult",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "finding_id": {
+      "type": "string"
+    },
+    "verdict": {
+      "$ref": "#/$defs/Verdict"
+    },
+    "method": {
+      "type": "string",
+      "description": "independent-rerun | alternate-oracle | code-inspection | manual"
+    },
+    "verifier": {
+      "type": "string"
+    },
+    "rationale": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "string"
+    },
+    "evidence_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "execution_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "test_identifiers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Tests the verifier ran (alternate oracle)"
+    },
+    "checks": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/VerificationCheck"
+      },
+      "description": "Machine checks run by qast verify"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "finding_id",
+    "verdict",
+    "method",
+    "verifier",
+    "rationale",
+    "created_at"
+  ],
+  "$defs": {
+    "Verdict": {
+      "type": "string",
+      "enum": [
+        "CONFIRMED",
+        "REJECTED",
+        "INCONCLUSIVE"
+      ]
+    },
+    "VerificationCheck": {
+      "type": "object",
+      "properties": {
+        "check": {
+          "type": "string"
+        },
+        "passed": {
+          "type": "boolean"
+        },
+        "detail": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "check",
+        "passed"
+      ]
+    }
+  }
+}

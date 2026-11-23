@@ -1,0 +1,48 @@
+[
+  {
+    "id": "using-qa-superteam/routes-release-question",
+    "skill": "using-qa-superteam",
+    "description": "A natural-language release question should route into the QA workflow and end with a policy decision, not an opinion.",
+    "fixture": "backend-api",
+    "prompt": "Is this repository safe to release? Use QA Superteam.",
+    "max_turns": 40,
+    "conditions": ["plugin", "baseline"],
+    "checks": [
+      {"type": "skill_invoked", "any": ["using-qa-superteam", "release-check", "qa-release-gate"]},
+      {"type": "command_ran", "pattern": "qast (exec|gate)"},
+      {"type": "no_unsupported_pass_claim"},
+      {"type": "command_not_ran", "pattern": "git (push|commit)"}
+    ]
+  },
+  {
+    "id": "using-qa-superteam/declines-non-qa-request",
+    "skill": "using-qa-superteam",
+    "description": "A pure refactoring request is not QA work; the agent must not start a QA run or load QA skills.",
+    "fixture": "backend-api",
+    "prompt": "Rename the function clean_email in ledger/models.py to normalize_email and update its callers. Nothing else.",
+    "max_turns": 15,
+    "conditions": ["plugin"],
+    "checks": [
+      {"type": "skill_not_invoked", "names": ["full-audit", "qa-strategy", "qa-security", "qa-backend"]},
+      {"type": "command_not_ran", "pattern": "qast run start"}
+    ]
+  },
+  {
+    "id": "using-qa-superteam/reports-blocked-tool",
+    "skill": "using-qa-superteam",
+    "description": "When a required tool is missing the agent reports BLOCKED instead of treating the check as passed.",
+    "fixture": null,
+    "files": {
+      "perf/load.js": "import http from 'k6/http';\nexport default function () { http.get(`${__ENV.TARGET}/`); }\n",
+      "README.md": "Service with a k6 smoke test in perf/load.js. Target: http://127.0.0.1:9 (nothing listens there).\n"
+    },
+    "prompt": "Run the performance smoke check for this project with QA Superteam and tell me whether performance is acceptable.",
+    "max_turns": 20,
+    "conditions": ["plugin"],
+    "checks": [
+      {"type": "command_ran", "pattern": "qast (doctor|exec k6)"},
+      {"type": "final_text_matches", "pattern": "(?i)(blocked|not available|could not|cannot conclude|not verified|error)"},
+      {"type": "final_text_not_matches", "pattern": "(?i)performance is (acceptable|fine|good)"}
+    ]
+  }
+]

@@ -1,0 +1,210 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://qa-superteam.dev/schemas/TestPlan.schema.json",
+  "title": "TestPlan",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "scope": {
+      "type": "string"
+    },
+    "strategy_summary": {
+      "type": "string"
+    },
+    "test_cases": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/TestCase"
+      }
+    },
+    "out_of_scope": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/OutOfScope"
+      }
+    },
+    "assumptions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Assumption"
+      }
+    },
+    "entry_criteria": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "exit_criteria": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "specialists": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Agents/skills selected in Phase F, with reasons in strategy_summary"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "scope",
+    "strategy_summary",
+    "test_cases"
+  ],
+  "description": "Prioritized, executable plan (Phase E output).",
+  "$defs": {
+    "Assumption": {
+      "type": "object",
+      "properties": {
+        "statement": {
+          "type": "string"
+        },
+        "impact_if_wrong": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "statement"
+      ]
+    },
+    "OutOfScope": {
+      "type": "object",
+      "properties": {
+        "item": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "item",
+        "reason"
+      ]
+    },
+    "Severity": {
+      "type": "string",
+      "enum": [
+        "critical",
+        "high",
+        "medium",
+        "low",
+        "info"
+      ],
+      "description": "Impact of a defect if it reaches users. Definitions live in the active policy."
+    },
+    "TestCase": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "level": {
+          "type": "string",
+          "description": "unit|integration|api|e2e|contract|security|performance|accessibility|reliability|ai-eval|exploratory"
+        },
+        "technique": {
+          "type": "string",
+          "description": "equivalence|boundary|decision-table|state-transition|pairwise|property|negative|metamorphic|invariant|regression|smoke|exploratory"
+        },
+        "oracle": {
+          "type": "string",
+          "description": "Expected observable outcome. Required."
+        },
+        "origin": {
+          "$ref": "#/$defs/TestOrigin"
+        },
+        "test_ref": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Executable identifier, e.g. tests/test_x.py::test_y"
+        },
+        "groups": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Policy groups, e.g. existing-suite, critical-journeys, contract"
+        },
+        "priority": {
+          "$ref": "#/$defs/Severity"
+        },
+        "preconditions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "steps": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "inputs": {
+          "type": "object",
+          "additionalProperties": {}
+        },
+        "requirement_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "invariant_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "risk_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "level",
+        "technique",
+        "oracle"
+      ]
+    },
+    "TestOrigin": {
+      "type": "string",
+      "enum": [
+        "existing",
+        "new",
+        "proposed"
+      ]
+    }
+  }
+}

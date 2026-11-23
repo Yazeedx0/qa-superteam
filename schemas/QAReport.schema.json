@@ -1,0 +1,1597 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://qa-superteam.dev/schemas/QAReport.schema.json",
+  "title": "QAReport",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "run": {
+      "$ref": "#/$defs/RunInfo"
+    },
+    "generated_at": {
+      "type": "string"
+    },
+    "decision": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ReleaseDecision"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "executions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/TestExecution"
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/FindingView"
+      }
+    },
+    "verifications": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/VerificationResult"
+      }
+    },
+    "coverage": {
+      "$ref": "#/$defs/CoverageAssessment"
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/EvidenceArtifact"
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "phases": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "plan": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/TestPlan"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "risks": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/RiskAssessment"
+      }
+    },
+    "requirements": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/RequirementSet"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "profile_summary": {
+      "type": "object",
+      "additionalProperties": {}
+    },
+    "integrity_warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "run",
+    "generated_at",
+    "decision",
+    "executions",
+    "findings",
+    "verifications",
+    "coverage",
+    "artifacts",
+    "limitations"
+  ],
+  "$defs": {
+    "ArtifactKind": {
+      "type": "string",
+      "enum": [
+        "log",
+        "junit",
+        "report",
+        "screenshot",
+        "trace",
+        "video",
+        "coverage",
+        "diff",
+        "data",
+        "other"
+      ]
+    },
+    "Assumption": {
+      "type": "object",
+      "properties": {
+        "statement": {
+          "type": "string"
+        },
+        "impact_if_wrong": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "statement"
+      ]
+    },
+    "Basis": {
+      "type": "string",
+      "enum": [
+        "observed",
+        "inferred",
+        "assumed"
+      ],
+      "description": "How a fact was established."
+    },
+    "BusinessInvariant": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "statement": {
+          "type": "string"
+        },
+        "criticality": {
+          "$ref": "#/$defs/Severity"
+        },
+        "oracle": {
+          "type": "string",
+          "description": "How a test observes whether the invariant holds"
+        },
+        "basis": {
+          "$ref": "#/$defs/Basis"
+        },
+        "components": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SourceRef"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "statement",
+        "criticality",
+        "oracle"
+      ],
+      "description": "A property that must always hold, with an executable oracle."
+    },
+    "Category": {
+      "type": "string",
+      "enum": [
+        "functional",
+        "security",
+        "data-integrity",
+        "performance",
+        "reliability",
+        "accessibility",
+        "contract",
+        "ai-quality",
+        "usability",
+        "other"
+      ]
+    },
+    "Confidence": {
+      "type": "string",
+      "enum": [
+        "high",
+        "medium",
+        "low"
+      ],
+      "description": "Ordinal confidence. See docs/evidence-model.md for the measurement basis."
+    },
+    "CoverageAssessment": {
+      "type": "object",
+      "properties": {
+        "measured": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/MeasuredMetric"
+          }
+        },
+        "traceability": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/TraceRow"
+          }
+        },
+        "untested": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/UntestedArea"
+          }
+        },
+        "status_counts": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer"
+          }
+        },
+        "basis": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "measured",
+        "traceability",
+        "untested",
+        "status_counts"
+      ]
+    },
+    "Decision": {
+      "type": "string",
+      "enum": [
+        "PASS",
+        "REVIEW_REQUIRED",
+        "BLOCK"
+      ]
+    },
+    "DefectFinding": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "category": {
+          "$ref": "#/$defs/Category"
+        },
+        "severity": {
+          "$ref": "#/$defs/Severity"
+        },
+        "summary": {
+          "type": "string"
+        },
+        "expected": {
+          "type": "string"
+        },
+        "actual": {
+          "type": "string"
+        },
+        "reproduction_steps": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "reported_by": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "evidence_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "execution_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "test_identifiers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "affected": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SourceRef"
+          }
+        },
+        "inputs": {
+          "type": "object",
+          "additionalProperties": {}
+        },
+        "environment_notes": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "hypotheses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Hypothesis"
+          }
+        },
+        "requirement_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "invariant_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "reproduction": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Reproduction"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "regression_test": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "category",
+        "severity",
+        "summary",
+        "expected",
+        "actual",
+        "reproduction_steps",
+        "reported_by",
+        "created_at"
+      ]
+    },
+    "EnvironmentInfo": {
+      "type": "object",
+      "properties": {
+        "platform": {
+          "type": "string"
+        },
+        "python": {
+          "type": "string"
+        },
+        "hostname_hash": {
+          "type": "string",
+          "description": "sha256 prefix of hostname; raw hostname is never stored"
+        },
+        "tool_versions": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "ci": {
+          "type": "boolean"
+        },
+        "git_head": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "git_dirty": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "platform",
+        "python",
+        "hostname_hash"
+      ]
+    },
+    "EvidenceArtifact": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "ev-<sha256 prefix>; content addressed"
+        },
+        "kind": {
+          "$ref": "#/$defs/ArtifactKind"
+        },
+        "path": {
+          "type": "string",
+          "description": "Relative to the run directory"
+        },
+        "sha256": {
+          "type": "string"
+        },
+        "size_bytes": {
+          "type": "integer"
+        },
+        "media_type": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "redacted": {
+          "type": "boolean"
+        },
+        "redactions": {
+          "type": "integer"
+        },
+        "execution_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "kind",
+        "path",
+        "sha256",
+        "size_bytes",
+        "media_type",
+        "created_at",
+        "redacted"
+      ]
+    },
+    "FindingStatus": {
+      "type": "string",
+      "enum": [
+        "SUSPECTED",
+        "REPRODUCED",
+        "NOT_REPRODUCED",
+        "CONFIRMED",
+        "REJECTED",
+        "INCONCLUSIVE"
+      ],
+      "description": "Lifecycle of a defect claim. Only CONFIRMED findings count as verified defects."
+    },
+    "FindingView": {
+      "type": "object",
+      "properties": {
+        "finding": {
+          "$ref": "#/$defs/DefectFinding"
+        },
+        "effective_status": {
+          "$ref": "#/$defs/FindingStatus"
+        },
+        "status_basis": {
+          "type": "string"
+        },
+        "evidence_valid": {
+          "type": "boolean"
+        },
+        "integrity_problems": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "finding",
+        "effective_status",
+        "status_basis",
+        "evidence_valid"
+      ],
+      "description": "A finding with its derived (effective) status, as presented in reports."
+    },
+    "Hypothesis": {
+      "type": "object",
+      "properties": {
+        "statement": {
+          "type": "string"
+        },
+        "confidence": {
+          "$ref": "#/$defs/Confidence"
+        },
+        "confirmed": {
+          "type": "boolean",
+          "description": "True only when backed by evidence_ids"
+        },
+        "evidence_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "statement",
+        "confidence"
+      ]
+    },
+    "MeasuredMetric": {
+      "type": "object",
+      "properties": {
+        "metric": {
+          "type": "string"
+        },
+        "value": {
+          "type": "number"
+        },
+        "unit": {
+          "type": "string"
+        },
+        "tool": {
+          "type": "string"
+        },
+        "artifact_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "metric",
+        "value",
+        "unit",
+        "tool"
+      ],
+      "description": "A coverage/quality number measured by a tool. Never estimated."
+    },
+    "OutOfScope": {
+      "type": "object",
+      "properties": {
+        "item": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "item",
+        "reason"
+      ]
+    },
+    "PolicyRef": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "sha256": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "version",
+        "sha256",
+        "path"
+      ]
+    },
+    "ReleaseDecision": {
+      "type": "object",
+      "properties": {
+        "decision": {
+          "$ref": "#/$defs/Decision"
+        },
+        "policy": {
+          "$ref": "#/$defs/PolicyRef"
+        },
+        "rules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/RuleOutcome"
+          }
+        },
+        "evaluated_at": {
+          "type": "string"
+        },
+        "inputs_digest": {
+          "type": "string",
+          "description": "sha256 over the records the decision was computed from"
+        },
+        "summary": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "decision",
+        "policy",
+        "rules",
+        "evaluated_at",
+        "inputs_digest",
+        "summary"
+      ]
+    },
+    "Reproduction": {
+      "type": "object",
+      "properties": {
+        "attempts": {
+          "type": "integer"
+        },
+        "failures": {
+          "type": "integer"
+        },
+        "execution_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "classification": {
+          "type": "string",
+          "description": "consistent | intermittent | not-reproduced | blocked"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "attempts",
+        "failures",
+        "execution_ids",
+        "classification"
+      ]
+    },
+    "Requirement": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/RequirementStatus"
+        },
+        "basis": {
+          "$ref": "#/$defs/Basis"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "acceptance_criteria": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/SourceRef"
+          }
+        },
+        "priority": {
+          "$ref": "#/$defs/Severity"
+        },
+        "open_questions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "depends_on": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "status",
+        "basis"
+      ]
+    },
+    "RequirementSet": {
+      "type": "object",
+      "properties": {
+        "requirements": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Requirement"
+          }
+        },
+        "invariants": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/BusinessInvariant"
+          }
+        },
+        "ambiguities": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "assumptions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Assumption"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "requirements"
+      ],
+      "description": "Container written to requirements.json (Phase B output)."
+    },
+    "RequirementStatus": {
+      "type": "string",
+      "enum": [
+        "stated",
+        "inferred",
+        "ambiguous",
+        "conflicting"
+      ]
+    },
+    "RiskAssessment": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "area": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "probability": {
+          "type": "integer"
+        },
+        "impact": {
+          "type": "integer"
+        },
+        "score": {
+          "type": "integer"
+        },
+        "level": {
+          "$ref": "#/$defs/Severity"
+        },
+        "factors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/RiskFactor"
+          }
+        },
+        "paths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "existing_coverage": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "related_requirements": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "assumptions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "area",
+        "description",
+        "probability",
+        "impact",
+        "score",
+        "level"
+      ],
+      "description": "Probability x impact risk for an area. Score = probability * impact (1..25)."
+    },
+    "RiskFactor": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "value": {
+          "type": "integer",
+          "description": "1 (low) .. 5 (high)"
+        },
+        "rationale": {
+          "type": "string"
+        },
+        "basis": {
+          "$ref": "#/$defs/Basis"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "value",
+        "rationale"
+      ]
+    },
+    "RuleOutcome": {
+      "type": "object",
+      "properties": {
+        "rule_id": {
+          "type": "string"
+        },
+        "outcome": {
+          "$ref": "#/$defs/Decision"
+        },
+        "triggered": {
+          "type": "boolean"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "refs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "rule_id",
+        "outcome",
+        "triggered",
+        "reason"
+      ]
+    },
+    "RunInfo": {
+      "type": "object",
+      "properties": {
+        "run_id": {
+          "type": "string"
+        },
+        "mode": {
+          "type": "string",
+          "description": "full-audit | review-pr | test-feature | test-api | test-e2e | security-review | eval-ai | explore | verify-bug | regression | release-check | improve-suite | adhoc"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "scope": {
+          "type": "string"
+        },
+        "base_ref": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "head_ref": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "project_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "environment": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/EnvironmentInfo"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "run_id",
+        "mode",
+        "created_at",
+        "scope"
+      ]
+    },
+    "Severity": {
+      "type": "string",
+      "enum": [
+        "critical",
+        "high",
+        "medium",
+        "low",
+        "info"
+      ],
+      "description": "Impact of a defect if it reaches users. Definitions live in the active policy."
+    },
+    "SourceRef": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "line": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "symbol": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "note": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "path"
+      ],
+      "description": "A pointer into the project: file path relative to the project root."
+    },
+    "Status": {
+      "type": "string",
+      "enum": [
+        "PASSED",
+        "FAILED",
+        "ERROR",
+        "SKIPPED",
+        "BLOCKED",
+        "NOT_RUN",
+        "INCONCLUSIVE"
+      ],
+      "description": "Normalized execution status. Never collapse to pass/fail."
+    },
+    "TestCase": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "level": {
+          "type": "string",
+          "description": "unit|integration|api|e2e|contract|security|performance|accessibility|reliability|ai-eval|exploratory"
+        },
+        "technique": {
+          "type": "string",
+          "description": "equivalence|boundary|decision-table|state-transition|pairwise|property|negative|metamorphic|invariant|regression|smoke|exploratory"
+        },
+        "oracle": {
+          "type": "string",
+          "description": "Expected observable outcome. Required."
+        },
+        "origin": {
+          "$ref": "#/$defs/TestOrigin"
+        },
+        "test_ref": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Executable identifier, e.g. tests/test_x.py::test_y"
+        },
+        "groups": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Policy groups, e.g. existing-suite, critical-journeys, contract"
+        },
+        "priority": {
+          "$ref": "#/$defs/Severity"
+        },
+        "preconditions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "steps": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "inputs": {
+          "type": "object",
+          "additionalProperties": {}
+        },
+        "requirement_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "invariant_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "risk_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "level",
+        "technique",
+        "oracle"
+      ]
+    },
+    "TestExecution": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "run_id": {
+          "type": "string"
+        },
+        "adapter": {
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/Status"
+        },
+        "started_at": {
+          "type": "string"
+        },
+        "finished_at": {
+          "type": "string"
+        },
+        "duration_s": {
+          "type": "number"
+        },
+        "command": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "cwd": {
+          "type": "string"
+        },
+        "exit_code": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "timed_out": {
+          "type": "boolean"
+        },
+        "counts": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer"
+          }
+        },
+        "results": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/TestResult"
+          }
+        },
+        "environment": {
+          "$ref": "#/$defs/EnvironmentInfo"
+        },
+        "groups": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "label": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "status_reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Why the overall status was assigned (always set for BLOCKED/ERROR/NOT_RUN/INCONCLUSIVE)"
+        },
+        "artifact_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "attempt": {
+          "type": "integer"
+        },
+        "reproduction_of": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Test identifier this execution re-ran for reproduction"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "run_id",
+        "adapter",
+        "status",
+        "started_at",
+        "finished_at",
+        "duration_s",
+        "command",
+        "cwd",
+        "exit_code",
+        "timed_out",
+        "counts",
+        "results",
+        "environment"
+      ],
+      "description": "One adapter invocation and its normalized results."
+    },
+    "TestOrigin": {
+      "type": "string",
+      "enum": [
+        "existing",
+        "new",
+        "proposed"
+      ]
+    },
+    "TestPlan": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "scope": {
+          "type": "string"
+        },
+        "strategy_summary": {
+          "type": "string"
+        },
+        "test_cases": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/TestCase"
+          }
+        },
+        "out_of_scope": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/OutOfScope"
+          }
+        },
+        "assumptions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Assumption"
+          }
+        },
+        "entry_criteria": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "exit_criteria": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "specialists": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Agents/skills selected in Phase F, with reasons in strategy_summary"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "scope",
+        "strategy_summary",
+        "test_cases"
+      ],
+      "description": "Prioritized, executable plan (Phase E output)."
+    },
+    "TestResult": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Deterministic: hash of adapter + identifier"
+        },
+        "identifier": {
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/Status"
+        },
+        "name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "duration_s": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "message": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "file": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "line": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "groups": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "artifact_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "identifier",
+        "status"
+      ],
+      "description": "Outcome of one test within an execution."
+    },
+    "TraceRow": {
+      "type": "object",
+      "properties": {
+        "item_id": {
+          "type": "string",
+          "description": "Requirement, invariant or risk id"
+        },
+        "test_case_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "statuses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Status"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "item_id",
+        "test_case_ids",
+        "statuses"
+      ]
+    },
+    "UntestedArea": {
+      "type": "object",
+      "properties": {
+        "area": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "risk": {
+          "$ref": "#/$defs/Severity"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "area",
+        "reason"
+      ]
+    },
+    "Verdict": {
+      "type": "string",
+      "enum": [
+        "CONFIRMED",
+        "REJECTED",
+        "INCONCLUSIVE"
+      ]
+    },
+    "VerificationCheck": {
+      "type": "object",
+      "properties": {
+        "check": {
+          "type": "string"
+        },
+        "passed": {
+          "type": "boolean"
+        },
+        "detail": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "check",
+        "passed"
+      ]
+    },
+    "VerificationResult": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "finding_id": {
+          "type": "string"
+        },
+        "verdict": {
+          "$ref": "#/$defs/Verdict"
+        },
+        "method": {
+          "type": "string",
+          "description": "independent-rerun | alternate-oracle | code-inspection | manual"
+        },
+        "verifier": {
+          "type": "string"
+        },
+        "rationale": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "evidence_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "execution_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "test_identifiers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Tests the verifier ran (alternate oracle)"
+        },
+        "checks": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/VerificationCheck"
+          },
+          "description": "Machine checks run by qast verify"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "finding_id",
+        "verdict",
+        "method",
+        "verifier",
+        "rationale",
+        "created_at"
+      ]
+    }
+  }
+}

@@ -14,9 +14,9 @@ from __future__ import annotations
 
 import os
 import shutil
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Callable
 
 from .. import models as m
 from ..config import PLUGIN_ROOT, Config
@@ -27,6 +27,7 @@ from ..store import RunStore
 from ..util import now_iso, rel_to, slug, stable_id
 
 S = m.Status
+ANSI_RE = __import__("re").compile(r"\x1b\[[0-9;]*[A-Za-z]")
 
 
 @dataclass
@@ -239,7 +240,7 @@ def execute(
     )
     for r in ex.results:
         if r.message:
-            r.message = store.redactor.redact(r.message)
+            r.message = store.redactor.redact(ANSI_RE.sub("", r.message))
     store.save_execution(ex)
     shutil.rmtree(work, ignore_errors=True)
     store.journal("exec.finish", execution_id=ex_id, status=status.value, counts=ex.counts)

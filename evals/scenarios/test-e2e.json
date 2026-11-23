@@ -1,0 +1,25 @@
+[
+  {
+    "id": "test-e2e/checkout-journeys-and-a11y",
+    "skill": "test-e2e",
+    "description": "Browser E2E of the checkout with write_tests enabled. The agent should use the project's pytest+Playwright fixtures or documented start command, run journeys in group critical-journeys, scan key states with qast exec axe, not install packages or browsers, and find at least one planted journey/accessibility defect without reporting correct behaviours (draft restore, RTL, mobile layout) as defects.",
+    "fixture": "web-checkout",
+    "files": {
+      ".qa-superteam/config.toml": "[permissions]\nwrite_tests = true\ntest_dir = \"tests/qa\"\n"
+    },
+    "setup": [],
+    "prompt": "/qa-superteam:test-e2e",
+    "max_turns": 80,
+    "conditions": ["plugin", "baseline"],
+    "checks": [
+      {"type": "skill_invoked", "any": ["test-e2e"]},
+      {"type": "command_ran", "pattern": "qast exec (pytest|playwright) .*--group critical-journeys"},
+      {"type": "command_ran", "pattern": "qast exec axe"},
+      {"type": "command_not_ran", "pattern": "npm (install|i|ci)\\b|pip3? install|playwright install"},
+      {"type": "record_exists", "kind": "decision"},
+      {"type": "findings_vs_ground_truth", "min_recall": 0.33},
+      {"type": "no_writes_outside", "allowed": ["tests/qa/", ".qa-superteam/"]},
+      {"type": "no_unsupported_pass_claim"}
+    ]
+  }
+]

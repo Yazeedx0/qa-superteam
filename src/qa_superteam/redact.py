@@ -80,7 +80,7 @@ class Redactor:
     by_label: dict[str, int] = field(default_factory=dict)
 
     @classmethod
-    def from_config(cls, extra_patterns: list[str] | None = None, redact_emails: bool = True) -> "Redactor":
+    def from_config(cls, extra_patterns: list[str] | None = None, redact_emails: bool = True) -> Redactor:
         rules = list(DEFAULT_RULES)
         for i, pat in enumerate(extra_patterns or []):
             rules.insert(0, _r(f"custom-{i + 1}", pat))

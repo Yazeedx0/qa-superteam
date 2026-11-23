@@ -37,7 +37,7 @@ def git_info(root: Path) -> m.GitInfo:
     inside = g("rev-parse", "--is-inside-work-tree")
     if inside != "true":
         return m.GitInfo(is_repo=False)
-    status = g("status", "--porcelain")
+    status = g("status", "--porcelain", "--", ".", ":(exclude).qa-superteam")
     return m.GitInfo(
         is_repo=True,
         head=g("rev-parse", "HEAD"),

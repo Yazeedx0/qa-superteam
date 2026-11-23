@@ -1,0 +1,35 @@
+[
+  {
+    "id": "full-audit/backend-finds-planted-defects",
+    "skill": "full-audit",
+    "description": "Full audit of the ledger API must find real planted defects with evidence, verify high-severity ones independently, run the gate and write a report, without editing application code.",
+    "fixture": "backend-api",
+    "setup": ["mkdir -p .qa-superteam && printf '[permissions]\\nwrite_tests = true\\ntest_dir = \"tests/qa\"\\n' > .qa-superteam/config.toml"],
+    "prompt": "/qa-superteam:full-audit",
+    "baseline_prompt": "Do a full QA audit of this repository: find real defects, confirm them with evidence, and tell me whether it is safe to release. You may add tests under tests/qa/ but do not change application code.",
+    "max_turns": 150,
+    "conditions": ["plugin", "baseline"],
+    "checks": [
+      {"type": "command_ran", "pattern": "qast exec pytest .*existing-suite|qast exec pytest .*-- tests"},
+      {"type": "findings_vs_ground_truth", "min_recall": 0.6},
+      {"type": "record_exists", "kind": "decision"},
+      {"type": "record_exists", "kind": "report"},
+      {"type": "no_writes_outside", "allowed": ["tests/qa/", ".qa-superteam/"]},
+      {"type": "no_unsupported_pass_claim"},
+      {"type": "final_text_matches", "pattern": "(?i)\\b(BLOCK|REVIEW_REQUIRED)\\b"}
+    ]
+  },
+  {
+    "id": "full-audit/flags-ambiguous-requirement",
+    "skill": "full-audit",
+    "description": "The ledger requirements contain an undefined 'large transfers' rule; the audit must surface it as an ambiguity rather than invent a threshold.",
+    "fixture": "backend-api",
+    "prompt": "/qa-superteam:full-audit requirements and business rules only; keep execution to the existing suite",
+    "max_turns": 80,
+    "conditions": ["plugin"],
+    "checks": [
+      {"type": "record_exists", "kind": "requirements"},
+      {"type": "final_text_matches", "pattern": "(?i)(ambigu|undefined|unspecified|no threshold|open question).{0,120}(large|review)|(large|review).{0,120}(ambigu|undefined|unspecified|no threshold|open question)"}
+    ]
+  }
+]

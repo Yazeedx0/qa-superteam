@@ -30,7 +30,7 @@ class EvidenceIndex:
     artifact_problems: dict[str, str]
 
     @classmethod
-    def build(cls, store: RunStore) -> "EvidenceIndex":
+    def build(cls, store: RunStore) -> EvidenceIndex:
         arts = {a.id: a for a in store.artifacts()}
         problems = {}
         for a in arts.values():

@@ -97,7 +97,14 @@ def changed_files(root: Path, base: str, head: str | None, include_worktree: boo
             entries[parts[2]].removed = int(parts[1]) if parts[1].isdigit() else 0
     if include_worktree:
         for line in _git(root, "ls-files", "--others", "--exclude-standard").splitlines():
-            if line and line not in entries and not line.startswith(".qa-superteam/"):
+            parts = set(line.split("/")[:-1])
+            if (
+                line
+                and line not in entries
+                and not (parts & SKIP_DIRS)
+                and not line.endswith((".pyc", ".pyo"))
+                and not line.startswith(".qa-superteam/")
+            ):
                 entries[line] = ChangedFile(path=line, status="A")
     for cf in entries.values():
         cf.kind, cf.signals, cf.impact_hint = classify_path(cf.path)
