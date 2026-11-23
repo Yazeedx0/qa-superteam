@@ -173,7 +173,8 @@ conversation.
   INCONCLUSIVE). `qast verify` refuses to record `CONFIRMED` unless all of these hold:
   - the verifier is not the reporter;
   - the method is execution-based;
-  - the verifier's own execution shows the failure;
+  - the verifier's own execution shows the failure, attributed with `--actor` and run
+    after the finding was recorded;
   - the evidence is intact;
   - reproduction is not intermittent.
 - The release gate is a pure function of the policy and the recorded evidence. It is
@@ -274,7 +275,8 @@ content in machine-readable form ([schema](schemas/QAReport.schema.json)).
 
 Coverage percentages appear only when a coverage tool measured them. Confidence is
 ordinal (high, medium or low) with a documented basis; see
-[docs/evidence-model.md](docs/evidence-model.md).
+[docs/evidence-model.md](docs/evidence-model.md). Everything that is untested, partial or
+unmeasured in this release is listed in [docs/limitations.md](docs/limitations.md).
 
 ## Security and privacy
 
