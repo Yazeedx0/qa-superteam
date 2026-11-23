@@ -1,0 +1,11 @@
+--- a/public/index.html
++++ b/public/index.html
+@@ -76,7 +76,7 @@
+         </dl>
+ 
+         <div class="promo">
+-          <p class="promo-title" data-i18n="promoCode">Promo code</p>
++          <label class="promo-title" for="promo-code" data-i18n="promoCode">Promo code</label>
+           <div class="promo-row">
+             <input id="promo-code" name="promo" type="text" autocomplete="off" spellcheck="false"
+                    data-testid="promo-input">

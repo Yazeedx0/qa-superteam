@@ -1,0 +1,10 @@
+--- a/public/app.js
++++ b/public/app.js
+@@ -253,6 +253,7 @@
+ 
+   function removePromo() {
+     draft.promo = null;
++    draft.discount = 0;
+     els.promoInput.value = '';
+     saveDraft();
+     renderPromo();

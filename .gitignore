@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+build/
+dist/
+.venv/
+node_modules/
+.qa-superteam/
+evals/results/
+!evals/results/README.md

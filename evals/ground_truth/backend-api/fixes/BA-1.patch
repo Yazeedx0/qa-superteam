@@ -1,0 +1,11 @@
+--- a/ledger/routers/transfers.py
++++ b/ledger/routers/transfers.py
+@@ -54,6 +54,7 @@
+     conn: Db,
+ ) -> TransferResponse:
+     transfer = transfers.get_transfer(conn, transfer_id)
+-    if transfer is None:
++    wallet = wallets.get_wallet_for_owner(conn, user.id)
++    if transfer is None or wallet.id not in (transfer.from_wallet_id, transfer.to_wallet_id):
+         raise NotFound("Transfer not found")
+     return TransferResponse.model_validate(transfer)

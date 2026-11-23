@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Checkout · Fieldnote Supply</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <span class="brand">Fieldnote Supply</span>
+    <a class="lang-switch" id="lang-switch" href="?lang=ar" lang="ar" hreflang="ar">العربية</a>
+  </header>
+
+  <div class="layout">
+    <main class="checkout">
+      <h1 data-i18n="checkout">Checkout</h1>
+      <ol class="steps" id="steps">
+        <li data-step="contact" data-i18n="stepContact">Contact</li>
+        <li data-step="shipping" data-i18n="stepShipping">Shipping</li>
+        <li data-step="review" data-i18n="stepReview">Review</li>
+      </ol>
+
+      <form id="contact-form" class="panel" data-view="contact" novalidate>
+        <h2 tabindex="-1" data-i18n="contactHeading">Contact details</h2>
+        <div class="field">
+          <label for="full-name" data-i18n="fullName">Full name</label>
+          <input id="full-name" name="name" type="text" autocomplete="name" required
+                 aria-describedby="full-name-error" data-testid="full-name">
+          <p id="full-name-error" class="field-error" role="alert"></p>
+        </div>
+        <div class="field">
+          <label for="email" data-i18n="email">Email</label>
+          <input id="email" name="email" type="email" autocomplete="email" required
+                 aria-describedby="email-error" data-testid="email">
+          <p id="email-error" class="field-error" role="alert"></p>
+        </div>
+        <div class="actions">
+          <button type="submit" class="primary" data-testid="contact-continue" data-i18n="continue">Continue</button>
+        </div>
+      </form>
+
+      <form id="shipping-form" class="panel" data-view="shipping" novalidate hidden>
+        <h2 tabindex="-1" data-i18n="shippingHeading">Shipping</h2>
+        <div class="field">
+          <label for="country" data-i18n="country">Country</label>
+          <select id="country" name="country" autocomplete="country" data-testid="country">
+            <option value="US" data-i18n="countryUS">United States</option>
+            <option value="CA" data-i18n="countryCA">Canada</option>
+            <option value="SA" data-i18n="countrySA">Saudi Arabia</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="postal-code" data-i18n="postal">Postal code</label>
+          <input id="postal-code" name="postal" type="text" autocomplete="postal-code" required
+                 aria-describedby="postal-code-error" data-testid="postal-code">
+          <p id="postal-code-error" class="field-error" role="alert"></p>
+        </div>
+        <div class="actions">
+          <button type="button" class="secondary" id="shipping-back" data-testid="shipping-back" data-i18n="back">Back</button>
+          <button type="submit" class="primary" id="shipping-continue" data-testid="shipping-continue" data-i18n="continue">Continue</button>
+        </div>
+      </form>
+
+      <section id="review" class="panel" data-view="review" hidden>
+        <h2 tabindex="-1" data-i18n="reviewHeading">Review your order</h2>
+        <dl class="details">
+          <div>
+            <dt data-i18n="summaryContact">Contact</dt>
+            <dd id="summary-contact" data-testid="summary-contact"></dd>
+          </div>
+          <div>
+            <dt data-i18n="summaryShipTo">Ship to</dt>
+            <dd id="summary-shipping" data-testid="summary-shipping"></dd>
+          </div>
+        </dl>
+
+        <div class="promo">
+          <p class="promo-title" data-i18n="promoCode">Promo code</p>
+          <div class="promo-row">
+            <input id="promo-code" name="promo" type="text" autocomplete="off" spellcheck="false"
+                   data-testid="promo-input">
+            <button type="button" class="secondary" id="promo-apply" data-testid="promo-apply" data-i18n="apply">Apply</button>
+          </div>
+          <p id="promo-error" class="field-error" role="alert"></p>
+          <p class="promo-applied" id="promo-applied" hidden>
+            <span id="promo-badge" class="badge" data-testid="promo-badge"></span>
+            <button type="button" class="link" id="promo-remove" data-testid="promo-remove" data-i18n="remove">Remove</button>
+          </p>
+        </div>
+
+        <div id="order-error" class="banner banner-error" role="alert" data-testid="order-error" hidden>
+          <p data-i18n="orderError">We couldn't place your order. Please try again.</p>
+          <button type="button" class="secondary" id="order-retry" data-testid="order-retry" data-i18n="retry">Retry</button>
+        </div>
+
+        <div class="actions">
+          <button type="button" class="secondary" id="review-back" data-testid="review-back" data-i18n="back">Back</button>
+          <button type="button" class="primary" id="place-order" data-testid="place-order" data-i18n="placeOrder">Place order</button>
+        </div>
+      </section>
+
+      <section id="confirmation" class="panel" data-view="confirmation" hidden>
+        <h2 tabindex="-1" data-i18n="confirmHeading">Thank you! Your order is confirmed.</h2>
+        <p>
+          <span data-i18n="orderNumber">Order number</span>:
+          <strong id="order-id" data-testid="order-id"></strong>
+        </p>
+        <p>
+          <span data-i18n="receiptSent">We've emailed your receipt to</span>
+          <strong id="confirm-email" data-testid="confirm-email"></strong>
+        </p>
+        <a class="button secondary" id="new-order" href="" data-i18n="newOrder">Start a new order</a>
+      </section>
+    </main>
+
+    <aside class="cart panel" id="cart" aria-labelledby="cart-title" data-testid="cart">
+      <h2 id="cart-title" data-i18n="orderSummary">Order summary</h2>
+      <ul class="cart-items" id="cart-items"></ul>
+      <dl class="totals">
+        <div><dt data-i18n="subtotal">Subtotal</dt><dd id="subtotal" data-testid="subtotal"></dd></div>
+        <div><dt data-i18n="shipping">Shipping</dt><dd id="shipping-cost" data-testid="shipping-cost"></dd></div>
+        <div id="discount-row" hidden><dt data-i18n="discount">Discount</dt><dd id="discount" data-testid="discount"></dd></div>
+        <div class="grand-total"><dt data-i18n="total">Total</dt><dd id="total" data-testid="total"></dd></div>
+      </dl>
+    </aside>
+  </div>
+
+  <script src="i18n.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

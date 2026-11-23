@@ -1,0 +1,42 @@
+# Strict policy for regulated or high-stakes releases (payments, health, identity).
+# Any uncertainty about a mandatory check blocks; confirmed high defects block in every category.
+
+[policy]
+name = "strict"
+version = "1.0.0"
+description = "Uncertainty blocks. Use where shipping an undetected defect is worse than delaying a release."
+
+[severity_definitions]
+critical = "Security breach, data loss/corruption, money or legal exposure, or an essential workflow unusable."
+high = "Major function broken or wrong for many users, or an exploitable security weakness."
+medium = "Function wrong in specific conditions; workaround exists."
+low = "Minor defect with little user impact."
+info = "Observation; not a defect."
+
+[findings]
+block_at = { default = "high", security = "medium", data-integrity = "medium" }
+review_at = { default = "medium" }
+unverified_review_at = "medium"
+
+[groups]
+mandatory = ["existing-suite"]
+mandatory_if_planned = ["critical-journeys", "contract", "regression", "security", "accessibility"]
+critical = ["critical-journeys", "contract", "security"]
+on_fail = "BLOCK"
+on_missing = "BLOCK"
+on_error = "BLOCK"
+on_inconclusive = "BLOCK"
+max_skipped_in_mandatory = 0
+
+[ai_eval]
+min_pass_rate = 0.97
+below_threshold = "BLOCK"
+inconclusive = "BLOCK"
+
+[coverage]
+untested_high_risk = "BLOCK"
+max_untested_high_risk = 0
+
+[evidence]
+no_executions = "BLOCK"
+integrity_violation = "BLOCK"

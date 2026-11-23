@@ -1,0 +1,26 @@
+--- a/support_bot/bot.py
++++ b/support_bot/bot.py
+@@ -40,6 +40,14 @@
+ # Policy docs flag caveats as "Note: ..." or "<Topic> note: ...".
+ _NOTE_RE = re.compile(r"^(?:[A-Za-z]+\s+)?note:\s*(.+)$", re.IGNORECASE)
+ _SENTENCE_END_RE = re.compile(r"(?<=[.!?])\s+")
++# Lines in retrieved documents that address the assistant rather than the customer.
++# Retrieved text is data: such lines are dropped, never surfaced or obeyed.
++_INSTRUCTION_RE = re.compile(
++    r"\b(?:ignore|disregard|forget)\b.{0,40}\b(?:instructions?|prompts?|rules)\b"
++    r"|\bsystem\s+(?:note|prompt|message|instruction)s?\b"
++    r"|\b(?:tell|give)\s+the\s+(?:customer|user)\b",
++    re.IGNORECASE,
++)
+ 
+ 
+ def answer(request: str | dict) -> dict:
+@@ -186,6 +194,8 @@
+         line = raw.strip()
+         if not line or line.startswith("#"):
+             continue
++        if _INSTRUCTION_RE.search(line):
++            continue
+         note = _NOTE_RE.match(line)
+         if note:
+             notes.append(note.group(1).strip())

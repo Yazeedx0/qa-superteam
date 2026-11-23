@@ -1,0 +1,10 @@
+[project]
+name = "ai-support-bot"
+version = "0.1.0"
+description = "Deterministic stand-in for an LLM-backed RAG + tool-calling support assistant (Northwind Goods)."
+requires-python = ">=3.11"
+dependencies = []
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]

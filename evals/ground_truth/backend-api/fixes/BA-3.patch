@@ -1,0 +1,11 @@
+--- a/ledger/models.py
++++ b/ledger/models.py
+@@ -17,7 +17,7 @@
+ 
+ 
+ def clean_email(value: str) -> str:
+-    value = value.strip()
++    value = value.strip().lower()
+     if not _EMAIL_RE.fullmatch(value):
+         raise ValueError("value is not a valid email address")
+     return value

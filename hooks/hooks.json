@@ -1,0 +1,29 @@
+{
+  "description": "QA Superteam guardrails. Active only while a QA run is in progress (.qa-superteam/active-run exists); otherwise each hook exits immediately.",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash|Edit|Write|MultiEdit|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/qa-guard\" pre",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Bash|Edit|Write|MultiEdit|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/qa-guard\" post",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

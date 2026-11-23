@@ -1,0 +1,94 @@
+{
+  "fixture": "web-checkout",
+  "description": "Vanilla-JS three-step checkout SPA (Contact -> Shipping -> Review -> Confirmation) for a fixed two-item cart, served by a stdlib Python server with a tiny order API (POST /api/orders, GET /healthz). Three defects are planted: a shipping-step validation flag that is only reset on page load (blocks the recover-from-validation-error journey), a promo-code input with no accessible name (axe-core rule `label`, reported with impact 'critical' by axe-core 4.14.1), and a stale order total after removing a promo code. The project's own Playwright suite (tests/) passes and detects none of them. Note: axe-core 4.x accepts a non-empty placeholder as an accessible name, so WB-2 is planted as an input whose visible 'Promo code' text is a plain <p> that is not programmatically associated (no <label for>, aria-label, aria-labelledby, title or placeholder).",
+  "defects": [
+    {
+      "id": "WB-1",
+      "title": "Shipping 'Continue' stays disabled after an invalid postal code is corrected; checkout cannot be completed without reloading",
+      "category": "functional",
+      "severity": "high",
+      "location": {"path": "public/app.js", "symbol": "validatePostal"},
+      "match": {
+        "paths_any": ["public/app.js"],
+        "keywords_any": ["postal", "continue", "disabled", "validation"]
+      },
+      "reference_tests": [
+        "reference_tests/test_qa_journeys.py::test_recover_from_postal_code_error_and_complete_checkout"
+      ],
+      "fix_patch": "fixes/WB-1.patch"
+    },
+    {
+      "id": "WB-2",
+      "title": "Promo code input on the Review step has no accessible name (axe-core `label` violation)",
+      "category": "accessibility",
+      "severity": "high",
+      "location": {"path": "public/index.html", "symbol": "#promo-code"},
+      "match": {
+        "paths_any": ["public/index.html"],
+        "keywords_any": ["promo", "label", "accessible name", "axe"]
+      },
+      "reference_tests": [
+        "reference_tests/test_qa_a11y.py::test_review_step_has_no_serious_axe_violations"
+      ],
+      "fix_patch": "fixes/WB-2.patch"
+    },
+    {
+      "id": "WB-3",
+      "title": "Removing promo code SAVE10 clears the code and badge but the total still includes the 10% discount",
+      "category": "functional",
+      "severity": "medium",
+      "location": {"path": "public/app.js", "symbol": "removePromo"},
+      "match": {
+        "paths_any": ["public/app.js"],
+        "keywords_any": ["promo", "discount", "remove", "total", "SAVE10", "stale"]
+      },
+      "reference_tests": [
+        "reference_tests/test_qa_journeys.py::test_promo_apply_then_remove_restores_total"
+      ],
+      "fix_patch": "fixes/WB-3.patch"
+    }
+  ],
+  "decoys": [
+    {
+      "id": "WB-D1",
+      "description": "Reloading on the Shipping or Review step restores that step and all entered data from the localStorage draft. Correct behavior.",
+      "location": {"path": "public/app.js", "symbol": "loadDraft"}
+    },
+    {
+      "id": "WB-D2",
+      "description": "Back navigation (Shipping -> Contact, Review -> Shipping) preserves every entered field. Correct behavior.",
+      "location": {"path": "public/app.js", "symbol": "goTo"}
+    },
+    {
+      "id": "WB-D3",
+      "description": "?lang=ar renders Arabic labels and sets <html dir=\"rtl\" lang=\"ar\">; currency amounts are deliberately isolated as LTR text. Correct behavior.",
+      "location": {"path": "public/app.js", "symbol": "applyLanguage"}
+    },
+    {
+      "id": "WB-D4",
+      "description": "At a 375px viewport there is no horizontal scrolling on any step, in English or Arabic. Correct behavior.",
+      "location": {"path": "public/styles.css", "symbol": ".layout"}
+    },
+    {
+      "id": "WB-D5",
+      "description": "A network error or non-201 response from POST /api/orders shows the banner \"We couldn't place your order. Please try again.\" with a working Retry button. Correct behavior.",
+      "location": {"path": "public/app.js", "symbol": "placeOrder"}
+    },
+    {
+      "id": "WB-D6",
+      "description": "Disabling the Shipping 'Continue' button while a postal-code error is displayed is intended; only the failure to re-enable it after the error is fixed is a defect (WB-1).",
+      "location": {"path": "public/app.js", "symbol": "validatePostal"}
+    },
+    {
+      "id": "WB-D7",
+      "description": "Canadian postal codes are accepted in lower case or without the space and normalized to 'A1A 1A1'; promo codes are case-insensitive ('save10' works). Correct behavior.",
+      "location": {"path": "public/app.js", "symbol": "normalizePostal"}
+    },
+    {
+      "id": "WB-D8",
+      "description": "The draft is cleared after a successful order, so reloading the confirmation view starts a new checkout at the Contact step. Correct behavior.",
+      "location": {"path": "public/app.js", "symbol": "showConfirmation"}
+    }
+  ],
+  "ambiguities": []
+}

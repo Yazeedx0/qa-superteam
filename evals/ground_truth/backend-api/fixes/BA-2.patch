@@ -1,0 +1,15 @@
+--- a/ledger/transfers.py
++++ b/ledger/transfers.py
+@@ -105,10 +105,10 @@
+         if destination is None:
+             raise NotFound("Destination wallet not found")
+ 
+-        if source["balance_cents"] < amount_cents:
++        fee_cents = compute_fee(amount_cents)
++        if source["balance_cents"] < amount_cents + fee_cents:
+             raise Unprocessable("Insufficient funds")
+ 
+-        fee_cents = compute_fee(amount_cents)
+         conn.execute(
+             "UPDATE wallets SET balance_cents = balance_cents - ? WHERE id = ?",
+             (amount_cents + fee_cents, source["id"]),

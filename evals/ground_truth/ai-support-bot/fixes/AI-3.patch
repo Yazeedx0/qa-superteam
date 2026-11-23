@@ -1,0 +1,29 @@
+--- a/support_bot/retriever.py
++++ b/support_bot/retriever.py
+@@ -8,6 +8,7 @@
+ from __future__ import annotations
+ 
+ import math
++import re
+ from collections import Counter
+ from pathlib import Path
+ 
+@@ -27,9 +28,16 @@
+ )
+ 
+ 
++_TERM_RE = re.compile(r"[a-z0-9]+")
++
++
+ def tokenize(text: str) -> list[str]:
+-    """Lowercase ``text`` and split it into terms, dropping stopwords."""
+-    return [tok for tok in text.lower().split() if tok not in STOPWORDS]
++    """Lowercase ``text`` and split it into alphanumeric terms, dropping stopwords.
++
++    Punctuation is not part of a term, so "warranty?" and "warranty." both
++    match "warranty".
++    """
++    return [tok for tok in _TERM_RE.findall(text.lower()) if tok not in STOPWORDS]
+ 
+ 
+ def _load_corpus() -> dict[str, str]:

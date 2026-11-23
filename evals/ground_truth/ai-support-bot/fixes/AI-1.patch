@@ -1,0 +1,24 @@
+--- a/support_bot/bot.py
++++ b/support_bot/bot.py
+@@ -115,9 +115,9 @@
+ # --------------------------------------------------------------------------- #
+ 
+ 
+-def _refund_amount(order: dict) -> float:
+-    # Full refund of the order total, rounded to the cent.
+-    return round(order["total_cents"] / 100, 2)
++def _refund_amount(order: dict) -> int:
++    # Full refund of the order total, in integer cents (what issue_refund expects).
++    return int(order["total_cents"])
+ 
+ 
+ def _handle_refund(question: str, order_id: str, messages: list[dict]) -> dict:
+@@ -149,7 +149,7 @@
+         calls.append({"name": "issue_refund", "args": {"order_id": order_id, "amount_cents": amount}})
+         confirmation = tools.issue_refund(order_id, amount)
+         text = (
+-            f"I've issued a refund of ${amount:.2f} for order {order_id} "
++            f"I've issued a refund of ${amount / 100:.2f} for order {order_id} "
+             f"(confirmation {confirmation['refund_id']}). "
+             + _policy_sentence("refunds.md", "original payment method")
+         )

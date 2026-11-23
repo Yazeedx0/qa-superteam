@@ -1,0 +1,12 @@
+#!/bin/sh
+# QA Superteam CLI launcher. Claude Code adds the plugin's bin/ to the Bash PATH.
+# Runs the stdlib-only core in isolated mode (-I) so a project's own modules or
+# PYTHONPATH can never shadow qast code. Override the interpreter with QAST_PYTHON.
+set -e
+case "$0" in
+  */*) here="${0%/*}" ;;
+  *) here="$(dirname "$(command -v "$0")")" ;;
+esac
+root="$(cd "$here/.." && pwd -P)"
+py="${QAST_PYTHON:-python3}"
+exec "$py" -I -c 'import sys; sys.path.insert(0, sys.argv.pop(1)); from qa_superteam.cli import main; sys.exit(main())' "$root/src" "$@"

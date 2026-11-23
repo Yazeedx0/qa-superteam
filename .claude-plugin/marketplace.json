@@ -1,0 +1,17 @@
+{
+  "name": "qa-superteam",
+  "owner": {
+    "name": "QA Superteam contributors"
+  },
+  "description": "QA Superteam: an evidence-driven AI quality engineering team for Claude Code.",
+  "plugins": [
+    {
+      "name": "qa-superteam",
+      "source": "./",
+      "description": "Risk-based QA skills, specialist QA agents, real test execution, evidence and a deterministic release gate.",
+      "version": "0.1.0",
+      "category": "testing",
+      "tags": ["qa", "testing", "release", "security", "accessibility", "ai-evals"]
+    }
+  ]
+}

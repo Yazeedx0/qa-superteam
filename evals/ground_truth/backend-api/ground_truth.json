@@ -1,0 +1,146 @@
+{
+  "fixture": "backend-api",
+  "description": "Ledger: a FastAPI + sqlite3 wallet-transfer API (register/login with bearer tokens, deposits, transfers with a 1% rounded-up fee credited to a house wallet, idempotency keys). Three planted defects (one authorization, one business-invariant, one data-integrity), four correctly implemented decoys that resemble common defects, and one deliberately ambiguous requirement. The project's existing tests are happy-path and pass on the defective code.",
+  "defects": [
+    {
+      "id": "BA-1",
+      "title": "Any authenticated user can read any transfer by id (BOLA/IDOR on GET /transfers/{transfer_id})",
+      "category": "security",
+      "severity": "critical",
+      "location": {
+        "path": "ledger/routers/transfers.py",
+        "symbol": "get_transfer"
+      },
+      "match": {
+        "paths_any": [
+          "ledger/routers/transfers.py",
+          "ledger/transfers.py"
+        ],
+        "keywords_any": [
+          "transfer",
+          "idor",
+          "bola",
+          "authoriz",
+          "ownership",
+          "access control"
+        ]
+      },
+      "reference_tests": [
+        "reference_tests/test_qa_authz.py::test_outsider_cannot_read_transfer",
+        "reference_tests/test_qa_authz.py::test_transfer_ids_cannot_be_enumerated"
+      ],
+      "fix_patch": "fixes/BA-1.patch"
+    },
+    {
+      "id": "BA-2",
+      "title": "Insufficient-funds check ignores the fee, so a transfer can drive the sender's balance negative",
+      "category": "data-integrity",
+      "severity": "critical",
+      "location": {
+        "path": "ledger/transfers.py",
+        "symbol": "create_transfer"
+      },
+      "match": {
+        "paths_any": [
+          "ledger/transfers.py"
+        ],
+        "keywords_any": [
+          "negative",
+          "insufficient",
+          "overdraft",
+          "overdraw",
+          "fee"
+        ]
+      },
+      "reference_tests": [
+        "reference_tests/test_qa_invariants.py::test_transfer_of_entire_balance_rejected_when_fee_not_covered",
+        "reference_tests/test_qa_invariants.py::test_balance_never_negative_when_fee_exceeds_remaining_funds"
+      ],
+      "fix_patch": "fixes/BA-2.patch"
+    },
+    {
+      "id": "BA-3",
+      "title": "Email uniqueness is case-sensitive, allowing duplicate accounts that differ only by letter case",
+      "category": "data-integrity",
+      "severity": "medium",
+      "location": {
+        "path": "ledger/models.py",
+        "symbol": "clean_email"
+      },
+      "match": {
+        "paths_any": [
+          "ledger/models.py",
+          "ledger/auth.py",
+          "ledger/db.py"
+        ],
+        "keywords_any": [
+          "case-insensitive",
+          "case insensitive",
+          "case-sensitive",
+          "case sensitive",
+          "lowercase",
+          "lower()",
+          "casefold",
+          "normaliz",
+          "duplicate account",
+          "email uniqueness",
+          "unique email"
+        ]
+      },
+      "reference_tests": [
+        "reference_tests/test_qa_integrity.py::test_email_uniqueness_is_case_insensitive",
+        "reference_tests/test_qa_integrity.py::test_login_email_is_case_insensitive"
+      ],
+      "fix_patch": "fixes/BA-3.patch"
+    }
+  ],
+  "decoys": [
+    {
+      "id": "BA-D1",
+      "description": "GET /wallets/{wallet_id} is correctly owner-only: require_owner returns 404 for both missing and foreign wallets, so wallet ids cannot be probed. Looks like a classic IDOR candidate but is not one.",
+      "location": {
+        "path": "ledger/wallets.py",
+        "symbol": "require_owner"
+      }
+    },
+    {
+      "id": "BA-D2",
+      "description": "Deposit validation is correct: amount_cents is a strict int (rejects floats, numeric strings and booleans), > 0 and <= 1,000,000, enforced by DepositRequest before any write.",
+      "location": {
+        "path": "ledger/models.py",
+        "symbol": "DepositRequest"
+      }
+    },
+    {
+      "id": "BA-D3",
+      "description": "Transfer idempotency is correct: keys are scoped per user with UNIQUE(user_id, key), looked up and recorded inside the same BEGIN IMMEDIATE transaction as the money movement, and a reused key with a different body returns 409.",
+      "location": {
+        "path": "ledger/transfers.py",
+        "symbol": "create_transfer"
+      }
+    },
+    {
+      "id": "BA-D4",
+      "description": "GET /transfers is correctly filtered to transfers where the caller's wallet is sender or recipient.",
+      "location": {
+        "path": "ledger/transfers.py",
+        "symbol": "list_transfers_for_wallet"
+      }
+    },
+    {
+      "id": "BA-D5",
+      "description": "Fee rounding is correct integer ceiling arithmetic (no floats) with a 1-cent minimum.",
+      "location": {
+        "path": "ledger/transfers.py",
+        "symbol": "compute_fee"
+      }
+    }
+  ],
+  "ambiguities": [
+    {
+      "id": "BA-A1",
+      "description": "Large transfer review threshold undefined: requirement 3.7 says 'Large transfers may require additional review.' with no amount threshold, no reviewer, and no defined API behavior (reject, hold, flag). The implementation has no such logic. A good QA agent should raise this as a clarification question rather than report a defect or invent a threshold.",
+      "source": "docs/REQUIREMENTS.md"
+    }
+  ]
+}

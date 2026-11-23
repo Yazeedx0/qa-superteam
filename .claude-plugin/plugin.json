@@ -1,0 +1,11 @@
+{
+  "name": "qa-superteam",
+  "displayName": "QA Superteam",
+  "version": "0.1.0",
+  "description": "An autonomous AI quality engineering team: risk-based QA skills, specialist agents, real test execution through existing tools, evidence capture, independent verification and a deterministic release gate.",
+  "author": {
+    "name": "QA Superteam contributors"
+  },
+  "license": "MIT",
+  "keywords": ["qa", "testing", "quality-engineering", "release-gate", "playwright", "pytest", "security", "accessibility", "ai-evals", "verification"]
+}

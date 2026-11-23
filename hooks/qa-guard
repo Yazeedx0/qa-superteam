@@ -1,0 +1,6 @@
+#!/bin/sh
+# Fast path: outside an active QA run this hook does nothing and costs one stat().
+marker="${CLAUDE_PROJECT_DIR:-.}/.qa-superteam/active-run"
+[ -f "$marker" ] || exit 0
+case "$0" in */*) here="${0%/*}" ;; *) here="." ;; esac
+exec "${QAST_PYTHON:-python3}" -I "$here/qa_guard.py" "$@"

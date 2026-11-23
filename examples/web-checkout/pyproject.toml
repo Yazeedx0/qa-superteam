@@ -1,0 +1,9 @@
+[project]
+name = "web-checkout"
+version = "1.0.0"
+description = "Three-step checkout single-page app with a tiny Python order API"
+requires-python = ">=3.10"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

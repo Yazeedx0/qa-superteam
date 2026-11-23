@@ -1,0 +1,13 @@
+{
+  "name": "web-checkout",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Three-step checkout single-page app (vanilla JS) with a small Python order API.",
+  "scripts": {
+    "start": "python3 serve.py --port 8000",
+    "test": "python3 -m pytest -q"
+  },
+  "devDependencies": {
+    "axe-core": "^4.14.1"
+  }
+}

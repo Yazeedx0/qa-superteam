@@ -1,0 +1,11 @@
+--- a/public/app.js
++++ b/public/app.js
+@@ -133,7 +133,7 @@
+   function validatePostal() {
+     const errorKey = postalError(draft.shipping.country, draft.shipping.postal);
+     showFieldError(els.postal, errorKey);
+-    if (errorKey) ui.postalInvalid = true;
++    ui.postalInvalid = Boolean(errorKey);
+     els.shippingNext.disabled = ui.postalInvalid;
+     return !errorKey;
+   }
