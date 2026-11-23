@@ -4,7 +4,7 @@
   "type": "module",
   "description": "Tiny project used by tests/integration to exercise the vitest, jest and playwright adapters against the real tools.",
   "devDependencies": {
-    "@playwright/test": "1.58.2",
+    "@playwright/test": "1.65.1",
     "jest": "30.5.2",
     "vitest": "3.2.7"
   }

@@ -229,6 +229,12 @@ button:disabled {
   overflow-wrap: anywhere;
 }
 
+/* Long order ids and email addresses must wrap on narrow screens instead of widening the page. */
+#order-id,
+#confirm-email {
+  overflow-wrap: anywhere;
+}
+
 .promo {
   display: grid;
   gap: 8px;
