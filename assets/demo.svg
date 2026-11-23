@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 600" width="920" height="600" role="img" aria-labelledby="t d">
+  <title id="t">QA Superteam reviewing a pull request</title>
+  <desc id="d">A PR review: the diff touches money-movement code, impacted tests run, a regression fails, it is reproduced 3/3, independently verified, and the release gate returns BLOCK.</desc>
+  <style>
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; font-size: 14.5px; }
+    .tx { fill: #c9d1d9; } .dim { fill: #8b949e; } .ok { fill: #3fb950; } .bad { fill: #f85149; }
+    .warn { fill: #d29922; } .acc { fill: #39c5cf; } .vio { fill: #a371f7; } .wh { fill: #f0f6fc; font-weight: 700; }
+    .ph { font-weight: 700; }
+    .l { opacity: 0; animation: in 0.35s ease-out forwards; }
+    @keyframes in { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+    .type { animation: type 1.1s steps(28) 0.3s forwards; }
+    @keyframes type { from { width: 0; } to { width: 330px; } }
+    .cursor { animation: blink 1s steps(1) infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+    @media (prefers-reduced-motion: reduce) { .l { animation: none; opacity: 1; } .type { animation: none; width: 330px; } }
+  </style>
+  <defs>
+    <clipPath id="typed"><rect class="type" x="40" y="70" width="0" height="26"/></clipPath>
+    <linearGradient id="chrome" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1c2128"/><stop offset="1" stop-color="#161b22"/></linearGradient>
+  </defs>
+
+  <!-- window -->
+  <rect x="0.5" y="0.5" width="919" height="599" rx="12" fill="#0d1117" stroke="#30363d"/>
+  <path d="M12.5 0.5 H907.5 A12 12 0 0 1 919.5 12.5 V40 H0.5 V12.5 A12 12 0 0 1 12.5 0.5 Z" fill="url(#chrome)"/>
+  <line x1="0.5" y1="40" x2="919.5" y2="40" stroke="#30363d"/>
+  <circle cx="22" cy="20" r="6" fill="#ff5f57"/><circle cx="42" cy="20" r="6" fill="#febc2e"/><circle cx="62" cy="20" r="6" fill="#28c840"/>
+  <text x="460" y="25" text-anchor="middle" class="mono dim" style="font-size:13px">QA Superteam · PR review · examples/backend-api</text>
+
+  <!-- prompt -->
+  <g class="mono">
+    <text x="20" y="89" class="acc">❯</text>
+    <text x="40" y="89" class="wh" clip-path="url(#typed)">/qa-superteam:review-pr main</text>
+
+    <g class="l" style="animation-delay:1.6s">
+      <text x="20" y="128" class="vio ph">● Impact</text>
+      <text x="140" y="128" class="tx">git diff main → <tspan class="wh">ledger/transfers.py</tspan> <tspan class="dim">+2/−2</tspan></text>
+      <text x="140" y="149" class="warn">  risk: money movement / business-critical</text>
+    </g>
+    <g class="l" style="animation-delay:2.4s">
+      <text x="140" y="170" class="dim">  selected tests/test_transfers.py (name match) · mandatory suite</text>
+    </g>
+
+    <g class="l" style="animation-delay:3.2s">
+      <text x="20" y="209" class="vio ph">● Execute</text>
+      <text x="140" y="209" class="tx">existing suite</text>
+      <text x="330" y="209" class="ok" font-weight="700">PASSED</text>
+      <text x="408" y="209" class="dim">13 passed · 1 skipped</text>
+    </g>
+    <g class="l" style="animation-delay:3.9s">
+      <text x="140" y="230" class="tx">changed behaviour</text>
+      <text x="330" y="230" class="bad" font-weight="700">FAILED</text>
+      <text x="408" y="230" class="dim">21 passed · 2 failed</text>
+      <text x="140" y="251" class="bad">  ✗ test_transfer_of_entire_balance_rejected_when_fee_not_covered</text>
+    </g>
+
+    <g class="l" style="animation-delay:4.8s">
+      <text x="20" y="290" class="vio ph">● Finding</text>
+      <text x="140" y="290" class="wh">F-0a2853f7</text>
+      <text x="245" y="290" class="bad">critical · data-integrity</text>
+      <text x="140" y="311" class="tx">  PR lets the fee overdraw a wallet (regression)</text>
+    </g>
+
+    <g class="l" style="animation-delay:5.7s">
+      <text x="20" y="350" class="vio ph">● Reproduce</text>
+      <text x="140" y="350" class="tx">3/3 attempts failed → <tspan class="ok" font-weight="700">consistent</tspan></text>
+    </g>
+
+    <g class="l" style="animation-delay:6.5s">
+      <text x="20" y="389" class="vio ph">● Verify</text>
+      <text x="140" y="389" class="tx">independent-verification-engineer → <tspan class="ok" font-weight="700">CONFIRMED</tspan></text>
+    </g>
+    <g class="l" style="animation-delay:7.2s">
+      <text x="140" y="410" class="dim">  <tspan class="ok">✓</tspan> not the reporter  <tspan class="ok">✓</tspan> its own rerun failed  <tspan class="ok">✓</tspan> evidence sha256 intact</text>
+    </g>
+
+    <g class="l" style="animation-delay:8.1s">
+      <text x="20" y="449" class="vio ph">● Gate</text>
+      <rect x="140" y="432" width="92" height="24" rx="5" fill="#f85149" fill-opacity="0.16" stroke="#f85149"/>
+      <text x="186" y="449" text-anchor="middle" class="bad" font-weight="800">⛔ BLOCK</text>
+      <text x="245" y="449" class="tx">R-CONFIRMED-BLOCKING <tspan class="dim">· policy default v1.0.0</tspan></text>
+    </g>
+    <g class="l" style="animation-delay:8.8s">
+      <text x="140" y="470" class="dim">  decided by policy from recorded evidence, not by the model</text>
+    </g>
+
+    <g class="l" style="animation-delay:9.6s">
+      <line x1="20" y1="497" x2="900" y2="497" stroke="#30363d"/>
+      <text x="20" y="526" class="tx">📄 report.md · 5 executions · 1 confirmed finding · hashed, redacted evidence</text>
+      <text x="20" y="550" class="dim">   every status above came from a real tool run · nothing claimed without execution</text>
+      <text x="20" y="580" class="acc">❯</text>
+      <rect class="cursor" x="40" y="567" width="9" height="17" fill="#c9d1d9"/>
+    </g>
+  </g>
+</svg>
