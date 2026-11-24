@@ -104,7 +104,7 @@ def pytest_runtest_makereport(item, call):
   it in a daemon thread instead of a subprocess.
 - Reuse an already running dev server only if its URL is in
   `permissions.authorized_targets` and the user pointed you at it; otherwise start your own.
-- Open traces with `npx playwright show-trace <file>` (or trace.playwright.dev); mention
+- Open traces with Playwright's trace viewer (`show-trace <file>`, or trace.playwright.dev); mention
   the evidence id, not a local path, in findings.
 
 ## Journey with validation-error recovery

@@ -49,7 +49,7 @@ python3 -c "import json, os, tempfile; from app.main import create_app; print(js
 
 ## 3. Diff with an installed tool, recorded as an execution
 
-| Contract | Tool (only if installed; never `npx`/`uvx` downloads unasked) | Command through qast |
+| Contract | Tool (only if installed; never download them through a package launcher unasked) | Command through qast |
 |---|---|---|
 | OpenAPI 3.x | `oasdiff` | `qast exec command --group contract --label "contract-diff openapi" -- oasdiff breaking .qa-superteam/contracts/base-openapi.json .qa-superteam/contracts/head-openapi.json --fail-on ERR` |
 | OpenAPI 3.x (no oasdiff) | stdlib script below | `qast exec command --group contract --label "contract-diff openapi" -- python3 .qa-superteam/contracts/openapi_diff.py .qa-superteam/contracts/base-openapi.json .qa-superteam/contracts/head-openapi.json` |

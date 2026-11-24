@@ -57,7 +57,7 @@ the mobile checkout test (TC-09) did not run.
 Confirmed defects (1): F-1a2b3c [critical] stock reserved twice on retry — evidence in report.md
 Not yet verified (1): F-4d5e6f [high, suspected] export includes other tenants' orders — next step: independent verification
 Executed: 5 executions — 214 passed, 1 failed, 1 blocked
-Not verified: mobile checkout (TC-09) — the browser is not installed in this environment — to verify: `npx playwright install chromium`, re-run
+Not verified: mobile checkout (TC-09) — the browser is not installed in this environment — to verify: install the Playwright browsers (see Playwright's documentation), re-run
 Decisions needed from you: 1. Hold PR 311 until F-1a2b3c is fixed and re-tested? (BLOCK cannot be waived by QA)
 Full report: .qa-superteam/runs/20261102-101500-review-pr-4821/report.md
 ```

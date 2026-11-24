@@ -41,7 +41,7 @@ Do not use when:
 - Python Playwright: `qast exec pytest --group critical-journeys --label qa-frontend-<area> -- <files>`.
 - Playwright Test: `qast exec playwright --group critical-journeys -- [--config tests/qa/playwright.qa.config.ts] <files>`.
 - `qast reproduce --test "<id as printed>" --times 3` (`--adapter playwright ... -- <file> -g "<title>"` for Node).
-- Browser missing ⇒ the run is ERROR/BLOCKED (environment), never a product failure; report the install hint (`python -m playwright install chromium`). Never introduce a second browser framework (e.g. Cypress already present: run it via `qast exec junit` with its JUnit reporter or `qast exec command`).
+- Browser missing ⇒ the run is ERROR/BLOCKED (environment), never a product failure; report the install hint (install the Playwright browsers as Playwright's documentation describes). Never introduce a second browser framework (e.g. Cypress already present: run it via `qast exec junit` with its JUnit reporter or `qast exec command`).
 
 ## Method
 

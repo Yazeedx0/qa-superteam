@@ -39,7 +39,7 @@ def _artifact_name(nodeid: str) -> str:
 def axe_scan(page, request, state: str, tags=WCAG_TAGS) -> dict:
     """Run axe on the current page state; save raw results as evidence; return them."""
     if not AXE_PATH.exists():
-        pytest.skip(f"BLOCKED: axe-core not found at {AXE_PATH} (npm i -D axe-core or set QAST_AXE_PATH)")
+        pytest.skip(f"BLOCKED: axe-core not found at {AXE_PATH} (install axe-core in the project or set QAST_AXE_PATH)")
     page.add_script_tag(path=str(AXE_PATH))
     results = page.evaluate(
         """async (tags) => await axe.run(document, {
@@ -134,7 +134,7 @@ const WCAG_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
 const FAIL_ON = new Set(['critical', 'serious', 'moderate', 'minor']);
 
 async function axeScan(page: Page, testInfo: TestInfo, state: string) {
-  test.skip(!existsSync(AXE_PATH), 'BLOCKED: axe-core not found (npm i -D axe-core or set QAST_AXE_PATH)');
+  test.skip(!existsSync(AXE_PATH), 'BLOCKED: axe-core not found (install axe-core in the project or set QAST_AXE_PATH)');
   await page.addScriptTag({ content: readFileSync(AXE_PATH, 'utf8') });
   const results = await page.evaluate(async (tags) =>
     // @ts-expect-error axe is injected at runtime

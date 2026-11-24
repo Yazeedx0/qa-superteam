@@ -1,0 +1,25 @@
+{
+  "name": "qa-superteam",
+  "displayName": "QA Superteam",
+  "version": "0.1.0",
+  "description": "An AI quality engineering team as instructions: risk-based QA skills and 12 specialist agents that work evidence-first and never claim a pass that was not executed. The optional qast runtime for recorded execution, evidence and a deterministic release gate is installed separately.",
+  "author": {
+    "name": "Yazeedx0",
+    "url": "https://github.com/Yazeedx0"
+  },
+  "license": "MIT",
+  "keywords": [
+    "qa",
+    "testing",
+    "quality-engineering",
+    "release-gate",
+    "playwright",
+    "pytest",
+    "security",
+    "accessibility",
+    "ai-evals",
+    "verification"
+  ],
+  "homepage": "https://github.com/Yazeedx0/qa-superteam",
+  "repository": "https://github.com/Yazeedx0/qa-superteam"
+}
