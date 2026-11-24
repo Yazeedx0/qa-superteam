@@ -37,7 +37,7 @@ Do not use when:
 ## Tools
 
 - `qast impact --base <ref>`: changed files with risk signals (contract files, routes, models).
-- Diffs recorded as executions: `qast exec command --group contract --label "contract-diff <kind>" -- <tool>`; tools only if installed: `oasdiff`, `buf`, `graphql-inspector`; otherwise the stdlib `openapi_diff.py` from [references/spec-comparison.md](references/spec-comparison.md). Never fetch tools with `npx`/`uvx` unasked.
+- Diffs recorded as executions: `qast exec command --group contract --label "contract-diff <kind>" -- <tool>`; tools only if installed: `oasdiff`, `buf`, `graphql-inspector`; otherwise the stdlib `openapi_diff.py` from [references/spec-comparison.md](references/spec-comparison.md). Never download tools through a package launcher unasked.
 - Conformance: `qast exec pytest --group contract --label contract-<area> -- <tests>` (schemathesis if installed, else pytest + `jsonschema`), JS: `qast exec vitest|jest --group contract`.
 - `qast doctor` for `node`, `pytest`, `httpx`; check schemathesis/jsonschema with `<python> -c "import schemathesis"`. Missing tool ⇒ that check is BLOCKED; continue with the manual catalogue and say which checks were manual.
 

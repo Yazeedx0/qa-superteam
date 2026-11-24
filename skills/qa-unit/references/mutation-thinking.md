@@ -60,7 +60,7 @@ Mutation tools are slow and several rewrite source files while they run. Rules:
   "mutation pricing" --timeout 900 --cwd .qa-superteam/mutation-copy -- <tool command>`.
   mutmut 2.x: `mutmut run --paths-to-mutate shop/pricing.py`; mutmut 3.x reads
   `paths_to_mutate` from `[tool.mutmut]` in the copy's `pyproject.toml`; Stryker:
-  `npx stryker run --mutate src/pricing.ts`. Check `--help` of the installed version.
+  `stryker run --mutate src/pricing.ts` (the project's installed Stryker). Check `--help` of the installed version.
 - Treat surviving mutants as *candidates*: equivalent mutants (no observable difference)
   are not gaps. Confirm each survivor by reading it before reporting.
 - Report the mutation score only as the tool printed it, with the evidence id, and name

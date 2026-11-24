@@ -107,6 +107,7 @@ in place (finding status is derived). Parallelism rules for *what* may run concu
 | `.codex-plugin/`, `.agents/plugins/`, `.cursor-plugin/`, `gemini-extension.json`, `GEMINI.md` | Native plugin and extension manifests for Codex, Cursor and Gemini CLI |
 | `skills/using-qa-superteam/scripts/` | Generated copy of the `qast` runtime so skill-only installs (`npx skills add`) can run it |
 | `skills/`, `agents/`, `hooks/`, `bin/` | Claude Code plugin components (auto-discovered); `bin/qast` lands on the Bash `PATH` |
+| `plugins/qa-superteam/` | Generated instruction-only edition (skills + agents + icon, no hooks, `bin/` or scripts) for the Claude plugin directory, which accepts those only from Verified organizations. `python3 scripts/build_directory_plugin.py`; CI checks it has not drifted |
 | `src/qa_superteam/` | The core; adapters live inside the package (`adapters/`) because they share its types and evidence pipeline — a top-level `adapters/` would need import-path hacks |
 | `schemas/` | Generated JSON Schemas (CI checks they match the models) |
 | `policies/`, `templates/` | Release policies and the config template, as data |

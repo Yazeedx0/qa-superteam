@@ -10,6 +10,8 @@ QA-Superteam-specific contracts:
   every `qast ...` command cited exists in the real CLI parser
 * agents: frontmatter, no plugin-ignored fields, only qa-lead may delegate, HANDOFF contract
 * hooks: JSON valid and referenced scripts exist and are executable
+* directory edition (plugins/qa-superteam): in sync with skills/ + agents/, and only file types the plugin
+  directory accepts from unverified organizations (no hooks, bin/, scripts, TOML, package files)
 * evals: every skill has >= 1 behavioral scenario with known check types and fixtures
 * hygiene: no developer-machine paths, no empty directories
 """
@@ -207,6 +209,70 @@ def validate_manifests(rep: Report) -> None:
     out = subprocess.run([sys.executable, str(ROOT / "scripts" / "sync_skill_runtime.py"), "--check"], capture_output=True, text=True)
     if out.returncode != 0:
         rep.err("skills/using-qa-superteam/scripts", "bundled qast runtime is out of date: run python3 scripts/sync_skill_runtime.py")
+
+
+DIRECTORY_EXT = {".md", ".txt", ".json", ".yaml", ".yml", ".png", ".jpg", ".jpeg", ".gif", ".webp", ".ico"}
+DIRECTORY_BARE = {"LICENSE"}
+DIRECTORY_REFUSED_NAMES = {"claude.md", "claude.local.md", "agents.md"}
+DIRECTORY_REFUSED_DIRS = {"bin", "hooks", "node_modules", ".claude", "egress"}
+DIRECTORY_SAFE_PATH = re.compile(r"[A-Za-z0-9._/-]+")
+
+
+def validate_directory_edition(rep: Report) -> None:
+    """plugins/qa-superteam must stay what an unverified publisher can submit to the plugin directory."""
+    import subprocess
+
+    base = ROOT / "plugins" / "qa-superteam"
+    if not base.is_dir():
+        rep.err("plugins/qa-superteam", "directory edition missing: run python3 scripts/build_directory_plugin.py")
+        return
+    out = subprocess.run([sys.executable, str(ROOT / "scripts" / "build_directory_plugin.py"), "--check"], capture_output=True, text=True)
+    if out.returncode != 0:
+        rep.err("plugins/qa-superteam", "out of date with skills/ and agents/: run python3 scripts/build_directory_plugin.py")
+    rep.checked += 1
+    for p in sorted(base.rglob("*")):
+        rel = p.relative_to(ROOT)
+        if p.is_dir():
+            if p.name in DIRECTORY_REFUSED_DIRS:
+                rep.err(str(rel), "folder refused by the plugin directory for unverified organizations")
+            continue
+        if not DIRECTORY_SAFE_PATH.fullmatch(str(p.relative_to(base))):
+            rep.err(str(rel), "path has a character or name not every computer keeps")
+        if p.name.lower() in DIRECTORY_REFUSED_NAMES:
+            rep.err(str(rel), "CLAUDE.md / AGENTS.md style files are refused")
+        if p.suffix.lower() not in DIRECTORY_EXT and p.name not in DIRECTORY_BARE:
+            rep.err(str(rel), "file type refused (only Markdown, text, JSON, YAML and PNG/JPEG/GIF/WebP/ICO images are accepted)")
+            continue
+        data = p.read_bytes()
+        if data.startswith(b"#!"):
+            rep.err(str(rel), "starts with #! (script)")
+        if p.suffix.lower() in (".md", ".txt", ".json", ".yaml", ".yml") or p.name in DIRECTORY_BARE:
+            try:
+                data.decode("utf-8")
+            except UnicodeDecodeError:
+                rep.err(str(rel), "not UTF-8")
+            if b"\x00" in data:
+                rep.err(str(rel), "contains a NUL byte")
+    icon = base / ".claude-plugin" / "icon.png"
+    if not icon.exists():
+        rep.err("plugins/qa-superteam/.claude-plugin/icon.png", "missing icon (square PNG, 512-2048 px, under 2 MB)")
+    else:
+        import struct
+
+        raw = icon.read_bytes()
+        w, h = struct.unpack(">II", raw[16:24]) if raw[:8] == b"\x89PNG\r\n\x1a\n" else (0, 0)
+        if w != h or not 512 <= w <= 2048 or len(raw) >= 2 * 1024 * 1024:
+            rep.err("plugins/qa-superteam/.claude-plugin/icon.png", f"icon must be a square PNG of 512-2048 px under 2 MB (got {w}x{h}, {len(raw)} bytes)")
+    manifest = base / ".claude-plugin" / "plugin.json"
+    try:
+        edition = json.loads(manifest.read_text())
+        full = json.loads((ROOT / ".claude-plugin" / "plugin.json").read_text())
+    except (OSError, json.JSONDecodeError) as e:
+        rep.err("plugins/qa-superteam/.claude-plugin/plugin.json", str(e))
+        return
+    for key in ("name", "version"):
+        if edition.get(key) != full.get(key):
+            rep.err("plugins/qa-superteam/.claude-plugin/plugin.json", f"{key} differs from the full plugin ({edition.get(key)!r} vs {full.get(key)!r})")
 
 
 def validate_skills(rep: Report, tree) -> list[str]:
@@ -407,6 +473,7 @@ def main() -> int:
     skills = validate_skills(rep, tree)
     validate_agents(rep, tree)
     validate_hooks(rep)
+    validate_directory_edition(rep)
     validate_scenarios(rep, skills)
     validate_hygiene(rep)
     if args.json:

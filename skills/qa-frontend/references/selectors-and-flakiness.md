@@ -68,7 +68,7 @@ confirmation appears) and then assert the count, rather than sleeping.
 
 | Symptom | Classification |
 |---|---|
-| `Executable doesn't exist at .../chromium...` / browser launch failed | ERROR (environment): install browsers (`python -m playwright install chromium` / `npx playwright install chromium`) or set the project's executable override; no finding |
+| `Executable doesn't exist at .../chromium...` / browser launch failed | ERROR (environment): install the Playwright browsers as Playwright's own documentation describes, or set the project's executable override; no finding |
 | App server did not start / port in use | ERROR (environment) |
 | `net::ERR_CONNECTION_REFUSED` on `goto` | ERROR unless the test deliberately stopped the server |
 | Timeout waiting for an element that the requirement says must appear | FAILED (product), after checking the screenshot/trace shows the app in the expected step |

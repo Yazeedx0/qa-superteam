@@ -38,7 +38,7 @@ Do not use when:
 - `qast doctor`: `axe-core` (from `node_modules/axe-core` or `QAST_AXE_PATH`), `playwright-python` with Chromium, `playwright-node`.
 - Page-level scans: `qast exec axe --group accessibility --target <url> [--target <url2>] [--viewport 375x812]`; static files as an absolute `file://` URL (`--target "file://$PWD/site/index.html"`). Runs WCAG 2.0/2.1 A/AA tags; violations ⇒ FAILED, `incomplete` ⇒ INCONCLUSIVE, per-rule passes ⇒ PASSED.
 - App states: axe injected in Playwright tests, results JSON written to `$QAST_ARTIFACT_DIR`: `qast exec pytest --group accessibility -- <file>` or `qast exec playwright --group accessibility -- <file>` ([references/playwright-axe-injection.md](references/playwright-axe-injection.md)).
-- axe-core missing ⇒ `qast exec axe` records **BLOCKED** ("axe-core not found"); report BLOCKED with the install hint (`npm i -D axe-core` or `QAST_AXE_PATH`). Do not install it unasked and do not replace the scan with your own reading of the HTML: code inspection may produce *suspected* issues, labelled as not verified. Browser missing ⇒ BLOCKED likewise.
+- axe-core missing ⇒ `qast exec axe` records **BLOCKED** ("axe-core not found"); report BLOCKED with the hint to install axe-core as a project dev dependency (see axe-core's own documentation) or set `QAST_AXE_PATH`. Do not install it unasked and do not replace the scan with your own reading of the HTML: code inspection may produce *suspected* issues, labelled as not verified. Browser missing ⇒ BLOCKED likewise.
 
 ## Method
 
